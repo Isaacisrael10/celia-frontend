@@ -1,5 +1,6 @@
 .mapa {
-  height: 340px;
+  position: relative;
+  height: 380px;
   margin: 0 -16px; /* o mapa vai de borda a borda */
   border-top: 2px solid var(--ink);
   border-bottom: 2px solid var(--ink);
@@ -28,6 +29,36 @@
   content: '';
   position: absolute;
   inset: -9px;
+}
+
+/* Reporte: balão no card com contorno */
+.mapa__reporte {
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  color: var(--primary);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+}
+
+/* Botão "Meu local": canto inferior direito, acima do crédito */
+.mapa__meu-local {
+  position: absolute;
+  right: 10px;
+  bottom: 34px;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
 }
 
 /* "Você": ponto azul com halo */

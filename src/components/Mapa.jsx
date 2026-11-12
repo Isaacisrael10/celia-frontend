@@ -1,16 +1,19 @@
-import { useMemo } from 'react'
+import { useEffect, useMemo, useRef } from 'react'
 import MapaBase, { Source, Layer, Marker, NavigationControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
+import { IconCurrentLocation, IconMessageReport } from '@tabler/icons-react'
 import estiloClaro from '../styles/mapa/celia-mapa-claro.json'
 import estiloEscuro from '../styles/mapa/celia-mapa-escuro.json'
 import { CORES_MAPA, rotuloCompleto } from '../domain/faixas'
 import { nomeDoTrecho, meioDoTrecho } from '../domain/trechos'
+import { TIPOS } from '../domain/reportes'
 import './Mapa.css'
 
-// Área do bairro que aparece ao abrir (Tijuca, ruas de exemplo)
+// Área que aparece ao abrir: o Grajaú, onde ficam o poste e os testes.
+// O mapa não é preso aqui: dá para arrastar e buscar qualquer lugar.
 const AREA_INICIAL = [
-  [-43.2365, -22.9285],
-  [-43.2255, -22.9205],
+  [-43.2685, -22.9325],
+  [-43.2538, -22.9155],
 ]
 
 // As linhas ficam abaixo desta camada, para os nomes das ruas ficarem por cima
@@ -21,12 +24,28 @@ const ABAIXO_DE = 'highway-name-minor'
 /*
   Mapa real (MapLibre + OpenFreeMap) com os trechos coloridos por faixa.
   - trechos: lista de trechos já com { faixa, motivo } calculados
+  - reportes: reportes com lat/lng (viram marcadores)
   - escuro: true usa o estilo escuro
-  - voce: [lng, lat] da pessoa
+  - voce: { lat, lng } da pessoa
+  - alvo: lugar para onde a câmera vai ({ area } ou { lat, lng }); muda quando a pessoa busca
   - aoSelecionar(id): abre o detalhe do trecho
+  - aoAbrirReporte(): abre a tela de reportes
+  - aoPedirLocal(): botão "Meu local"
 */
-export default function Mapa({ trechos, escuro, voce, aoSelecionar }) {
+export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSelecionar, aoAbrirReporte, aoPedirLocal }) {
+  const mapaRef = useRef(null)
   const cores = escuro ? CORES_MAPA.escuro : CORES_MAPA.claro
+
+  // Quando o alvo muda (busca ou GPS), a câmera voa até ele
+  useEffect(() => {
+    const mapa = mapaRef.current
+    if (!mapa || !alvo) return
+    if (alvo.area) {
+      mapa.fitBounds(alvo.area, { padding: 24, maxZoom: 17, duration: 1200 })
+    } else {
+      mapa.flyTo({ center: [alvo.lng, alvo.lat], zoom: 17, duration: 1200 })
+    }
+  }, [alvo])
 
   // Converte os trechos para GeoJSON, o formato que o MapLibre entende
   const geojson = useMemo(
@@ -50,9 +69,13 @@ export default function Mapa({ trechos, escuro, voce, aoSelecionar }) {
     if (linha) aoSelecionar(linha.properties.id)
   }
 
+  // Só os reportes que têm localização viram marcador
+  const reportesComLocal = reportes.filter((r) => typeof r.lat === 'number' && typeof r.lng === 'number')
+
   return (
     <div className="mapa">
       <MapaBase
+        ref={mapaRef}
         initialViewState={{ bounds: AREA_INICIAL, fitBoundsOptions: { padding: 24 } }}
         mapStyle={escuro ? estiloEscuro : estiloClaro}
         attributionControl={{ compact: false }}
@@ -130,15 +153,34 @@ export default function Mapa({ trechos, escuro, voce, aoSelecionar }) {
             )
           })}
 
+        {/* Reportes feitos pelas pessoas */}
+        {reportesComLocal.map((r) => (
+          <Marker key={'r' + r.id} longitude={r.lng} latitude={r.lat}>
+            <button
+              className="mapa__reporte"
+              onClick={aoAbrirReporte}
+              aria-label={'Reporte: ' + (TIPOS[r.tipo] || 'problema') + ', ' + r.rua + '. Abrir reportes'}
+            >
+              <IconMessageReport size={20} aria-hidden="true" />
+            </button>
+          </Marker>
+        ))}
+
         {/* Você */}
         {voce && (
-          <Marker longitude={voce[0]} latitude={voce[1]}>
+          <Marker longitude={voce.lng} latitude={voce.lat}>
             <span className="mapa__voce" role="img" aria-label="Você está aqui">
               <span className="mapa__voce-ponto" />
             </span>
           </Marker>
         )}
       </MapaBase>
+
+      {aoPedirLocal && (
+        <button className="mapa__meu-local" onClick={aoPedirLocal} aria-label="Centralizar no meu local">
+          <IconCurrentLocation size={26} aria-hidden="true" />
+        </button>
+      )}
     </div>
   )
 }
