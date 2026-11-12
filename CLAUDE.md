@@ -58,6 +58,7 @@ Regras gerais da GS: nada de dados pessoais reais (dados simulados ou públicos,
 
 ### MockAPI (CRUD de reportes = a "API externa" do Fábio)
 Recurso `reportes`: id, rua, tipo (buraco/obstaculo/livre/nao_analisada), descricao, status (aberto/enviado/resolvido), fotoUrl, lat, lng, criadoEm.
+**Criada em 12/11:** `https://6af6378ee844c7ff741b357c.mockapi.io/api/v1/reportes` (vai no `.env` como `VITE_REPORTES_URL`; o `.env` não vai pro git, então na Vercel precisa cadastrar a variável). CRUD testado de ponta a ponta, aceita a miniatura da foto.
 **Pendente:** confirmar com o prof. Fábio que MockAPI vale como API externa.
 
 ### Dados fixos no projeto
