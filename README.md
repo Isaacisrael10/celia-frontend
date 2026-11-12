@@ -1,0 +1,163 @@
+# C.E.L.I.A. · Front-end
+
+**Caminhos em Liberdade, Inclusão e Acessibilidade**
+Global Solution 2026.2 (CitizenTech) · FIAP · Engenharia de Software, 1º ano · Rio de Janeiro
+
+> Vídeo de demonstração: _(link em breve)_
+
+---
+
+## O problema
+
+Pessoas com deficiência física ou mobilidade reduzida encontram calçadas obstruídas, buracos e calor extremo **no caminho até o trabalho**. Na maioria das vezes, só descobrem o problema quando já estão na rua.
+
+## A solução
+
+A C.E.L.I.A. mostra, **antes de sair de casa**, como estão os trechos do caminho. Postes com sensores (ESP32) nos pontos de ônibus medem a calçada e o calor; o app colore cada trecho com uma faixa, recomenda a rota mais segura e deixa a pessoa reportar problemas com uma foto analisada por IA.
+
+O nome é uma homenagem à Célia, avó de uma integrante da equipe.
+
+### Faixas do semáforo
+
+Cada faixa usa **cor + ícone + nome escrito + tipo de linha no mapa**, para nunca depender só da cor.
+
+| Faixa | Ícone | Linha no mapa |
+|---|---|---|
+| Normal | ✓ | contínua |
+| Atenção | ! | tracejado longo |
+| Perigo | ✕ | tracejado curto |
+| Sem dados | ? | pontilhada |
+
+O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
+
+---
+
+## Telas
+
+| Tela | O que faz |
+|---|---|
+| **Mapa** | Mapa real com os trechos coloridos, widget de calor do poste, alerta quando a rota escolhida passa por Perigo, legenda e alternativa em lista para leitor de tela. |
+| **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
+| **Rotas** | Compara 3 caminhos até o trabalho e recomenda o mais seguro (que nem sempre é o mais curto). |
+| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, editar e excluir. |
+| **Locais** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro. |
+| **Perfil** | Modo escuro, modo chuva e informações do projeto. |
+
+_(prints das telas em breve)_
+
+---
+
+## O que é real e o que é simulado
+
+| Parte | Situação |
+|---|---|
+| Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s. Sem leitura há mais de 10 min, o trecho vira "Sem dados". |
+| Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
+| Reportes | **Reais** na MockAPI (API externa do CRUD). |
+| Análise da foto (IA) | **Real** na demonstração local (API Flask do Caio em `localhost:5000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
+| Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
+| Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
+| Ruas do mapa | **Reais** (OpenStreetMap, Tijuca). |
+
+Nenhum dado pessoal real é usado.
+
+---
+
+## Como rodar
+
+Precisa do [Node.js](https://nodejs.org/) 20 ou mais novo.
+
+```bash
+npm install
+cp .env.example .env    # depois preencha o .env
+npm run dev
+```
+
+Abra `http://localhost:5173`.
+
+### Variáveis do `.env`
+
+| Variável | Para quê |
+|---|---|
+| `VITE_REPORTES_URL` | URL do recurso `reportes` na MockAPI |
+| `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste |
+| `VITE_VISAO_URL` | API de visão (padrão `http://localhost:5000/analisar`) |
+
+Nenhuma delas é senha. Sem elas o app abre normalmente e mostra mensagens amigáveis no lugar dos dados.
+
+---
+
+## Integrações
+
+- **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/{ID}/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 verde, 1 amarelo, 2 vermelho) e motivo.
+- **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
+- **API de visão** (Flask): `POST /analisar` com a foto; devolve o resultado (`livre`, `obstaculo` ou `buraco`) e as caixas, que o app desenha sobre a foto.
+- **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
+
+---
+
+## Como o código está organizado
+
+A lógica de negócio, o acesso a dados e a apresentação ficam separados:
+
+```
+src/
+  services/    acesso a dados, sem React
+               reportesApi.js · thingspeak.js · visaoApi.js · miniatura.js · config.js
+  domain/      regras de negócio puras (sem React, sem fetch)
+               faixas.js · reportes.js · poste.js · trechos.js · rotas.js · visao.js
+  hooks/       custom hooks: juntam serviços, regras e estado
+  components/  peças visuais reutilizáveis
+  pages/       as telas
+  data/        dados fixos (trechos, rotas, locais)
+  styles/      tokens de cor claro/escuro, componentes e estilos do mapa
+```
+
+### Custom hooks
+
+| Hook | O que faz |
+|---|---|
+| `useReportes` | Lista, cria, edita e exclui reportes na MockAPI |
+| `useStatusPoste` | Lê o ThingSpeak a cada 20 s e aplica a regra dos 10 minutos |
+| `useTrechos` | Junta os trechos com o poste ao vivo e calcula a faixa de cada um |
+| `useRotas` | Ordena as rotas da mais segura para a menos segura e guarda a escolhida |
+| `useAnaliseFoto` | Envia a foto para a IA e cuida do plano B |
+| `useTema` | Modo claro/escuro, salvo no navegador |
+| `usePreferencia` | Preferência liga/desliga salva no navegador (modo chuva) |
+| `useAviso` | Mensagem rápida no rodapé que some sozinha |
+
+### Interações em JavaScript (Web Development)
+
+1. Alternar **modo claro/escuro** (Perfil)
+2. **Filtrar reportes** por situação
+3. Alternar **Mapa / Lista**
+4. **Filtrar locais** por tipo
+5. **Inverter** origem e destino nas rotas
+6. **Escolher uma rota** e ver o alerta de trecho em Perigo no mapa
+7. **Confirmar exclusão** de um reporte dentro do próprio card
+8. **Validação** do formulário de reporte, com mensagens de erro acessíveis
+
+---
+
+## Acessibilidade
+
+- Fonte **Atkinson Hyperlegible**, criada para pessoas com baixa visão
+- Contraste AA nos dois modos; texto do corpo com 16 px ou mais
+- Áreas de toque com 44 px ou mais
+- Foco visível em tudo; navegação completa pelo teclado
+- Rótulos para leitor de tela em botões de ícone e nos selos do mapa
+- **Lista** como alternativa completa ao mapa
+- Animações desligadas para quem pediu menos movimento no sistema
+- Verde, amarelo e vermelho reservados para as faixas; erros e status usam grafite e azul
+
+---
+
+## Tecnologias
+
+React 19 · Vite · React Router · MapLibre GL (react-map-gl) · Tabler Icons · OpenFreeMap
+
+---
+
+## Equipe
+
+Veja [Integrantes.md](Integrantes.md). O uso de IA está registrado em [AI.md](AI.md).
