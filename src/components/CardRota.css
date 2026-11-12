@@ -1,0 +1,95 @@
+.card-rota {
+  background: var(--card);
+  border: 2px solid var(--line-strong);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* A recomendada tem borda azul mais grossa e uma faixa no topo */
+.card-rota--recomendada {
+  border: 3px solid var(--primary);
+}
+
+.card-rota__faixa {
+  padding: 8px 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: var(--on-primary);
+  font-size: 16px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.card-rota__corpo {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.card-rota__nome {
+  font-size: 20px;
+}
+
+.card-rota__tempo {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+.card-rota__minutos {
+  font-size: 48px;
+  line-height: 0.9;
+  letter-spacing: -0.02em;
+}
+
+.card-rota__distancia {
+  margin-top: -6px;
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.card-rota__rotulo {
+  margin-bottom: 6px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+.card-rota__trechos {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 6px;
+}
+
+.card-rota__resumo {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.card-rota__alerta {
+  padding: 10px;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+/* Rota atual: borda tracejada e ✓ */
+.card-rota__atual {
+  min-height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 2px dashed var(--ink);
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 700;
+}
