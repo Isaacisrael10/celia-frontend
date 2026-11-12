@@ -45,6 +45,15 @@ export const FAIXAS = {
   },
 }
 
+/*
+  Cores das linhas no mapa. O MapLibre desenha fora do CSS, então
+  precisa do código da cor (as mesmas de src/styles/tokens.css).
+*/
+export const CORES_MAPA = {
+  claro: { normal: '#1E8E3E', atencao: '#B26A00', perigo: '#C62828', semDados: '#6B717B' },
+  escuro: { normal: '#5BD08A', atencao: '#F2B84B', perigo: '#FF7A7A', semDados: '#A0A6B0' },
+}
+
 // Texto do motivo, na ordem do field6 do ESP32
 export const MOTIVOS = ['', 'calçada estreita', 'calor', 'calçada e calor', 'veículo bloqueando', 'buraco']
 

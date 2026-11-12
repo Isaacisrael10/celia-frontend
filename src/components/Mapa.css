@@ -1,0 +1,61 @@
+.mapa {
+  height: 340px;
+  margin: 0 -16px; /* o mapa vai de borda a borda */
+  border-top: 2px solid var(--ink);
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: -16px; /* a legenda encosta no mapa */
+}
+
+/* Selo no meio do trecho: círculo com o ícone e anel na cor do card */
+.mapa__selo {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2.5px solid var(--card);
+  border-radius: 50%;
+  color: var(--faixa-icone);
+  font-size: 15px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* Área de toque maior que o desenho (mínimo 44 px) */
+.mapa__selo::before {
+  content: '';
+  position: absolute;
+  inset: -9px;
+}
+
+/* "Você": ponto azul com halo */
+.mapa__voce {
+  width: 46px;
+  height: 46px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: color-mix(in srgb, var(--primary) 22%, transparent);
+}
+
+.mapa__voce-ponto {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 3px solid var(--card);
+}
+
+/* Crédito do mapa legível nos dois temas */
+.mapa .maplibregl-ctrl-attrib {
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+}
+
+.mapa .maplibregl-ctrl-attrib a {
+  color: var(--ink);
+}
