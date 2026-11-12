@@ -21,11 +21,13 @@ export default function Reportar() {
   const { reportes, carregando, erro, carregar, criar, editar, excluir } = useReportes()
   const { aviso, mostrarAviso } = useAviso()
   const [filtro, setFiltro] = useState('todos')
-  // Vindo do detalhe do trecho ("Reportar problema aqui"), a rua já chega preenchida
+  // Vindo do detalhe do trecho ("Reportar problema aqui"), a rua e o ponto já chegam preenchidos
   const location = useLocation()
-  const ruaRecebida = location.state && location.state.rua
+  const recebido = location.state && location.state.rua ? location.state : null
   // null = mostrando a lista · objeto = formulário aberto com esses dados
-  const [formulario, setFormulario] = useState(ruaRecebida ? { ...REPORTE_VAZIO, rua: ruaRecebida } : null)
+  const [formulario, setFormulario] = useState(
+    recebido ? { ...REPORTE_VAZIO, rua: recebido.rua, lat: recebido.lat, lng: recebido.lng } : null,
+  )
 
   // Interação Web Dev: filtrar os reportes pela situação
   const visiveis = filtro === 'todos' ? reportes : reportes.filter((r) => r.status === filtro)

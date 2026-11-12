@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { listarReportes, criarReporte, editarReporte, excluirReporte } from '../services/reportesApi'
+import { coordenadasDoEndereco } from '../services/geocodificacao'
 
 /*
   Custom hook do CRUD de reportes.
@@ -47,7 +48,12 @@ export function useReportes() {
   }
 
   async function criar(dados) {
-    const novo = await criarReporte({ ...dados, criadoEm: new Date().toISOString() })
+    // Sem localização? Procuramos as coordenadas do endereço para o reporte aparecer no mapa
+    let local = { lat: dados.lat, lng: dados.lng }
+    if (typeof local.lat !== 'number') {
+      local = (await coordenadasDoEndereco(dados.rua)) || { lat: null, lng: null }
+    }
+    const novo = await criarReporte({ ...dados, ...local, criadoEm: new Date().toISOString() })
     setReportes((atual) => [novo, ...atual])
     return novo
   }
