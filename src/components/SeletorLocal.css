@@ -1,0 +1,30 @@
+.seletor-local {
+  position: relative;
+  height: 260px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+/* A ponta do pino fica exatamente no centro do mapa */
+.seletor-local__pino {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -100%);
+  color: var(--primary);
+  pointer-events: none; /* o toque passa direto para o mapa */
+}
+
+.seletor-local__credito {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: 2px 6px;
+  background: var(--card);
+  color: var(--ink);
+  font-size: 13px;
+  text-align: right;
+  pointer-events: none;
+}

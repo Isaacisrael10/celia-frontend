@@ -1,8 +1,11 @@
 import { useState } from 'react'
-import { IconInfoSquareFilled } from '@tabler/icons-react'
+import { IconInfoSquareFilled, IconSearch } from '@tabler/icons-react'
 import { TIPOS, SITUACOES, validarReporte } from '../domain/reportes'
 import { useAnaliseFoto } from '../hooks/useAnaliseFoto'
+import { useLocalDoReporte } from '../hooks/useLocalDoReporte'
+import { useTema } from '../hooks/useTema'
 import EtapaFoto from './EtapaFoto'
+import SeletorLocal from './SeletorLocal'
 
 /*
   Formulário de novo reporte e de edição.
@@ -19,6 +22,13 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
   const analise = useAnaliseFoto()
   // Tipo escolhido à mão; enquanto for null, vale o que a IA disse
   const [tipoManual, setTipoManual] = useState(null)
+
+  // Local do problema: mapa com pino, GPS e busca de endereço
+  const { escuro } = useTema()
+  const local = useLocalDoReporte({ lat: inicial.lat, lng: inicial.lng }, (texto) =>
+    // O mapa achou o endereço do pino: preenche o campo
+    setDados((atual) => ({ ...atual, rua: texto })),
+  )
 
   const tipoAtual = editando ? dados.tipo : tipoManual || analise.tipo
   const analisando = analise.estado === 'analisando'
@@ -37,8 +47,9 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
     evento.preventDefault() // não deixa o navegador recarregar a página
     if (analisando) return
 
-    // No novo reporte, juntamos a miniatura da foto e o tipo
-    const reporte = editando ? dados : { ...dados, tipo: tipoAtual, fotoUrl: analise.miniatura }
+    // Junta o local do pino; no novo reporte, também a miniatura da foto e o tipo
+    const comLocal = { ...dados, lat: local.coordenadas.lat, lng: local.coordenadas.lng }
+    const reporte = editando ? comLocal : { ...comLocal, tipo: tipoAtual, fotoUrl: analise.miniatura }
     const encontrados = validarReporte(reporte, !editando)
     setErros(encontrados)
     if (Object.keys(encontrados).length > 0) return
@@ -55,21 +66,50 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
       {/* O erro "falta a foto" some assim que a foto é escolhida */}
       {!editando && <EtapaFoto analise={analise} erro={analise.miniatura ? '' : erros.foto} />}
 
-      <label className="campo">
-        <span className="campo__rotulo">Endereço do problema</span>
+      <div className="campo">
+        <label className="campo__rotulo" htmlFor="campo-rua">
+          Local do problema
+        </label>
         <span className="campo__dica" id="dica-rua">
-          Rua e número.
+          Arraste o mapa até o pino ficar em cima do problema, ou digite a rua e o número e aperte Buscar.
         </span>
-        <input
-          className="campo__entrada"
-          value={dados.rua}
-          onChange={(e) => mudar('rua', e.target.value)}
-          aria-invalid={erros.rua ? 'true' : 'false'}
-          aria-describedby="dica-rua"
-          autoComplete="street-address"
-        />
+        <div style={{ display: 'flex', gap: 8 }}>
+          <input
+            id="campo-rua"
+            className="campo__entrada"
+            style={{ flex: 1, minWidth: 0 }}
+            value={dados.rua}
+            onChange={(e) => mudar('rua', e.target.value)}
+            onKeyDown={(e) => {
+              // Enter no endereço busca no mapa (em vez de enviar o formulário)
+              if (e.key === 'Enter') {
+                e.preventDefault()
+                local.buscarEndereco(dados.rua)
+              }
+            }}
+            aria-invalid={erros.rua ? 'true' : 'false'}
+            aria-describedby="dica-rua"
+            autoComplete="street-address"
+          />
+          <button
+            type="button"
+            className="botao botao--secundario"
+            style={{ minHeight: 52 }}
+            onClick={() => local.buscarEndereco(dados.rua)}
+            disabled={local.buscando}
+          >
+            <IconSearch size={20} aria-hidden="true" />
+            Buscar
+          </button>
+        </div>
         {erros.rua && <ErroCampo texto={erros.rua} />}
-      </label>
+
+        <SeletorLocal ponto={local.ponto} alvo={local.alvo} escuro={escuro} aoMover={local.aoMoverMapa} />
+
+        <p className="campo__dica" aria-live="polite">
+          {local.buscando ? 'Buscando o endereço…' : local.aviso}
+        </p>
+      </div>
 
       <label className="campo">
         <span className="campo__rotulo">Tipo de problema</span>
