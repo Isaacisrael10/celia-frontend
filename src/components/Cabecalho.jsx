@@ -6,14 +6,15 @@ import './Cabecalho.css'
   Cabeçalho grafite do topo de cada tela.
   - titulo: texto do h1
   - voltar: true mostra o botão de voltar
+  - aoVoltar: (opcional) o que fazer ao voltar. Sem ele, volta para a tela anterior.
 */
-export default function Cabecalho({ titulo, voltar = false }) {
+export default function Cabecalho({ titulo, voltar = false, aoVoltar }) {
   const navigate = useNavigate()
 
   return (
     <header className="cabecalho">
       {voltar && (
-        <button className="cabecalho__voltar" onClick={() => navigate(-1)} aria-label="Voltar">
+        <button className="cabecalho__voltar" onClick={aoVoltar || (() => navigate(-1))} aria-label="Voltar">
           <IconArrowLeft size={26} aria-hidden="true" />
         </button>
       )}

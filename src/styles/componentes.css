@@ -1,0 +1,199 @@
+/*
+  Peças visuais usadas em várias telas (botões, campos, radios).
+  Medidas tiradas do design (design/README.md, seção "Componentes").
+*/
+
+/* ---------- Botões ---------- */
+.botao {
+  min-height: 56px;
+  padding: 0 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  border-radius: 4px;
+  font-size: 18px;
+  font-weight: 700;
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+/* Texto à esquerda e ícone à direita */
+.botao--seta {
+  justify-content: space-between;
+}
+
+/* No máximo 1 por tela */
+.botao--primario {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 0;
+}
+
+.botao--secundario {
+  background: transparent;
+  color: var(--ink);
+  border: 2px solid var(--ink);
+}
+
+/* Ação forte sem cor de semáforo (ex.: "Sim, excluir") */
+.botao--grafite {
+  background: var(--ink);
+  color: var(--bg);
+  border: 0;
+}
+
+.botao--pequeno {
+  min-height: 48px;
+  font-size: 16px;
+}
+
+.botao:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+/* Ação em texto: parece link, é botão */
+.acao-texto {
+  min-height: 48px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 0;
+  color: var(--link);
+  font-size: 17px;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.acao-texto--grafite {
+  color: var(--ink);
+}
+
+/* ---------- Campos de formulário ---------- */
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo__rotulo {
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.campo__dica {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.campo__entrada {
+  min-height: 52px;
+  padding: 0 14px;
+  border: 2px solid var(--line-strong);
+  border-radius: 4px;
+  background: var(--card);
+  font-size: 18px;
+}
+
+textarea.campo__entrada {
+  padding: 12px 14px;
+  resize: vertical;
+}
+
+/* Erro sem vermelho: borda mais grossa + ícone + texto */
+.campo__entrada[aria-invalid='true'] {
+  border: 3px solid var(--ink);
+}
+
+.campo__erro {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+/* ---------- Radio ---------- */
+.radio {
+  min-height: 52px;
+  padding: 0 4px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 18px;
+  cursor: pointer;
+}
+
+/* O input de verdade fica escondido; desenhamos a bolinha do design */
+.radio input {
+  position: absolute;
+  opacity: 0;
+}
+
+.radio__bolinha {
+  width: 26px;
+  height: 26px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
+
+.radio input:checked + .radio__bolinha::after {
+  content: '';
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--ink);
+}
+
+.radio input:focus-visible + .radio__bolinha {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+/* ---------- Abas (filtros, Mapa/Lista) ---------- */
+.abas {
+  display: flex;
+  gap: 18px;
+  overflow-x: auto;
+  border-bottom: 2px solid var(--line-soft);
+}
+
+.abas__aba {
+  min-height: 48px;
+  padding: 0 2px;
+  background: none;
+  border: 0;
+  border-bottom: 4px solid transparent;
+  margin-bottom: -2px;
+  color: var(--muted);
+  font-size: 17px;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+.abas__aba[aria-pressed='true'],
+.abas__aba[aria-selected='true'] {
+  color: var(--ink);
+  border-bottom-color: var(--ink);
+}
+
+/* ---------- Animação de entrada (avisos e toasts) ---------- */
+@keyframes celiaIn {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
