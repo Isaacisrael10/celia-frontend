@@ -1,0 +1,29 @@
+.badge-faixa {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.badge-faixa__marcador {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2px;
+  background: var(--cor-faixa);
+  color: var(--faixa-icone);
+  font-weight: 700;
+  line-height: 1;
+}
+
+/* "Sem dados" não tem fill: só contorno tracejado */
+.badge-faixa__marcador--sem-dados {
+  background: transparent;
+  color: var(--cor-faixa);
+  border: 2px dashed var(--cor-faixa);
+}
+
+.badge-faixa__nome {
+  font-size: 18px;
+  font-weight: 700;
+}

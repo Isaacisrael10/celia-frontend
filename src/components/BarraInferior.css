@@ -1,0 +1,33 @@
+.barra-inferior {
+  position: sticky;
+  bottom: 0;
+  height: 78px;
+  flex: none;
+  display: grid;
+  grid-template-columns: repeat(5, minmax(0, 1fr));
+  background: var(--card);
+  border-top: 2px solid var(--ink);
+}
+
+.barra-inferior__aba {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-width: 0;
+  padding: 0 2px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.01em;
+  white-space: nowrap;
+}
+
+/* Aba ativa: texto forte e uma barra azul de 5 px no topo */
+.barra-inferior__aba[aria-current='page'] {
+  color: var(--ink);
+  box-shadow: inset 0 5px 0 var(--primary);
+}
