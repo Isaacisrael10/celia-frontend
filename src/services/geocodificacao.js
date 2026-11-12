@@ -44,6 +44,31 @@ export async function buscarLugar(texto) {
   }))
 }
 
+/*
+  Busca reversa: dado um ponto do mapa, devolve o endereço em texto.
+  Ex.: (-22.9253, -43.2663) → "Rua Grajaú, 300". Devolve '' se não achar.
+*/
+export async function enderecoDoPonto(lat, lng) {
+  const parametros = new URLSearchParams({
+    lat: String(lat),
+    lon: String(lng),
+    format: 'json',
+    zoom: '18',
+    'accept-language': 'pt-BR',
+  })
+  try {
+    const resposta = await fetch('https://nominatim.openstreetmap.org/reverse?' + parametros)
+    if (!resposta.ok) return ''
+    const dados = await resposta.json()
+    const a = dados.address || {}
+    const rua = a.road || a.pedestrian || a.footway || ''
+    if (!rua) return ''
+    return a.house_number ? rua + ', ' + a.house_number : rua + ', '
+  } catch {
+    return ''
+  }
+}
+
 // Acha as coordenadas de um endereço (usado ao salvar um reporte). Devolve null se não achar.
 export async function coordenadasDoEndereco(endereco) {
   try {
