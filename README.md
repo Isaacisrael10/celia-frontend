@@ -36,7 +36,7 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 
 | Tela | O que faz |
 |---|---|
-| **Mapa** | Mapa real com os trechos coloridos, widget de calor do poste, alerta quando a rota escolhida passa por Perigo, legenda e alternativa em lista para leitor de tela. |
+| **Mapa** | Mapa real e livre (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, widget de calor do poste, alerta quando a rota escolhida passa por Perigo, legenda e alternativa em lista para leitor de tela. |
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
 | **Rotas** | Compara 3 caminhos até o trabalho e recomenda o mais seguro (que nem sempre é o mais curto). |
 | **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, editar e excluir. |
@@ -57,7 +57,8 @@ _(prints das telas em breve)_
 | Análise da foto (IA) | **Real** na demonstração local (API Flask do Caio em `localhost:5000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
 | Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
 | Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
-| Ruas do mapa | **Reais** (OpenStreetMap, Tijuca). |
+| Mapa e ruas | **Reais** (OpenStreetMap). O mapa abre no **Grajaú**, bairro dos testes e das fotos usadas para treinar a IA, mas vai para qualquer lugar pela busca ou pelo GPS. Os trechos coloridos são 39 trechos de 11 ruas reais do Grajaú. |
+| Localização dos reportes | **Real**: vem do trecho de onde a pessoa reportou ou do endereço digitado (busca no Nominatim/OpenStreetMap). |
 
 Nenhum dado pessoal real é usado.
 
@@ -93,6 +94,8 @@ Nenhuma delas é senha. Sem elas o app abre normalmente e mostra mensagens amig�
 - **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
 - **API de visão** (Flask): `POST /analisar` com a foto; devolve o resultado (`livre`, `obstaculo` ou `buraco`) e as caixas, que o app desenha sobre a foto.
 - **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
+- **Busca de lugares** (Nominatim/OpenStreetMap, sem chave): leva o mapa a qualquer endereço e acha as coordenadas dos reportes. Só busca quando a pessoa confirma, como pede a regra de uso do serviço.
+- **GPS do navegador** (Geolocation API): botão "Meu local".
 
 ---
 
@@ -125,6 +128,8 @@ src/
 | `useTema` | Modo claro/escuro, salvo no navegador |
 | `usePreferencia` | Preferência liga/desliga salva no navegador (modo chuva) |
 | `useAviso` | Mensagem rápida no rodapé que some sozinha |
+| `useBuscaLugar` | Busca de bairro, rua ou lugar para levar o mapa até lá |
+| `useLocalizacao` | Pede o GPS do celular para o botão "Meu local" |
 
 ### Interações em JavaScript (Web Development)
 
@@ -136,6 +141,8 @@ src/
 6. **Escolher uma rota** e ver o alerta de trecho em Perigo no mapa
 7. **Confirmar exclusão** de um reporte dentro do próprio card
 8. **Validação** do formulário de reporte, com mensagens de erro acessíveis
+9. **Buscar um lugar** e o mapa voar até ele
+10. **Meu local**: centralizar o mapa no GPS
 
 ---
 

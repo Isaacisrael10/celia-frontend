@@ -57,3 +57,13 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
   - **Perfil:** interruptor do modo chuva (comportamento ainda em definição) e "Sobre";
   - rascunho do **README.md** e modelo do **Integrantes.md**.
 - **Revisão da equipe:** (preencher)
+
+## 6. Mapa livre e bairro Grajaú (Claude Code · 12/11/2026)
+
+- **Prompt (resumo):** "O mapa tem que estar completão, poder escolher a região que quiser. As fotos da IA são do Grajaú e os testes vão ser no Grajaú."
+- **Como a IA ajudou:**
+  - baixou o traçado de 11 ruas reais do Grajaú (OpenStreetMap, pelo Nominatim, uma busca por segundo) e gerou 39 trechos em `src/data/trechos.json`; rotas e locais de exemplo foram para o Grajaú;
+  - busca de lugar (`services/geocodificacao.js` + `hooks/useBuscaLugar.js`): o mapa voa até qualquer bairro, rua ou lugar;
+  - botão "Meu local" com o GPS (`hooks/useLocalizacao.js`), com aviso se a permissão for negada;
+  - reportes com localização: vêm do trecho ou do endereço digitado, e aparecem no mapa como marcadores.
+- **Revisão da equipe:** (preencher)
