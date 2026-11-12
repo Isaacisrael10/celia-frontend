@@ -72,13 +72,14 @@ Barra inferior: **Mapa · Rotas · Reportar · Locais · Perfil**. Detalhes em `
 
 ## Decisões de design (valem mais que o design system antigo)
 
-- **Paleta:** cor principal da "opção 6", escolhida no Claude Design. **O código hex ainda não foi passado**; provisório `#1E44A8` (claro) e `#8AA8FF` (escuro). Perguntar ao Isaac antes de fixar.
+- **Handoff do Claude Design em `design/` (12/11).** Decisão do Isaac: usar **100% do visual e dos componentes** de `design/README.md` (tokens, tipografia, botões, campos, cards, barra inferior, toast), mas montar **as telas deste plano**. O design foi feito para um conceito antigo (sensor na cadeira, largura + inclinação, aba Dispositivo, Assistente com IA, tela "Entre como"): **ignorar essas telas**. Adaptações: Detalhe do trecho mostra distância livre + calor; widget de calor e alerta de trecho seguem o padrão "Aviso" do design; Novo reporte usa os campos do design + etapa da foto; aba Dispositivo vira Locais.
+- **Paleta:** resolvida pelo design. `--primary` `#2257D6` (claro) / `#8DB0FF` (escuro), tokens em `src/styles/tokens.css`. O azul `#2D6BFF` da opção 6 só em áreas decorativas grandes (não passa contraste em texto).
 - **Direção visual:** direta e legível, estilo sinalização urbana. **Sem gradientes, sem botão 3D, sem o estilo do NeuroLar** (o design system antigo cita o NeuroLar como referência e a fonte Nunito; isso foi descartado).
 - **Fonte:** Atkinson Hyperlegible (Google Fonts), criada para baixa visão.
 - **Sem o padrão de ondas da pedra portuguesa.** Foi testado e reprovado.
 - **Semáforo:** verde, amarelo e vermelho **só** nas faixas. Sempre cor + ícone (✓ ! ✕ ?) + nome escrito + tipo de linha no mapa (contínua, tracejado longo, tracejado curto, pontilhado). O **motivo** aparece junto ("Perigo · calor").
-  - Claro: `#1E8E3E` · `#B26A00` · `#C62828` · sem dados `#8A8F98`
-  - Escuro: `#5BD08A` · `#F2B84B` · `#FF7A7A` · sem dados `#8A93A3`
+  - Claro: `#1E8E3E` · `#B26A00` · `#C62828` · sem dados `#6B717B` (contorno tracejado)
+  - Escuro: `#5BD08A` · `#F2B84B` · `#FF7A7A` · sem dados `#A0A6B0` (contorno tracejado)
 - **Nomes das faixas: pendentes.** O Edge usa "acessível / atenção / evite"; o design usava "Normal / Atenção / Perigo". Precisa ser igual no app, no Python e no Edge. Centralizar em `src/domain/faixas.js` para trocar num lugar só.
 - **Acessibilidade:** contraste AA nos dois modos; corpo ≥ 16 px, nada < 13 px; toque ≥ 48 px; leitor de tela (rótulos em botões de ícone, ordem lógica, alternativa em lista para o mapa); linguagem simples.
 
