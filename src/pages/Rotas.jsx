@@ -51,7 +51,7 @@ export default function Rotas() {
             </p>
           </div>
           <button className="rotas__inverter" onClick={() => setVolta(!volta)} aria-label="Inverter origem e destino">
-            <IconArrowsSort size={26} aria-hidden="true" />
+            <IconArrowsSort size={22} aria-hidden="true" />
           </button>
         </div>
 

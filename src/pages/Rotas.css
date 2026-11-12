@@ -13,22 +13,22 @@
 .rotas__ponto {
   display: flex;
   align-items: center;
-  gap: 12px;
-  font-size: 17px;
+  gap: 10px;
+  font-size: 15px;
   font-weight: 700;
 }
 
 .rotas__rotulo {
   display: block;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 400;
   color: var(--muted);
 }
 
 /* Quadrados A e B ligados por uma barra */
 .rotas__letra {
-  width: 32px;
-  height: 32px;
+  width: 26px;
+  height: 26px;
   flex: none;
   display: flex;
   align-items: center;
@@ -36,19 +36,20 @@
   border-radius: 2px;
   background: var(--ink);
   color: var(--bg);
+  font-size: 14px;
   font-weight: 700;
 }
 
 .rotas__ligacao {
-  width: 4px;
-  height: 16px;
-  margin-left: 14px;
+  width: 3px;
+  height: 10px;
+  margin-left: 11px;
   background: var(--ink);
 }
 
 .rotas__inverter {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   flex: none;
   display: flex;
   align-items: center;
@@ -59,15 +60,19 @@
 }
 
 .rotas__titulo {
-  padding-top: 12px;
+  padding-top: 10px;
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
   border-top: 2px solid var(--ink);
 }
 
 .rotas__titulo h2 {
-  font-size: 24px;
+  font-size: 18px;
 }
 
 .rotas__titulo p {
-  font-size: 16px;
+  font-size: 14px;
   color: var(--muted);
 }

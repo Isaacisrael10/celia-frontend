@@ -11,50 +11,69 @@
 }
 
 .card-rota__faixa {
-  padding: 8px 14px;
+  padding: 4px 12px;
   display: flex;
   align-items: center;
   gap: 6px;
   background: var(--primary);
   color: var(--on-primary);
-  font-size: 16px;
+  font-size: 13px;
   font-weight: 700;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
 
 .card-rota__corpo {
-  padding: 14px;
+  padding: 12px;
   display: flex;
   flex-direction: column;
+  gap: 10px;
+}
+
+.card-rota__topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
   gap: 12px;
 }
 
 .card-rota__nome {
-  font-size: 20px;
+  font-size: 17px;
+  line-height: 1.2;
 }
 
-.card-rota__tempo {
-  font-size: 20px;
-  font-weight: 700;
-}
-
-.card-rota__minutos {
-  font-size: 48px;
-  line-height: 0.9;
-  letter-spacing: -0.02em;
-}
-
-.card-rota__distancia {
-  margin-top: -6px;
-  font-size: 16px;
+.card-rota__pior {
+  margin-top: 2px;
+  font-size: 14px;
   color: var(--muted);
 }
 
-.card-rota__rotulo {
-  margin-bottom: 6px;
-  font-size: 15px;
+.card-rota__tempo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  flex: none;
+}
+
+.card-rota__minutos {
+  font-size: 24px;
   font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.02em;
+  white-space: nowrap;
+}
+
+.card-rota__km {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Marcadores dos trechos e o resumo na mesma linha */
+.card-rota__linha {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 10px;
 }
 
 .card-rota__trechos {
@@ -62,34 +81,30 @@
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 6px;
+  gap: 4px;
 }
 
 .card-rota__resumo {
-  margin-top: 6px;
-  font-size: 15px;
+  font-size: 13px;
   color: var(--muted);
 }
 
 .card-rota__alerta {
-  padding: 10px;
   display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
-  font-size: 16px;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
 }
 
 /* Rota atual: borda tracejada e ✓ */
 .card-rota__atual {
-  min-height: 56px;
+  min-height: 44px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 8px;
+  gap: 6px;
   border: 2px dashed var(--ink);
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 }
