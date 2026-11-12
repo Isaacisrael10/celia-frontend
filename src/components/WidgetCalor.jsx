@@ -21,7 +21,7 @@ export default function WidgetCalor({ poste }) {
 
     return (
       <section className="widget-calor" aria-label="Calor agora">
-        <BadgeFaixa faixa={FAIXAS.semDados} tamanho={40} />
+        <BadgeFaixa faixa={FAIXAS.semDados} tamanho={32} />
         <span className="widget-calor__textos">
           <span className="widget-calor__titulo">Calor: sem dados</span>
           <span className="widget-calor__detalhe">{detalhe}</span>
@@ -36,7 +36,7 @@ export default function WidgetCalor({ poste }) {
 
   return (
     <section className="widget-calor" aria-label="Calor agora">
-      <BadgeFaixa faixa={faixaCalor} tamanho={40} />
+      <BadgeFaixa faixa={faixaCalor} tamanho={32} />
       <span className="widget-calor__textos">
         <span className="widget-calor__titulo">
           Calor: {faixaCalor.nome}

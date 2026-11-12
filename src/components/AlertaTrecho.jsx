@@ -16,7 +16,7 @@ export default function AlertaTrecho({ trecho, aoSeguir }) {
   return (
     <section className="alerta-trecho" role="alert">
       <div className="alerta-trecho__topo">
-        <BadgeFaixa faixa={trecho.faixa} tamanho={40} />
+        <BadgeFaixa faixa={trecho.faixa} tamanho={32} />
         <p className="alerta-trecho__texto">
           O trecho da {trecho.rua} está em Perigo{motivo && ' por ' + motivo}. Quer ver outra rota?
         </p>

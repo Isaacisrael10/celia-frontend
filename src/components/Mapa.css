@@ -1,6 +1,7 @@
 .mapa {
   position: relative;
-  height: 380px;
+  /* O mapa é a parte principal: ocupa boa parte da tela, sem passar de 520 px */
+  height: clamp(320px, 55dvh, 520px);
   margin: 0 -16px; /* o mapa vai de borda a borda */
   border-top: 2px solid var(--ink);
   border-bottom: 2px solid var(--ink);

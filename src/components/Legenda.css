@@ -5,11 +5,11 @@
 }
 
 .legenda__item {
-  padding: 10px 4px;
+  padding: 8px 2px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   text-align: center;
 }
 
@@ -17,8 +17,12 @@
   border-left: 2px solid var(--line-soft);
 }
 
+/* Nome com o marcador ao lado, numa linha só */
 .legenda__nome {
-  font-size: 15px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 14px;
   font-weight: 700;
   line-height: 1.1;
 }

@@ -23,20 +23,22 @@ export default function Legenda() {
     <section aria-label="Legenda" className="legenda">
       {Object.values(FAIXAS).map((faixa) => (
         <div key={faixa.id} className="legenda__item">
-          <svg width="56" height="12" aria-hidden="true">
+          <svg width="48" height="10" aria-hidden="true">
             <line
-              x1="5"
-              y1="6"
-              x2="51"
-              y2="6"
+              x1="4"
+              y1="5"
+              x2="44"
+              y2="5"
               style={{ stroke: faixa.cor }}
-              strokeWidth={faixa.id === 'semDados' ? 5 : 6}
+              strokeWidth={faixa.id === 'semDados' ? 4 : 5}
               strokeDasharray={TRACO[faixa.id]}
               strokeLinecap={faixa.id === 'atencao' || faixa.id === 'perigo' ? 'butt' : 'round'}
             />
           </svg>
-          <BadgeFaixa faixa={faixa} tamanho={28} />
-          <span className="legenda__nome">{faixa.nome}</span>
+          <span className="legenda__nome">
+            <BadgeFaixa faixa={faixa} tamanho={20} />
+            {faixa.nome}
+          </span>
           <span className="legenda__texto">{SIGNIFICADO[faixa.id]}</span>
         </div>
       ))}
