@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { IconInfoSquareFilled } from '@tabler/icons-react'
 import { TIPOS, SITUACOES, validarReporte } from '../domain/reportes'
+import { useAnaliseFoto } from '../hooks/useAnaliseFoto'
+import EtapaFoto from './EtapaFoto'
 
 /*
   Formulário de novo reporte e de edição.
@@ -13,26 +15,45 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
   const [dados, setDados] = useState(inicial)
   const [erros, setErros] = useState({})
   const [enviando, setEnviando] = useState(false)
+  // Foto + IA de visão (só no novo reporte)
+  const analise = useAnaliseFoto()
+  // Tipo escolhido à mão; enquanto for null, vale o que a IA disse
+  const [tipoManual, setTipoManual] = useState(null)
+
+  const tipoAtual = editando ? dados.tipo : tipoManual || analise.tipo
+  const analisando = analise.estado === 'analisando'
 
   // Atualiza um campo do formulário. Ex.: mudar('rua', 'Rua X, 10')
   function mudar(campo, valor) {
     setDados({ ...dados, [campo]: valor })
   }
 
+  function mudarTipo(valor) {
+    if (editando) mudar('tipo', valor)
+    else setTipoManual(valor)
+  }
+
   async function enviar(evento) {
     evento.preventDefault() // não deixa o navegador recarregar a página
-    const encontrados = validarReporte(dados)
+    if (analisando) return
+
+    // No novo reporte, juntamos a miniatura da foto e o tipo
+    const reporte = editando ? dados : { ...dados, tipo: tipoAtual, fotoUrl: analise.miniatura }
+    const encontrados = validarReporte(reporte, !editando)
     setErros(encontrados)
     if (Object.keys(encontrados).length > 0) return
 
     setEnviando(true)
-    const deuCerto = await aoSalvar(dados)
+    const deuCerto = await aoSalvar(reporte)
     if (!deuCerto) setEnviando(false)
   }
 
   return (
     <form onSubmit={enviar} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
       <h2 style={{ fontSize: 26 }}>{editando ? 'Editar reporte' : 'Novo reporte'}</h2>
+
+      {/* O erro "falta a foto" some assim que a foto é escolhida */}
+      {!editando && <EtapaFoto analise={analise} erro={analise.miniatura ? '' : erros.foto} />}
 
       <label className="campo">
         <span className="campo__rotulo">Endereço do problema</span>
@@ -52,7 +73,8 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
 
       <label className="campo">
         <span className="campo__rotulo">Tipo de problema</span>
-        <select className="campo__entrada" value={dados.tipo} onChange={(e) => mudar('tipo', e.target.value)}>
+        {!editando && <span className="campo__dica">Vem da análise da foto. Corrija se precisar.</span>}
+        <select className="campo__entrada" value={tipoAtual} onChange={(e) => mudarTipo(e.target.value)}>
           {Object.entries(TIPOS).map(([valor, nome]) => (
             <option key={valor} value={valor}>
               {nome}
@@ -93,8 +115,8 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
       </fieldset>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-        <button type="submit" className="botao botao--primario" disabled={enviando}>
-          {enviando ? 'Enviando…' : editando ? 'Salvar alterações' : 'Enviar reporte'}
+        <button type="submit" className="botao botao--primario" disabled={enviando || analisando}>
+          {enviando ? 'Enviando…' : analisando ? 'Aguarde a análise…' : editando ? 'Salvar alterações' : 'Enviar reporte'}
         </button>
         <button type="button" className="acao-texto" style={{ alignSelf: 'center' }} onClick={aoCancelar}>
           Cancelar
