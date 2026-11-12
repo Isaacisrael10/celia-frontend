@@ -34,3 +34,14 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
   - O MapLibre 6 não carregava o "worker" no build de produção; voltamos para o MapLibre 5.
   - Só existe um poste, então os outros trechos usam uma **faixa de exemplo (simulada)** em `src/data/trechos.json`. A tela avisa isso ao abrir o trecho.
 - **Revisão da equipe:** (preencher)
+
+## 4. Foto com IA de visão e plano B (Claude Code · 12/11/2026)
+
+- **Prompt (resumo):** seguir com o item 5 do plano (novo reporte com foto, API de visão, caixas e plano B).
+- **Como a IA ajudou:**
+  - `services/visaoApi.js` manda a foto para `/analisar` (com tempo máximo de 20 s) e `services/miniatura.js` reduz a foto para guardar na MockAPI;
+  - `domain/visao.js` converte as caixas da IA em porcentagem da foto, aceitando coordenadas em pixels ou de 0 a 1 (o formato ainda está pendente com o Caio);
+  - `hooks/useAnaliseFoto.js` controla os estados (analisando, analisada, plano B);
+  - `FotoComCaixas` desenha as caixas sobre a foto; o formulário só envia com foto, tipo e descrição (RN05).
+- **Testes:** com uma API de visão falsa (resposta "buraco" com uma caixa) e com a API desligada. Sem a API, aparece "A análise por IA roda na demonstração local. Veja o vídeo no README." e o reporte vai como "Não analisada", sem erro cru.
+- **Revisão da equipe:** (preencher)
