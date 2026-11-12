@@ -1,0 +1,71 @@
+/*
+  Regras das faixas do semáforo (sem React, só dados e funções puras).
+
+  Tudo o que diz respeito a nome, cor, ícone e motivo das faixas fica AQUI.
+  Se a equipe mudar os nomes (ex.: "acessível / atenção / evite"),
+  basta trocar neste arquivo e o app inteiro acompanha.
+
+  Os números seguem o ESP32 (ThingSpeak):
+    field5 status: 0 verde · 1 amarelo · 2 vermelho
+    field6 motivo: 0 nenhum · 1 calçada · 2 calor · 3 ambos · 4 veículo · 5 buraco
+*/
+
+export const FAIXAS = {
+  normal: {
+    id: 'normal',
+    nome: 'Normal',
+    icone: '✓',
+    cor: 'var(--faixa-normal)',
+    linha: 'continua',
+    explicacao: 'Calçada livre e sem calor forte. Boa para cadeira de rodas, andador e bengala.',
+  },
+  atencao: {
+    id: 'atencao',
+    nome: 'Atenção',
+    icone: '!',
+    cor: 'var(--faixa-atencao)',
+    linha: 'tracejado-longo',
+    explicacao: 'Dá para passar, mas com cuidado. Veja o motivo antes de sair.',
+  },
+  perigo: {
+    id: 'perigo',
+    nome: 'Perigo',
+    icone: '✕',
+    cor: 'var(--faixa-perigo)',
+    linha: 'tracejado-curto',
+    explicacao: 'Trecho difícil agora. Prefira outro caminho.',
+  },
+  semDados: {
+    id: 'semDados',
+    nome: 'Sem dados',
+    icone: '?',
+    cor: 'var(--faixa-sem-dados)',
+    linha: 'pontilhado',
+    explicacao: 'Não temos leitura recente deste trecho.',
+  },
+}
+
+// Texto do motivo, na ordem do field6 do ESP32
+export const MOTIVOS = ['', 'calçada estreita', 'calor', 'calçada e calor', 'veículo bloqueando', 'buraco']
+
+// Converte o número do status (0, 1, 2) na faixa. Qualquer outra coisa vira "Sem dados".
+export function faixaDoStatus(status) {
+  if (status === 0) return FAIXAS.normal
+  if (status === 1) return FAIXAS.atencao
+  if (status === 2) return FAIXAS.perigo
+  return FAIXAS.semDados
+}
+
+// Converte o número do motivo no texto. Ex.: 2 → "calor"
+export function textoDoMotivo(motivo) {
+  return MOTIVOS[motivo] || ''
+}
+
+// Junta faixa e motivo para mostrar na tela. Ex.: "Perigo · calor"
+export function rotuloCompleto(faixa, motivo) {
+  const texto = textoDoMotivo(motivo)
+  if (faixa.id === 'normal' || faixa.id === 'semDados' || texto === '') {
+    return faixa.nome
+  }
+  return faixa.nome + ' · ' + texto
+}
