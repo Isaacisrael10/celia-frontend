@@ -17,12 +17,17 @@ import './SeletorLocal.css'
 export default function SeletorLocal({ ponto, alvo, escuro, aoMover }) {
   const mapaRef = useRef(null)
 
-  // Voa até o alvo quando ele muda
+  // Voa até o alvo quando ele muda.
+  // Se o alvo chegar ANTES do mapa terminar de carregar (GPS rápido), o voo acontece no onLoad.
   useEffect(() => {
     if (mapaRef.current && alvo) {
       mapaRef.current.flyTo({ center: [alvo.lng, alvo.lat], zoom: 17, duration: 1000 })
     }
   }, [alvo])
+
+  function aoCarregar() {
+    if (alvo) mapaRef.current.jumpTo({ center: [alvo.lng, alvo.lat], zoom: 17 })
+  }
 
   // Foi a PESSOA que começou a mexer? (o voo automático não tem originalEvent)
   const movidoPelaPessoa = useRef(false)
@@ -46,6 +51,7 @@ export default function SeletorLocal({ ponto, alvo, escuro, aoMover }) {
         initialViewState={{ latitude: ponto.lat, longitude: ponto.lng, zoom: 16 }}
         mapStyle={escuro ? estiloEscuro : estiloClaro}
         attributionControl={false}
+        onLoad={aoCarregar}
         onMoveStart={aoComecarAMover}
         onMoveEnd={aoTerminarDeMover}
         style={{ width: '100%', height: '100%' }}
