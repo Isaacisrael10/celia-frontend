@@ -70,21 +70,20 @@ Precisa do [Node.js](https://nodejs.org/) 20 ou mais novo.
 
 ```bash
 npm install
-cp .env.example .env    # depois preencha o .env
 npm run dev
 ```
 
-Abra `http://localhost:5173`.
+Abra `http://localhost:5173`. Não precisa configurar nada: os endereços das integrações já estão em `src/services/config.js` (nenhum deles é senha).
 
-### Variáveis do `.env`
+### Trocar um endereço (opcional)
+
+Para testar com outro endereço sem mexer no código, copie `.env.example` para `.env` e preencha:
 
 | Variável | Para quê |
 |---|---|
 | `VITE_REPORTES_URL` | URL do recurso `reportes` na MockAPI |
 | `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste |
 | `VITE_VISAO_URL` | API de visão (padrão `http://localhost:5000/analisar`) |
-
-Nenhuma delas é senha. Sem elas o app abre normalmente e mostra mensagens amigáveis no lugar dos dados.
 
 ---
 
