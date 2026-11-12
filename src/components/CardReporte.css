@@ -1,0 +1,115 @@
+.card-reporte {
+  padding: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-bottom: 2px solid var(--line-soft);
+}
+
+.card-reporte__topo {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.card-reporte__icone,
+.card-reporte__foto {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  border: 2px solid var(--ink);
+  border-radius: 2px;
+}
+
+.card-reporte__icone {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-reporte__foto {
+  object-fit: cover;
+}
+
+.card-reporte__textos {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  font-size: 16px;
+}
+
+.card-reporte__tipo {
+  font-size: 19px;
+  font-weight: 700;
+}
+
+.card-reporte__descricao {
+  color: var(--muted);
+}
+
+.card-reporte__data {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* Tudo abaixo do topo alinha com o texto (44 px do ícone + 12 px de espaço) */
+.card-reporte__situacao,
+.card-reporte__acoes,
+.card-reporte__confirmar {
+  margin-left: 56px;
+}
+
+.card-reporte__situacao {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+  font-weight: 700;
+}
+
+/* Quadradinho da situação: só grafite e azul, nunca semáforo */
+.situacao {
+  width: 14px;
+  height: 14px;
+  flex: none;
+}
+.situacao--aberto {
+  border: 2px solid var(--ink);
+}
+.situacao--enviado {
+  background: var(--primary);
+}
+.situacao--resolvido {
+  background: var(--ink);
+}
+
+.card-reporte__acoes {
+  display: flex;
+  gap: 20px;
+}
+
+.card-reporte__confirmar {
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+  animation: celiaIn 0.2s ease-out;
+}
+
+.card-reporte__pergunta {
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.card-reporte__botoes {
+  display: flex;
+  gap: 8px;
+}
+
+.card-reporte__botoes .botao {
+  flex: 1;
+}
