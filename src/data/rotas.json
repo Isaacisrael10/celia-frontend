@@ -1,0 +1,29 @@
+[
+  {
+    "id": "acessivel",
+    "nome": "Pela Conde de Bonfim",
+    "origem": "Casa (Rua Conde de Bonfim)",
+    "destino": "Ponto de ônibus do trabalho",
+    "minutos": 15,
+    "km": 1.1,
+    "trechos": ["conde-de-bonfim-4", "conde-de-bonfim-5", "conde-de-bonfim-6", "conde-de-bonfim-0"]
+  },
+  {
+    "id": "curta",
+    "nome": "Pela General Roca",
+    "origem": "Casa (Rua Conde de Bonfim)",
+    "destino": "Ponto de ônibus do trabalho",
+    "minutos": 12,
+    "km": 0.9,
+    "trechos": ["general-roca-2", "general-roca-0", "major-avila-0", "conde-de-bonfim-0"]
+  },
+  {
+    "id": "media",
+    "nome": "Pela Pinto de Figueiredo",
+    "origem": "Casa (Rua Conde de Bonfim)",
+    "destino": "Ponto de ônibus do trabalho",
+    "minutos": 13,
+    "km": 1.0,
+    "trechos": ["pinto-de-figueiredo-0", "conde-de-bonfim-6", "conde-de-bonfim-0"]
+  }
+]
