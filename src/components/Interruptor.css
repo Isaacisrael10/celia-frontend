@@ -1,0 +1,54 @@
+.interruptor {
+  width: 100%;
+  min-height: 64px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-align: left;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-soft);
+  color: var(--ink);
+}
+
+.interruptor__rotulo {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 700;
+}
+
+.interruptor__estado {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--muted);
+}
+
+/* Trilho retangular de 56×32 com botão quadrado de 22 px */
+.interruptor__trilho {
+  position: relative;
+  width: 56px;
+  height: 32px;
+  flex: none;
+  border: 2px solid var(--ink);
+  background: transparent;
+}
+
+.interruptor__botao {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 22px;
+  height: 22px;
+  background: var(--ink);
+  transition: left 0.2s;
+}
+
+.interruptor__trilho--ligado {
+  background: var(--primary);
+}
+
+.interruptor__trilho--ligado .interruptor__botao {
+  left: 27px;
+  background: var(--on-primary);
+}
