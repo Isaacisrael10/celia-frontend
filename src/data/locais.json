@@ -5,23 +5,23 @@
       "id": "b1",
       "tipo": "banheiro",
       "nome": "Banheiro acessível da praça",
-      "endereco": "Rua Conde de Bonfim, perto do nº 400",
+      "endereco": "Rua Barão do Bom Retiro, perto do nº 1500",
       "detalhe": "Porta larga e barras de apoio. Aberto das 8h às 20h.",
       "metros": 150
     },
     {
       "id": "b2",
       "tipo": "banheiro",
-      "nome": "Banheiro acessível da estação",
-      "endereco": "Rua Conde de Bonfim, perto do nº 600",
-      "detalhe": "Dentro da estação, ao lado do elevador.",
+      "nome": "Banheiro acessível da avenida",
+      "endereco": "Avenida Engenheiro Richard, perto do nº 200",
+      "detalhe": "Porta larga e barras de apoio. Aberto das 7h às 19h.",
       "metros": 420
     },
     {
       "id": "d1",
       "tipo": "descanso",
       "nome": "Banco com sombra",
-      "endereco": "Rua Almirante Cóchrane, perto do nº 100",
+      "endereco": "Rua Grajaú, perto do nº 100",
       "detalhe": "Dois bancos com encosto embaixo de árvores.",
       "metros": 90
     },
@@ -29,7 +29,7 @@
       "id": "d2",
       "tipo": "descanso",
       "nome": "Ponto de ônibus coberto",
-      "endereco": "Rua Conde de Bonfim, perto do nº 250",
+      "endereco": "Rua Barão do Bom Retiro, perto do nº 1800",
       "detalhe": "Cobertura e banco. Tem o poste da C.E.L.I.A.",
       "metros": 60
     },
@@ -37,7 +37,7 @@
       "id": "d3",
       "tipo": "descanso",
       "nome": "Área de descanso da praça",
-      "endereco": "Rua General Roca, perto do nº 30",
+      "endereco": "Rua Itabaiana, perto do nº 50",
       "detalhe": "Bancos e bebedouro.",
       "metros": 310
     }

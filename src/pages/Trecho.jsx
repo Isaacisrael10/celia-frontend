@@ -7,6 +7,7 @@ import HistoricoPoste from '../components/HistoricoPoste'
 import { useTrechos } from '../hooks/useTrechos'
 import { rotuloCompleto } from '../domain/faixas'
 import { textoAtualizado } from '../domain/poste'
+import { meioDoTrecho } from '../domain/trechos'
 import './Trecho.css'
 
 // Mostra o número arredondado com a unidade, ou "—" se o sensor não mandou
@@ -35,9 +36,10 @@ export default function Trecho() {
   const leitura = poste.leitura
   const mostrarMedidas = aoVivo && poste.recente
 
-  // Abre o formulário de reporte já com a rua preenchida
+  // Abre o formulário de reporte já com a rua e o ponto do trecho
   function reportar() {
-    navigate('/reportar', { state: { rua: trecho.rua + ', ' } })
+    const [lng, lat] = meioDoTrecho(trecho)
+    navigate('/reportar', { state: { rua: trecho.rua + ', ', lat, lng } })
   }
 
   return (
@@ -46,7 +48,7 @@ export default function Trecho() {
       <main className="app__conteudo">
         <div>
           <h2 className="trecho__rua">{trecho.rua}</h2>
-          <p className="trecho__parte">Parte {trecho.parte} · Tijuca</p>
+          <p className="trecho__parte">Parte {trecho.parte} · Grajaú</p>
         </div>
 
         <div className="trecho__faixa">
