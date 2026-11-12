@@ -3,7 +3,7 @@
   "id": "barao-do-bom-retiro-1",
   "rua": "Rua Barão do Bom Retiro",
   "parte": 1,
-  "poste": "poste01",
+  "poste": null,
   "statusSimulado": 0,
   "motivoSimulado": 0,
   "metros": 138,

@@ -3,7 +3,7 @@
     "id": "acessivel",
     "nome": "Pela Barão do Bom Retiro",
     "origem": "Casa (Grajaú)",
-    "destino": "Ponto de ônibus da Barão do Bom Retiro",
+    "destino": "Ponto de ônibus do trabalho",
     "minutos": 12,
     "km": 0.8,
     "trechos": ["barao-do-bom-retiro-5", "barao-do-bom-retiro-4", "barao-do-bom-retiro-2", "barao-do-bom-retiro-1"]
@@ -12,7 +12,7 @@
     "id": "curta",
     "nome": "Pela Borda do Mato",
     "origem": "Casa (Grajaú)",
-    "destino": "Ponto de ônibus da Barão do Bom Retiro",
+    "destino": "Ponto de ônibus do trabalho",
     "minutos": 9,
     "km": 0.6,
     "trechos": ["borda-do-mato-3", "borda-do-mato-2", "barao-do-bom-retiro-1"]
@@ -21,7 +21,7 @@
     "id": "media",
     "nome": "Pela Itabaiana",
     "origem": "Casa (Grajaú)",
-    "destino": "Ponto de ônibus da Barão do Bom Retiro",
+    "destino": "Ponto de ônibus do trabalho",
     "minutos": 10,
     "km": 0.7,
     "trechos": ["itabaiana-5", "itabaiana-2", "grajau-2", "barao-do-bom-retiro-1"]

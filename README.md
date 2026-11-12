@@ -51,7 +51,7 @@ _(prints das telas em breve)_
 
 | Parte | Situação |
 |---|---|
-| Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s. Sem leitura há mais de 10 min, o trecho vira "Sem dados". |
+| Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s e mostrado no widget de calor. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
 | Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
 | Reportes | **Reais** na MockAPI (API externa do CRUD). |
 | Análise da foto (IA) | **Real** na demonstração local (API Flask do Caio em `localhost:5000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
