@@ -1,0 +1,50 @@
+.busca-lugar__form {
+  display: flex;
+  gap: 8px;
+}
+
+.busca-lugar__entrada {
+  flex: 1;
+  min-width: 0;
+}
+
+.busca-lugar__botao {
+  width: 52px;
+  min-height: 52px;
+  padding: 0;
+}
+
+.busca-lugar__info {
+  margin-top: 6px;
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.busca-lugar__resultados {
+  list-style: none;
+  margin: 6px 0 0;
+  padding: 0;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+}
+
+.busca-lugar__resultado {
+  width: 100%;
+  min-height: 52px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid var(--line-soft);
+  text-align: left;
+  font-size: 15px;
+  line-height: 1.3;
+}
+
+.busca-lugar__resultado svg {
+  flex: none;
+  margin-top: 1px;
+}
