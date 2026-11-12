@@ -88,7 +88,8 @@ Barra inferior: **Mapa · Rotas · Reportar · Locais · Perfil**. Detalhes em `
 - **MapLibre GL** (`maplibre-gl` + `react-map-gl`) com tiles do **OpenFreeMap** (gratuito, sem chave).
 - Usar os estilos próprios `mapa/celia-mapa-claro.json` e `mapa/celia-mapa-escuro.json` como `mapStyle`.
 - `mapa/mapa_referencia.html` mostra como desenhar os trechos (linha 5,5 px com brilho da própria cor, tracejados por faixa, camadas abaixo de `highway-name-minor` para os nomes ficarem por cima), selos ! e ✕ no meio dos trechos em Atenção/Perigo, e os marcadores "Você", destino e reporte.
-- **Bairro: Grajaú (decidido em 12/11).** As fotos da IA do Caio e os testes são no Grajaú. `src/data/trechos.json` tem 39 trechos de 11 ruas reais do Grajaú (traçado do OpenStreetMap via Nominatim); o poste fica em `barao-do-bom-retiro-1`. O mapa **não é preso ao bairro**: abre no Grajaú, mas tem busca de lugar (Nominatim), botão "Meu local" (GPS) e mostra reportes de qualquer região.
+- **Bairro: Grajaú (decidido em 12/11).** As fotos da IA do Caio e os testes são no Grajaú. `src/data/trechos.json` tem 39 trechos de 11 ruas reais do Grajaú (traçado do OpenStreetMap via Nominatim); o poste fica em `barao-do-bom-retiro-1` (**PROVISÓRIO**: escolha do Claude, não veio da equipe; trocar pelo ponto de ônibus real quando o Caio/equipe definir, mudando o campo `"poste"` em `trechos.json`).
+- **Decisão (12/11):** o mapa fica com trecho do poste ao vivo + reportes reais (marcadores) + o resto com faixa simulada. Reportes **não** mudam a cor dos trechos. O mapa **não é preso ao bairro**: abre no Grajaú, mas tem busca de lugar (Nominatim), botão "Meu local" (GPS) e mostra reportes de qualquer região.
 - `mapa/ruas.json` (Tijuca) é só a referência antiga do protótipo; não é mais usado.
 - **Não usar CARTO** (passou a exigir chave). Manter o crédito "OpenFreeMap © OpenMapTiles Data from OpenStreetMap".
 
