@@ -2,14 +2,14 @@ import './BadgeFaixa.css'
 
 /*
   Marcador de faixa: quadrado colorido com o ícone (✓ ! ✕ ?).
-  Nunca usamos só a cor: o leitor de tela lê o nome da faixa.
+  Nunca usamos só a cor: o nome da faixa sempre aparece escrito
+  (aqui com comNome, ou no texto ao lado do marcador).
+  O quadrado é escondido do leitor de tela, para o nome não ser lido duas vezes.
   - faixa: um objeto de FAIXAS (src/domain/faixas.js)
   - tamanho: 28, 32, 36, 40 ou 56 (px)
   - comNome: true escreve o nome ao lado ("Perigo")
-  - rotulo: texto que substitui o nome (ex.: "Perigo · calor")
 */
-export default function BadgeFaixa({ faixa, tamanho = 32, comNome = false, rotulo }) {
-  const texto = rotulo || faixa.nome
+export default function BadgeFaixa({ faixa, tamanho = 32, comNome = false }) {
   const semDados = faixa.id === 'semDados'
 
   return (
@@ -26,11 +26,7 @@ export default function BadgeFaixa({ faixa, tamanho = 32, comNome = false, rotul
       >
         {faixa.icone}
       </span>
-      {comNome ? (
-        <span className="badge-faixa__nome">{texto}</span>
-      ) : (
-        <span className="so-leitor">{texto}</span>
-      )}
+      {comNome && <span className="badge-faixa__nome">{faixa.nome}</span>}
     </span>
   )
 }

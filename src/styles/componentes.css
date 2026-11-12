@@ -164,6 +164,7 @@ textarea.campo__entrada {
   display: flex;
   gap: 18px;
   overflow-x: auto;
+  scrollbar-width: none; /* rola com o dedo, sem barra visível */
   border-bottom: 2px solid var(--line-soft);
 }
 

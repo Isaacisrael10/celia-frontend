@@ -1,0 +1,25 @@
+.widget-calor {
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 4px;
+}
+
+.widget-calor__textos {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.widget-calor__titulo {
+  font-size: 18px;
+  font-weight: 700;
+}
+
+.widget-calor__detalhe {
+  font-size: 15px;
+  color: var(--muted);
+}
