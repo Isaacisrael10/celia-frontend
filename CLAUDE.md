@@ -47,6 +47,7 @@ Regras gerais da GS: nada de dados pessoais reais (dados simulados ou públicos,
 - ESP32 envia a cada 20 s → app busca a cada 20 s.
 - **Sem leitura há mais de 10 min → "Sem dados" (cinza).**
 - Só existe um poste (`poste01`): só um trecho do mapa é ao vivo.
+- **Decisão (12/11):** os trechos sem poste mostram uma **faixa de exemplo simulada** (`statusSimulado`/`motivoSimulado` em `src/data/trechos.json`), avisada na tela do trecho. Explicar no README como "simulado".
 - **Pendente:** CHANNEL_ID (Caio).
 
 ### API de visão (Flask, só na demonstração local)
