@@ -45,3 +45,15 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
   - `FotoComCaixas` desenha as caixas sobre a foto; o formulário só envia com foto, tipo e descrição (RN05).
 - **Testes:** com uma API de visão falsa (resposta "buraco" com uma caixa) e com a API desligada. Sem a API, aparece "A análise por IA roda na demonstração local. Veja o vídeo no README." e o reporte vai como "Não analisada", sem erro cru.
 - **Revisão da equipe:** (preencher)
+
+## 5. Rotas, alerta, Locais, histórico e documentação (Claude Code · 12/11/2026)
+
+- **Prompt (resumo):** "Para de perguntar as coisas e faz logo" (seguir o plano até o fim).
+- **Como a IA ajudou:**
+  - **Rotas:** `data/rotas.json` (3 rotas de exemplo), `domain/rotas.js` (a recomendada é a de pior trecho menos grave, depois menos problemas, depois menos minutos) e `hooks/useRotas.js`;
+  - **Alerta (RF03):** se a rota escolhida passa por Perigo, aparece um aviso no mapa com "Ver rotas" e "Seguir assim". Como o poste é lido ao vivo, o aviso surge sozinho se o trecho mudar;
+  - **Locais:** lista com filtro Banheiros/Descanso, dados simulados com a fonte real prevista;
+  - **Mini histórico:** últimas leituras do poste no detalhe do trecho;
+  - **Perfil:** interruptor do modo chuva (comportamento ainda em definição) e "Sobre";
+  - rascunho do **README.md** e modelo do **Integrantes.md**.
+- **Revisão da equipe:** (preencher)
