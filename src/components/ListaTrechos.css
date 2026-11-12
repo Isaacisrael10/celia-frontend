@@ -6,8 +6,8 @@
 }
 
 .lista-trechos__item {
-  min-height: 76px;
-  padding: 12px 0;
+  min-height: 60px;
+  padding: 10px 0;
   display: flex;
   align-items: center;
   gap: 12px;
@@ -24,11 +24,11 @@
 }
 
 .lista-trechos__nome {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .lista-trechos__faixa {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--muted);
 }

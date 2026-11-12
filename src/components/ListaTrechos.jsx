@@ -19,7 +19,7 @@ export default function ListaTrechos({ trechos }) {
       {ordenados.map((t) => (
         <li key={t.id}>
           <Link to={'/trecho/' + t.id} className="lista-trechos__item">
-            <BadgeFaixa faixa={t.faixa} tamanho={36} />
+            <BadgeFaixa faixa={t.faixa} tamanho={30} />
             <span className="lista-trechos__textos">
               <span className="lista-trechos__nome">{nomeDoTrecho(t)}</span>
               <span className="lista-trechos__faixa">

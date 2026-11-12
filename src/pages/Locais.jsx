@@ -44,7 +44,7 @@ export default function Locais() {
             return (
               <li key={local.id} className="locais__item">
                 <span className="locais__icone" aria-hidden="true">
-                  <Icone size={26} />
+                  <Icone size={22} />
                 </span>
                 <span className="locais__textos">
                   <span className="locais__tipo">{NOMES_TIPO[local.tipo]}</span>

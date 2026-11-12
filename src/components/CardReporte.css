@@ -1,8 +1,8 @@
 .card-reporte {
-  padding: 16px 0;
+  padding: 12px 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 8px;
   border-bottom: 2px solid var(--line-soft);
 }
 
@@ -14,8 +14,8 @@
 
 .card-reporte__icone,
 .card-reporte__foto {
-  width: 44px;
-  height: 44px;
+  width: 40px;
+  height: 40px;
   flex: none;
   border: 2px solid var(--ink);
   border-radius: 2px;
@@ -41,7 +41,7 @@
 }
 
 .card-reporte__tipo {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 700;
 }
 
@@ -54,11 +54,11 @@
   color: var(--muted);
 }
 
-/* Tudo abaixo do topo alinha com o texto (44 px do ícone + 12 px de espaço) */
+/* Tudo abaixo do topo alinha com o texto (40 px do ícone + 12 px de espaço) */
 .card-reporte__situacao,
 .card-reporte__acoes,
 .card-reporte__confirmar {
-  margin-left: 56px;
+  margin-left: 52px;
 }
 
 .card-reporte__situacao {

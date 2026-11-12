@@ -1,6 +1,6 @@
 .interruptor {
   width: 100%;
-  min-height: 64px;
+  min-height: 56px;
   padding: 0;
   display: flex;
   align-items: center;
@@ -14,12 +14,12 @@
 
 .interruptor__rotulo {
   flex: 1;
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .interruptor__estado {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
   color: var(--muted);
 }

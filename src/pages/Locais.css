@@ -6,7 +6,7 @@
 }
 
 .locais__item {
-  padding: 16px 0;
+  padding: 12px 0;
   display: flex;
   align-items: flex-start;
   gap: 12px;
@@ -14,8 +14,8 @@
 }
 
 .locais__icone {
-  width: 44px;
-  height: 44px;
+  width: 36px;
+  height: 36px;
   flex: none;
   display: flex;
   align-items: center;
@@ -30,12 +30,12 @@
   min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 2px;
-  font-size: 16px;
+  gap: 1px;
+  font-size: 15px;
 }
 
 .locais__tipo {
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   color: var(--muted);
   text-transform: uppercase;
@@ -43,7 +43,7 @@
 }
 
 .locais__nome {
-  font-size: 19px;
+  font-size: 17px;
   font-weight: 700;
 }
 
@@ -52,7 +52,7 @@
 }
 
 .locais__distancia {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 700;
   white-space: nowrap;
 }

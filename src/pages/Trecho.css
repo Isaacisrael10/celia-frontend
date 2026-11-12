@@ -1,50 +1,50 @@
 .trecho__rua {
-  font-size: 28px;
-  line-height: 1.1;
+  font-size: 22px;
+  line-height: 1.15;
 }
 
 .trecho__parte {
-  margin-top: 4px;
-  font-size: 16px;
+  margin-top: 2px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 /* Faixa entre bordas grossas, como no design */
 .trecho__faixa {
-  padding: 14px 0;
+  padding: 10px 0;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 12px;
   border-top: 2px solid var(--ink);
   border-bottom: 2px solid var(--ink);
 }
 
 .trecho__faixa-nome {
-  font-size: 28px;
+  font-size: 20px;
   font-weight: 700;
-  line-height: 1.1;
+  line-height: 1.15;
 }
 
 .trecho__explicacao {
-  font-size: 18px;
+  font-size: 16px;
 }
 
 .trecho__origem {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 .trecho__medidas {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
+  gap: 8px;
 }
 
 .trecho__medida {
-  padding: 14px;
+  padding: 10px 12px;
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  gap: 4px;
   background: var(--card);
   border: 2px solid var(--line-strong);
   border-radius: 4px;
@@ -54,13 +54,13 @@
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 700;
 }
 
 .trecho__medida-valor {
-  font-size: 40px;
+  font-size: 28px;
   font-weight: 700;
-  line-height: 0.9;
+  line-height: 1;
   letter-spacing: -0.02em;
 }

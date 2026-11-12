@@ -52,7 +52,7 @@ export default function Trecho() {
         </div>
 
         <div className="trecho__faixa">
-          <BadgeFaixa faixa={faixa} tamanho={56} />
+          <BadgeFaixa faixa={faixa} tamanho={40} />
           {/* Ex.: "Perigo · buraco" (faixa + motivo juntos) */}
           <span className="trecho__faixa-nome">{rotuloCompleto(faixa, motivo)}</span>
         </div>
