@@ -67,3 +67,10 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
   - botão "Meu local" com o GPS (`hooks/useLocalizacao.js`), com aviso se a permissão for negada;
   - reportes com localização: vêm do trecho ou do endereço digitado, e aparecem no mapa como marcadores.
 - **Revisão da equipe:** (preencher)
+
+## 7. Local do reporte pelo mapa (Claude Code · 12/11/2026)
+
+- **Prompt (resumo):** "No reporte, a pessoa poder escolher o endereço pelo mapa. Por padrão aparecer onde ela está, mas poder arrastar ou digitar o endereço e o mapa ir até lá."
+- **Como a IA ajudou:** criou o `SeletorLocal` (mapa pequeno com pino fixo no centro, estilo aplicativo de transporte), o hook `useLocalDoReporte` (GPS ao abrir, busca do endereço, e busca reversa que preenche o endereço quando a pessoa arrasta) e a função `enderecoDoPonto` no serviço de geocodificação.
+- **Problema encontrado:** depois de arrastar, o mapa desliza por inércia e o evento final não indica que foi a pessoa; a solução foi marcar o arrasto no início do movimento.
+- **Revisão da equipe:** (preencher)

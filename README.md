@@ -39,7 +39,7 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 | **Mapa** | Mapa real e livre (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, widget de calor do poste, alerta quando a rota escolhida passa por Perigo, legenda e alternativa em lista para leitor de tela. |
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
 | **Rotas** | Compara 3 caminhos até o trabalho e recomenda o mais seguro (que nem sempre é o mais curto). |
-| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, editar e excluir. |
+| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. |
 | **Locais** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro. |
 | **Perfil** | Modo escuro, modo chuva e informações do projeto. |
 
@@ -129,6 +129,7 @@ src/
 | `useAviso` | Mensagem rápida no rodapé que some sozinha |
 | `useBuscaLugar` | Busca de bairro, rua ou lugar para levar o mapa até lá |
 | `useLocalizacao` | Pede o GPS do celular para o botão "Meu local" |
+| `useLocalDoReporte` | Local do reporte: GPS ao abrir, pino no mapa que preenche o endereço, e busca do endereço digitado |
 
 ### Interações em JavaScript (Web Development)
 
@@ -142,6 +143,7 @@ src/
 8. **Validação** do formulário de reporte, com mensagens de erro acessíveis
 9. **Buscar um lugar** e o mapa voar até ele
 10. **Meu local**: centralizar o mapa no GPS
+11. **Escolher o local do reporte** arrastando o mapa (o endereço se preenche sozinho)
 
 ---
 
