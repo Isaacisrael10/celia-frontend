@@ -17,7 +17,7 @@ export default function BarraInferior() {
       {ABAS.map(({ caminho, rotulo, Icone }) => (
         // NavLink já coloca aria-current="page" na aba da tela atual
         <NavLink key={caminho} to={caminho} end={caminho === '/'} className="barra-inferior__aba">
-          <Icone size={26} stroke={2} aria-hidden="true" />
+          <Icone size={24} stroke={2} aria-hidden="true" />
           <span>{rotulo}</span>
         </NavLink>
       ))}

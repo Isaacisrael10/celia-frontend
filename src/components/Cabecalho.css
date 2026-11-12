@@ -1,24 +1,24 @@
 .cabecalho {
   display: flex;
   align-items: center;
-  gap: 12px;
-  min-height: 76px;
-  padding: 14px 16px;
+  gap: 10px;
+  min-height: 56px;
+  padding: 6px 16px;
   background: var(--head);
   color: var(--on-head);
 }
 
 .cabecalho__titulo {
   flex: 1;
-  font-size: 30px;
+  font-size: 22px;
   line-height: 1;
   font-weight: 700;
   letter-spacing: -0.01em;
 }
 
 .cabecalho__voltar {
-  width: 48px;
-  height: 48px;
+  width: 44px;
+  height: 44px;
   flex: none;
   display: flex;
   align-items: center;
@@ -33,9 +33,10 @@
   outline-color: var(--on-head);
 }
 
+/* Espaço reservado da logo (a logo ainda não existe) */
 .cabecalho__logo {
-  width: 48px;
-  height: 48px;
+  width: 40px;
+  height: 40px;
   flex: none;
   display: flex;
   align-items: center;
@@ -43,4 +44,5 @@
   border: 2px dashed var(--on-head);
   font-size: 13px;
   font-weight: 700;
+  opacity: 0.7;
 }

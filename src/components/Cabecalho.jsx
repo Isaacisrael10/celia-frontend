@@ -15,7 +15,7 @@ export default function Cabecalho({ titulo, voltar = false, aoVoltar }) {
     <header className="cabecalho">
       {voltar && (
         <button className="cabecalho__voltar" onClick={aoVoltar || (() => navigate(-1))} aria-label="Voltar">
-          <IconArrowLeft size={26} aria-hidden="true" />
+          <IconArrowLeft size={24} aria-hidden="true" />
         </button>
       )}
       <h1 className="cabecalho__titulo">{titulo}</h1>

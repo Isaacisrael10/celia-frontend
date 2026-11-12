@@ -1,7 +1,10 @@
 .barra-inferior {
   position: sticky;
   bottom: 0;
-  height: 78px;
+  height: 64px;
+  /* No iPhone, deixa espaço para a barrinha de gestos embaixo da tela */
+  padding-bottom: env(safe-area-inset-bottom);
+  box-sizing: content-box;
   flex: none;
   display: grid;
   grid-template-columns: repeat(5, minmax(0, 1fr));
@@ -14,7 +17,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 4px;
+  gap: 3px;
   min-width: 0;
   padding: 0 2px;
   color: var(--muted);

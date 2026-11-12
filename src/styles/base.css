@@ -63,10 +63,10 @@ button {
 
 .app__conteudo {
   flex: 1;
-  padding: 20px 16px 24px;
+  padding: 16px 16px 24px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  gap: 14px;
 }
 
 /* Quem pediu menos movimento não vê animação nenhuma */

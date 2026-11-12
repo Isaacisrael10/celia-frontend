@@ -5,14 +5,14 @@
 
 /* ---------- Botões ---------- */
 .botao {
-  min-height: 56px;
-  padding: 0 18px;
+  min-height: 48px;
+  padding: 0 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   border-radius: 4px;
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 700;
   white-space: nowrap;
   text-decoration: none;
@@ -44,7 +44,8 @@
 }
 
 .botao--pequeno {
-  min-height: 48px;
+  min-height: 44px;
+  padding: 0 12px;
   font-size: 16px;
 }
 
@@ -55,7 +56,7 @@
 
 /* Ação em texto: parece link, é botão */
 .acao-texto {
-  min-height: 48px;
+  min-height: 44px;
   padding: 0;
   display: inline-flex;
   align-items: center;
@@ -63,7 +64,7 @@
   background: none;
   border: 0;
   color: var(--link);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -81,22 +82,22 @@
 }
 
 .campo__rotulo {
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
 }
 
 .campo__dica {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--muted);
 }
 
 .campo__entrada {
-  min-height: 52px;
-  padding: 0 14px;
+  min-height: 48px;
+  padding: 0 12px;
   border: 2px solid var(--line-strong);
   border-radius: 4px;
   background: var(--card);
-  font-size: 18px;
+  font-size: 16px; /* 16 px evita o zoom automático do iPhone ao tocar no campo */
 }
 
 textarea.campo__entrada {
@@ -119,13 +120,13 @@ textarea.campo__entrada {
 
 /* ---------- Radio ---------- */
 .radio {
-  min-height: 52px;
+  min-height: 48px;
   padding: 0 4px;
   display: flex;
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid var(--line-soft);
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
 }
 
@@ -136,8 +137,8 @@ textarea.campo__entrada {
 }
 
 .radio__bolinha {
-  width: 26px;
-  height: 26px;
+  width: 24px;
+  height: 24px;
   flex: none;
   display: flex;
   align-items: center;
@@ -169,14 +170,14 @@ textarea.campo__entrada {
 }
 
 .abas__aba {
-  min-height: 48px;
+  min-height: 44px;
   padding: 0 2px;
   background: none;
   border: 0;
-  border-bottom: 4px solid transparent;
+  border-bottom: 3px solid transparent;
   margin-bottom: -2px;
   color: var(--muted);
-  font-size: 17px;
+  font-size: 16px;
   font-weight: 700;
   white-space: nowrap;
 }
