@@ -1,0 +1,35 @@
+.historico__titulo {
+  margin-bottom: 6px;
+  font-size: 20px;
+}
+
+.historico {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 2px solid var(--ink);
+}
+
+.historico__item {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--line-soft);
+  font-size: 16px;
+}
+
+.historico__hora {
+  width: 48px;
+  font-weight: 700;
+}
+
+.historico__faixa {
+  flex: 1;
+}
+
+.historico__valores {
+  font-size: 15px;
+  color: var(--muted);
+  white-space: nowrap;
+}

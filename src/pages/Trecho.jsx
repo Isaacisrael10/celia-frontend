@@ -3,6 +3,7 @@ import { IconArrowsHorizontal, IconTemperature, IconDroplet, IconSun, IconMessag
 import Cabecalho from '../components/Cabecalho'
 import BadgeFaixa from '../components/BadgeFaixa'
 import { MensagemErro } from '../components/Estados'
+import HistoricoPoste from '../components/HistoricoPoste'
 import { useTrechos } from '../hooks/useTrechos'
 import { rotuloCompleto } from '../domain/faixas'
 import { textoAtualizado } from '../domain/poste'
@@ -72,6 +73,8 @@ export default function Trecho() {
             <Medida Icone={IconDroplet} nome="Umidade" texto={valor(leitura.umidade, '%')} />
           </div>
         )}
+
+        {aoVivo && <HistoricoPoste historico={poste.historico} />}
 
         <button className="botao botao--secundario botao--seta" onClick={reportar}>
           Reportar problema aqui
