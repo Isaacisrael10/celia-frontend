@@ -22,3 +22,15 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
   - criou o custom hook `useTema` (modo claro/escuro salvo no navegador);
   - montou a barra inferior, o cabeçalho e as 5 telas iniciais.
 - **Revisão da equipe:** (preencher) o que conferimos e o que mudamos à mão.
+
+## 3. CRUD de reportes, mapa e poste ao vivo (Claude Code · 12/11/2026)
+
+- **Prompt (resumo):** "Vai fazendo as coisas que não dependem de mim."
+- **Como a IA ajudou:**
+  - **CRUD de reportes:** `services/reportesApi.js` (fetch na MockAPI), `hooks/useReportes.js`, `domain/reportes.js` (tipos, situações, validação) e a tela com lista, filtro por situação, formulário e exclusão com confirmação. Testado com um servidor falso local que imita a MockAPI.
+  - **Mapa:** MapLibre com os estilos próprios (`celia-mapa-claro/escuro.json`), trechos desenhados por faixa (contínua, tracejados e pontilhado), selos ! e ✕ que também funcionam pelo teclado, legenda e a alternativa em lista.
+  - **Poste ao vivo:** `services/thingspeak.js` + `hooks/useStatusPoste.js` (busca a cada 20 s e aplica a regra dos 10 minutos), widget de calor e detalhe do trecho com as medidas.
+- **Problemas encontrados e decisões:**
+  - O MapLibre 6 não carregava o "worker" no build de produção; voltamos para o MapLibre 5.
+  - Só existe um poste, então os outros trechos usam uma **faixa de exemplo (simulada)** em `src/data/trechos.json`. A tela avisa isso ao abrir o trecho.
+- **Revisão da equipe:** (preencher)
