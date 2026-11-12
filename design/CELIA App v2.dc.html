@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"><style>body{margin:0;background:#E4E1DA;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#1C1F24}a{color:#1A44A8}a:hover{color:#2257D6}*:focus-visible{outline:3px solid var(--focus,#1C1F24);outline-offset:2px}button,input,select,textarea{font-family:inherit}@keyframes celiaPulse{0%{box-shadow:0 0 0 0 rgba(255,255,255,.7)}100%{box-shadow:0 0 0 14px rgba(255,255,255,0)}}@keyframes celiaIn{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}main{scrollbar-width:none}main::-webkit-scrollbar{display:none}@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}</style></helmet>
+
+<div style="min-height:100vh;display:flex;gap:40px;justify-content:center;align-items:flex-start;padding:32px 24px;box-sizing:border-box;flex-wrap:wrap">
+
+  <aside style="width:280px;display:flex;flex-direction:column;gap:20px;padding-top:4px">
+    <div style="display:flex;flex-direction:column;gap:6px">
+      <span style="font:700 13px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.08em;color:#45484D">C.E.L.I.A. · PROTÓTIPO NAVEGÁVEL</span>
+      <span style="font:700 26px/1.15 'Atkinson Hyperlegible',sans-serif">Sinalização urbana</span>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:8px">
+      <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif">Tema</span>
+      <div role="radiogroup" aria-label="Tema" style="display:grid;grid-template-columns:1fr 1fr;border:2px solid #1C1F24;border-radius:4px;overflow:hidden">
+        <button role="radio" aria-checked="{{ notDark }}" onClick="{{ setLight }}" style="height:48px;border:0;font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;background:{{ lightBtnBg }};color:{{ lightBtnFg }}">Claro</button>
+        <button role="radio" aria-checked="{{ dark }}" onClick="{{ setDark }}" style="height:48px;border:0;font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;background:{{ darkBtnBg }};color:{{ darkBtnFg }}">Escuro</button>
+      </div>
+    </div>
+    <nav aria-label="Ir para a tela" style="display:flex;flex-direction:column;border-top:2px solid #1C1F24">
+      <sc-for list="{{ jumpList }}" as="j" hint-placeholder-count="7">
+        <button onClick="{{ j.go }}" style="min-height:48px;white-space:nowrap;padding:0 12px;border:0;border-bottom:1px solid #C9C4B8;text-align:left;font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:10px;background:{{ j.bg }};color:{{ j.fg }}"><i class="ti {{ j.icon }}" style="font-size:20px" aria-hidden="true"></i>{{ j.label }}</button>
+      </sc-for>
+    </nav>
+    <p style="margin:0;font:400 15px/1.5 'Atkinson Hyperlegible',sans-serif;color:#45484D">No mapa, toque nos marcadores dos trechos ou no balão de reporte. Tudo também funciona pelo teclado.</p>
+  </aside>
+
+  <div data-screen-label="{{ screenLabel }}" style="{{ phoneStyle }}">
+
+    <sc-if value="{{ isEntrar }}" hint-placeholder-val="{{ false }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column">
+        <div style="background:var(--head);color:var(--on-head);padding:40px 20px 28px;display:flex;flex-direction:column;gap:20px">
+          <div style="width:112px;height:112px;border:2px dashed var(--on-head);display:flex;align-items:center;justify-content:center;text-align:center;font:700 14px/1.3 'Atkinson Hyperlegible',sans-serif">Espaço<br>da logo</div>
+          <h1 style="margin:0;font:700 34px/1.1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em">Calçada boa é calçada para todo mundo</h1>
+          <p style="margin:0;font:400 18px/1.45 'Atkinson Hyperlegible',sans-serif">Veja onde dá para passar com segurança nas ruas do Rio.</p>
+        </div>
+        <div style="padding:24px 0 0;display:flex;flex-direction:column">
+          <h2 style="margin:0 20px 12px;font:700 22px 'Atkinson Hyperlegible',sans-serif">Entre como</h2>
+          <div style="border-top:2px solid var(--ink)">
+            <sc-for list="{{ profiles }}" as="p" hint-placeholder-count="3">
+              <button onClick="{{ p.go }}" style="width:100%;display:flex;gap:14px;align-items:center;text-align:left;padding:18px 20px;border:0;border-bottom:2px solid var(--line-soft);background:transparent;color:var(--ink);cursor:pointer;min-height:96px">
+                <span style="width:52px;height:52px;flex:none;border-radius:2px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center"><i class="ti {{ p.icon }}" style="font-size:30px" aria-hidden="true"></i></span>
+                <span style="flex:1;display:flex;flex-direction:column;gap:4px"><span style="font:700 20px/1.15 'Atkinson Hyperlegible',sans-serif">{{ p.title }}</span><span style="font:400 16px/1.35 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ p.desc }}</span></span>
+                <i class="ti ti-arrow-right" style="font-size:26px" aria-hidden="true"></i>
+              </button>
+            </sc-for>
+          </div>
+        </div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ showHeader }}" hint-placeholder-val="{{ true }}">
+      <header style="background:var(--head);color:var(--on-head);display:flex;align-items:center;gap:12px;padding:14px 16px;min-height:76px;box-sizing:border-box;flex:none">
+        <sc-if value="{{ hasBack }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ goBack }}" aria-label="Voltar" style="width:48px;height:48px;flex:none;border:2px solid var(--on-head);background:transparent;color:var(--on-head);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-arrow-left" style="font-size:24px" aria-hidden="true"></i></button>
+        </sc-if>
+        <sc-if value="{{ showLogoSlot }}" hint-placeholder-val="{{ true }}">
+          <div aria-label="Espaço da logo" style="width:48px;height:48px;flex:none;border:2px dashed var(--on-head);display:flex;align-items:center;justify-content:center;font:700 13px 'Atkinson Hyperlegible',sans-serif;opacity:.85">logo</div>
+        </sc-if>
+        <h1 style="margin:0;flex:1;font:700 30px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em">{{ title }}</h1>
+      </header>
+    </sc-if>
+
+    <sc-if value="{{ isMapa }}" hint-placeholder-val="{{ true }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column">
+        <sc-if value="{{ showAviso }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:16px 16px 12px">
+            <div role="alert" style="background:var(--card);border:2px solid var(--ink);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:14px;animation:celiaIn .25s ease-out">
+              <div style="display:flex;gap:12px;align-items:flex-start">
+                <span style="width:40px;height:40px;flex:none;background:var(--pe);color:var(--on-pe);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-x" style="font-size:26px" aria-hidden="true"></i></span>
+                <span style="font:700 18px/1.35 'Atkinson Hyperlegible',sans-serif">Daqui a 2 quarteirões há um trecho em Perigo. Quer desviar?</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                <button onClick="{{ desviar }}" style="height:52px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">Desviar<i class="ti ti-arrow-right" style="font-size:22px" aria-hidden="true"></i></button>
+                <button onClick="{{ seguir }}" style="height:52px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">Seguir assim</button>
+              </div>
+            </div>
+          </div>
+        </sc-if>
+
+        <div role="tablist" aria-label="Forma de ver os trechos" style="display:flex;gap:24px;padding:0 16px;border-bottom:2px solid var(--line-soft);flex:none">
+          <button role="tab" aria-selected="{{ viewIsMap }}" onClick="{{ viewMap }}" style="height:48px;padding:0 2px;border:0;background:none;font:700 17px 'Atkinson Hyperlegible',sans-serif;margin-bottom:-2px;cursor:pointer;display:flex;align-items:center;gap:8px;color:{{ tabMapFg }};border-bottom:{{ tabMapBd }}"><i class="ti ti-map" style="font-size:20px" aria-hidden="true"></i>Mapa</button>
+          <button role="tab" aria-selected="{{ viewIsList }}" onClick="{{ viewList }}" style="height:48px;padding:0 2px;border:0;background:none;font:700 17px 'Atkinson Hyperlegible',sans-serif;margin-bottom:-2px;cursor:pointer;display:flex;align-items:center;gap:8px;color:{{ tabListFg }};border-bottom:{{ tabListBd }}"><i class="ti ti-list" style="font-size:20px" aria-hidden="true"></i>Lista</button>
+        </div>
+
+        <sc-if value="{{ viewIsMap }}" hint-placeholder-val="{{ true }}">
+          <div style="position:relative;height:300px;flex:none;background:var(--land);border-bottom:2px solid var(--ink);overflow:hidden">
+            <sc-if value="{{ notDark }}" hint-placeholder-val="{{ true }}"><img src="uploads/mapa_claro_celular.png" alt="" style="position:absolute;left:0;top:-170px;width:390px;height:640px;display:block"></sc-if>
+            <sc-if value="{{ dark }}" hint-placeholder-val="{{ false }}"><img src="uploads/mapa_escuro_celular.png" alt="" style="position:absolute;left:0;top:-170px;width:390px;height:640px;display:block"></sc-if>
+            <sc-for list="{{ hotspots }}" as="s" hint-placeholder-count="8">
+              <button onClick="{{ s.open }}" aria-label="{{ s.aria }}" style="position:absolute;width:44px;height:44px;margin:-22px 0 0 -22px;border-radius:50%;border:0;background:transparent;cursor:pointer;left:{{ s.left }};top:{{ s.top }}" style-hover="background:rgba(34,87,214,.18)"></button>
+            </sc-for>
+            <button onClick="{{ openReportes }}" aria-label="Reporte nesta rua: abrir Reportes" style="position:absolute;left:167px;top:193px;width:48px;height:48px;margin:-24px 0 0 -24px;border-radius:8px;border:0;background:transparent;cursor:pointer" style-hover="background:rgba(34,87,214,.18)"></button>
+            <button onClick="{{ centralizar }}" aria-label="Centralizar no meu local" style="position:absolute;right:12px;bottom:28px;width:48px;height:48px;border:2px solid var(--ink);border-radius:4px;background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-current-location" style="font-size:24px" aria-hidden="true"></i></button>
+            <span style="position:absolute;left:0;bottom:0;padding:3px 8px;background:var(--card);color:var(--muted);font:400 13px/1.2 'Atkinson Hyperlegible',sans-serif">© OpenStreetMap</span>
+          </div>
+          <section aria-label="Legenda" style="flex:none;background:var(--card);border-bottom:2px solid var(--ink)">
+            <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))">
+              <sc-for list="{{ legend }}" as="l" hint-placeholder-count="4">
+                <li style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px;border-left:{{ l.divider }}">
+                  {{ l.line }}
+                  <span style="font:700 15px/1 'Atkinson Hyperlegible',sans-serif;white-space:nowrap;margin-top:2px">{{ l.label }}</span>
+                  <span style="font:400 13px/1 'Atkinson Hyperlegible',sans-serif;color:var(--muted);white-space:nowrap">{{ l.range }}</span>
+                </li>
+              </sc-for>
+            </ul>
+            <ul style="list-style:none;margin:0;padding:10px 16px;display:flex;justify-content:space-between;gap:8px;border-top:2px solid var(--line-soft)">
+              <li style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:var(--me-halo);display:flex;align-items:center;justify-content:center"><span style="width:12px;height:12px;border-radius:50%;background:var(--me);border:2.5px solid var(--card)"></span></span>Você</li>
+              <li style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50% 50% 50% 0;background:var(--me);display:flex;align-items:center;justify-content:center"><span style="width:7px;height:7px;border-radius:50%;background:var(--card)"></span></span>Destino</li>
+              <li style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:24px;height:24px;border-radius:6px;background:var(--card);border:1.5px solid var(--line-soft);color:var(--me);display:flex;align-items:center;justify-content:center;box-sizing:border-box"><i class="ti ti-message-2" style="font-size:15px"></i></span>Reporte</li>
+            </ul>
+          </section>
+        </sc-if>
+
+        <sc-if value="{{ viewIsList }}" hint-placeholder-val="{{ false }}">
+          <ul style="list-style:none;margin:0;padding:0">
+            <sc-for list="{{ segList }}" as="s" hint-placeholder-count="6">
+              <li style="border-bottom:2px solid var(--line-soft)">
+                <button onClick="{{ s.open }}" style="width:100%;display:flex;gap:14px;align-items:center;text-align:left;padding:14px 16px;border:0;background:transparent;color:var(--ink);cursor:pointer;min-height:76px">
+                  <span style="width:36px;height:36px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:2px;box-sizing:border-box;background:{{ s.mBg }};color:{{ s.mFg }};border:{{ s.mBorder }}"><i class="ti {{ s.icon }}" style="font-size:22px" aria-hidden="true"></i></span>
+                  <span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:700 18px/1.2 'Atkinson Hyperlegible',sans-serif">{{ s.name }}</span><span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ s.label }} · {{ s.range }}</span></span>
+                  <i class="ti ti-chevron-right" style="font-size:24px" aria-hidden="true"></i>
+                </button>
+              </li>
+            </sc-for>
+          </ul>
+        </sc-if>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isTrecho }}" hint-placeholder-val="{{ false }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:16px;padding:20px 16px 24px">
+        <div style="display:flex;flex-direction:column;gap:4px">
+          <h2 style="margin:0;font:700 28px/1.1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em">{{ seg.name }}</h2>
+          <span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ seg.range }} · Tijuca</span>
+        </div>
+        <div style="display:flex;gap:14px;align-items:center;border-top:2px solid var(--ink);border-bottom:2px solid var(--ink);padding:14px 0">
+          <span style="width:56px;height:56px;flex:none;display:flex;align-items:center;justify-content:center;border-radius:2px;box-sizing:border-box;background:{{ seg.mBg }};color:{{ seg.mFg }};border:{{ seg.mBorder }}"><i class="ti {{ seg.icon }}" style="font-size:34px" aria-hidden="true"></i></span>
+          <span style="display:flex;flex-direction:column;gap:2px"><span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Faixa</span><span style="font:700 28px/1 'Atkinson Hyperlegible',sans-serif">{{ seg.label }}</span></span>
+        </div>
+        <p style="margin:0;font:400 18px/1.45 'Atkinson Hyperlegible',sans-serif">{{ seg.explain }}</p>
+        <sc-if value="{{ seg.hasData }}" hint-placeholder-val="{{ true }}">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+            <div style="background:var(--card);border:2px solid var(--line-strong);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px">
+              <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif;display:flex;gap:6px;align-items:center"><i class="ti ti-arrows-horizontal" style="font-size:20px" aria-hidden="true"></i>Largura livre</span>
+              <span style="font:700 40px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.02em">{{ seg.l }}<span style="font-size:18px;letter-spacing:0"> cm</span></span>
+            </div>
+            <div style="background:var(--card);border:2px solid var(--line-strong);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:6px">
+              <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif;display:flex;gap:6px;align-items:center"><i class="ti ti-angle" style="font-size:20px" aria-hidden="true"></i>Inclinação</span>
+              <span style="font:700 40px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.02em">{{ seg.i }}<span style="font-size:18px;letter-spacing:0">°</span></span>
+            </div>
+          </div>
+          <div style="background:var(--card);border:2px solid var(--line-strong);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between">
+              <span style="font:700 18px 'Atkinson Hyperlegible',sans-serif">Índice de risco</span>
+              <span style="font:700 40px/1 'Atkinson Hyperlegible',sans-serif">{{ seg.r }}<span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)"> de 100</span></span>
+            </div>
+            <div aria-hidden="true" style="position:relative;height:30px">
+              <div style="position:absolute;inset:9px 0;display:grid;grid-template-columns:40fr 30fr 30fr;gap:3px"><span style="background:var(--ok)"></span><span style="background:var(--at)"></span><span style="background:var(--pe)"></span></div>
+              <span style="position:absolute;top:0;width:8px;height:30px;margin-left:-4px;background:var(--ink);box-shadow:0 0 0 3px var(--card);left:{{ seg.pos }}"></span>
+            </div>
+            <div aria-hidden="true" style="display:grid;grid-template-columns:40fr 30fr 30fr;font:700 13px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)"><span>0 Normal</span><span>40 Atenção</span><span>70 Perigo</span></div>
+            <span style="font:400 15px/1.4 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Medido {{ seg.m }} vezes por voluntários. Última medição em 04/11/2026.</span>
+          </div>
+        </sc-if>
+        <div style="display:flex;flex-direction:column;gap:10px;margin-top:4px">
+          <button onClick="{{ toggleEvitar }}" style="height:56px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 18px;white-space:nowrap">{{ evitarLabel }}<i class="ti {{ evitarIcon }}" style="font-size:24px" aria-hidden="true"></i></button>
+          <button onClick="{{ reportarTrecho }}" style="height:56px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px"><i class="ti ti-message-report" style="font-size:22px" aria-hidden="true"></i>Reportar problema aqui</button>
+        </div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isRotas }}" hint-placeholder-val="{{ false }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:20px;padding:16px 16px 24px">
+        <div style="display:grid;grid-template-columns:32px 1fr auto;gap:0 12px;align-items:center">
+          <span style="width:32px;height:32px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font:700 16px 'Atkinson Hyperlegible',sans-serif;border-radius:2px">A</span>
+          <span style="display:flex;flex-direction:column"><span style="font:400 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Saindo de</span><span style="font:700 18px/1.25 'Atkinson Hyperlegible',sans-serif">{{ origem }}</span></span>
+          <button onClick="{{ trocar }}" aria-label="Inverter origem e destino" style="width:48px;height:48px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer;grid-row:span 3"><i class="ti ti-arrows-sort" style="font-size:24px" aria-hidden="true"></i></button>
+          <span aria-hidden="true" style="width:4px;height:20px;background:var(--ink);justify-self:center"></span><span></span>
+          <span style="width:32px;height:32px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font:700 16px 'Atkinson Hyperlegible',sans-serif;border-radius:2px">B</span>
+          <span style="display:flex;flex-direction:column"><span style="font:400 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Indo para</span><span style="font:700 18px/1.25 'Atkinson Hyperlegible',sans-serif">{{ destino }}</span></span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--ink);padding-top:14px">
+          <h2 style="margin:0;font:700 24px 'Atkinson Hyperlegible',sans-serif">2 caminhos</h2>
+          <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">do mais seguro ao mais curto</span>
+        </div>
+        <sc-for list="{{ routes }}" as="r" hint-placeholder-count="2">
+          <article style="background:var(--card);border-radius:4px;display:flex;flex-direction:column;border:{{ r.border }}">
+            <sc-if value="{{ r.rec }}" hint-placeholder-val="{{ false }}"><div style="background:var(--primary);color:var(--on-primary);padding:10px 14px;display:flex;align-items:center;gap:8px;font:700 16px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.04em;text-transform:uppercase"><i class="ti ti-star-filled" style="font-size:18px" aria-hidden="true"></i>Recomendada</div></sc-if>
+            <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+                <div style="display:flex;flex-direction:column;gap:2px"><h3 style="margin:0;font:700 22px 'Atkinson Hyperlegible',sans-serif">{{ r.name }}</h3><span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);white-space:nowrap">{{ r.km }} · risco médio {{ r.risco }}</span></div>
+                <span style="font:700 48px/0.9 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.02em">{{ r.min }}<span style="font-size:20px;letter-spacing:0"> min</span></span>
+              </div>
+              <div style="display:flex;flex-direction:column;gap:6px">
+                <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif">Trechos no caminho</span>
+                <div style="display:flex;gap:4px" role="img" aria-label="{{ r.stripText }}">
+                  <sc-for list="{{ r.strip }}" as="q" hint-placeholder-count="5"><span style="flex:1;height:32px;display:flex;align-items:center;justify-content:center;border-radius:2px;box-sizing:border-box;background:{{ q.mBg }};color:{{ q.mFg }};border:{{ q.mBorder }}"><i class="ti {{ q.icon }}" style="font-size:18px" aria-hidden="true"></i></span></sc-for>
+                </div>
+                <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ r.stripText }}</span>
+              </div>
+              <sc-if value="{{ r.hasPerigo }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:10px;align-items:flex-start">
+                  <span style="width:28px;height:28px;flex:none;background:var(--pe);color:var(--on-pe);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-x" style="font-size:18px" aria-hidden="true"></i></span>
+                  <p style="margin:0;font:400 16px/1.45 'Atkinson Hyperlegible',sans-serif"><b>Passa por 1 trecho em Perigo.</b> {{ r.note }}</p>
+                </div>
+              </sc-if>
+              <sc-if value="{{ r.noPerigo }}" hint-placeholder-val="{{ true }}"><p style="margin:0;font:400 16px/1.45 'Atkinson Hyperlegible',sans-serif">{{ r.note }}</p></sc-if>
+              <button onClick="{{ r.choose }}" aria-pressed="{{ r.on }}" style="height:56px;border-radius:4px;font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 18px;white-space:nowrap;background:{{ r.btnBg }};color:{{ r.btnFg }};border:{{ r.btnBorder }}">{{ r.btnLabel }}<i class="ti {{ r.btnIcon }}" style="font-size:24px" aria-hidden="true"></i></button>
+            </div>
+          </article>
+        </sc-for>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isReportes }}" hint-placeholder-val="{{ false }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column">
+        <sc-if value="{{ formClosed }}" hint-placeholder-val="{{ true }}">
+          <div style="padding:16px;display:flex;flex-direction:column;gap:6px;border-bottom:2px solid var(--ink)">
+            <button onClick="{{ novoReporte }}" style="height:56px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 18px;white-space:nowrap">Novo reporte<i class="ti ti-plus" style="font-size:24px" aria-hidden="true"></i></button>
+            <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);padding-top:6px">{{ reportCount }}</span>
+          </div>
+          <sc-if value="{{ noReports }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:40px 20px;display:flex;flex-direction:column;gap:8px;align-items:flex-start">
+              <span style="width:52px;height:52px;border:2px dashed var(--line-strong);display:flex;align-items:center;justify-content:center;color:var(--muted)"><i class="ti ti-message-off" style="font-size:28px" aria-hidden="true"></i></span>
+              <span style="font:700 22px 'Atkinson Hyperlegible',sans-serif">Nenhum reporte ainda</span>
+              <span style="font:400 17px/1.45 'Atkinson Hyperlegible',sans-serif">Viu um buraco ou uma rampa quebrada? Conte para a gente.</span>
+            </div>
+          </sc-if>
+          <ul style="list-style:none;margin:0;padding:0">
+            <sc-for list="{{ reports }}" as="r" hint-placeholder-count="3">
+              <li style="padding:16px;border-bottom:2px solid var(--line-soft);display:flex;flex-direction:column;gap:10px">
+                <div style="display:flex;gap:12px;align-items:flex-start">
+                  <span style="width:44px;height:44px;flex:none;border:2px solid var(--ink);border-radius:2px;display:flex;align-items:center;justify-content:center;box-sizing:border-box"><i class="ti {{ r.icon }}" style="font-size:24px" aria-hidden="true"></i></span>
+                  <span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:700 19px/1.2 'Atkinson Hyperlegible',sans-serif">{{ r.tipo }}</span><span style="font:400 16px 'Atkinson Hyperlegible',sans-serif">{{ r.endereco }}</span><span style="font:400 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ r.data }}</span></span>
+                </div>
+                <span style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif;padding-left:56px"><span aria-hidden="true" style="width:14px;height:14px;flex:none;box-sizing:border-box;background:{{ r.sBg }};border:{{ r.sBorder }}"></span>Situação: {{ r.status }}</span>
+                <sc-if value="{{ r.confirming }}" hint-placeholder-val="{{ false }}">
+                  <div role="alertdialog" aria-label="Confirmar exclusão" style="border:2px solid var(--ink);border-radius:4px;padding:12px;display:flex;flex-direction:column;gap:10px;margin-left:56px">
+                    <span style="font:700 16px 'Atkinson Hyperlegible',sans-serif">Excluir este reporte? Não dá para desfazer.</span>
+                    <div style="display:flex;gap:8px">
+                      <button onClick="{{ r.confirmDel }}" style="flex:1;height:48px;border-radius:4px;border:0;background:var(--ink);color:var(--bg);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">Sim, excluir</button>
+                      <button onClick="{{ r.cancelDel }}" style="flex:1;height:48px;border-radius:4px;border:2px solid var(--ink);background:transparent;color:var(--ink);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">Cancelar</button>
+                    </div>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ r.notConfirming }}" hint-placeholder-val="{{ true }}">
+                  <div style="display:flex;gap:20px;padding-left:56px">
+                    <button onClick="{{ r.edit }}" style="height:48px;padding:0;border:0;background:none;color:var(--link);font:700 17px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:4px"><i class="ti ti-pencil" style="font-size:20px" aria-hidden="true"></i>Editar</button>
+                    <button onClick="{{ r.askDel }}" style="height:48px;padding:0;border:0;background:none;color:var(--ink);font:700 17px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:4px"><i class="ti ti-trash" style="font-size:20px" aria-hidden="true"></i>Excluir</button>
+                  </div>
+                </sc-if>
+              </li>
+            </sc-for>
+          </ul>
+        </sc-if>
+
+        <sc-if value="{{ formOpen }}" hint-placeholder-val="{{ false }}">
+          <form onSubmit="{{ submitForm }}" novalidate="" style="display:flex;flex-direction:column;gap:20px;padding:20px 16px 24px">
+            <h2 style="margin:0;font:700 26px 'Atkinson Hyperlegible',sans-serif">{{ formTitle }}</h2>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 17px 'Atkinson Hyperlegible',sans-serif">Endereço do problema</span><span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Rua e número.</span><input value="{{ form.endereco }}" onChange="{{ setEndereco }}" aria-invalid="{{ errEnd }}" style="height:52px;border-radius:4px;background:var(--card);color:var(--ink);padding:0 14px;font:400 18px 'Atkinson Hyperlegible',sans-serif;box-sizing:border-box;border:{{ endBorder }}"><sc-if value="{{ errEnd }}" hint-placeholder-val="{{ false }}"><span role="alert" style="display:flex;gap:8px;align-items:center;font:700 16px 'Atkinson Hyperlegible',sans-serif"><i class="ti ti-info-square-filled" style="font-size:22px" aria-hidden="true"></i>Escreva a rua e o número.</span></sc-if></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 17px 'Atkinson Hyperlegible',sans-serif">Tipo de problema</span><select value="{{ form.tipo }}" onChange="{{ setTipo }}" style="height:52px;border-radius:4px;border:2px solid var(--line-strong);background:var(--card);color:var(--ink);padding:0 12px;font:400 18px 'Atkinson Hyperlegible',sans-serif"><sc-for list="{{ tipos }}" as="t" hint-placeholder-count="5"><option value="{{ t }}">{{ t }}</option></sc-for></select></label>
+            <label style="display:flex;flex-direction:column;gap:6px"><span style="font:700 17px 'Atkinson Hyperlegible',sans-serif">O que você viu?</span><textarea value="{{ form.descricao }}" onChange="{{ setDescricao }}" aria-invalid="{{ errDesc }}" rows="3" style="border-radius:4px;background:var(--card);color:var(--ink);padding:12px 14px;font:400 18px/1.4 'Atkinson Hyperlegible',sans-serif;box-sizing:border-box;resize:none;border:{{ descBorder }}"></textarea><sc-if value="{{ errDesc }}" hint-placeholder-val="{{ false }}"><span role="alert" style="display:flex;gap:8px;align-items:center;font:700 16px 'Atkinson Hyperlegible',sans-serif"><i class="ti ti-info-square-filled" style="font-size:22px" aria-hidden="true"></i>Escreva pelo menos uma frase.</span></sc-if></label>
+            <fieldset role="radiogroup" style="border:0;padding:0;margin:0;display:flex;flex-direction:column;gap:0">
+              <legend style="font:700 17px 'Atkinson Hyperlegible',sans-serif;padding:0;margin-bottom:8px">Situação</legend>
+              <sc-for list="{{ statusOpts }}" as="o" hint-placeholder-count="3">
+                <button type="button" role="radio" aria-checked="{{ o.sel }}" onClick="{{ o.pick }}" style="min-height:52px;padding:0 4px;border:0;border-bottom:1px solid var(--line-soft);background:transparent;color:var(--ink);font:400 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:12px;text-align:left"><span aria-hidden="true" style="width:26px;height:26px;flex:none;border-radius:50%;border:2px solid var(--ink);box-sizing:border-box;display:flex;align-items:center;justify-content:center"><span style="width:12px;height:12px;border-radius:50%;background:{{ o.dot }}"></span></span>{{ o.label }}</button>
+              </sc-for>
+            </fieldset>
+            <div style="display:flex;flex-direction:column;gap:6px">
+              <button type="submit" style="height:56px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">{{ submitLabel }}</button>
+              <button type="button" onClick="{{ closeForm }}" style="height:48px;border:0;background:none;color:var(--link);font:700 17px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;text-decoration:underline;text-underline-offset:4px">Cancelar</button>
+            </div>
+          </form>
+        </sc-if>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isDispositivo }}" hint-placeholder-val="{{ false }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column">
+        <div role="status" style="padding:20px 16px;display:flex;flex-direction:column;gap:14px;background:{{ dev.bg }};color:{{ dev.fg }};border-bottom:{{ dev.border }}">
+          <div style="display:flex;gap:14px;align-items:center">
+            <span aria-hidden="true" style="width:22px;height:22px;flex:none;border-radius:50%;box-sizing:border-box;background:{{ dev.dot }};border:{{ dev.dotBorder }};animation:{{ dev.anim }}"></span>
+            <span style="font:700 32px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em">{{ dev.label }}</span>
+          </div>
+          <span style="font:400 17px/1.4 'Atkinson Hyperlegible',sans-serif">{{ dev.sub }}</span>
+          <div style="display:flex;gap:16px;flex-wrap:wrap;font:700 15px 'Atkinson Hyperlegible',sans-serif">
+            <span style="display:flex;gap:6px;align-items:center;white-space:nowrap"><i class="ti ti-device-watch" style="font-size:20px" aria-hidden="true"></i>CELIA-S1 · nº 0427</span>
+            <span style="display:flex;gap:6px;align-items:center;white-space:nowrap"><i class="ti ti-battery-3" style="font-size:20px" aria-hidden="true"></i>Bateria 82%</span>
+          </div>
+        </div>
+        <div style="padding:16px;display:flex;flex-direction:column;gap:20px">
+          <button onClick="{{ toggleRec }}" style="height:56px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 18px;white-space:nowrap">{{ recLabel }}<i class="ti {{ recIcon }}" style="font-size:24px" aria-hidden="true"></i></button>
+          <div style="display:flex;flex-direction:column;gap:10px">
+            <h2 style="margin:0;font:700 22px 'Atkinson Hyperlegible',sans-serif">Onde o dispositivo está preso?</h2>
+            <div role="radiogroup" aria-label="Modo do dispositivo" style="display:flex;flex-direction:column;gap:10px">
+              <sc-for list="{{ modes }}" as="m" hint-placeholder-count="2">
+                <button role="radio" aria-checked="{{ m.sel }}" onClick="{{ m.pick }}" style="min-height:88px;border-radius:4px;padding:14px;cursor:pointer;text-align:left;display:flex;gap:14px;align-items:center;color:var(--ink);background:var(--card);border:{{ m.border }}">
+                  <span style="width:52px;height:52px;flex:none;border-radius:2px;display:flex;align-items:center;justify-content:center;box-sizing:border-box;background:{{ m.iconBg }};color:{{ m.iconFg }};border:{{ m.iconBorder }}"><i class="ti {{ m.icon }}" style="font-size:30px" aria-hidden="true"></i></span>
+                  <span style="flex:1;display:flex;flex-direction:column;gap:2px"><span style="font:700 19px 'Atkinson Hyperlegible',sans-serif">{{ m.label }}</span><span style="font:400 15px/1.35 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ m.desc }}</span></span>
+                  <span aria-hidden="true" style="width:26px;height:26px;flex:none;border-radius:50%;border:2px solid var(--ink);box-sizing:border-box;display:flex;align-items:center;justify-content:center"><span style="width:12px;height:12px;border-radius:50%;background:{{ m.dot }}"></span></span>
+                </button>
+              </sc-for>
+            </div>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:6px;border-top:2px dashed var(--line-soft);padding-top:14px">
+            <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Demonstração: simular estado</span>
+            <div role="tablist" style="display:flex;gap:18px;flex-wrap:wrap">
+              <sc-for list="{{ devDemo }}" as="d" hint-placeholder-count="3">
+                <button role="tab" onClick="{{ d.pick }}" aria-selected="{{ d.sel }}" style="height:44px;padding:0;border:0;background:none;font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;color:{{ d.fg }};border-bottom:{{ d.bd }}">{{ d.label }}</button>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ isPerfil }}" hint-placeholder-val="{{ false }}">
+      <main style="flex:1;overflow:auto;display:flex;flex-direction:column">
+        <div style="padding:20px 16px;display:flex;gap:14px;align-items:center;border-bottom:2px solid var(--ink)">
+          <span aria-hidden="true" style="width:64px;height:64px;flex:none;border-radius:2px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;font:700 26px 'Atkinson Hyperlegible',sans-serif">MC</span>
+          <span style="display:flex;flex-direction:column;gap:2px"><span style="font:700 26px/1.1 'Atkinson Hyperlegible',sans-serif;white-space:nowrap">Marina Couto</span><span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);white-space:nowrap">Voluntária desde março</span></span>
+        </div>
+        <div style="padding:20px 16px;display:flex;flex-direction:column;gap:14px;border-bottom:2px solid var(--line-soft)">
+          <div style="display:flex;align-items:baseline;gap:12px"><span style="font:700 56px/0.9 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.03em">38</span><span style="font:700 18px/1.25 'Atkinson Hyperlegible',sans-serif;white-space:nowrap">trechos mapeados este mês</span></div>
+          <div role="progressbar" aria-valuemin="0" aria-valuemax="50" aria-valuenow="38" aria-label="Meta do mês: 38 de 50 trechos" style="position:relative;height:16px;background:var(--line-soft)">
+            <div style="width:76%;height:100%;background:var(--primary)"></div>
+            <span aria-hidden="true" style="position:absolute;left:20%;top:-4px;width:3px;height:24px;background:var(--ink)"></span>
+            <span aria-hidden="true" style="position:absolute;left:50%;top:-4px;width:3px;height:24px;background:var(--ink)"></span>
+          </div>
+          <div aria-hidden="true" style="position:relative;height:18px;font:700 14px 'Atkinson Hyperlegible',sans-serif">
+            <span style="position:absolute;left:20%;transform:translateX(-50%)">10</span><span style="position:absolute;left:50%;transform:translateX(-50%)">25</span><span style="position:absolute;right:0">Meta 50</span>
+          </div>
+          <span style="font:400 16px 'Atkinson Hyperlegible',sans-serif">Faltam 12 para a meta do mês.</span>
+        </div>
+        <div style="padding:20px 16px 0">
+          <h2 style="margin:0 0 4px;font:700 22px 'Atkinson Hyperlegible',sans-serif">Ajustes</h2>
+        </div>
+        <div style="display:flex;flex-direction:column;padding:0 16px">
+          <sc-for list="{{ settings }}" as="s" hint-placeholder-count="2">
+            <button role="switch" aria-checked="{{ s.on }}" onClick="{{ s.toggle }}" style="min-height:64px;padding:0;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;gap:12px;text-align:left;cursor:pointer;border-bottom:1px solid var(--line-soft)">
+              <i class="ti {{ s.icon }}" style="font-size:24px" aria-hidden="true"></i>
+              <span style="flex:1;font:700 17px 'Atkinson Hyperlegible',sans-serif">{{ s.label }}</span>
+              <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">{{ s.state }}</span>
+              <span aria-hidden="true" style="width:56px;height:32px;flex:none;position:relative;border:2px solid var(--ink);box-sizing:border-box;background:{{ s.track }}"><span style="position:absolute;top:3px;width:22px;height:22px;background:{{ s.knob }};left:{{ s.knobX }};transition:left .2s"></span></span>
+            </button>
+          </sc-for>
+        </div>
+        <div style="padding:20px 16px 24px">
+          <button onClick="{{ sair }}" style="width:100%;height:56px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:10px"><i class="ti ti-logout" style="font-size:22px" aria-hidden="true"></i>Trocar perfil</button>
+        </div>
+      </main>
+    </sc-if>
+
+    <sc-if value="{{ hasToast }}" hint-placeholder-val="{{ false }}">
+      <div style="position:absolute;left:12px;right:12px;bottom:90px;background:var(--ink);color:var(--bg);border-radius:4px;padding:14px 16px;font:700 16px/1.35 'Atkinson Hyperlegible',sans-serif;display:flex;gap:10px;align-items:center;animation:celiaIn .2s ease-out"><i class="ti ti-info-square" style="font-size:22px" aria-hidden="true"></i>{{ toast }}</div>
+    </sc-if>
+    <div aria-live="polite" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{{ toast }}</div>
+
+    <sc-if value="{{ showNav }}" hint-placeholder-val="{{ true }}">
+      <nav aria-label="Navegação principal" style="height:78px;flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--card);border-top:2px solid var(--ink)">
+        <sc-for list="{{ tabs }}" as="t" hint-placeholder-count="5">
+          <button onClick="{{ t.go }}" aria-current="{{ t.current }}" style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 2px;min-width:0;color:{{ t.color }};box-shadow:{{ t.ind }}">
+            <i class="ti {{ t.icon }}" style="font-size:26px" aria-hidden="true"></i>
+            <span style="font:700 13px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em;white-space:nowrap">{{ t.label }}</span>
+          </button>
+        </sc-for>
+      </nav>
+    </sc-if>
+  </div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const V={
+light:{'--bg':'#F7F5F0','--card':'#FFFFFF','--ink':'#1C1F24','--muted':'#55595F','--line-soft':'#D6D1C6','--line-strong':'#1C1F24','--primary':'#2257D6','--on-primary':'#FFFFFF','--link':'#1A44A8','--head':'#1C1F24','--on-head':'#F7F5F0','--land':'#EEF0F4','--focus':'#1C1F24','--ok':'#1E8E3E','--at':'#B26A00','--pe':'#C62828','--sd':'#6B717B','--on-ok':'#FFFFFF','--on-at':'#FFFFFF','--on-pe':'#FFFFFF','--me':'#1A44A8','--me-halo':'rgba(26,68,168,.2)'},
+dark:{'--bg':'#121316','--card':'#1C1F24','--ink':'#F2F0EB','--muted':'#B4B8BF','--line-soft':'#33373E','--line-strong':'#8A919C','--primary':'#8DB0FF','--on-primary':'#121316','--link':'#8DB0FF','--head':'#000000','--on-head':'#F2F0EB','--land':'#12161D','--focus':'#F2F0EB','--ok':'#5BD08A','--at':'#F2B84B','--pe':'#FF7A7A','--sd':'#A0A6B0','--on-ok':'#121316','--on-at':'#121316','--on-pe':'#121316','--me':'#8DB0FF','--me-halo':'rgba(141,176,255,.25)'}};
+const B={ok:{label:'Normal',icon:'ti-check',explain:'Calçada larga e plana. Boa para cadeira de rodas, andador e bengala.'},at:{label:'Atenção',icon:'ti-exclamation-mark',explain:'Dá para passar, mas com cuidado. Tem partes estreitas ou inclinadas.'},pe:{label:'Perigo',icon:'ti-x',explain:'Calçada estreita e muito inclinada. Prefira outro caminho.'},sd:{label:'Sem dados',icon:'ti-question-mark',explain:'Ninguém mediu este trecho ainda. Você pode ajudar como voluntário.'}};
+const SEGS=[
+{id:1,name:'Avenida Heitor Beltrão',range:'nº 120 a 180',b:'pe',l:92,i:'5,4',r:78,m:3,x:266,y:44},
+{id:2,name:'Rua Barão de Mesquita',range:'nº 410 a 450',b:'at',l:118,i:'3,1',r:52,m:2,x:139,y:90},
+{id:3,name:'Rua Santo Afonso',range:'nº 100 a 220',b:'ok',l:165,i:'1,2',r:14,m:5,x:160,y:122},
+{id:4,name:'Rua dos Araújos',range:'nº 20 a 90',b:'at',l:120,i:'4,0',r:61,m:2,x:290,y:140},
+{id:5,name:'Rua Desembargador Izidro',range:'nº 30 a 70',b:'pe',l:70,i:'6,8',r:86,m:2,x:212,y:222},
+{id:6,name:'Rua José Higino',range:'nº 200 a 310',b:'ok',l:150,i:'1,8',r:22,m:4,x:48,y:262},
+{id:7,name:'Rua Uruguai',range:'nº 300 a 360',b:'sd',x:120,y:30},
+{id:8,name:'Rua dos Araújos',range:'nº 200 a 260',b:'sd',x:262,y:265}];
+const TIPOS=['Buraco na calçada','Rampa quebrada','Obstáculo na calçada','Calçada estreita','Piso solto ou irregular'];
+const TIPO_ICON={'Buraco na calçada':'ti-circle-dashed','Rampa quebrada':'ti-stairs-down','Obstáculo na calçada':'ti-barrier-block','Calçada estreita':'ti-arrows-horizontal','Piso solto ou irregular':'ti-wave-saw-tool'};
+const STATUS=['Aberto','Enviado à prefeitura','Resolvido'];
+const STATUS_STYLE={'Aberto':{sBg:'transparent',sBorder:'2px solid var(--ink)'},'Enviado à prefeitura':{sBg:'var(--primary)',sBorder:'0'},'Resolvido':{sBg:'var(--ink)',sBorder:'0'}};
+const TITLES={mapa:'Mapa',trecho:'Trecho',rotas:'Rotas',reportes:'Reportes',dispositivo:'Dispositivo',perfil:'Perfil'};
+
+class Component extends DCLogic {
+  state={screen:'entrar',prev:'mapa',dark:false,segId:1,view:'mapa',route:'curta',aviso:true,avoided:{},swap:false,
+    reports:[{id:1,tipo:'Buraco na calçada',endereco:'Rua Desembargador Izidro, 45',data:'02/11/2026',status:'Enviado à prefeitura'},{id:2,tipo:'Rampa quebrada',endereco:'Avenida Heitor Beltrão, 150',data:'28/10/2026',status:'Aberto'},{id:3,tipo:'Obstáculo na calçada',endereco:'Rua dos Araújos, 12',data:'15/10/2026',status:'Resolvido'}],
+    form:null,errors:{},confirmId:null,dev:'gravando',mode:'cadeira',voz:true,toast:''};
+  componentWillUnmount(){clearTimeout(this._t);}
+  go=(s)=>this.setState(st=>({screen:s,prev:st.screen==='trecho'?st.prev:st.screen,form:null,errors:{},confirmId:null}));
+  flash(msg){this.setState({toast:msg});clearTimeout(this._t);this._t=setTimeout(()=>this.setState({toast:''}),2800);}
+  marker(b){return b==='sd'?{mBg:'transparent',mFg:'var(--sd)',mBorder:'2px dashed var(--sd)',icon:B[b].icon,label:B[b].label}:{mBg:`var(--${b})`,mFg:`var(--on-${b})`,mBorder:'0',icon:B[b].icon,label:B[b].label};}
+  openSeg(id){this.setState(st=>({segId:id,screen:'trecho',prev:st.screen==='trecho'?st.prev:st.screen}));}
+  openForm(r,preset){this.setState({form:r?{...r}:{id:null,endereco:preset||'',tipo:TIPOS[0],descricao:'',status:'Aberto'},errors:{},confirmId:null});}
+  submit=(ev)=>{ev.preventDefault();const f=this.state.form;const errors={end:!f.endereco.trim(),desc:!f.id&&!f.descricao.trim()};
+    if(errors.end||errors.desc){this.setState({errors});return;}
+    this.setState(st=>({reports:f.id?st.reports.map(r=>r.id===f.id?{...r,...f}:r):[{...f,id:Date.now(),data:'09/11/2026'},...st.reports],form:null,errors:{}}));
+    this.flash(f.id?'Reporte atualizado.':'Reporte enviado. Obrigado!');};
+  line(b,mode){
+    const e=React.createElement,dark=mode==='dark';
+    const C=dark?{ok:'#5BD08A',at:'#F2B84B',pe:'#FF7A7A',sd:'#A0A6B0'}:{ok:'#1E8E3E',at:'#B26A00',pe:'#C62828',sd:'#6B717B'};
+    const gap=dark?{at:'#5A4A2A',pe:'#F4D6D6'}:{at:'#F6E7D2',pe:'#FFFFFF'};
+    const bg=dark?'#1A1E26':'#EEF0F4',road=dark?'#2B303A':'#FFFFFF',ring=dark?'#121316':'#FFFFFF',ink=dark?'#121316':'#FFFFFF';
+    const c=C[b],W=84,H=34,y=17,x1=6,x2=W-6,k=[];
+    k.push(e('rect',{key:'bg',width:W,height:H,rx:6,fill:bg}));
+    k.push(e('line',{key:'road',x1:0,y1:y,x2:W,y2:y,stroke:road,strokeWidth:12}));
+    if(b==='sd')k.push(e('line',{key:'d',x1:x1+2,y1:y,x2:x2-2,y2:y,stroke:c,strokeWidth:5,strokeLinecap:'round',strokeDasharray:'0.1 9'}));
+    else{k.push(e('line',{key:'h',x1,y1:y,x2,y2:y,stroke:c,strokeOpacity:dark?.28:.2,strokeWidth:16,strokeLinecap:'round'}));
+      if(b==='ok')k.push(e('line',{key:'l',x1:x1+4,y1:y,x2:x2-4,y2:y,stroke:c,strokeWidth:6,strokeLinecap:'round'}));
+      else{k.push(e('line',{key:'g',x1:x1+4,y1:y,x2:x2-4,y2:y,stroke:gap[b],strokeWidth:6}));k.push(e('line',{key:'l',x1:x1+4,y1:y,x2:x2-4,y2:y,stroke:c,strokeWidth:6,strokeDasharray:b==='at'?'14 6':'7 5'}));}}
+    const cx=W/2,r=11;
+    if(b==='sd'){k.push(e('circle',{key:'m',cx,cy:y,r,fill:bg,stroke:c,strokeWidth:2,strokeDasharray:'3 2.5'}));k.push(e('text',{key:'t',x:cx,y:y+5,textAnchor:'middle',fontSize:14,fontWeight:700,fill:dark?'#E4E6EA':'#4F555E',fontFamily:'Atkinson Hyperlegible'},'?'));}
+    else{k.push(e('circle',{key:'m',cx,cy:y,r,fill:c,stroke:ring,strokeWidth:2.5}));
+      if(b==='ok')k.push(e('path',{key:'i',d:`M${cx-4.5} ${y+0.5} L${cx-1.2} ${y+3.8} L${cx+4.8} ${y-3.2}`,fill:'none',stroke:ink,strokeWidth:2.4,strokeLinecap:'round',strokeLinejoin:'round'}));
+      if(b==='at')k.push(e('g',{key:'i'},e('line',{x1:cx,y1:y-5,x2:cx,y2:y+1,stroke:ink,strokeWidth:2.6,strokeLinecap:'round'}),e('circle',{cx,cy:y+4.6,r:1.5,fill:ink})));
+      if(b==='pe')k.push(e('path',{key:'i',d:`M${cx-4} ${y-4} L${cx+4} ${y+4} M${cx+4} ${y-4} L${cx-4} ${y+4}`,stroke:ink,strokeWidth:2.4,strokeLinecap:'round'}));}
+    return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,'aria-hidden':true,style:{display:'block'}},k);
+  }
+  renderVals(){
+    const st=this.state,mode=st.dark?'dark':'light',s=st.screen,f=st.form;
+    const phoneStyle={...V[mode],width:390,height:844,flex:'none',border:'10px solid #0B0C0E',borderRadius:36,overflow:'hidden',display:'flex',flexDirection:'column',background:'var(--bg)',color:'var(--ink)',position:'relative',fontFamily:"'Atkinson Hyperlegible',system-ui,sans-serif",boxShadow:'0 24px 48px rgba(0,0,0,.18)'};
+    const seg=SEGS.find(x=>x.id===st.segId),avoided=!!st.avoided[seg.id];
+    const activeTab=s==='trecho'?st.prev:s;
+    const devMap={gravando:{label:'Gravando',sub:'Medindo a largura e a inclinação da calçada agora.',bg:'var(--primary)',fg:'var(--on-primary)',border:'0',dot:'var(--on-primary)',dotBorder:'0',anim:'celiaPulse 1.4s ease-out infinite'},
+      enviado:{label:'Dados enviados',sub:'Último envio às 14:32. Tudo certo.',bg:'var(--card)',fg:'var(--ink)',border:'2px solid var(--ink)',dot:'var(--primary)',dotBorder:'0',anim:'none'},
+      semsinal:{label:'Sem sinal',sub:'Guardando as medidas para enviar depois.',bg:'var(--bg)',fg:'var(--ink)',border:'2px dashed var(--line-strong)',dot:'transparent',dotBorder:'2px dashed var(--ink)',anim:'none'}};
+    const RT=[{k:'acessivel',name:'Mais acessível',min:15,km:'1,1 km',risco:21,rec:true,strip:['ok','ok','at','ok','ok'],stripText:'4 Normal · 1 Atenção · 0 Perigo',note:'Sem trechos em Perigo. Vai pela Rua Santo Afonso, larga e plana.'},
+      {k:'curta',name:'Mais curta',min:12,km:'0,9 km',risco:44,rec:false,strip:['at','sd','pe','at'],stripText:'2 Atenção · 1 Sem dados · 1 Perigo',note:'Avenida Heitor Beltrão, com calçada estreita e inclinada.'}];
+    const routes=RT.map(r=>{const on=st.route===r.k;return {...r,on,hasPerigo:r.strip.includes('pe'),noPerigo:!r.strip.includes('pe'),strip:r.strip.map(b=>this.marker(b)),
+      border:r.rec?'3px solid var(--primary)':'2px solid var(--line-strong)',
+      btnLabel:on?'Rota atual':'Ir por esta rota',btnIcon:on?'ti-check':'ti-arrow-right',
+      btnBg:on?'transparent':(r.rec?'var(--primary)':'transparent'),btnFg:on?'var(--ink)':(r.rec?'var(--on-primary)':'var(--ink)'),btnBorder:on?'2px dashed var(--ink)':(r.rec?'0':'2px solid var(--ink)'),
+      choose:()=>{if(on){this.go('mapa');return;}this.setState({route:r.k,aviso:r.k==='curta',screen:'mapa',view:'mapa'});this.flash(r.k==='curta'?'Rota mais curta ativada. Ela passa por 1 trecho em Perigo.':'Rota mais acessível ativada.');}};});
+    const origem='Praça Saens Peña',destino='Clínica Bom Passo, Rua dos Araújos, 88';
+    const tabOn='var(--ink)',tabOff='var(--muted)';
+    return {
+      dark:st.dark,notDark:!st.dark,setLight:()=>this.setState({dark:false}),setDark:()=>this.setState({dark:true}),
+      lightBtnBg:st.dark?'transparent':'#1C1F24',lightBtnFg:st.dark?'#1C1F24':'#F7F5F0',darkBtnBg:st.dark?'#1C1F24':'transparent',darkBtnFg:st.dark?'#F7F5F0':'#1C1F24',
+      jumpList:[['entrar','Entre como','ti-door-enter'],['mapa','Mapa','ti-map-2'],['trecho','Detalhe do trecho','ti-info-square'],['rotas','Rotas','ti-route'],['reportes','Reportes','ti-message-report'],['dispositivo','Dispositivo','ti-device-watch'],['perfil','Perfil','ti-user-circle']].map(([k,l,i])=>({label:l,icon:i,bg:s===k?'#1C1F24':'transparent',fg:s===k?'#F7F5F0':'#1C1F24',go:()=>k==='trecho'?this.openSeg(st.segId):this.go(k)})),
+      phoneStyle,screenLabel:TITLES[s]||'Entre como',
+      isEntrar:s==='entrar',isMapa:s==='mapa',isTrecho:s==='trecho',isRotas:s==='rotas',isReportes:s==='reportes',isDispositivo:s==='dispositivo',isPerfil:s==='perfil',
+      showHeader:s!=='entrar',showNav:s!=='entrar',title:TITLES[s],hasBack:s==='trecho'||(s==='reportes'&&!!f),showLogoSlot:s==='mapa',
+      goBack:()=>{if(s==='reportes'&&f)this.setState({form:null,errors:{}});else this.setState({screen:st.prev});},
+      profiles:[{title:'Pessoa usuária',desc:'Ver o mapa e as rotas acessíveis',icon:'ti-wheelchair',go:()=>this.go('mapa')},{title:'Voluntário',desc:'Mapear trechos com o dispositivo',icon:'ti-heart-handshake',go:()=>this.go('dispositivo')},{title:'Prefeitura',desc:'Receber relatórios dos trechos com problema',icon:'ti-building-community',go:()=>this.go('reportes')}],
+      showAviso:st.aviso,desviar:()=>{this.setState({aviso:false,route:'acessivel'});this.flash('Rota trocada. Agora você vai pela mais acessível, sem Perigo.');},seguir:()=>{this.setState({aviso:false});this.flash('Certo. Vamos avisar de novo perto do trecho.');},
+      viewIsMap:st.view==='mapa',viewIsList:st.view==='lista',viewMap:()=>this.setState({view:'mapa'}),viewList:()=>this.setState({view:'lista'}),
+      tabMapFg:st.view==='mapa'?tabOn:tabOff,tabListFg:st.view==='lista'?tabOn:tabOff,tabMapBd:st.view==='mapa'?'4px solid var(--ink)':'4px solid transparent',tabListBd:st.view==='lista'?'4px solid var(--ink)':'4px solid transparent',
+      hotspots:SEGS.map(x=>({left:x.x+'px',top:x.y+'px',aria:`${x.name}, ${x.range}: ${B[x.b].label}. Ver detalhes`,open:()=>this.openSeg(x.id)})),
+      openReportes:()=>this.go('reportes'),centralizar:()=>this.flash('Mapa centralizado em você.'),
+      legend:[['ok','risco 0–39'],['at','risco 40–69'],['pe','risco 70+'],['sd','não medido']].map(([b,r],i)=>({label:B[b].label,line:this.line(b,mode),range:r,divider:i?'2px solid var(--line-soft)':'0'})),
+      segList:SEGS.map(x=>({...x,...this.marker(x.b),open:()=>this.openSeg(x.id)})),
+      seg:{...seg,...this.marker(seg.b),hasData:seg.b!=='sd',explain:B[seg.b].explain,pos:(seg.r||0)+'%'},
+      evitarLabel:avoided?'Este trecho será evitado':'Evitar este trecho nas rotas',evitarIcon:avoided?'ti-check':'ti-route-x',
+      toggleEvitar:()=>{this.setState(x=>({avoided:{...x.avoided,[seg.id]:!avoided}}));this.flash(avoided?'O trecho voltou para as rotas.':'Pronto. As rotas vão desviar deste trecho.');},
+      reportarTrecho:()=>{this.setState({screen:'reportes',prev:'mapa'});this.openForm(null,`${seg.name}, ${seg.range.replace('nº ','').split(' a ')[0]}`);},
+      origem:st.swap?destino:origem,destino:st.swap?origem:destino,trocar:()=>this.setState(x=>({swap:!x.swap})),
+      routes,
+      formOpen:!!f,formClosed:!f,noReports:st.reports.length===0,reportCount:st.reports.length===1?'1 reporte':`${st.reports.length} reportes`,
+      novoReporte:()=>this.openForm(null),closeForm:()=>this.setState({form:null,errors:{}}),
+      reports:st.reports.map(r=>({...r,...STATUS_STYLE[r.status],icon:TIPO_ICON[r.tipo],confirming:st.confirmId===r.id,notConfirming:st.confirmId!==r.id,
+        edit:()=>this.openForm(r),askDel:()=>this.setState({confirmId:r.id}),cancelDel:()=>this.setState({confirmId:null}),
+        confirmDel:()=>{this.setState(x=>({reports:x.reports.filter(y=>y.id!==r.id),confirmId:null}));this.flash('Reporte excluído.');}})),
+      form:f||{},formTitle:f&&f.id?'Editar reporte':'Novo reporte',tipos:TIPOS,submitForm:this.submit,submitLabel:f&&f.id?'Salvar alterações':'Enviar reporte',
+      errEnd:!!st.errors.end,errDesc:!!st.errors.desc,endBorder:st.errors.end?'3px solid var(--ink)':'2px solid var(--line-strong)',descBorder:st.errors.desc?'3px solid var(--ink)':'2px solid var(--line-strong)',
+      setEndereco:e=>{const v=e.target.value;this.setState(x=>({form:{...x.form,endereco:v},errors:{...x.errors,end:false}}));},
+      setTipo:e=>{const v=e.target.value;this.setState(x=>({form:{...x.form,tipo:v}}));},
+      setDescricao:e=>{const v=e.target.value;this.setState(x=>({form:{...x.form,descricao:v},errors:{...x.errors,desc:false}}));},
+      statusOpts:STATUS.map(l=>{const on=!!f&&f.status===l;return {label:l,sel:on,dot:on?'var(--ink)':'transparent',pick:()=>this.setState(x=>({form:{...x.form,status:l}}))};}),
+      dev:devMap[st.dev],recLabel:st.dev==='gravando'?'Pausar gravação':'Começar a gravar',recIcon:st.dev==='gravando'?'ti-player-pause':'ti-player-record',
+      toggleRec:()=>{const rec=st.dev==='gravando';this.setState({dev:rec?'enviado':'gravando'});this.flash(rec?'Gravação pausada. Dados enviados.':'Gravando. Pode seguir seu caminho.');},
+      devDemo:[['gravando','Gravando'],['enviado','Dados enviados'],['semsinal','Sem sinal']].map(([k,l])=>({label:l,sel:st.dev===k,fg:st.dev===k?'var(--ink)':'var(--muted)',bd:st.dev===k?'4px solid var(--ink)':'4px solid transparent',pick:()=>this.setState({dev:k})})),
+      modes:[{k:'cadeira',label:'Cadeira ou andador',icon:'ti-wheelchair',desc:'Mede a largura livre e a inclinação da calçada.'},{k:'bengala',label:'Bengala',icon:'ti-walk',desc:'Avisa obstáculos com vibração e som.'}].map(m=>{const on=st.mode===m.k;return {...m,sel:on,border:on?'3px solid var(--primary)':'2px solid var(--line-strong)',iconBg:on?'var(--primary)':'transparent',iconFg:on?'var(--on-primary)':'var(--ink)',iconBorder:on?'0':'2px solid var(--ink)',dot:on?'var(--ink)':'transparent',pick:()=>{this.setState({mode:m.k});this.flash(`Modo ${m.label.toLowerCase()} ativado.`);}};}),
+      settings:[{k:'dark',label:'Modo escuro',icon:'ti-moon',on:st.dark},{k:'voz',label:'Avisos por voz',icon:'ti-volume',on:st.voz}].map(x=>({...x,state:x.on?'Ligado':'Desligado',track:x.on?'var(--primary)':'transparent',knob:x.on?'var(--on-primary)':'var(--ink)',knobX:x.on?'27px':'3px',toggle:()=>this.setState(y=>({[x.k]:!y[x.k]}))})),
+      sair:()=>this.go('entrar'),
+      hasToast:!!st.toast,toast:st.toast,
+      tabs:[['mapa','Mapa','ti-map-2'],['rotas','Rotas','ti-route'],['reportes','Reportes','ti-message-report'],['dispositivo','Dispositivo','ti-device-watch'],['perfil','Perfil','ti-user-circle']].map(([k,l,i])=>{const on=activeTab===k;return {label:l,icon:i,current:on?'page':undefined,color:on?'var(--ink)':'var(--muted)',ind:on?'inset 0 5px 0 var(--primary)':'none',go:()=>this.go(k)};})
+    };
+  }
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"><style>body{margin:0;background:#E4E1DA;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#1C1F24}a{color:#1A44A8}a:hover{color:#2257D6}*:focus-visible{outline:3px solid #1C1F24;outline-offset:2px}button,input{font-family:inherit}main{scrollbar-width:none}main::-webkit-scrollbar{display:none}.dv-turn{padding:40px 44px}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 12px}.dv-tid{font:700 11px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1C1F24;color:#fff;border-radius:3px;text-decoration:none}.dv-tname{font:700 20px/1.2 'Atkinson Hyperlegible',sans-serif}.dv-opts{display:flex;flex-wrap:wrap;gap:40px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px}.dv-oid{font:700 11px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.1);color:#1C1F24;border-radius:3px;text-decoration:none}.dv-olabel{display:flex;align-items:baseline;gap:8px;white-space:nowrap;font:400 15px/1.3 'Atkinson Hyperlegible',sans-serif;color:#45484D}.dv-next{margin:24px 0 0;font:15px/1.5 'Atkinson Hyperlegible',sans-serif;color:#45484D}</style></helmet>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Assistente · conversa em andamento · modo claro</span></div>
+  <div class="dv-opts">
+
+    <div class="dv-opt" id="1a">
+      <div class="dv-olabel"><a class="dv-oid" href="#1a">1a</a>Conversa em andamento</div>
+      <div data-screen-label="Assistente conversa claro" style="--bg:#F7F5F0;--card:#FFFFFF;--ink:#1C1F24;--muted:#55595F;--line-soft:#D6D1C6;--line-strong:#1C1F24;--primary:#2257D6;--on-primary:#FFFFFF;--link:#1A44A8;--head:#1C1F24;--on-head:#F7F5F0;--at:#B26A00;--on-at:#FFFFFF;--sd:#6B717B;width:390px;height:844px;border:10px solid #0B0C0E;border-radius:36px;overflow:hidden;display:flex;flex-direction:column;background:var(--bg);color:var(--ink);position:relative;box-shadow:0 24px 48px rgba(0,0,0,.18)">
+
+        <header style="background:var(--head);color:var(--on-head);display:flex;align-items:center;gap:12px;padding:14px 16px;min-height:76px;box-sizing:border-box;flex:none">
+          <button aria-label="Voltar para o mapa" style="width:48px;height:48px;flex:none;border:2px solid var(--on-head);background:transparent;color:var(--on-head);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-arrow-left" style="font-size:24px" aria-hidden="true"></i></button>
+          <h1 style="margin:0;flex:1;font:700 30px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em">Assistente</h1>
+        </header>
+        <p style="margin:0;flex:none;display:flex;gap:8px;align-items:center;padding:8px 16px;background:var(--card);border-bottom:2px solid var(--line-soft);font:400 14px/1.35 'Atkinson Hyperlegible',sans-serif;color:var(--muted)"><i class="ti ti-sparkles" style="font-size:18px;flex:none" aria-hidden="true"></i>Respostas geradas por IA. Confira informações importantes.</p>
+
+        <main role="log" aria-live="polite" aria-label="Conversa com o assistente" style="flex:1;overflow:auto;padding:16px 16px 20px;display:flex;flex-direction:column;gap:18px">
+
+          <div style="align-self:flex-end;max-width:82%;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span style="font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Você</span>
+            <p style="margin:0;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:4px 4px 0 4px;font:400 17px/1.4 'Atkinson Hyperlegible',sans-serif">Qual o caminho mais acessível até o posto de saúde?</p>
+          </div>
+
+          <article aria-label="Assistente" style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px;font:700 14px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:24px;height:24px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-message-chatbot" style="font-size:16px"></i></span>Assistente</span>
+            <p style="margin:0;font:400 17px/1.45 'Atkinson Hyperlegible',sans-serif">O caminho mais acessível até o Posto de Saúde Tijuca leva 15 minutos. Ele não passa por trechos em Perigo.</p>
+            <div style="background:var(--card);border:2px solid var(--line-strong);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+                <span style="display:flex;flex-direction:column;gap:2px"><span style="font:700 19px 'Atkinson Hyperlegible',sans-serif">Mais acessível</span><span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted);white-space:nowrap">1,1 km · risco médio 21</span></span>
+                <span style="font:700 40px/0.9 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.02em;white-space:nowrap">15<span style="font-size:18px;letter-spacing:0"> min</span></span>
+              </div>
+              <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;border-top:1px solid var(--line-soft);padding-top:12px">
+                <span style="font:400 16px 'Atkinson Hyperlegible',sans-serif">Pior trecho:</span>
+                <span style="display:inline-flex;align-items:center;gap:8px;font:700 16px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:28px;height:28px;background:var(--at);color:var(--on-at);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-exclamation-mark" style="font-size:18px"></i></span>Atenção</span>
+              </div>
+              <button style="height:52px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 17px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="ti ti-map-2" style="font-size:22px" aria-hidden="true"></i>Ver no mapa</button>
+            </div>
+            <button style="align-self:flex-start;height:44px;padding:0;border:0;background:none;color:var(--link);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:4px"><i class="ti ti-volume" style="font-size:20px" aria-hidden="true"></i>Ouvir resposta</button>
+          </article>
+
+          <div style="align-self:flex-end;max-width:82%;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span style="font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Você</span>
+            <p style="margin:0;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:4px 4px 0 4px;font:400 17px/1.4 'Atkinson Hyperlegible',sans-serif">Como está a calçada da Rua Conde de Bonfim?</p>
+          </div>
+
+          <article aria-label="Assistente" style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px;font:700 14px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:24px;height:24px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-message-chatbot" style="font-size:16px"></i></span>Assistente</span>
+            <p style="margin:0;font:400 17px/1.45 'Atkinson Hyperlegible',sans-serif">Perto da Praça Saens Peña, a calçada está em Atenção. Dá para passar, mas com cuidado.</p>
+            <div style="background:var(--card);border:2px solid var(--line-strong);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+              <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px">
+                <span style="display:flex;flex-direction:column;gap:2px"><span style="font:700 19px/1.2 'Atkinson Hyperlegible',sans-serif">Rua Conde de Bonfim</span><span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">nº 300 a 380</span></span>
+                <span style="display:inline-flex;align-items:center;gap:8px;font:700 16px 'Atkinson Hyperlegible',sans-serif;flex:none"><span aria-hidden="true" style="width:28px;height:28px;background:var(--at);color:var(--on-at);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-exclamation-mark" style="font-size:18px"></i></span>Atenção</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;border-top:1px solid var(--line-soft)">
+                <span style="display:flex;flex-direction:column;gap:2px;padding-top:12px"><span style="font:700 15px 'Atkinson Hyperlegible',sans-serif">Largura livre</span><span style="font:700 30px/1 'Atkinson Hyperlegible',sans-serif">118<span style="font-size:17px"> cm</span></span></span>
+                <span style="display:flex;flex-direction:column;gap:2px;padding:12px 0 0 14px;border-left:1px solid var(--line-soft)"><span style="font:700 15px 'Atkinson Hyperlegible',sans-serif">Inclinação</span><span style="font:700 30px/1 'Atkinson Hyperlegible',sans-serif">3,1<span style="font-size:17px">°</span></span></span>
+              </div>
+            </div>
+            <button style="align-self:flex-start;height:44px;padding:0;border:0;background:none;color:var(--link);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:4px"><i class="ti ti-volume" style="font-size:20px" aria-hidden="true"></i>Ouvir resposta</button>
+          </article>
+
+          <div style="align-self:flex-end;max-width:82%;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span style="font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Você</span>
+            <p style="margin:0;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:4px 4px 0 4px;font:400 17px/1.4 'Atkinson Hyperlegible',sans-serif">Tenho direito a passagem gratuita?</p>
+          </div>
+
+          <article aria-label="Assistente" style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px;font:700 14px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:24px;height:24px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-message-chatbot" style="font-size:16px"></i></span>Assistente</span>
+            <p style="margin:0;font:400 17px/1.45 'Atkinson Hyperlegible',sans-serif">Pode ter, sim. Pessoas com deficiência e pessoas com 65 anos ou mais podem viajar de graça nos ônibus da cidade. Para isso, é preciso pedir um cartão de gratuidade.</p>
+            <div style="display:flex;flex-direction:column;gap:2px;border-top:1px solid var(--line-soft);padding-top:8px">
+              <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Fonte: Prefeitura do Rio</span>
+              <a href="#" style="align-self:flex-start;font:700 16px 'Atkinson Hyperlegible',sans-serif;color:var(--link);text-underline-offset:4px;padding:10px 0;display:flex;align-items:center;gap:6px">Saiba mais<i class="ti ti-external-link" style="font-size:18px" aria-hidden="true"></i></a>
+            </div>
+            <button style="align-self:flex-start;height:44px;padding:0;border:0;background:none;color:var(--link);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:4px"><i class="ti ti-volume" style="font-size:20px" aria-hidden="true"></i>Ouvir resposta</button>
+          </article>
+
+          <div style="align-self:flex-end;max-width:82%;display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+            <span style="font:700 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Você</span>
+            <p style="margin:0;background:var(--ink);color:var(--bg);padding:12px 14px;border-radius:4px 4px 0 4px;font:400 17px/1.4 'Atkinson Hyperlegible',sans-serif">E a Rua Uruguai, perto do nº 340?</p>
+          </div>
+
+          <article aria-label="Assistente" style="display:flex;flex-direction:column;gap:10px">
+            <span style="display:flex;align-items:center;gap:8px;font:700 14px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:24px;height:24px;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-message-chatbot" style="font-size:16px"></i></span>Assistente</span>
+            <div style="border:2px dashed var(--sd);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+              <p style="margin:0;font:400 17px/1.45 'Atkinson Hyperlegible',sans-serif">Ainda não tenho dados sobre esse trecho. Quer reportar um problema?</p>
+              <button style="height:52px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 17px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px"><i class="ti ti-message-report" style="font-size:22px" aria-hidden="true"></i>Reportar</button>
+            </div>
+            <button style="align-self:flex-start;height:44px;padding:0;border:0;background:none;color:var(--link);font:700 16px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;gap:6px;text-decoration:underline;text-underline-offset:4px"><i class="ti ti-volume" style="font-size:20px" aria-hidden="true"></i>Ouvir resposta</button>
+          </article>
+        </main>
+
+        <form style="flex:none;background:var(--card);border-top:2px solid var(--ink);padding:8px 10px;display:flex;gap:8px;align-items:center">
+          <span style="flex:1;min-width:0;display:flex;align-items:center;height:48px;border:2px solid var(--line-strong);border-radius:24px;background:var(--card);box-sizing:border-box;padding-left:16px">
+            <input type="text" aria-label="Escreva ou fale sua pergunta" placeholder="Escreva ou fale sua pergunta" style="flex:1;min-width:0;border:0;background:transparent;padding:0;font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--ink);outline:none">
+            <button type="submit" aria-label="Enviar mensagem" style="width:44px;height:44px;flex:none;border:0;background:transparent;color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-send" style="font-size:20px" aria-hidden="true"></i></button>
+          </span>
+          <button type="button" aria-label="Falar sua pergunta" style="width:52px;height:52px;flex:none;border-radius:50%;border:0;background:var(--primary);color:var(--on-primary);display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-microphone" style="font-size:26px" aria-hidden="true"></i></button>
+        </form>
+      </div>
+    </div>
+
+  </div>
+  <p class="dv-next">Se aprovar, faço: primeiro acesso, ouvindo por voz, o botão flutuante no Mapa e tudo no modo escuro. Ou peça: “balão do usuário em azul” · “microfone ocupando a largura toda”.</p>
+</section>
+</x-dc>
+</body>
+</html>

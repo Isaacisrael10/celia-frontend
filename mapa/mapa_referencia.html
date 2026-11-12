@@ -1,0 +1,46 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link rel="stylesheet" href="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.css"><script src="https://unpkg.com/maplibre-gl@4.7.1/dist/maplibre-gl.js"></script>
+<style>html,body,#m{margin:0;height:100%;width:100%}
+.voce{width:46px;height:46px;border-radius:50%;background:color-mix(in srgb,var(--p) 22%,transparent);display:flex;align-items:center;justify-content:center}
+.voce i{width:18px;height:18px;border-radius:50%;background:var(--p);border:3px solid #fff;box-shadow:0 1px 4px rgba(0,0,0,.35)}
+.pin{width:34px;height:34px;border-radius:50% 50% 50% 0;transform:rotate(-45deg);background:var(--p);box-shadow:0 3px 8px rgba(0,0,0,.3);display:flex;align-items:center;justify-content:center}
+.pin i{width:12px;height:12px;border-radius:50%;background:#fff}
+.rep{width:32px;height:32px;border-radius:10px;background:var(--card);display:flex;align-items:center;justify-content:center;box-shadow:0 2px 8px rgba(0,0,0,.25)}
+.rep svg{width:18px;height:18px}
+.bdg{width:24px;height:24px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font:900 14px/1 'Segoe UI',sans-serif;border:2.5px solid var(--card);box-shadow:0 1px 4px rgba(0,0,0,.3)}
+.lbl{font:800 13px 'Segoe UI',sans-serif;color:var(--ink);background:var(--card);padding:4px 9px;border-radius:8px;white-space:nowrap;box-shadow:0 1px 5px rgba(0,0,0,.18)}
+.maplibregl-ctrl-attrib{background:var(--card)!important;color:var(--ink)} .maplibregl-ctrl-attrib a{color:var(--ink)!important}</style></head><body><div id="m"></div><script>
+const q=new URLSearchParams(location.search);const modo=q.get('modo')||'claro';const escuro=modo==='escuro';
+const P=escuro?'#8AA8FF':'#1E44A8';
+const R=document.documentElement.style;R.setProperty('--p',P);R.setProperty('--ink',escuro?'#EEF1F6':'#1A1D24');R.setProperty('--card',escuro?'#1E2532':'#FFFFFF');
+const C=escuro?{normal:'#5BD08A',atencao:'#F2B84B',perigo:'#FF7A7A',semdados:'#8A93A3'}:{normal:'#1E8E3E',atencao:'#B26A00',perigo:'#C62828',semdados:'#8A8F98'};
+const FAIXA={'Rua Conde de Bonfim':{0:'atencao'},'Rua General Roca':{0:'perigo',1:'semdados'},'Rua Major Ávila':{0:'semdados',1:'atencao'},'Rua das Flores':{2:'atencao'},'Rua Almirante Cóchrane':{0:'perigo',1:'semdados'},'Rua Pinto de Figueiredo':{0:'atencao',1:'semdados'}};
+fetch('celia-mapa-'+modo+'.json').then(r=>r.json()).then(style=>{
+const m=new maplibregl.Map({container:'m',style,attributionControl:{compact:false},preserveDrawingBuffer:true,center:[-43.231,-22.9245],zoom:16});
+m.on('load',async()=>{
+ const ruas=await (await fetch('ruas.json')).json();
+ const fc={type:'FeatureCollection',features:ruas.map(r=>({type:'Feature',properties:{faixa:(FAIXA[r.nome]||{})[r.i]||'normal'},geometry:{type:'LineString',coordinates:r.coords.map(c=>[c[1],c[0]])}}))};
+ m.addSource('trechos',{type:'geojson',data:fc});
+ const cor=['match',['get','faixa'],'normal',C.normal,'atencao',C.atencao,'perigo',C.perigo,C.semdados];
+ m.addLayer({id:'glow',type:'line',source:'trechos',filter:['!=',['get','faixa'],'semdados'],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':cor,'line-width':16,'line-opacity':escuro?.22:.16,'line-blur':1}},'highway-name-minor');
+ m.addLayer({id:'normal',type:'line',source:'trechos',filter:['==',['get','faixa'],'normal'],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':C.normal,'line-width':5.5}},'highway-name-minor');
+ m.addLayer({id:'atencao',type:'line',source:'trechos',filter:['==',['get','faixa'],'atencao'],layout:{'line-cap':'butt','line-join':'round'},paint:{'line-color':C.atencao,'line-width':5.5,'line-dasharray':[2.6,1.1]}},'highway-name-minor');
+ m.addLayer({id:'perigo',type:'line',source:'trechos',filter:['==',['get','faixa'],'perigo'],layout:{'line-cap':'butt','line-join':'round'},paint:{'line-color':C.perigo,'line-width':5.5,'line-dasharray':[1.1,1.1]}},'highway-name-minor');
+ m.addLayer({id:'semdados',type:'line',source:'trechos',filter:['==',['get','faixa'],'semdados'],layout:{'line-cap':'round','line-join':'round'},paint:{'line-color':C.semdados,'line-width':4,'line-dasharray':[0.01,2.2]}},'highway-name-minor');
+ m.fitBounds([[-43.2365,-22.9285],[-43.2255,-22.9205]],{padding:28,duration:0});
+ const el=h=>{const d=document.createElement('div');d.innerHTML=h;return d.firstChild;};
+ const ll=c=>[c[1],c[0]];
+ const get=(n,i)=>ruas.find(r=>r.nome===n&&r.i===i).coords;
+ const voce=ll(get('Rua Conde de Bonfim',4)[0]);const dest=ll(get('Rua Conde de Bonfim',0).at(-1));const rg=get('Rua General Roca',0);const rep=ll(rg[Math.floor(rg.length/2)+2]);
+ const ocup=[voce,rep,dest].map(x=>m.project(x));
+ for(const f of fc.features){const fx=f.properties.faixa;if(fx!=='atencao'&&fx!=='perigo')continue;const cs=f.geometry.coordinates;if(cs.length<5)continue;
+  const mid=cs[Math.floor(cs.length/2)];const pm=m.project(mid);if(ocup.some(o=>Math.hypot(o.x-pm.x,o.y-pm.y)<48))continue;
+  new maplibregl.Marker({element:el(`<div class="bdg" style="background:${C[fx]}">${fx==='perigo'?'✕':'!'}</div>`)}).setLngLat(mid).addTo(m);}
+ new maplibregl.Marker({element:el('<div class="voce"><i></i></div>')}).setLngLat(voce).addTo(m);
+ new maplibregl.Marker({element:el('<div class="lbl">Você</div>'),offset:[0,34]}).setLngLat(voce).addTo(m);
+ new maplibregl.Marker({element:el('<div class="pin"><i></i></div>'),anchor:'bottom',offset:[0,-6]}).setLngLat(dest).addTo(m);
+ new maplibregl.Marker({element:el('<div class="lbl">Destino</div>'),offset:[0,-62]}).setLngLat(dest).addTo(m);
+ new maplibregl.Marker({element:el(`<div class="rep"><svg viewBox="0 0 24 24" fill="none" stroke="${P}" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 0 1-11.6 7.1L4 20l1-4.6A8 8 0 1 1 21 12z"/><path d="M9 11h6M9 14h4"/></svg></div>`)}).setLngLat(rep).addTo(m);
+ m.once('idle',()=>{document.title='pronto'});
+});});
+</script></body></html>

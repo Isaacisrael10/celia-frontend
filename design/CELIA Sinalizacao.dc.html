@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics><meta name="design_doc_mode" content="canvas"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css"><style>body{margin:0;background:#E4E1DA;font-family:'Atkinson Hyperlegible',system-ui,sans-serif;color:#1C1F24}a{color:#2257D6}a:hover{color:#1A44A8}*:focus-visible{outline:3px solid var(--ink,#1C1F24);outline-offset:2px}button{font-family:inherit}.dv-turn{padding:40px 44px 40px;border-bottom:1px solid rgba(0,0,0,.1)}.dv-thd{display:flex;align-items:baseline;gap:10px;margin:0 0 12px}.dv-tid{font:700 11px ui-monospace,Menlo,monospace;padding:3px 7px;background:#1C1F24;color:#fff;border-radius:3px;text-decoration:none}.dv-tname{font:700 20px/1.2 'Atkinson Hyperlegible',sans-serif;color:#1C1F24}.dv-opts{display:flex;flex-wrap:wrap;gap:36px;align-items:flex-start}.dv-opt{flex:none;display:flex;flex-direction:column;gap:10px}.dv-oid{font:700 11px ui-monospace,Menlo,monospace;padding:3px 7px;background:rgba(0,0,0,.1);color:#1C1F24;border-radius:3px;text-decoration:none}.dv-olabel{white-space:nowrap;display:flex;align-items:baseline;gap:8px;font:400 15px/1.3 'Atkinson Hyperlegible',sans-serif;color:#45484D}.dv-opt:target .dv-oid{background:#2257D6;color:#fff}.dv-next{margin:24px 0 0;font:15px/1.5 'Atkinson Hyperlegible',sans-serif;color:#45484D}</style></helmet>
+
+<section class="dv-turn" id="t1">
+  <div class="dv-thd"><a class="dv-tid" href="#t1">1</a><span class="dv-tname">Direção “Sinalização urbana” · Mapa e Rotas</span></div>
+  <p style="margin:0 0 28px;max-width:860px;font:400 17px/1.5 'Atkinson Hyperlegible',sans-serif;color:#1C1F24;text-wrap:pretty">Base creme e grafite, com o azul da opção 6 em blocos sólidos, como as cores das linhas do metrô. Cantos quase retos, bordas de 2 px e uma única ação sólida por tela. As faixas aparecem como marcadores quadrados com ícone, nome e linha própria no mapa.</p>
+  <div class="dv-opts">
+    <sc-for list="{{ phones }}" as="ph" hint-placeholder-count="4">
+      <div class="dv-opt" id="{{ ph.id }}">
+        <div class="dv-olabel"><a class="dv-oid" href="#{{ ph.id }}">{{ ph.id }}</a>{{ ph.caption }}</div>
+        <div data-screen-label="{{ ph.caption }}" style="{{ ph.frame }}">
+
+          <header style="background:var(--head);color:var(--on-head);display:flex;align-items:center;gap:12px;padding:14px 16px;min-height:76px;box-sizing:border-box;flex:none">
+            <div aria-label="Espaço da logo" style="width:48px;height:48px;flex:none;border:2px dashed var(--on-head);display:flex;align-items:center;justify-content:center;font:700 13px 'Atkinson Hyperlegible',sans-serif;opacity:.85">logo</div>
+            <h1 style="margin:0;flex:1;font:700 30px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em">{{ ph.title }}</h1>
+            <button aria-label="{{ ph.headAction }}" style="width:48px;height:48px;border:2px solid var(--on-head);background:transparent;color:var(--on-head);border-radius:4px;display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti {{ ph.headIcon }}" style="font-size:24px" aria-hidden="true"></i></button>
+          </header>
+
+          <sc-if value="{{ ph.isMapa }}" hint-placeholder-val="{{ true }}">
+            <main style="flex:1;overflow:auto;display:flex;flex-direction:column">
+              <div style="padding:16px 16px 12px">
+                <div role="alert" style="background:var(--card);border:2px solid var(--ink);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:14px">
+                  <div style="display:flex;gap:12px;align-items:flex-start">
+                    <span style="width:40px;height:40px;flex:none;background:var(--pe);color:var(--on-pe);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-x" style="font-size:26px;font-weight:700" aria-hidden="true"></i></span>
+                    <span style="font:700 18px/1.35 'Atkinson Hyperlegible',sans-serif">Daqui a 2 quarteirões há um trecho em Perigo. Quer desviar?</span>
+                  </div>
+                  <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+                    <button style="height:52px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px">Desviar<i class="ti ti-arrow-right" style="font-size:22px" aria-hidden="true"></i></button>
+                    <button style="height:52px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">Seguir assim</button>
+                  </div>
+                </div>
+              </div>
+
+              <div role="tablist" aria-label="Forma de ver os trechos" style="display:flex;gap:24px;padding:0 16px;border-bottom:2px solid var(--line-soft)">
+                <button role="tab" aria-selected="true" style="height:48px;padding:0 2px;border:0;background:none;color:var(--ink);font:700 17px 'Atkinson Hyperlegible',sans-serif;border-bottom:4px solid var(--ink);margin-bottom:-2px;cursor:pointer;display:flex;align-items:center;gap:8px"><i class="ti ti-map" style="font-size:20px" aria-hidden="true"></i>Mapa</button>
+                <button role="tab" aria-selected="false" style="height:48px;padding:0 2px;border:0;background:none;color:var(--muted);font:700 17px 'Atkinson Hyperlegible',sans-serif;border-bottom:4px solid transparent;margin-bottom:-2px;cursor:pointer;display:flex;align-items:center;gap:8px"><i class="ti ti-list" style="font-size:20px" aria-hidden="true"></i>Lista</button>
+              </div>
+
+              <div style="position:relative;height:278px;flex:none;background:var(--land);border-bottom:2px solid var(--ink);overflow:hidden">
+                <sc-if value="{{ ph.isLight }}" hint-placeholder-val="{{ true }}"><img src="uploads/mapa_claro_celular.png" alt="Mapa da Tijuca com os trechos de calçada coloridos por faixa. Use a aba Lista para ouvir os trechos um a um." style="width:100%;height:100%;object-fit:cover;object-position:50% 52%;display:block"></sc-if>
+                <sc-if value="{{ ph.isDark }}" hint-placeholder-val="{{ false }}"><img src="uploads/mapa_escuro_celular.png" alt="Mapa da Tijuca com os trechos de calçada coloridos por faixa. Use a aba Lista para ouvir os trechos um a um." style="width:100%;height:100%;object-fit:cover;object-position:50% 52%;display:block"></sc-if>
+                <span style="position:absolute;left:0;bottom:0;padding:3px 8px;background:var(--card);color:var(--muted);font:400 13px/1.2 'Atkinson Hyperlegible',sans-serif">© OpenStreetMap</span>
+                <button aria-label="Centralizar no meu local" style="position:absolute;right:12px;bottom:12px;width:48px;height:48px;border:2px solid var(--ink);border-radius:4px;background:var(--card);color:var(--ink);display:flex;align-items:center;justify-content:center;cursor:pointer"><i class="ti ti-current-location" style="font-size:24px" aria-hidden="true"></i></button>
+              </div>
+
+              <section aria-labelledby="leg-{{ ph.id }}" style="flex:none;background:var(--card);border-bottom:2px solid var(--ink)">
+                <h2 id="leg-{{ ph.id }}" style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);margin:0">Legenda</h2>
+                <ul style="list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr))">
+                  <sc-for list="{{ ph.legend }}" as="l" hint-placeholder-count="4">
+                    <li style="display:flex;flex-direction:column;align-items:center;gap:6px;padding:12px 4px 12px;border-left:{{ l.divider }}">
+                      {{ l.line }}
+                      <span style="font:700 15px/1 'Atkinson Hyperlegible',sans-serif;white-space:nowrap;margin-top:2px">{{ l.label }}</span>
+                      <span style="font:400 13px/1 'Atkinson Hyperlegible',sans-serif;color:var(--muted);white-space:nowrap">{{ l.range }}</span>
+                    </li>
+                  </sc-for>
+                </ul>
+                <ul style="list-style:none;margin:0;padding:10px 16px;display:flex;justify-content:space-between;gap:8px;border-top:2px solid var(--line-soft)">
+                  <li style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:22px;height:22px;border-radius:50%;background:var(--me-halo);display:flex;align-items:center;justify-content:center"><span style="width:12px;height:12px;border-radius:50%;background:var(--me);border:2.5px solid var(--card)"></span></span>Você</li>
+                  <li style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:20px;height:20px;border-radius:50% 50% 50% 0;background:var(--me);display:flex;align-items:center;justify-content:center"><span style="width:7px;height:7px;border-radius:50%;background:var(--card)"></span></span>Destino</li>
+                  <li style="display:flex;align-items:center;gap:8px;font:700 15px 'Atkinson Hyperlegible',sans-serif"><span aria-hidden="true" style="width:24px;height:24px;border-radius:6px;background:var(--card);border:1.5px solid var(--line-soft);color:var(--me);display:flex;align-items:center;justify-content:center;box-sizing:border-box"><i class="ti ti-message-2" style="font-size:15px"></i></span>Reporte</li>
+                </ul>
+              </section>
+            </main>
+          </sc-if>
+
+          <sc-if value="{{ ph.isRotas }}" hint-placeholder-val="{{ false }}">
+            <main style="flex:1;overflow:auto;display:flex;flex-direction:column;gap:20px;padding:16px 16px 24px">
+              <div style="display:grid;grid-template-columns:32px 1fr auto;gap:0 12px;align-items:center">
+                <span style="width:32px;height:32px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font:700 16px 'Atkinson Hyperlegible',sans-serif;border-radius:2px">A</span>
+                <span style="display:flex;flex-direction:column"><span style="font:400 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Saindo de</span><span style="font:700 18px/1.25 'Atkinson Hyperlegible',sans-serif">Praça do Mirante</span></span>
+                <a href="#" style="font:700 16px 'Atkinson Hyperlegible',sans-serif;color:var(--link);text-underline-offset:4px;padding:12px 0">Alterar</a>
+                <span aria-hidden="true" style="width:4px;height:20px;background:var(--ink);justify-self:center"></span><span></span><span></span>
+                <span style="width:32px;height:32px;background:var(--ink);color:var(--bg);display:flex;align-items:center;justify-content:center;font:700 16px 'Atkinson Hyperlegible',sans-serif;border-radius:2px">B</span>
+                <span style="display:flex;flex-direction:column"><span style="font:400 14px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">Indo para</span><span style="font:700 18px/1.25 'Atkinson Hyperlegible',sans-serif">Clínica Bom Passo, Rua Jacarandá, 88</span></span>
+                <a href="#" style="font:700 16px 'Atkinson Hyperlegible',sans-serif;color:var(--link);text-underline-offset:4px;padding:12px 0">Alterar</a>
+              </div>
+
+              <div style="display:flex;justify-content:space-between;align-items:baseline;border-top:2px solid var(--ink);padding-top:14px">
+                <h2 style="margin:0;font:700 24px 'Atkinson Hyperlegible',sans-serif">2 caminhos</h2>
+                <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">do mais seguro ao mais curto</span>
+              </div>
+
+              <article style="background:var(--card);border:3px solid var(--primary);border-radius:4px;display:flex;flex-direction:column">
+                <div style="background:var(--primary);color:var(--on-primary);padding:10px 14px;display:flex;align-items:center;gap:8px;font:700 16px 'Atkinson Hyperlegible',sans-serif;letter-spacing:.04em;text-transform:uppercase"><i class="ti ti-star-filled" style="font-size:18px" aria-hidden="true"></i>Recomendada</div>
+                <div style="padding:14px;display:flex;flex-direction:column;gap:12px">
+                  <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+                    <div style="display:flex;flex-direction:column;gap:2px"><h3 style="margin:0;font:700 22px 'Atkinson Hyperlegible',sans-serif">Mais acessível</h3><span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">1,1 km · risco médio 21</span></div>
+                    <span style="font:700 48px/0.9 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.02em">15<span style="font-size:20px;letter-spacing:0"> min</span></span>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:6px">
+                    <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif">Trechos no caminho</span>
+                    <div style="display:flex;gap:4px" role="img" aria-label="5 trechos: 4 Normal, 1 Atenção, nenhum em Perigo">
+                      <sc-for list="{{ ph.stripA }}" as="q" hint-placeholder-count="5"><span style="flex:1;height:32px;display:flex;align-items:center;justify-content:center;border-radius:2px;box-sizing:border-box;background:{{ q.mBg }};color:{{ q.mFg }};border:{{ q.mBorder }}"><i class="ti {{ q.icon }}" style="font-size:18px" aria-hidden="true"></i></span></sc-for>
+                    </div>
+                    <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">4 Normal · 1 Atenção · 0 Perigo</span>
+                  </div>
+                  <p style="margin:0;font:400 16px/1.45 'Atkinson Hyperlegible',sans-serif">Sem trechos em Perigo. Vai pela Rua Jacarandá, larga e plana.</p>
+                  <button style="height:56px;border:0;border-radius:4px;background:var(--primary);color:var(--on-primary);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer;display:flex;align-items:center;justify-content:space-between;padding:0 18px">Ir por esta rota<i class="ti ti-arrow-right" style="font-size:24px" aria-hidden="true"></i></button>
+                </div>
+              </article>
+
+              <article style="background:var(--card);border:2px solid var(--line-strong);border-radius:4px;padding:14px;display:flex;flex-direction:column;gap:12px">
+                <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:12px">
+                  <div style="display:flex;flex-direction:column;gap:2px"><h3 style="margin:0;font:700 22px 'Atkinson Hyperlegible',sans-serif">Mais curta</h3><span style="font:400 16px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">0,9 km · risco médio 44</span></div>
+                  <span style="font:700 48px/0.9 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.02em">12<span style="font-size:20px;letter-spacing:0"> min</span></span>
+                </div>
+                <div style="display:flex;flex-direction:column;gap:6px">
+                  <span style="font:700 15px 'Atkinson Hyperlegible',sans-serif">Trechos no caminho</span>
+                  <div style="display:flex;gap:4px" role="img" aria-label="4 trechos: 1 Atenção, 1 Sem dados, 1 Perigo, 1 Atenção">
+                    <sc-for list="{{ ph.stripB }}" as="q" hint-placeholder-count="4"><span style="flex:1;height:32px;display:flex;align-items:center;justify-content:center;border-radius:2px;box-sizing:border-box;background:{{ q.mBg }};color:{{ q.mFg }};border:{{ q.mBorder }}"><i class="ti {{ q.icon }}" style="font-size:18px" aria-hidden="true"></i></span></sc-for>
+                  </div>
+                  <span style="font:400 15px 'Atkinson Hyperlegible',sans-serif;color:var(--muted)">2 Atenção · 1 Sem dados · 1 Perigo</span>
+                </div>
+                <div style="display:flex;gap:10px;align-items:flex-start">
+                  <span style="width:28px;height:28px;flex:none;background:var(--pe);color:var(--on-pe);display:flex;align-items:center;justify-content:center;border-radius:2px"><i class="ti ti-x" style="font-size:18px" aria-hidden="true"></i></span>
+                  <p style="margin:0;font:400 16px/1.45 'Atkinson Hyperlegible',sans-serif"><b>Passa por 1 trecho em Perigo.</b> Rua das Palmeiras Altas, com calçada estreita e inclinada.</p>
+                </div>
+                <button style="height:56px;border:2px solid var(--ink);border-radius:4px;background:transparent;color:var(--ink);font:700 18px 'Atkinson Hyperlegible',sans-serif;cursor:pointer">Ir por esta rota</button>
+              </article>
+            </main>
+          </sc-if>
+
+          <nav aria-label="Navegação principal" style="height:78px;flex:none;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--card);border-top:2px solid var(--ink)">
+            <sc-for list="{{ ph.tabs }}" as="t" hint-placeholder-count="5">
+              <button aria-current="{{ t.current }}" style="border:0;background:transparent;cursor:pointer;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:4px;padding:0 2px;min-width:0;color:{{ t.color }};box-shadow:{{ t.ind }}">
+                <i class="ti {{ t.icon }}" style="font-size:26px" aria-hidden="true"></i>
+                <span style="font:700 13px/1 'Atkinson Hyperlegible',sans-serif;letter-spacing:-.01em;white-space:nowrap">{{ t.label }}</span>
+              </button>
+            </sc-for>
+          </nav>
+        </div>
+      </div>
+    </sc-for>
+  </div>
+  <p class="dv-next">Responda com: “aprovo, aplica nas outras telas” · “cabeçalho azul em vez de grafite” · “faixa de pedra portuguesa mais alta”</p>
+</section>
+</x-dc>
+<script type="text/x-dc" data-dc-script>
+const V={
+light:{'--bg':'#F7F5F0','--card':'#FFFFFF','--ink':'#1C1F24','--muted':'#55595F','--line-soft':'#D6D1C6','--line-strong':'#1C1F24','--primary':'#2257D6','--on-primary':'#FFFFFF','--link':'#1A44A8','--head':'#1C1F24','--on-head':'#F7F5F0','--land':'#ECE8DF','--ok':'#1E8E3E','--at':'#B26A00','--pe':'#C62828','--sd':'#6B717B','--on-ok':'#FFFFFF','--on-at':'#FFFFFF','--on-pe':'#FFFFFF','--me':'#1A44A8','--me-halo':'rgba(26,68,168,.2)'},
+dark:{'--bg':'#121316','--card':'#1C1F24','--ink':'#F2F0EB','--muted':'#B4B8BF','--line-soft':'#33373E','--line-strong':'#8A919C','--primary':'#8DB0FF','--on-primary':'#121316','--link':'#8DB0FF','--head':'#000000','--on-head':'#F2F0EB','--land':'#1A1C20','--ok':'#5BD08A','--at':'#F2B84B','--pe':'#FF7A7A','--sd':'#A0A6B0','--on-ok':'#121316','--on-at':'#121316','--on-pe':'#121316','--me':'#8DB0FF','--me-halo':'rgba(141,176,255,.25)'}};
+const M={light:{land:'#ECE8DF',caseC:'#C9C2B4',street:'#FFFFFF',label:'#45484D',halo:'#ECE8DF',segCase:'#1C1F24',ok:'#1E8E3E',at:'#B26A00',pe:'#C62828',sd:'#6B717B',me:'#2257D6',ring:'#FFFFFF',ink:'#1C1F24',inkOn:'#F7F5F0',waveA:'#1C1F24',waveB:'#F7F5F0'},
+dark:{land:'#1A1C20',caseC:'#0B0C0E',street:'#363A41',label:'#C4C8CF',halo:'#1A1C20',segCase:'#F2F0EB',ok:'#5BD08A',at:'#F2B84B',pe:'#FF7A7A',sd:'#A0A6B0',me:'#8DB0FF',ring:'#121316',ink:'#F2F0EB',inkOn:'#121316',waveA:'#F2F0EB',waveB:'#000000'}};
+const B={ok:{label:'Normal',icon:'ti-check',dash:null,w:6},at:{label:'Atenção',icon:'ti-exclamation-mark',dash:'16 7',w:6},pe:{label:'Perigo',icon:'ti-x',dash:'7 5',w:8},sd:{label:'Sem dados',icon:'ti-question-mark',dash:'0.1 9',w:5}};
+const STREETS=[
+{n:'Rua das Palmeiras Altas',p:'-10,70 150,60 370,90',w:16},
+{n:'Rua Jacarandá',p:'-10,200 370,215',w:16},
+{n:'Rua Ipê Rosa',p:'-10,330 200,320 370,350',w:14},
+{n:'Travessa Lumiar',p:'60,-10 70,430',w:12},
+{n:'Avenida do Mirante',p:'190,-10 175,430',w:24},
+{n:'Rua Bom Passo',p:'300,-10 320,430',w:14},
+{n:'',p:'240,215 318,300',w:9},
+{n:'',p:'-10,140 64,134',w:8}];
+const SEGS=[['pe','70,65 150,60 180,64'],['at','184,64 305,81'],['ok','68,203 180,207'],['ok','186,207 310,213'],['at','62,70 65,200'],['sd','65,206 68,322'],['ok','187,68 183,204'],['ok','183,210 179,318'],['sd','304,85 310,210'],['pe','310,216 316,338'],['ok','70,326 176,321'],['at','182,320 200,320 314,340']];
+const LABELS=[['R. das Palmeiras Altas',78,48,-3.5],['R. Jacarandá',214,197,2.3],['R. Ipê Rosa',90,346,-2.7],['Tv. Lumiar',48,128,88.7],['Av. do Mirante',204,300,-92],['R. Bom Passo',332,250,87.3]];
+const wave=(a,b)=>`${b} url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='56' height='14'%3E%3Cpath d='M0 0 C14 0 14 7 28 7 C42 7 42 0 56 0 L56 7 C42 7 42 14 28 14 C14 14 14 7 0 7Z' fill='${encodeURIComponent(a)}'/%3E%3C/svg%3E") repeat-x 0 0/56px 14px`;
+
+class Component extends DCLogic {
+  marker(b){return b==='sd'?{mBg:'transparent',mFg:'var(--sd)',mBorder:'2px dashed var(--sd)',icon:B[b].icon,label:B[b].label}:{mBg:`var(--${b})`,mFg:`var(--on-${b})`,mBorder:'0',icon:B[b].icon,label:B[b].label};}
+  map(h,key){
+    const e=React.createElement,k=[];const pid='pp-'+key;
+    k.push(e('defs',{key:'d'},e('pattern',{id:pid,width:24,height:12,patternUnits:'userSpaceOnUse'},e('rect',{width:24,height:12,fill:h.waveB}),e('path',{d:'M0 0 C6 0 6 3 12 3 C18 3 18 0 24 0 L24 6 C18 6 18 9 12 9 C6 9 6 6 0 6Z',fill:h.waveA,opacity:.55}))));
+    k.push(e('rect',{key:'bg',width:360,height:420,fill:h.land}));
+    k.push(e('polygon',{key:'plaza',points:'78,216 172,213 170,312 80,316',fill:`url(#${pid})`,stroke:h.caseC,strokeWidth:1}));
+    STREETS.forEach((s,i)=>k.push(e('polyline',{key:'c'+i,points:s.p,fill:'none',stroke:h.caseC,strokeWidth:s.w+3,strokeLinejoin:'round'})));
+    STREETS.forEach((s,i)=>k.push(e('polyline',{key:'s'+i,points:s.p,fill:'none',stroke:h.street,strokeWidth:s.w,strokeLinejoin:'round'})));
+    SEGS.forEach(([b,p],i)=>{const d=B[b];const cap=b==='sd'||b==='ok'?'round':'butt';
+      k.push(e('g',{key:'g'+i,role:'button',tabIndex:0,'aria-label':`Trecho ${d.label}`,style:{cursor:'pointer'}},
+        b!=='sd'&&e('polyline',{points:p,fill:'none',stroke:h.segCase,strokeWidth:d.w+5,strokeDasharray:d.dash||undefined,strokeLinecap:cap,strokeLinejoin:'round'}),
+        e('polyline',{points:p,fill:'none',stroke:h[b],strokeWidth:d.w,strokeDasharray:d.dash||undefined,strokeLinecap:cap,strokeLinejoin:'round'})));});
+    LABELS.forEach(([t,x,y,r],i)=>k.push(e('text',{key:'l'+i,x,y,transform:`rotate(${r} ${x} ${y})`,fill:h.label,stroke:h.halo,strokeWidth:4,paintOrder:'stroke',fontSize:13,fontWeight:700,fontFamily:'Atkinson Hyperlegible',textAnchor:'start'},t)));
+    k.push(e('g',{key:'dest','aria-label':'Destino B'},e('rect',{x:294,y:108,width:26,height:26,fill:h.ink,stroke:h.ring,strokeWidth:2}),e('text',{x:307,y:126,textAnchor:'middle',fontSize:15,fontWeight:700,fill:h.inkOn,fontFamily:'Atkinson Hyperlegible'},'B')));
+    k.push(e('g',{key:'me','aria-label':'Você está aqui'},e('circle',{cx:69,cy:392,r:18,fill:h.me,opacity:.22}),e('circle',{cx:69,cy:392,r:9,fill:h.me,stroke:h.ring,strokeWidth:3})));
+    k.push(e('text',{key:'you',x:86,y:397,fill:h.ink,stroke:h.halo,strokeWidth:4,paintOrder:'stroke',fontSize:15,fontWeight:700,fontFamily:'Atkinson Hyperlegible'},'Você'));
+    return e('svg',{viewBox:'0 25 360 330',preserveAspectRatio:'xMidYMid slice',width:'100%',height:'100%',role:'group','aria-label':'Mapa de Vila Aurora com os trechos de calçada',style:{display:'block'}},k);
+  }
+  line(b,mode){
+    const e=React.createElement,dark=mode==='dark';
+    const C=dark?{ok:'#5BD08A',at:'#F2B84B',pe:'#FF7A7A',sd:'#A0A6B0'}:{ok:'#1E8E3E',at:'#B26A00',pe:'#C62828',sd:'#6B717B'};
+    const gap=dark?{at:'#5A4A2A',pe:'#F4D6D6'}:{at:'#F6E7D2',pe:'#FFFFFF'};
+    const bg=dark?'#1A1E26':'#EEF0F4',road=dark?'#2B303A':'#FFFFFF',ring=dark?'#121316':'#FFFFFF',ink=dark?'#121316':'#FFFFFF';
+    const c=C[b],W=84,H=34,y=17,x1=6,x2=W-6,k=[];
+    k.push(e('rect',{key:'bg',width:W,height:H,rx:6,fill:bg}));
+    k.push(e('line',{key:'road',x1:0,y1:y,x2:W,y2:y,stroke:road,strokeWidth:12}));
+    if(b==='sd'){k.push(e('line',{key:'d',x1:x1+2,y1:y,x2:x2-2,y2:y,stroke:c,strokeWidth:5,strokeLinecap:'round',strokeDasharray:'0.1 9'}));}
+    else{
+      k.push(e('line',{key:'h',x1,y1:y,x2,y2:y,stroke:c,strokeOpacity:dark?.28:.2,strokeWidth:16,strokeLinecap:'round'}));
+      if(b==='ok')k.push(e('line',{key:'l',x1:x1+4,y1:y,x2:x2-4,y2:y,stroke:c,strokeWidth:6,strokeLinecap:'round'}));
+      else{k.push(e('line',{key:'g',x1:x1+4,y1:y,x2:x2-4,y2:y,stroke:gap[b],strokeWidth:6}));
+        k.push(e('line',{key:'l',x1:x1+4,y1:y,x2:x2-4,y2:y,stroke:c,strokeWidth:6,strokeDasharray:b==='at'?'14 6':'7 5'}));}
+    }
+    const cx=W/2,r=11;
+    if(b==='sd'){k.push(e('circle',{key:'m',cx,cy:y,r,fill:bg,stroke:c,strokeWidth:2,strokeDasharray:'3 2.5'}));k.push(e('text',{key:'t',x:cx,y:y+5,textAnchor:'middle',fontSize:14,fontWeight:700,fill:dark?'#E4E6EA':'#4F555E',fontFamily:'Atkinson Hyperlegible'},'?'));}
+    else{
+      k.push(e('circle',{key:'m',cx,cy:y,r,fill:c,stroke:ring,strokeWidth:2.5}));
+      if(b==='ok')k.push(e('path',{key:'i',d:`M${cx-4.5} ${y+0.5} L${cx-1.2} ${y+3.8} L${cx+4.8} ${y-3.2}`,fill:'none',stroke:ink,strokeWidth:2.4,strokeLinecap:'round',strokeLinejoin:'round'}));
+      if(b==='at')k.push(e('g',{key:'i'},e('line',{x1:cx,y1:y-5,x2:cx,y2:y+1,stroke:ink,strokeWidth:2.6,strokeLinecap:'round'}),e('circle',{cx,cy:y+4.6,r:1.5,fill:ink})));
+      if(b==='pe')k.push(e('path',{key:'i',d:`M${cx-4} ${y-4} L${cx+4} ${y+4} M${cx+4} ${y-4} L${cx-4} ${y+4}`,stroke:ink,strokeWidth:2.4,strokeLinecap:'round'}));
+    }
+    return e('svg',{width:W,height:H,viewBox:`0 0 ${W} ${H}`,'aria-hidden':true,style:{display:'block'}},k);
+  }
+  renderVals(){
+    const make=(id,mode,screen)=>{const h=M[mode];
+      const frame={...V[mode],width:390,height:844,flex:'none',border:'10px solid #0B0C0E',borderRadius:36,overflow:'hidden',display:'flex',flexDirection:'column',background:'var(--bg)',color:'var(--ink)',fontFamily:"'Atkinson Hyperlegible',system-ui,sans-serif",boxShadow:'0 24px 48px rgba(0,0,0,.18)'};
+      const tabs=[['mapa','Mapa','ti-map-2'],['rotas','Rotas','ti-route'],['reportes','Reportes','ti-message-report'],['dispositivo','Dispositivo','ti-device-watch'],['perfil','Perfil','ti-user-circle']].map(([k,l,i])=>{const on=k===screen;return {label:l,icon:i,current:on?'page':undefined,color:on?'var(--ink)':'var(--muted)',ind:on?'inset 0 5px 0 var(--primary)':'none'};});
+      return {id,frame,caption:`${screen==='mapa'?'Mapa':'Rotas'} · ${mode==='light'?'claro':'escuro'}`,title:screen==='mapa'?'Mapa':'Rotas',
+        headIcon:screen==='mapa'?'ti-search':'ti-arrows-exchange-2',headAction:screen==='mapa'?'Buscar endereço':'Inverter origem e destino',
+        wave:wave(h.waveA,h.waveB),isMapa:screen==='mapa',isRotas:screen==='rotas',
+        isLight:mode==='light',isDark:mode==='dark',
+        legend:[['ok','risco 0–39'],['at','risco 40–69'],['pe','risco 70+'],['sd','não medido']].map(([b,r],i)=>({...this.marker(b),line:this.line(b,mode),range:r,divider:i?'2px solid var(--line-soft)':'0'})),
+        stripA:['ok','ok','at','ok','ok'].map(b=>this.marker(b)),stripB:['at','sd','pe','at'].map(b=>this.marker(b)),tabs};};
+    return {phones:[make('1a','light','mapa'),make('1b','dark','mapa'),make('1c','light','rotas'),make('1d','dark','rotas')]};
+  }
+}
+</script>
+</body>
+</html>
