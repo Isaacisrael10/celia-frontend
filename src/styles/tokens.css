@@ -1,0 +1,53 @@
+/*
+  Tokens de cor da C.E.L.I.A. (vindos do design: design/README.md).
+  O tema é trocado pelo atributo data-tema no <html> ("claro" ou "escuro").
+  Contraste AA já conferido nos dois modos.
+*/
+
+:root,
+[data-tema='claro'] {
+  --bg: #f7f5f0;          /* fundo das telas (branco creme) */
+  --card: #ffffff;        /* cards, barra inferior, campos */
+  --ink: #1c1f24;         /* texto principal e bordas fortes */
+  --muted: #55595f;       /* texto secundário */
+  --line-soft: #d6d1c6;   /* divisórias decorativas */
+  --line-strong: #1c1f24; /* bordas de componentes */
+  --primary: #2257d6;     /* ação principal, aba ativa, recomendada */
+  --on-primary: #ffffff;  /* texto sobre --primary */
+  --link: #1a44a8;        /* links e ações em texto */
+  --head: #1c1f24;        /* cabeçalho grafite */
+  --on-head: #f7f5f0;     /* texto do cabeçalho */
+  --focus: #1c1f24;       /* anel de foco */
+
+  /* Semáforo: SÓ nos marcadores de faixa (badges, linhas do mapa) */
+  --faixa-normal: #1e8e3e;
+  --faixa-atencao: #b26a00;
+  --faixa-perigo: #c62828;
+  --faixa-sem-dados: #6b717b;
+  --faixa-icone: #ffffff; /* cor do ícone dentro do marcador */
+
+  color-scheme: light;
+}
+
+[data-tema='escuro'] {
+  --bg: #121316;
+  --card: #1c1f24;
+  --ink: #f2f0eb;
+  --muted: #b4b8bf;
+  --line-soft: #33373e;
+  --line-strong: #8a919c;
+  --primary: #8db0ff;
+  --on-primary: #121316;
+  --link: #8db0ff;
+  --head: #000000;
+  --on-head: #f2f0eb;
+  --focus: #f2f0eb;
+
+  --faixa-normal: #5bd08a;
+  --faixa-atencao: #f2b84b;
+  --faixa-perigo: #ff7a7a;
+  --faixa-sem-dados: #a0a6b0;
+  --faixa-icone: #121316;
+
+  color-scheme: dark;
+}
