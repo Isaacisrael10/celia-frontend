@@ -5,6 +5,7 @@ import Rotas from './pages/Rotas'
 import Reportar from './pages/Reportar'
 import Locais from './pages/Locais'
 import Perfil from './pages/Perfil'
+import Trecho from './pages/Trecho'
 
 // Moldura comum a todas as telas: o conteúdo da tela (Outlet) + a barra inferior
 function Layout() {
@@ -22,6 +23,7 @@ export default function App() {
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Mapa />} />
+          <Route path="/trecho/:id" element={<Trecho />} />
           <Route path="/rotas" element={<Rotas />} />
           <Route path="/reportar" element={<Reportar />} />
           <Route path="/locais" element={<Locais />} />

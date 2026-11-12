@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { useLocation } from 'react-router-dom'
 import { IconPlus, IconMessageOff } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import CardReporte from '../components/CardReporte'
@@ -20,8 +21,11 @@ export default function Reportar() {
   const { reportes, carregando, erro, carregar, criar, editar, excluir } = useReportes()
   const { aviso, mostrarAviso } = useAviso()
   const [filtro, setFiltro] = useState('todos')
+  // Vindo do detalhe do trecho ("Reportar problema aqui"), a rua já chega preenchida
+  const location = useLocation()
+  const ruaRecebida = location.state && location.state.rua
   // null = mostrando a lista · objeto = formulário aberto com esses dados
-  const [formulario, setFormulario] = useState(null)
+  const [formulario, setFormulario] = useState(ruaRecebida ? { ...REPORTE_VAZIO, rua: ruaRecebida } : null)
 
   // Interação Web Dev: filtrar os reportes pela situação
   const visiveis = filtro === 'todos' ? reportes : reportes.filter((r) => r.status === filtro)
