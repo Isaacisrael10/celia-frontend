@@ -35,8 +35,18 @@ export function useLocalDoReporte(inicial, aoAcharEndereco) {
 
   // 1. Ao abrir (sem local inicial): pede o GPS uma vez
   useEffect(() => {
-    if (temInicial || !navigator.geolocation) return
+    if (temInicial) return
     let ativo = true
+
+    // O navegador só libera o GPS em site seguro (https) ou em localhost
+    if (!window.isSecureContext || !navigator.geolocation) {
+      setTimeout(() => {
+        if (ativo) setAviso('O GPS só funciona com o site em https. Arraste o mapa ou digite o endereço.')
+      })
+      return () => {
+        ativo = false
+      }
+    }
     navigator.geolocation.getCurrentPosition(
       (p) => {
         if (!ativo) return
@@ -48,10 +58,17 @@ export function useLocalDoReporte(inicial, aoAcharEndereco) {
           if (ativo && texto) avisarEndereco.current(texto)
         })
       },
-      () => {
-        if (ativo) setAviso('Sem acesso à sua localização. Arraste o mapa ou digite o endereço.')
+      (erro) => {
+        if (!ativo) return
+        // código 1 = permissão negada · 3 = demorou demais
+        if (erro.code === 1) {
+          setAviso('Você não permitiu ver sua localização. Arraste o mapa ou digite o endereço.')
+        } else {
+          setAviso('Não deu para achar sua localização agora. Arraste o mapa ou digite o endereço.')
+        }
       },
-      { enableHighAccuracy: true, timeout: 10000 },
+      // maximumAge: aceita uma posição de até 1 minuto atrás (responde mais rápido)
+      { enableHighAccuracy: true, timeout: 15000, maximumAge: 60000 },
     )
     return () => {
       ativo = false
