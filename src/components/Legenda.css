@@ -1,25 +1,48 @@
-/* Legenda: 4 pílulas em 2 colunas, logo abaixo do mapa */
+/* A legenda fica por cima do mapa, no canto de baixo à esquerda */
 .legenda {
-  list-style: none;
-  margin: 16px 0 0;
-  padding: 0;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
+  position: absolute;
+  left: 10px;
+  bottom: 30px;
+  z-index: 5; /* acima dos selos e marcadores do mapa */
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
   gap: 6px;
 }
 
-.legenda__item {
-  min-height: 36px;
-  padding: 4px 12px;
-  display: flex;
+.legenda__botao {
+  min-height: 44px;
+  padding: 0 16px;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   background: var(--card);
+  color: var(--ink);
   border: 1px solid var(--linha);
   border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
 }
 
-.legenda__nome {
-  font-size: 14px;
-  font-weight: 500;
+.legenda__painel {
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
+}
+
+.legenda__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.legenda__item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
 }

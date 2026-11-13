@@ -3,7 +3,7 @@ import { IconArrowLeft } from '@tabler/icons-react'
 import './Cabecalho.css'
 
 /*
-  Cabeçalho claro do topo de cada tela: nome do app em cima e o título da tela embaixo.
+  Cabeçalho claro do topo de cada tela: título da tela e o espaço reservado da logo.
   - titulo: texto do h1
   - voltar: true mostra o botão de voltar
   - aoVoltar: (opcional) o que fazer ao voltar. Sem ele, volta para a tela anterior.
@@ -18,13 +18,7 @@ export default function Cabecalho({ titulo, voltar = false, aoVoltar }) {
           <IconArrowLeft size={22} aria-hidden="true" />
         </button>
       )}
-      <div className="cabecalho__textos">
-        <p className="cabecalho__marca">
-          C.E.L.I.A.
-          <span className="cabecalho__nome"> · Caminhos em Liberdade, Inclusão e Acessibilidade</span>
-        </p>
-        <h1 className="cabecalho__titulo">{titulo}</h1>
-      </div>
+      <h1 className="cabecalho__titulo">{titulo}</h1>
       {/* Espaço reservado da logo (a logo ainda não existe) */}
       <span className="cabecalho__logo" aria-hidden="true">
         logo

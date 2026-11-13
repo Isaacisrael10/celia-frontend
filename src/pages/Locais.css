@@ -1,63 +1,41 @@
+.locais__intro {
+  font-size: 16px;
+  color: var(--muted);
+}
+
+/* Filtros em pílula: o selecionado fica com fundo azul do símbolo */
+.locais__filtros {
+  display: flex;
+  gap: 8px;
+}
+
+.locais__filtro {
+  min-height: 40px;
+  padding: 0 16px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--linha);
+  border-radius: 999px;
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.locais__filtro[aria-pressed='true'] {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-color: var(--primary);
+}
+
 .locais {
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--linha);
-}
-
-.locais__item {
-  padding: 12px 0;
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.locais__icone {
-  width: 36px;
-  height: 36px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 8px;
-  background: var(--primary);
-  color: var(--on-primary);
-}
-
-.locais__textos {
-  flex: 1;
-  min-width: 0;
   display: flex;
   flex-direction: column;
-  gap: 1px;
-  font-size: 15px;
-}
-
-.locais__tipo {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.locais__nome {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.locais__detalhe {
-  color: var(--muted);
-}
-
-.locais__distancia {
-  font-size: 16px;
-  font-weight: 600;
-  white-space: nowrap;
+  gap: 10px;
 }
 
 .locais__fonte {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--muted);
 }

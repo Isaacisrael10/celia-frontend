@@ -8,6 +8,7 @@ import { CORES_MAPA, rotuloCompleto } from '../domain/faixas'
 import { nomeDoTrecho, meioDoTrecho } from '../domain/trechos'
 import { TIPOS } from '../domain/reportes'
 import FiguraPessoa from './FiguraPessoa'
+import Legenda from './Legenda'
 import './Mapa.css'
 
 // Área que aparece ao abrir: o Grajaú, onde ficam o poste e os testes.
@@ -208,6 +209,9 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
           </Marker>
         )}
       </MapaBase>
+
+      {/* Legenda: botão que abre o painel com as faixas */}
+      <Legenda />
 
       {aoPedirLocal && (
         <button className="mapa__meu-local" onClick={aoPedirLocal} aria-label="Centralizar no meu local">

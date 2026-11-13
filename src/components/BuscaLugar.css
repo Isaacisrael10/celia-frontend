@@ -6,13 +6,14 @@
 .busca-lugar__entrada {
   flex: 1;
   min-width: 0;
-  padding: 0 18px;
+  min-height: 44px;
+  padding: 0 16px;
   border-radius: 999px; /* busca em pílula */
 }
 
 .busca-lugar__botao {
-  width: 52px;
-  min-height: 52px;
+  width: 44px;
+  min-height: 44px;
   padding: 0;
 }
 

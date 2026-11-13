@@ -6,40 +6,52 @@
       "tipo": "banheiro",
       "nome": "Banheiro acessível da praça",
       "endereco": "Rua Barão do Bom Retiro, perto do nº 1500",
-      "detalhe": "Porta larga e barras de apoio. Aberto das 8h às 20h.",
-      "metros": 150
+      "recursos": ["porta-larga", "barras", "horario"],
+      "horario": "Aberto das 8h às 20h",
+      "metros": 150,
+      "lat": -22.9207911,
+      "lng": -43.2589205
     },
     {
       "id": "b2",
       "tipo": "banheiro",
       "nome": "Banheiro acessível da avenida",
       "endereco": "Avenida Engenheiro Richard, perto do nº 200",
-      "detalhe": "Porta larga e barras de apoio. Aberto das 7h às 19h.",
-      "metros": 420
+      "recursos": ["porta-larga", "barras", "horario"],
+      "horario": "Aberto das 7h às 19h",
+      "metros": 420,
+      "lat": -22.9223408,
+      "lng": -43.2641333
     },
     {
       "id": "d1",
       "tipo": "descanso",
       "nome": "Banco com sombra",
       "endereco": "Rua Grajaú, perto do nº 100",
-      "detalhe": "Dois bancos com encosto embaixo de árvores.",
-      "metros": 90
+      "recursos": ["sombra", "banco"],
+      "metros": 90,
+      "lat": -22.9248376,
+      "lng": -43.2650131
     },
     {
       "id": "d2",
       "tipo": "descanso",
       "nome": "Ponto de ônibus coberto",
       "endereco": "Rua Barão do Bom Retiro, perto do nº 1800",
-      "detalhe": "Cobertura e banco.",
-      "metros": 60
+      "recursos": ["cobertura", "banco"],
+      "metros": 60,
+      "lat": -22.9162847,
+      "lng": -43.2622385
     },
     {
       "id": "d3",
       "tipo": "descanso",
       "nome": "Área de descanso da praça",
       "endereco": "Rua Itabaiana, perto do nº 50",
-      "detalhe": "Bancos e bebedouro.",
-      "metros": 310
+      "recursos": ["sombra", "banco", "bebedouro"],
+      "metros": 310,
+      "lat": -22.9199766,
+      "lng": -43.2606052
     }
   ]
 }

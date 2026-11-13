@@ -3,7 +3,6 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Cabecalho from '../components/Cabecalho'
 import Mapa from '../components/Mapa'
 import ListaTrechos from '../components/ListaTrechos'
-import Legenda from '../components/Legenda'
 import WidgetCalor from '../components/WidgetCalor'
 import AlertaTrecho from '../components/AlertaTrecho'
 import BuscaLugar from '../components/BuscaLugar'
@@ -64,7 +63,8 @@ export default function PaginaMapa() {
       <main className="app__conteudo">
         {mostrarAlerta && <AlertaTrecho trecho={perigo} aoSeguir={() => setIgnorado(perigo.id + perigo.motivo)} />}
 
-        <WidgetCalor poste={poste} />
+        {/* O aviso de calor só aparece quando o poste mandou leitura recente */}
+        {poste.recente && <WidgetCalor poste={poste} />}
 
         {escolhida && (
           <p style={{ fontSize: 16 }}>
@@ -108,7 +108,6 @@ export default function PaginaMapa() {
               aoAbrirReporte={() => navigate('/reportar')}
               aoPedirLocal={irParaMeuLocal}
             />
-            <Legenda />
           </>
         ) : (
           <ListaTrechos trechos={trechos} />
