@@ -84,7 +84,7 @@ export default function Reportar() {
       <Cabecalho titulo="Reportes" />
       <main className="app__conteudo">
         <button className="botao botao--primario botao--seta" onClick={() => setFormulario(REPORTE_VAZIO)}>
-          Novo reporte
+          Reportar problema
           <IconPlus size={24} aria-hidden="true" />
         </button>
 

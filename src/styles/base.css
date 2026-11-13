@@ -69,29 +69,6 @@ button {
   gap: 14px;
 }
 
-/*
-  Tela do Mapa: o app ocupa exatamente a altura da tela e o mapa preenche o que sobra.
-  Assim não existe rolagem na página, e arrastar com o dedo sempre mexe no mapa.
-*/
-.app:has(.app__conteudo--mapa) {
-  height: 100dvh;
-}
-
-.app__conteudo--mapa {
-  min-height: 0;
-  padding-bottom: 0;
-  overflow: hidden;
-}
-
-/* Na visão em Lista, só a lista rola (a busca e as abas ficam fixas em cima) */
-.app__rolagem {
-  flex: 1;
-  min-height: 0;
-  margin: 0 -16px;
-  padding: 0 16px 24px;
-  overflow-y: auto;
-}
-
 /* Quem pediu menos movimento não vê animação nenhuma */
 @media (prefers-reduced-motion: reduce) {
   *,

@@ -17,11 +17,11 @@ export default function Rotas() {
   const saindoDe = volta ? trabalho : casa
   const indoPara = volta ? casa : trabalho
 
-  // Escolher uma rota volta para o mapa com um aviso
+  // Escolher o caminho de sempre: fica salvo no navegador e o boletim do Mapa passa a acompanhar ele
   function escolherRota(id) {
     escolher(id)
     const rota = rotas.find((r) => r.id === id)
-    navigate('/', { state: { aviso: 'Rota escolhida: ' + rota.nome + ', ' + rota.minutos + ' min.' } })
+    navigate('/', { state: { aviso: 'Caminho de sempre: ' + rota.nome + '.' } })
   }
 
   return (
@@ -31,9 +31,7 @@ export default function Rotas() {
         <div className="rotas__percurso">
           <div className="rotas__pontos">
             <p className="rotas__ponto">
-              <span className="rotas__letra" aria-hidden="true">
-                A
-              </span>
+              <span className="rotas__bolinha" aria-hidden="true" />
               <span>
                 <span className="rotas__rotulo">Saindo de</span>
                 {saindoDe}
@@ -41,9 +39,7 @@ export default function Rotas() {
             </p>
             <span className="rotas__ligacao" aria-hidden="true" />
             <p className="rotas__ponto">
-              <span className="rotas__letra" aria-hidden="true">
-                B
-              </span>
+              <span className="rotas__bolinha rotas__bolinha--destino" aria-hidden="true" />
               <span>
                 <span className="rotas__rotulo">Indo para</span>
                 {indoPara}

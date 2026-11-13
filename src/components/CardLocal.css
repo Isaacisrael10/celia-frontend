@@ -4,7 +4,7 @@
   flex-direction: column;
   gap: 10px;
   background: var(--card);
-  border: 1px solid var(--linha);
+  box-shadow: var(--sombra);
   border-radius: var(--raio);
 }
 

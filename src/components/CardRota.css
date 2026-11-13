@@ -1,6 +1,6 @@
 .card-rota {
   background: var(--card);
-  border: 1px solid var(--linha);
+  box-shadow: var(--sombra);
   border-radius: var(--raio);
   overflow: hidden;
 }
@@ -96,7 +96,7 @@
   font-size: 14px;
 }
 
-/* Rota atual: borda tracejada e ✓ */
+/* Caminho de sempre: borda tracejada e ✓ */
 .card-rota__atual {
   min-height: 44px;
   display: flex;

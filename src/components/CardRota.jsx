@@ -9,7 +9,7 @@ import './CardRota.css'
   Card de uma rota na comparação.
   - rota: rota já analisada (analisarRota)
   - recomendada: true mostra a faixa "RECOMENDADA" e o botão principal
-  - atual: true se é a rota que a pessoa escolheu
+  - atual: true se é o caminho de sempre da pessoa
   - aoEscolher(id)
 */
 export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
@@ -67,14 +67,14 @@ export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
 
         {atual ? (
           <p className="card-rota__atual">
-            Rota atual <IconCheck size={20} aria-hidden="true" />
+            Seu caminho de sempre <IconCheck size={20} aria-hidden="true" />
           </p>
         ) : (
           <button
             className={'botao botao--pequeno botao--seta ' + (recomendada ? 'botao--primario' : 'botao--secundario')}
             onClick={() => aoEscolher(rota.id)}
           >
-            Escolher esta rota
+            Usar como caminho de sempre
             <IconArrowRight size={20} aria-hidden="true" />
           </button>
         )}

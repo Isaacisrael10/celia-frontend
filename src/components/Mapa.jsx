@@ -1,14 +1,13 @@
-import { useEffect, useMemo, useRef } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import MapaBase, { Source, Layer, Marker, NavigationControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { IconCurrentLocation, IconMessageReport } from '@tabler/icons-react'
+import { IconMessageReport } from '@tabler/icons-react'
 import estiloClaro from '../styles/mapa/celia-mapa-claro.json'
 import estiloEscuro from '../styles/mapa/celia-mapa-escuro.json'
 import { CORES_MAPA, rotuloCompleto } from '../domain/faixas'
 import { nomeDoTrecho, meioDoTrecho } from '../domain/trechos'
 import { TIPOS } from '../domain/reportes'
 import FiguraPessoa from './FiguraPessoa'
-import Legenda from './Legenda'
 import './Mapa.css'
 
 // Área que aparece ao abrir: o Grajaú, onde ficam o poste e os testes.
@@ -21,7 +20,21 @@ const AREA_INICIAL = [
 // As linhas ficam abaixo desta camada, para os nomes das ruas ficarem por cima
 const ABAIXO_DE = 'highway-name-minor'
 
-// O crédito "OpenFreeMap © OpenMapTiles Data from OpenStreetMap" já vem do próprio estilo
+// Espaço livre nas bordas ao enquadrar: em cima fica a busca e embaixo fica a gaveta do boletim
+const FOLGA = { top: 80, bottom: 190, left: 24, right: 60 }
+
+// Textos do MapLibre em português (o leitor de tela lê estes nomes)
+const TEXTOS_MAPA = {
+  'Map.Title': 'Mapa dos trechos',
+  'NavigationControl.ZoomIn': 'Aproximar',
+  'NavigationControl.ZoomOut': 'Afastar',
+}
+
+// Distância mínima (em px na tela) entre dois selos ! e ✕ para eles não ficarem um em cima do outro
+const DISTANCIA_SELOS = 40
+
+// Ordem de importância dos selos: Perigo aparece antes de Atenção quando não cabem os dois
+const PRIORIDADE = { perigo: 0, atencao: 1 }
 
 /*
   Mapa real (MapLibre + OpenFreeMap) com os trechos coloridos por faixa.
@@ -32,18 +45,61 @@ const ABAIXO_DE = 'highway-name-minor'
   - alvo: lugar para onde a câmera vai ({ area } ou { lat, lng }); muda quando a pessoa busca
   - aoSelecionar(id): abre o detalhe do trecho
   - aoAbrirReporte(): abre a tela de reportes
-  - aoPedirLocal(): botão "Meu local"
+  - destaque: ids dos trechos do caminho de sempre (ganham um contorno azul)
+  O crédito do mapa fica na tela do Mapa, acima da gaveta (aqui embaixo ele ficaria escondido).
 */
-export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSelecionar, aoAbrirReporte, aoPedirLocal }) {
+export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, destaque = [], aoSelecionar, aoAbrirReporte }) {
   const mapaRef = useRef(null)
   const cores = escuro ? CORES_MAPA.escuro : CORES_MAPA.claro
+  // Último enquadramento do mapa: muda quando o mapa carrega e quando para de mexer
+  const [camera, setCamera] = useState(null)
+
+  function guardarCamera(evento) {
+    setCamera({ mapa: evento.target, quando: Date.now() })
+  }
+
+  // Trechos em Atenção e Perigo: os que ganham selo, do mais grave para o menos grave
+  const comSelo = useMemo(
+    () =>
+      trechos
+        .filter((t) => t.faixa.id === 'atencao' || t.faixa.id === 'perigo')
+        .sort((a, b) => PRIORIDADE[a.faixa.id] - PRIORIDADE[b.faixa.id]),
+    [trechos],
+  )
+
+  /*
+    Selos que cabem na tela sem sobrepor: passa pelos selos em ordem de gravidade
+    e só mostra um selo se ele estiver longe dos que já foram escolhidos.
+  */
+  const selosVisiveis = useMemo(() => {
+    if (!camera) return []
+    const escolhidos = []
+    for (const t of comSelo) {
+      const ponto = camera.mapa.project(meioDoTrecho(t))
+      const longeDeTodos = escolhidos.every((e) => Math.hypot(e.x - ponto.x, e.y - ponto.y) >= DISTANCIA_SELOS)
+      if (longeDeTodos) escolhidos.push({ id: t.id, x: ponto.x, y: ponto.y })
+    }
+    return escolhidos.map((e) => e.id)
+  }, [camera, comSelo])
+
+  /*
+    O MapLibre coloca "Map marker" como nome de todo marcador.
+    Os nossos marcadores já têm um botão com nome em português dentro,
+    então tiramos esse nome em inglês para o leitor de tela não ler duas vezes.
+  */
+  useEffect(() => {
+    document.querySelectorAll('.mapa .maplibregl-marker').forEach((marcador) => {
+      marcador.removeAttribute('aria-label')
+      marcador.setAttribute('role', 'presentation')
+    })
+  })
 
   // Quando o alvo muda (busca ou GPS), a câmera voa até ele
   useEffect(() => {
     const mapa = mapaRef.current
     if (!mapa || !alvo) return
     if (alvo.area) {
-      mapa.fitBounds(alvo.area, { padding: 24, maxZoom: 17, duration: 1200 })
+      mapa.fitBounds(alvo.area, { padding: FOLGA, maxZoom: 17, duration: 1200 })
     } else {
       mapa.flyTo({ center: [alvo.lng, alvo.lat], zoom: 17, duration: 1200 })
     }
@@ -95,9 +151,12 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
     <div className="mapa">
       <MapaBase
         ref={mapaRef}
-        initialViewState={{ bounds: AREA_INICIAL, fitBoundsOptions: { padding: 24 } }}
+        initialViewState={{ bounds: AREA_INICIAL, fitBoundsOptions: { padding: FOLGA } }}
         mapStyle={escuro ? estiloEscuro : estiloClaro}
-        attributionControl={{ compact: false }}
+        attributionControl={false}
+        locale={TEXTOS_MAPA}
+        onLoad={guardarCamera}
+        onMoveEnd={guardarCamera}
         interactiveLayerIds={['linha-normal', 'linha-atencao', 'linha-perigo', 'linha-sem-dados']}
         onClick={clicarNoMapa}
         cursor="pointer"
@@ -106,6 +165,15 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
         <NavigationControl position="top-right" showCompass={false} />
 
         <Source id="trechos" type="geojson" data={geojson}>
+          {/* Caminho de sempre: contorno azul largo por baixo das linhas */}
+          <Layer
+            id="caminho-de-sempre"
+            type="line"
+            beforeId={ABAIXO_DE}
+            filter={['in', ['get', 'id'], ['literal', destaque]]}
+            layout={{ 'line-cap': 'round', 'line-join': 'round' }}
+            paint={{ 'line-color': escuro ? '#49C8F5' : '#0A72A8', 'line-width': 14, 'line-opacity': 0.35 }}
+          />
           {/* Brilho da própria cor por trás da linha */}
           <Layer
             id="brilho"
@@ -169,8 +237,9 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
         </Source>
 
         {/* Selos ! e ✕ no meio dos trechos em Atenção e Perigo (são botões: funcionam no teclado) */}
-        {trechos
-          .filter((t) => t.faixa.id === 'atencao' || t.faixa.id === 'perigo')
+        {/* Quando dois selos ficariam um em cima do outro, só o mais grave aparece (o trecho continua colorido) */}
+        {comSelo
+          .filter((t) => selosVisiveis.includes(t.id))
           .map((t) => {
             const [lng, lat] = meioDoTrecho(t)
             return (
@@ -209,15 +278,6 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
           </Marker>
         )}
       </MapaBase>
-
-      {/* Legenda: botão que abre o painel com as faixas */}
-      <Legenda />
-
-      {aoPedirLocal && (
-        <button className="mapa__meu-local" onClick={aoPedirLocal} aria-label="Centralizar no meu local">
-          <IconCurrentLocation size={26} aria-hidden="true" />
-        </button>
-      )}
     </div>
   )
 }

@@ -36,12 +36,12 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 
 | Tela | O que faz |
 |---|---|
-| **Mapa** | Mapa real e livre (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, widget de calor do poste, alerta quando a rota escolhida passa por Perigo, legenda e alternativa em lista para leitor de tela. |
+| **Mapa** | Mapa real e livre de ponta a ponta (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, legenda e alternativa em lista para leitor de tela. Embaixo, a gaveta do **boletim do caminho de sempre** responde se dá para ir trabalhar hoje pelo caminho de sempre (livre, Atenção, Perigo ou sem dados), com o calor medido no ponto de ônibus e o alerta de calor escolhido no Perfil. |
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
-| **Rotas** | Compara 3 caminhos até o trabalho e recomenda o mais seguro (que nem sempre é o mais curto). |
+| **Rotas** | Compara 3 caminhos até o trabalho, recomenda o mais seguro (que nem sempre é o mais curto) e deixa a pessoa escolher o **caminho de sempre** (salvo no navegador, sem login). |
 | **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. |
 | **Locais** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro. |
-| **Perfil** | Modo escuro, modo chuva e informações do projeto. |
+| **Perfil** | Modo escuro, alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), modo chuva e informações do projeto. |
 
 _(prints das telas em breve)_
 
@@ -51,7 +51,7 @@ _(prints das telas em breve)_
 
 | Parte | Situação |
 |---|---|
-| Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s e mostrado no widget de calor. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
+| Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s e mostrado no boletim do caminho de sempre. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
 | Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
 | Reportes | **Reais** na MockAPI (API externa do CRUD). |
 | Análise da foto (IA) | **Real** na demonstração local (API Flask do Caio em `localhost:5000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
@@ -107,7 +107,7 @@ src/
   services/    acesso a dados, sem React
                reportesApi.js · thingspeak.js · visaoApi.js · miniatura.js · config.js
   domain/      regras de negócio puras (sem React, sem fetch)
-               faixas.js · reportes.js · poste.js · trechos.js · rotas.js · visao.js
+               faixas.js · reportes.js · poste.js · trechos.js · rotas.js · boletim.js · visao.js
   hooks/       custom hooks: juntam serviços, regras e estado
   components/  peças visuais reutilizáveis
   pages/       as telas
@@ -122,7 +122,8 @@ src/
 | `useReportes` | Lista, cria, edita e exclui reportes na MockAPI |
 | `useStatusPoste` | Lê o ThingSpeak a cada 20 s e aplica a regra dos 10 minutos |
 | `useTrechos` | Junta os trechos com o poste ao vivo e calcula a faixa de cada um |
-| `useRotas` | Ordena as rotas da mais segura para a menos segura e guarda a escolhida |
+| `useRotas` | Ordena as rotas da mais segura para a menos segura e guarda o caminho de sempre |
+| `useLimiteCalor` | Temperatura do alerta de calor, escolhida no Perfil e salva no navegador |
 | `useAnaliseFoto` | Envia a foto para a IA e cuida do plano B |
 | `useTema` | Modo claro/escuro, salvo no navegador |
 | `usePreferencia` | Preferência liga/desliga salva no navegador (modo chuva) |
@@ -138,12 +139,14 @@ src/
 3. Alternar **Mapa / Lista**
 4. **Filtrar locais** por tipo
 5. **Inverter** origem e destino nas rotas
-6. **Escolher uma rota** e ver o alerta de trecho em Perigo no mapa
+6. **Escolher o caminho de sempre** e ver o boletim no mapa (muda sozinho se um trecho mudar de faixa)
 7. **Confirmar exclusão** de um reporte dentro do próprio card
 8. **Validação** do formulário de reporte, com mensagens de erro acessíveis
 9. **Buscar um lugar** e o mapa voar até ele
 10. **Meu local**: centralizar o mapa no GPS
 11. **Escolher o local do reporte** arrastando o mapa (o endereço se preenche sozinho)
+12. **Abrir e fechar a gaveta** do boletim com os detalhes do caminho
+13. **Alerta de calor**: escolher a temperatura no Perfil e o boletim avisar quando o ponto passar dela
 
 ---
 
@@ -153,7 +156,8 @@ src/
 - Contraste AA nos dois modos; texto do corpo com 16 px ou mais
 - Áreas de toque com 44 px ou mais
 - Foco visível em tudo; navegação completa pelo teclado
-- Rótulos para leitor de tela em botões de ícone e nos selos do mapa
+- Rótulos para leitor de tela em botões de ícone e nos selos do mapa (sem o "Map marker" em inglês do MapLibre)
+- Selos do mapa nunca ficam um em cima do outro: quando não cabem, aparece o mais grave
 - **Lista** como alternativa completa ao mapa
 - Animações desligadas para quem pediu menos movimento no sistema
 - Verde, amarelo e vermelho reservados para as faixas; erros e status usam grafite e azul

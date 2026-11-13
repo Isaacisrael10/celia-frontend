@@ -1,0 +1,154 @@
+/*
+  Tela do Mapa de ponta a ponta.
+  O app ocupa exatamente a altura da tela: não existe rolagem na página,
+  então arrastar com o dedo sempre mexe no mapa.
+*/
+.app:has(.tela-mapa) {
+  height: 100dvh;
+}
+
+.tela-mapa {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* As camadas por cima do mapa deixam o toque passar, menos nos próprios botões */
+.tela-mapa__topo,
+.tela-mapa__meio,
+.tela-mapa__base {
+  position: relative;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.tela-mapa__topo > *,
+.tela-mapa__base > *,
+.tela-mapa__lista {
+  pointer-events: auto;
+}
+
+/* Em cima: busca flutuante + espaço da logo, numa linha só */
+.tela-mapa__topo {
+  padding: 12px 12px 0;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.tela-mapa__topo .busca-lugar {
+  flex: 1;
+  min-width: 0;
+}
+
+.tela-mapa__topo .busca-lugar__entrada {
+  border-color: transparent;
+  box-shadow: var(--sombra-flutuante);
+}
+
+.tela-mapa__topo .busca-lugar__botao {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 0;
+  box-shadow: var(--sombra-flutuante);
+}
+
+.tela-mapa__topo .busca-lugar__info {
+  padding: 4px 12px;
+  background: var(--card);
+  border-radius: var(--raio);
+}
+
+/* Espaço reservado da logo (a logo ainda não existe) */
+.tela-mapa__logo {
+  width: 44px;
+  height: 44px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 12px;
+  color: var(--muted);
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.tela-mapa__base {
+  display: flex;
+  flex-direction: column;
+}
+
+.tela-mapa__meio {
+  flex: 1;
+  min-height: 0;
+}
+
+/* Visão em lista: fundo do app e só a lista rola */
+.tela-mapa--lista {
+  background: var(--bg);
+}
+
+.tela-mapa__lista {
+  height: 100%;
+  padding: 12px 16px;
+  overflow-y: auto;
+}
+
+/* Fileira de botões logo acima da gaveta: Legenda e Lista à esquerda, Meu local à direita */
+.tela-mapa__botoes {
+  padding: 0 12px 8px;
+  display: flex;
+  align-items: flex-end;
+  gap: 8px;
+}
+
+.tela-mapa__pilula {
+  min-height: 44px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--card);
+  color: var(--ink);
+  border: 0;
+  border-radius: 999px;
+  box-shadow: var(--sombra-flutuante);
+  font-size: 15px;
+  font-weight: 500;
+}
+
+.tela-mapa__meu-local {
+  width: 48px;
+  height: 48px;
+  margin-left: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--card);
+  color: var(--ink);
+  border: 0;
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-flutuante);
+}
+
+/* Crédito obrigatório do mapa, logo acima da gaveta */
+.tela-mapa__credito {
+  align-self: flex-end;
+  margin: 0 12px 4px auto;
+  width: max-content;
+  padding: 1px 6px;
+  background: color-mix(in srgb, var(--card) 85%, transparent);
+  border-radius: 6px;
+  color: var(--ink);
+  font-size: 13px;
+}
+
+/* Na lista, os botões ficam no fundo do app (não tem mapa atrás) */
+.tela-mapa--lista .tela-mapa__botoes {
+  padding-top: 8px;
+}

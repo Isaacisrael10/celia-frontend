@@ -61,7 +61,7 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
 
   return (
     <form onSubmit={enviar} noValidate style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
-      <h2 style={{ fontSize: 22 }}>{editando ? 'Editar reporte' : 'Novo reporte'}</h2>
+      <h2 style={{ fontSize: 22 }}>{editando ? 'Editar reporte' : 'Reportar problema'}</h2>
 
       {/* O erro "falta a foto" some assim que a foto é escolhida */}
       {!editando && <EtapaFoto analise={analise} erro={analise.miniatura ? '' : erros.foto} />}

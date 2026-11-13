@@ -1,10 +1,28 @@
+/* O mapa fica atrás de tudo e ocupa a tela inteira do Mapa (de ponta a ponta) */
 .mapa {
-  position: relative;
-  /* O mapa preenche todo o espaço que sobra na tela (ver .app__conteudo--mapa) */
-  flex: 1;
-  min-height: 260px;
-  margin: 0 -16px; /* o mapa vai de borda a borda */
-  border-top: 1px solid var(--linha);
+  position: absolute;
+  inset: 0;
+}
+
+/* Botões + e −: 44 px (área de toque mínima), logo abaixo da busca */
+.mapa .maplibregl-ctrl-top-right {
+  top: 64px;
+}
+
+.mapa .maplibregl-ctrl-group {
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-flutuante);
+  background: var(--card);
+}
+
+.mapa .maplibregl-ctrl-group button {
+  width: 44px;
+  height: 44px;
+}
+
+/* No escuro, o desenho do + e do − fica claro */
+[data-tema='escuro'] .mapa .maplibregl-ctrl-icon {
+  filter: invert(1);
 }
 
 /* Selo no meio do trecho: círculo com o ícone e anel na cor do card */
@@ -41,24 +59,9 @@
   justify-content: center;
   background: var(--card);
   color: var(--link);
-  border: 1px solid var(--linha);
+  border: 0;
   border-radius: var(--raio);
-}
-
-/* Botão "Meu local": canto inferior direito, acima do crédito */
-.mapa__meu-local {
-  position: absolute;
-  right: 10px;
-  bottom: 34px;
-  width: 48px;
-  height: 48px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--card);
-  color: var(--ink);
-  border: 1px solid var(--linha);
-  border-radius: var(--raio);
+  box-shadow: var(--sombra-flutuante);
 }
 
 /* "Você": ponto azul com halo */
@@ -71,15 +74,4 @@
   border-radius: 50%;
   /* Halo azul em volta da figura: mostra que é a posição da pessoa */
   background: color-mix(in srgb, var(--primary) 20%, transparent);
-}
-
-/* Crédito do mapa legível nos dois temas */
-.mapa .maplibregl-ctrl-attrib {
-  background: var(--card);
-  color: var(--ink);
-  font-size: 13px;
-}
-
-.mapa .maplibregl-ctrl-attrib a {
-  color: var(--ink);
 }

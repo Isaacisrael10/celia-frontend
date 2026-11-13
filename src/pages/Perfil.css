@@ -17,3 +17,58 @@
   border-top: 1px solid var(--linha);
   font-size: 16px;
 }
+
+/* Alerta de calor: opções em pílula (o rádio de verdade fica escondido, mas funciona no teclado) */
+.perfil__calor {
+  margin: 0;
+  padding: 16px 0 0;
+  border: 0;
+  border-top: 1px solid var(--linha);
+}
+
+.perfil__legenda {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.perfil__opcoes {
+  margin-top: 12px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.perfil__opcao {
+  position: relative;
+}
+
+.perfil__opcao input {
+  position: absolute;
+  opacity: 0;
+}
+
+.perfil__opcao span {
+  min-height: 44px;
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--card);
+  border: 1.5px solid var(--borda-campo);
+  border-radius: 999px;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.perfil__opcao input:checked + span {
+  background: var(--link);
+  border-color: var(--link);
+  color: var(--card);
+}
+
+.perfil__opcao input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
