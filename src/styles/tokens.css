@@ -30,6 +30,10 @@
   --on-head: #ffffff;     /* texto do cabeçalho */
   --focus: #0a72a8;        /* anel de foco */
 
+  /* Símbolo de acessibilidade: igual ao original (fundo branco, traço preto) */
+  --simbolo-fundo: #ffffff;
+  --simbolo-traco: #000000;
+
   /* Semáforo: SÓ nos marcadores de faixa (badges, linhas do mapa) */
   --faixa-normal: #1e8e3e;
   --faixa-atencao: #b26a00;
@@ -55,6 +59,10 @@
   --head: #0f1d45;
   --on-head: #e8eefc;
   --focus: #49c8f5;
+
+  /* Símbolo no escuro: fundo azul-noite e traço claro (bolinhas continuam no azul do símbolo) */
+  --simbolo-fundo: #13204a;
+  --simbolo-traco: #e8eefc;
 
   --faixa-normal: #5bd08a;
   --faixa-atencao: #f2b84b;
