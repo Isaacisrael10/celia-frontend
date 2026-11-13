@@ -7,6 +7,7 @@ import estiloEscuro from '../styles/mapa/celia-mapa-escuro.json'
 import { CORES_MAPA, rotuloCompleto } from '../domain/faixas'
 import { nomeDoTrecho, meioDoTrecho } from '../domain/trechos'
 import { TIPOS } from '../domain/reportes'
+import FiguraPessoa from './FiguraPessoa'
 import './Mapa.css'
 
 // Área que aparece ao abrir: o Grajaú, onde ficam o poste e os testes.
@@ -169,8 +170,8 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
         {/* Você */}
         {voce && (
           <Marker longitude={voce.lng} latitude={voce.lat}>
-            <span className="mapa__voce" role="img" aria-label="Você está aqui">
-              <span className="mapa__voce-ponto" />
+            <span className="mapa__voce">
+              <FiguraPessoa tamanho={40} rotulo="Você está aqui" />
             </span>
           </Marker>
         )}

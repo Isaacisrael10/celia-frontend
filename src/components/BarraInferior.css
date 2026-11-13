@@ -1,7 +1,7 @@
 .barra-inferior {
   position: sticky;
   bottom: 0;
-  height: 64px;
+  height: 72px;
   /* No iPhone, deixa espaço para a barrinha de gestos embaixo da tela */
   padding-bottom: env(safe-area-inset-bottom);
   box-sizing: content-box;
@@ -12,6 +12,54 @@
   border-top: 1px solid var(--linha);
 }
 
+/* ---------- O "corpo": linha curva + 5 bolinhas ---------- */
+.barra-inferior__corpo {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 18px;
+  pointer-events: none; /* o toque passa direto para as abas */
+}
+
+.barra-inferior__linha {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 14px;
+  fill: none;
+  stroke: var(--line-strong);
+  stroke-width: 1.5;
+}
+
+/* Bolinha de cada aba: só o contorno */
+.barra-inferior__no,
+.barra-inferior__no-ativo {
+  position: absolute;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.barra-inferior__no {
+  width: 8px;
+  height: 8px;
+  background: var(--card);
+  border: 1.5px solid var(--line-strong);
+}
+
+/* Bolinha da aba atual: azul cheia, como as do símbolo, e desliza ao trocar de aba */
+.barra-inferior__no-ativo {
+  width: 14px;
+  height: 14px;
+  background: var(--primary);
+  border: 2.5px solid var(--card);
+  box-shadow: 0 0 0 1.5px var(--primary);
+  transition:
+    left 0.35s ease,
+    top 0.35s ease;
+}
+
+/* ---------- Abas ---------- */
 .barra-inferior__aba {
   display: flex;
   flex-direction: column;
@@ -19,18 +67,18 @@
   justify-content: center;
   gap: 3px;
   min-width: 0;
-  padding: 0 2px;
+  padding: 14px 2px 0; /* espaço para a linha das bolinhas em cima */
   color: var(--muted);
   text-decoration: none;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 500;
   line-height: 1;
   letter-spacing: -0.01em;
   white-space: nowrap;
 }
 
-/* Aba ativa: texto forte e uma barra azul de 5 px no topo */
+/* Aba ativa: ícone e nome em azul */
 .barra-inferior__aba[aria-current='page'] {
   color: var(--primary);
-  box-shadow: inset 0 5px 0 var(--primary);
+  font-weight: 600;
 }
