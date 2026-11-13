@@ -4,8 +4,8 @@
   align-items: center;
   gap: 10px;
   background: var(--card);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
 }
 
 .widget-calor__textos {
@@ -17,7 +17,7 @@
 
 .widget-calor__titulo {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .widget-calor__detalhe {

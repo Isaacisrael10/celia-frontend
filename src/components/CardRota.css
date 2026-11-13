@@ -1,13 +1,13 @@
 .card-rota {
   background: var(--card);
-  border: 2px solid var(--line-strong);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
   overflow: hidden;
 }
 
 /* A recomendada tem borda azul mais grossa e uma faixa no topo */
 .card-rota--recomendada {
-  border: 3px solid var(--primary);
+  border: 2px solid var(--primary);
 }
 
 .card-rota__faixa {
@@ -18,7 +18,7 @@
   background: var(--primary);
   color: var(--on-primary);
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.04em;
 }
@@ -57,7 +57,7 @@
 
 .card-rota__minutos {
   font-size: 24px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
   letter-spacing: -0.02em;
   white-space: nowrap;
@@ -103,8 +103,8 @@
   align-items: center;
   justify-content: center;
   gap: 6px;
-  border: 2px dashed var(--ink);
-  border-radius: 4px;
+  border: 1.5px dashed var(--primary);
+  border-radius: var(--raio);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }

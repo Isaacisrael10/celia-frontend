@@ -11,9 +11,9 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border-radius: 4px;
+  border-radius: var(--raio);
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
   text-decoration: none;
 }
@@ -32,8 +32,8 @@
 
 .botao--secundario {
   background: transparent;
-  color: var(--ink);
-  border: 2px solid var(--ink);
+  color: var(--link);
+  border: 1.5px solid var(--primary);
 }
 
 /* Ação forte sem cor de semáforo (ex.: "Sim, excluir") */
@@ -65,7 +65,7 @@
   border: 0;
   color: var(--link);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 4px;
 }
@@ -83,7 +83,7 @@
 
 .campo__rotulo {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .campo__dica {
@@ -94,8 +94,8 @@
 .campo__entrada {
   min-height: 48px;
   padding: 0 12px;
-  border: 2px solid var(--line-strong);
-  border-radius: 4px;
+  border: 1px solid var(--borda-campo);
+  border-radius: var(--raio);
   background: var(--card);
   font-size: 16px; /* 16 px evita o zoom automático do iPhone ao tocar no campo */
 }
@@ -107,7 +107,7 @@ textarea.campo__entrada {
 
 /* Erro sem vermelho: borda mais grossa + ícone + texto */
 .campo__entrada[aria-invalid='true'] {
-  border: 3px solid var(--ink);
+  border: 2px solid var(--ink);
 }
 
 .campo__erro {
@@ -115,7 +115,7 @@ textarea.campo__entrada {
   align-items: center;
   gap: 8px;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* ---------- Radio ---------- */
@@ -143,7 +143,7 @@ textarea.campo__entrada {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px solid var(--ink);
+  border: 1.5px solid var(--borda-campo);
   border-radius: 50%;
 }
 
@@ -152,7 +152,7 @@ textarea.campo__entrada {
   width: 12px;
   height: 12px;
   border-radius: 50%;
-  background: var(--ink);
+  background: var(--primary);
 }
 
 .radio input:focus-visible + .radio__bolinha {
@@ -166,7 +166,7 @@ textarea.campo__entrada {
   gap: 18px;
   overflow-x: auto;
   scrollbar-width: none; /* rola com o dedo, sem barra visível */
-  border-bottom: 2px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .abas__aba {
@@ -178,14 +178,14 @@ textarea.campo__entrada {
   margin-bottom: -2px;
   color: var(--muted);
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
 }
 
 .abas__aba[aria-pressed='true'],
 .abas__aba[aria-selected='true'] {
-  color: var(--ink);
-  border-bottom-color: var(--ink);
+  color: var(--primary);
+  border-bottom-color: var(--primary);
 }
 
 /* ---------- Animação de entrada (avisos e toasts) ---------- */

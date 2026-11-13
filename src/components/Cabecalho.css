@@ -12,7 +12,7 @@
   flex: 1;
   font-size: 22px;
   line-height: 1;
-  font-weight: 700;
+  font-weight: 600;
   letter-spacing: -0.01em;
 }
 
@@ -25,8 +25,8 @@
   justify-content: center;
   background: transparent;
   color: var(--on-head);
-  border: 2px solid var(--on-head);
-  border-radius: 4px;
+  border: 1.5px solid var(--on-head);
+  border-radius: var(--raio);
 }
 
 .cabecalho__voltar:focus-visible {
@@ -41,8 +41,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px dashed var(--on-head);
+  border: 1.5px dashed var(--on-head);
+  border-radius: 8px;
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   opacity: 0.7;
 }
