@@ -61,7 +61,7 @@ export default function PaginaMapa() {
     <>
       <Cabecalho titulo="Mapa" />
       {/* Tela cheia: o mapa ocupa o espaço que sobra e a página não rola (só o mapa mexe) */}
-      <main className={'app__conteudo app__conteudo--mapa' + (visao === 'lista' ? ' app__conteudo--rola' : '')}>
+      <main className="app__conteudo app__conteudo--mapa">
         {mostrarAlerta && <AlertaTrecho trecho={perigo} aoSeguir={() => setIgnorado(perigo.id + perigo.motivo)} />}
 
         {/* O aviso de calor só aparece quando o poste mandou leitura recente */}
@@ -111,7 +111,10 @@ export default function PaginaMapa() {
             />
           </>
         ) : (
-          <ListaTrechos trechos={trechos} />
+          // Só a lista rola: a busca e as abas Mapa/Lista ficam sempre visíveis em cima
+          <div className="app__rolagem">
+            <ListaTrechos trechos={trechos} />
+          </div>
         )}
       </main>
       <Aviso mensagem={aviso} />

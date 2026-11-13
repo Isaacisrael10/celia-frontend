@@ -83,10 +83,13 @@ button {
   overflow: hidden;
 }
 
-/* Na visão em Lista, a lista pode rolar normalmente */
-.app__conteudo--rola {
+/* Na visão em Lista, só a lista rola (a busca e as abas ficam fixas em cima) */
+.app__rolagem {
+  flex: 1;
+  min-height: 0;
+  margin: 0 -16px;
+  padding: 0 16px 24px;
   overflow-y: auto;
-  padding-bottom: 24px;
 }
 
 /* Quem pediu menos movimento não vê animação nenhuma */
