@@ -1,23 +1,31 @@
 /*
-  Tokens de cor da C.E.L.I.A. (vindos do design: design/README.md).
+  Tokens de cor da C.E.L.I.A. (identidade azul).
   O tema é trocado pelo atributo data-tema no <html> ("claro" ou "escuro").
-  Contraste AA já conferido nos dois modos.
+  Contraste AA conferido nos dois modos (texto 4,5:1, bordas de campo 3:1).
 */
+
+:root {
+  /* Fonte: Lexend foi criada para facilitar a leitura */
+  --fonte: 'Lexend', system-ui, sans-serif;
+  --raio: 10px; /* cantos de cards, botões e campos */
+}
 
 :root,
 [data-tema='claro'] {
-  --bg: #f7f5f0;          /* fundo das telas (branco creme) */
+  --bg: #f4f7fd;          /* fundo das telas (branco azulado) */
   --card: #ffffff;        /* cards, barra inferior, campos */
-  --ink: #1c1f24;         /* texto principal e bordas fortes */
-  --muted: #55595f;       /* texto secundário */
-  --line-soft: #d6d1c6;   /* divisórias decorativas */
-  --line-strong: #1c1f24; /* bordas de componentes */
-  --primary: #2257d6;     /* ação principal, aba ativa, recomendada */
+  --ink: #0f1b3d;         /* texto principal (azul bem escuro) */
+  --muted: #4a5878;       /* texto secundário */
+  --line-soft: #e1e7f3;   /* divisórias */
+  --line-strong: #c9d4ea; /* borda de cards */
+  --linha: #d3dcef;       /* borda fina de cards e listas */
+  --borda-campo: #7d8baa; /* borda de campos de formulário (3:1) */
+  --primary: #1f4fd1;     /* ação principal, aba ativa, recomendada */
   --on-primary: #ffffff;  /* texto sobre --primary */
   --link: #1a44a8;        /* links e ações em texto */
-  --head: #1c1f24;        /* cabeçalho grafite */
-  --on-head: #f7f5f0;     /* texto do cabeçalho */
-  --focus: #1c1f24;       /* anel de foco */
+  --head: #1a3a8f;        /* cabeçalho azul-marinho */
+  --on-head: #ffffff;     /* texto do cabeçalho */
+  --focus: #1f4fd1;       /* anel de foco */
 
   /* Semáforo: SÓ nos marcadores de faixa (badges, linhas do mapa) */
   --faixa-normal: #1e8e3e;
@@ -30,24 +38,26 @@
 }
 
 [data-tema='escuro'] {
-  --bg: #121316;
-  --card: #1c1f24;
-  --ink: #f2f0eb;
-  --muted: #b4b8bf;
-  --line-soft: #33373e;
-  --line-strong: #8a919c;
+  --bg: #0b1530;          /* azul-noite */
+  --card: #13204a;
+  --ink: #e8eefc;
+  --muted: #a9b6d6;
+  --line-soft: #22305a;
+  --line-strong: #33447a;
+  --linha: #2b3b6c;
+  --borda-campo: #7383b3;
   --primary: #8db0ff;
-  --on-primary: #121316;
-  --link: #8db0ff;
-  --head: #000000;
-  --on-head: #f2f0eb;
-  --focus: #f2f0eb;
+  --on-primary: #0b1530;
+  --link: #9dbbff;
+  --head: #0f1d45;
+  --on-head: #e8eefc;
+  --focus: #8db0ff;
 
   --faixa-normal: #5bd08a;
   --faixa-atencao: #f2b84b;
   --faixa-perigo: #ff7a7a;
   --faixa-sem-dados: #a0a6b0;
-  --faixa-icone: #121316;
+  --faixa-icone: #0b1530;
 
   color-scheme: dark;
 }

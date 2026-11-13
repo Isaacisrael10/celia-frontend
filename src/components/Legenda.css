@@ -1,7 +1,7 @@
 .legenda {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  border-bottom: 2px solid var(--ink);
+  border-bottom: 1px solid var(--linha);
 }
 
 .legenda__item {
@@ -14,7 +14,7 @@
 }
 
 .legenda__item + .legenda__item {
-  border-left: 2px solid var(--line-soft);
+  border-left: 1px solid var(--line-soft);
 }
 
 /* Nome com o marcador ao lado, numa linha só */
@@ -23,7 +23,7 @@
   align-items: center;
   gap: 4px;
   font-size: 14px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1.1;
 }
 

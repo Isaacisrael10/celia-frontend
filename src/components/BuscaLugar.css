@@ -25,8 +25,8 @@
   margin: 6px 0 0;
   padding: 0;
   background: var(--card);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
 }
 
 .busca-lugar__resultado {

@@ -9,10 +9,10 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
+  border-radius: 6px;
   background: var(--cor-faixa);
   color: var(--faixa-icone);
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -25,5 +25,5 @@
 
 .badge-faixa__nome {
   font-size: 18px;
-  font-weight: 700;
+  font-weight: 600;
 }

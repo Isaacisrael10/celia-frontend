@@ -3,8 +3,8 @@
   /* O mapa é a parte principal: ocupa boa parte da tela, sem passar de 520 px */
   height: clamp(320px, 55dvh, 520px);
   margin: 0 -16px; /* o mapa vai de borda a borda */
-  border-top: 2px solid var(--ink);
-  border-bottom: 2px solid var(--ink);
+  border-top: 1px solid var(--linha);
+  border-bottom: 1px solid var(--linha);
   margin-bottom: -16px; /* a legenda encosta no mapa */
 }
 
@@ -21,7 +21,7 @@
   border-radius: 50%;
   color: var(--faixa-icone);
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
   line-height: 1;
 }
 
@@ -42,8 +42,8 @@
   justify-content: center;
   background: var(--card);
   color: var(--primary);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
 }
 
 /* Botão "Meu local": canto inferior direito, acima do crédito */
@@ -58,8 +58,8 @@
   justify-content: center;
   background: var(--card);
   color: var(--ink);
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
 }
 
 /* "Você": ponto azul com halo */

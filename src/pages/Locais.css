@@ -2,7 +2,7 @@
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 2px solid var(--ink);
+  border-top: 1px solid var(--linha);
 }
 
 .locais__item {
@@ -10,7 +10,7 @@
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  border-bottom: 2px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .locais__icone {
@@ -20,7 +20,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border-radius: 2px;
+  border-radius: 8px;
   background: var(--primary);
   color: var(--on-primary);
 }
@@ -36,7 +36,7 @@
 
 .locais__tipo {
   font-size: 13px;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--muted);
   text-transform: uppercase;
   letter-spacing: 0.04em;
@@ -44,7 +44,7 @@
 
 .locais__nome {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .locais__detalhe {
@@ -53,7 +53,7 @@
 
 .locais__distancia {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
 }
 

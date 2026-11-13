@@ -3,7 +3,7 @@
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-bottom: 2px solid var(--line-soft);
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .card-reporte__topo {
@@ -17,8 +17,8 @@
   width: 40px;
   height: 40px;
   flex: none;
-  border: 2px solid var(--ink);
-  border-radius: 2px;
+  border: 1px solid var(--linha);
+  border-radius: 8px;
 }
 
 .card-reporte__icone {
@@ -42,7 +42,7 @@
 
 .card-reporte__tipo {
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .card-reporte__descricao {
@@ -66,7 +66,7 @@
   align-items: center;
   gap: 8px;
   font-size: 15px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* Quadradinho da situação: só grafite e azul, nunca semáforo */
@@ -76,7 +76,7 @@
   flex: none;
 }
 .situacao--aberto {
-  border: 2px solid var(--ink);
+  border: 1px solid var(--linha);
 }
 .situacao--enviado {
   background: var(--primary);
@@ -95,14 +95,14 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
   animation: celiaIn 0.2s ease-out;
 }
 
 .card-reporte__pergunta {
   font-size: 16px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .card-reporte__botoes {

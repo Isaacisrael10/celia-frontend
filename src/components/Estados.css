@@ -9,15 +9,15 @@
 
 .estado--caixa {
   padding: 14px;
-  border: 2px solid var(--ink);
-  border-radius: 4px;
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
 }
 
 .estado__titulo {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .estado__titulo--grande {
@@ -30,6 +30,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 2px dashed var(--line-strong);
+  border: 1.5px dashed var(--borda-campo);
   color: var(--muted);
 }
