@@ -12,7 +12,7 @@
   left: 50%;
   top: 50%;
   transform: translate(-50%, -100%);
-  color: var(--primary);
+  color: var(--link);
   pointer-events: none; /* o toque passa direto para o mapa */
 }
 

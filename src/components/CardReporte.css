@@ -79,7 +79,7 @@
   border: 1px solid var(--linha);
 }
 .situacao--enviado {
-  background: var(--primary);
+  background: var(--link);
 }
 .situacao--resolvido {
   background: var(--ink);

@@ -1,5 +1,8 @@
 /*
   Tokens de cor da C.E.L.I.A. (identidade azul).
+  O azul principal (#49C8F5) é o mesmo do símbolo internacional de acessibilidade.
+  No modo claro ele é usado como FUNDO (com texto azul-escuro em cima);
+  para texto azul usamos --link, um tom mais escuro do mesmo azul (contraste AA).
   O tema é trocado pelo atributo data-tema no <html> ("claro" ou "escuro").
   Contraste AA conferido nos dois modos (texto 4,5:1, bordas de campo 3:1).
 */
@@ -20,12 +23,12 @@
   --line-strong: #c9d4ea; /* borda de cards */
   --linha: #d3dcef;       /* borda fina de cards e listas */
   --borda-campo: #7d8baa; /* borda de campos de formulário (3:1) */
-  --primary: #1f4fd1;     /* ação principal, aba ativa, recomendada */
-  --on-primary: #ffffff;  /* texto sobre --primary */
-  --link: #1a44a8;        /* links e ações em texto */
-  --head: #1a3a8f;        /* cabeçalho azul-marinho */
+  --primary: #49c8f5;      /* azul do símbolo: botões e destaques (fundo) */
+  --on-primary: #0f1b3d;   /* texto sobre --primary (8,7:1) */
+  --link: #0a72a8;         /* texto azul: links, aba ativa (5,3:1) */
+  --head: #0b5c8c;         /* cabeçalho: azul-escuro da mesma família */
   --on-head: #ffffff;     /* texto do cabeçalho */
-  --focus: #1f4fd1;       /* anel de foco */
+  --focus: #0a72a8;        /* anel de foco */
 
   /* Semáforo: SÓ nos marcadores de faixa (badges, linhas do mapa) */
   --faixa-normal: #1e8e3e;
@@ -46,12 +49,12 @@
   --line-strong: #33447a;
   --linha: #2b3b6c;
   --borda-campo: #7383b3;
-  --primary: #8db0ff;
+  --primary: #49c8f5;      /* azul do símbolo */
   --on-primary: #0b1530;
-  --link: #9dbbff;
+  --link: #49c8f5;
   --head: #0f1d45;
   --on-head: #e8eefc;
-  --focus: #8db0ff;
+  --focus: #49c8f5;
 
   --faixa-normal: #5bd08a;
   --faixa-atencao: #f2b84b;

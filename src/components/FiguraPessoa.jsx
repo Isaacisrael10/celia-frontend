@@ -1,38 +1,55 @@
 /*
-  Figura da pessoa (inspirada no símbolo internacional de acessibilidade):
-  cabeça, braços abertos e pernas dentro de um círculo, com as 5 "bolinhas"
-  nas mãos e nos pés. Desenho próprio da C.E.L.I.A., em SVG.
+  Símbolo internacional de acessibilidade, redesenhado em SVG
+  com as mesmas proporções e cores da imagem original:
+  traço preto, bolinhas em azul (#49C8F5) e o círculo aberto
+  onde ficam as mãos e os pés.
   - tamanho: em px
   - rotulo: texto para o leitor de tela (sem ele, a figura é só decoração)
 */
-export default function FiguraPessoa({ tamanho = 40, rotulo }) {
+
+const AZUL = '#49C8F5'
+const PRETO = '#000000'
+
+// Mãos e pés: posição de cada bolinha (no desenho de 420 × 420)
+const BOLINHAS = [
+  [15, 148], // mão esquerda
+  [405, 148], // mão direita
+  [100, 376], // pé esquerdo
+  [320, 376], // pé direito
+]
+
+export default function FiguraPessoa({ tamanho = 30, rotulo }) {
   return (
     <svg
       width={tamanho}
       height={tamanho}
-      viewBox="0 0 48 48"
-      className="figura-pessoa"
+      viewBox="-20 -20 460 460"
       role={rotulo ? 'img' : undefined}
       aria-label={rotulo}
       aria-hidden={rotulo ? undefined : 'true'}
     >
-      {/* Círculo de fundo */}
-      <circle cx="24" cy="24" r="21" fill="var(--card)" stroke="var(--primary)" strokeWidth="2.5" />
+      {/* Círculo: fundo branco e contorno preto */}
+      <circle cx="210" cy="210" r="196" fill="#ffffff" stroke={PRETO} strokeWidth="16" />
+
       {/* Braços (curva) e pernas */}
       <path
-        d="M10 20 Q24 28 38 20 M24 25 L15.5 37 M24 25 L32.5 37"
+        d="M15 148 Q210 278 405 148 M210 213 L100 376 M210 213 L320 376"
         fill="none"
-        stroke="var(--primary)"
-        strokeWidth="2.5"
+        stroke={PRETO}
+        strokeWidth="14"
         strokeLinecap="round"
       />
+
       {/* Cabeça */}
-      <circle cx="24" cy="14" r="4.5" fill="var(--primary)" />
-      {/* As 4 bolinhas das mãos e dos pés */}
-      <circle cx="10" cy="20" r="3" fill="var(--primary)" />
-      <circle cx="38" cy="20" r="3" fill="var(--primary)" />
-      <circle cx="15.5" cy="37" r="3" fill="var(--primary)" />
-      <circle cx="32.5" cy="37" r="3" fill="var(--primary)" />
+      <circle cx="210" cy="108" r="50" fill={AZUL} stroke={PRETO} strokeWidth="14" />
+
+      {/* Mãos e pés: a borda branca "abre" o círculo em volta de cada bolinha */}
+      {BOLINHAS.map(([x, y]) => (
+        <g key={x + '-' + y}>
+          <circle cx={x} cy={y} r="40" fill="#ffffff" />
+          <circle cx={x} cy={y} r="26" fill={AZUL} stroke={PRETO} strokeWidth="12" />
+        </g>
+      ))}
     </svg>
   )
 }

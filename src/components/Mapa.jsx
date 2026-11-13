@@ -171,7 +171,7 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
         {voce && (
           <Marker longitude={voce.lng} latitude={voce.lat}>
             <span className="mapa__voce">
-              <FiguraPessoa tamanho={40} rotulo="Você está aqui" />
+              <FiguraPessoa tamanho={30} rotulo="Você está aqui" />
             </span>
           </Marker>
         )}

@@ -41,7 +41,7 @@
   align-items: center;
   justify-content: center;
   background: var(--card);
-  color: var(--primary);
+  color: var(--link);
   border: 1px solid var(--linha);
   border-radius: var(--raio);
 }
@@ -64,8 +64,8 @@
 
 /* "Você": ponto azul com halo */
 .mapa__voce {
-  width: 60px;
-  height: 60px;
+  width: 42px;
+  height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
