@@ -6,6 +6,13 @@ import estiloClaro from '../styles/mapa/celia-mapa-claro.json'
 import estiloEscuro from '../styles/mapa/celia-mapa-escuro.json'
 import './SeletorLocal.css'
 
+// Avisos que aparecem quando a pessoa tenta mexer no mapa com um dedo só
+const TEXTOS_GESTOS = {
+  'CooperativeGesturesHandler.WindowsHelpText': 'Use Ctrl + rolagem para dar zoom no mapa',
+  'CooperativeGesturesHandler.MacHelpText': 'Use ⌘ + rolagem para dar zoom no mapa',
+  'CooperativeGesturesHandler.MobileHelpText': 'Use dois dedos para mover o mapa',
+}
+
 /*
   Mapa pequeno para escolher o local do reporte.
   O pino fica fixo no centro: a pessoa arrasta o MAPA até o pino ficar em cima do problema.
@@ -51,6 +58,9 @@ export default function SeletorLocal({ ponto, alvo, escuro, aoMover }) {
         initialViewState={{ latitude: ponto.lat, longitude: ponto.lng, zoom: 16 }}
         mapStyle={escuro ? estiloEscuro : estiloClaro}
         attributionControl={false}
+        // No celular, um dedo rola a página e dois dedos mexem no mapa (não prende a rolagem)
+        cooperativeGestures={true}
+        locale={TEXTOS_GESTOS}
         onLoad={aoCarregar}
         onMoveStart={aoComecarAMover}
         onMoveEnd={aoTerminarDeMover}

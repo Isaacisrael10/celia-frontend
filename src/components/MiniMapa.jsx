@@ -30,6 +30,8 @@ export default function MiniMapa({ locais, voce, escuro }) {
         initialViewState={{ bounds: area, fitBoundsOptions: { padding: 30 } }}
         mapStyle={escuro ? estiloEscuro : estiloClaro}
         attributionControl={false}
+        // Só ilustração: o dedo passa direto e rola a página (não fica preso no mapa)
+        interactive={false}
         style={{ width: '100%', height: '100%' }}
       >
         {locais.map((local) => {
