@@ -1,17 +1,40 @@
 .cabecalho {
   display: flex;
   align-items: center;
-  gap: 10px;
-  min-height: 56px;
-  padding: 6px 16px;
+  gap: 12px;
+  min-height: 64px;
+  padding: 10px 16px 8px;
   background: var(--head);
   color: var(--on-head);
+  border-bottom: 1px solid var(--linha);
+}
+
+.cabecalho__textos {
+  flex: 1;
+  min-width: 0;
+}
+
+/* Nome do app pequeno, acima do título da tela */
+.cabecalho__marca {
+  overflow: hidden;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  color: var(--link);
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.cabecalho__nome {
+  font-weight: 400;
+  letter-spacing: 0;
+  color: var(--muted);
 }
 
 .cabecalho__titulo {
-  flex: 1;
-  font-size: 22px;
-  line-height: 1;
+  margin-top: 2px;
+  font-size: 24px;
+  line-height: 1.1;
   font-weight: 600;
   letter-spacing: -0.01em;
 }
@@ -25,12 +48,8 @@
   justify-content: center;
   background: transparent;
   color: var(--on-head);
-  border: 1.5px solid var(--on-head);
-  border-radius: var(--raio);
-}
-
-.cabecalho__voltar:focus-visible {
-  outline-color: var(--on-head);
+  border: 1px solid var(--linha);
+  border-radius: 50%;
 }
 
 /* Espaço reservado da logo (a logo ainda não existe) */
@@ -41,9 +60,9 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px dashed var(--on-head);
-  border-radius: 8px;
+  border: 1.5px dashed var(--line-strong);
+  border-radius: 12px;
+  color: var(--muted);
   font-size: 13px;
-  font-weight: 600;
-  opacity: 0.7;
+  font-weight: 500;
 }

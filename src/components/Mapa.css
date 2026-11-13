@@ -5,7 +5,6 @@
   margin: 0 -16px; /* o mapa vai de borda a borda */
   border-top: 1px solid var(--linha);
   border-bottom: 1px solid var(--linha);
-  margin-bottom: -16px; /* a legenda encosta no mapa */
 }
 
 /* Selo no meio do trecho: círculo com o ícone e anel na cor do card */

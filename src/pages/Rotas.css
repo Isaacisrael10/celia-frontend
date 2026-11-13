@@ -1,7 +1,12 @@
+/* Origem e destino num card suave */
 .rotas__percurso {
+  padding: 12px 14px;
   display: flex;
   align-items: center;
   gap: 12px;
+  background: var(--card);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio);
 }
 
 .rotas__pontos {

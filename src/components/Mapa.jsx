@@ -61,6 +61,23 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
     [trechos],
   )
 
+  // Bolinhas nas pontas de cada trecho (como as mãos e os pés do símbolo de acessibilidade)
+  const pontas = useMemo(
+    () => ({
+      type: 'FeatureCollection',
+      features: trechos
+        .filter((t) => t.faixa.id !== 'semDados')
+        .flatMap((t) =>
+          [t.coords[0], t.coords[t.coords.length - 1]].map((ponto) => ({
+            type: 'Feature',
+            properties: { faixa: t.faixa.id },
+            geometry: { type: 'Point', coordinates: ponto },
+          })),
+        ),
+    }),
+    [trechos],
+  )
+
   // Cor de cada linha conforme a faixa
   const corPorFaixa = ['match', ['get', 'faixa'], 'normal', cores.normal, 'atencao', cores.atencao, 'perigo', cores.perigo, cores.semDados]
 
@@ -132,6 +149,21 @@ export default function Mapa({ trechos, reportes = [], escuro, voce, alvo, aoSel
             filter={['==', ['get', 'faixa'], 'semDados']}
             layout={{ 'line-cap': 'round', 'line-join': 'round' }}
             paint={{ 'line-color': cores.semDados, 'line-width': 4, 'line-dasharray': [0.01, 2.2] }}
+          />
+        </Source>
+
+        {/* Bolinhas brancas com contorno da cor da faixa nas pontas dos trechos */}
+        <Source id="pontas" type="geojson" data={pontas}>
+          <Layer
+            id="pontas"
+            type="circle"
+            beforeId={ABAIXO_DE}
+            paint={{
+              'circle-radius': 4.5,
+              'circle-color': escuro ? '#13204a' : '#ffffff',
+              'circle-stroke-width': 2.5,
+              'circle-stroke-color': corPorFaixa,
+            }}
           />
         </Source>
 

@@ -10,7 +10,8 @@
 :root {
   /* Fonte: Lexend foi criada para facilitar a leitura */
   --fonte: 'Lexend', system-ui, sans-serif;
-  --raio: 10px; /* cantos de cards, botões e campos */
+  --raio: 14px; /* cantos de cards e campos */
+  --raio-botao: 999px; /* botões em pílula */
 }
 
 :root,
@@ -26,8 +27,8 @@
   --primary: #49c8f5;      /* azul do símbolo: botões e destaques (fundo) */
   --on-primary: #0f1b3d;   /* texto sobre --primary (8,7:1) */
   --link: #0a72a8;         /* texto azul: links, aba ativa (5,3:1) */
-  --head: #0b5c8c;         /* cabeçalho: azul-escuro da mesma família */
-  --on-head: #ffffff;     /* texto do cabeçalho */
+  --head: #ffffff;         /* cabeçalho claro (estilo arejado) */
+  --on-head: #0f1b3d;      /* texto do cabeçalho */
   --focus: #0a72a8;        /* anel de foco */
 
   /* Símbolo de acessibilidade: igual ao original (fundo branco, traço preto) */
@@ -56,7 +57,7 @@
   --primary: #49c8f5;      /* azul do símbolo */
   --on-primary: #0b1530;
   --link: #49c8f5;
-  --head: #0f1d45;
+  --head: #0b1530;
   --on-head: #e8eefc;
   --focus: #49c8f5;
 

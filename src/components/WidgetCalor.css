@@ -3,8 +3,9 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  background: var(--card);
-  border: 1px solid var(--linha);
+  /* Fundo azul bem claro, puxado do azul do símbolo */
+  background: color-mix(in srgb, var(--primary) 14%, var(--card));
+  border: 1px solid color-mix(in srgb, var(--primary) 45%, transparent);
   border-radius: var(--raio);
 }
 
