@@ -98,3 +98,11 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
 - **Como foi testado:** com uma API falsa local que imita o contrato (respostas, lição inexistente e API desligada). O teste com a API real da equipe ainda falta.
 - **Problema encontrado:** o recurso "horário" dos locais não tem nome e virava uma vírgula sobrando no texto enviado à IA; foi filtrado.
 - **Revisão da equipe:** (preencher)
+
+## 11. Versão para computador (Claude Code · 14/11/2026)
+
+- **Prompt (resumo):** "Deixe o design responsivo para desktop também."
+- **Como a IA ajudou:** criou `src/styles/responsivo.css` com dois degraus (600 px e 960 px): menu lateral no lugar da barra de baixo, conteúdo em coluna de leitura alinhada com o cabeçalho, boletim do Mapa como cartão flutuante, rotas lado a lado para comparar, Locais com o mini mapa fixo ao lado da lista e reportes em duas colunas. O celular continua igual.
+- **Problemas encontrados:** o menu lateral herdou o `box-sizing` da barra do celular e ficou mais largo e mais alto que a tela; e no Perfil a linha do fieldset atravessava o título "Alerta de calor no ponto" (também no celular), corrigido com `float` no legend.
+- **Revisão da equipe:** (preencher)
+

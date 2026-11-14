@@ -172,6 +172,7 @@ src/
 - Rótulos para leitor de tela em botões de ícone e nos selos do mapa (sem o "Map marker" em inglês do MapLibre)
 - Selos do mapa nunca ficam um em cima do outro: quando não cabem, aparece o mais grave
 - **Lista** como alternativa completa ao mapa
+- **Responsivo**: feito primeiro para o celular; no tablet o conteúdo vira uma coluna de leitura, e no computador a barra de baixo vira um menu na lateral, as 3 rotas ficam lado a lado e os Locais mostram o mapa ao lado da lista (`src/styles/responsivo.css`)
 - Animações desligadas para quem pediu menos movimento no sistema
 - Verde, amarelo e vermelho reservados para as faixas; erros e status usam grafite e azul
 
