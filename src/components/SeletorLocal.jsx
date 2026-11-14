@@ -2,8 +2,7 @@ import { useEffect, useRef } from 'react'
 import MapaBase, { NavigationControl } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { IconMapPinFilled } from '@tabler/icons-react'
-import estiloClaro from '../styles/mapa/celia-mapa-claro.json'
-import estiloEscuro from '../styles/mapa/celia-mapa-escuro.json'
+import { estiloDoMapa, CREDITO_MAPA } from '../styles/mapa/estilos'
 import './SeletorLocal.css'
 
 // Avisos que aparecem quando a pessoa tenta mexer no mapa com um dedo só
@@ -56,7 +55,7 @@ export default function SeletorLocal({ ponto, alvo, escuro, aoMover }) {
       <MapaBase
         ref={mapaRef}
         initialViewState={{ latitude: ponto.lat, longitude: ponto.lng, zoom: 16 }}
-        mapStyle={escuro ? estiloEscuro : estiloClaro}
+        mapStyle={estiloDoMapa(escuro)}
         attributionControl={false}
         // No celular, um dedo rola a página e dois dedos mexem no mapa (não prende a rolagem)
         cooperativeGestures={true}
@@ -73,7 +72,7 @@ export default function SeletorLocal({ ponto, alvo, escuro, aoMover }) {
         <IconMapPinFilled size={44} />
       </span>
       {/* Crédito obrigatório do mapa, embaixo para não cobrir o mapa pequeno */}
-      <p className="seletor-local__credito">OpenFreeMap © OpenMapTiles Data from OpenStreetMap</p>
+      <p className="seletor-local__credito">{CREDITO_MAPA}</p>
     </div>
   )
 }

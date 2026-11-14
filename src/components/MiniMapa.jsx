@@ -1,9 +1,10 @@
 import MapaBase, { Marker } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
 import { IconToiletPaper, IconArmchair } from '@tabler/icons-react'
-import estiloClaro from '../styles/mapa/celia-mapa-claro.json'
-import estiloEscuro from '../styles/mapa/celia-mapa-escuro.json'
 import FiguraPessoa from './FiguraPessoa'
+import { estiloDoMapa } from '../styles/mapa/estilos'
+import { areaDosPontos } from '../domain/mapa'
+import { textoQuantidade } from '../domain/locais'
 import './MiniMapa.css'
 
 const ICONES = { banheiro: IconToiletPaper, descanso: IconArmchair }
@@ -17,18 +18,14 @@ const ICONES = { banheiro: IconToiletPaper, descanso: IconArmchair }
 */
 export default function MiniMapa({ locais, voce, escuro }) {
   // Enquadra todos os pontos (locais + pessoa) no mapa
-  const lngs = [...locais.map((l) => l.lng), voce.lng]
-  const lats = [...locais.map((l) => l.lat), voce.lat]
-  const area = [
-    [Math.min(...lngs), Math.min(...lats)],
-    [Math.max(...lngs), Math.max(...lats)],
-  ]
+  const pontos = [...locais, voce].map((p) => [p.lng, p.lat])
+  const area = areaDosPontos(pontos)
 
   return (
     <div className="mini-mapa" aria-hidden="true">
       <MapaBase
         initialViewState={{ bounds: area, fitBoundsOptions: { padding: 30 } }}
-        mapStyle={escuro ? estiloEscuro : estiloClaro}
+        mapStyle={estiloDoMapa(escuro)}
         attributionControl={false}
         // Só ilustração: o dedo passa direto e rola a página (não fica preso no mapa)
         interactive={false}
@@ -49,7 +46,7 @@ export default function MiniMapa({ locais, voce, escuro }) {
         </Marker>
       </MapaBase>
       <span className="mini-mapa__contador">
-        {locais.length === 1 ? '1 local perto' : locais.length + ' locais perto'}
+        {textoQuantidade(locais.length)} perto
       </span>
       <p className="mini-mapa__credito">© OpenStreetMap</p>
     </div>

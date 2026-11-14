@@ -1,9 +1,28 @@
 .seletor-local {
   position: relative;
-  height: 260px;
+  height: clamp(240px, 40dvh, 360px);
   border: 1px solid var(--linha);
-  border-radius: var(--raio);
+  border-radius: 16px;
   overflow: hidden;
+}
+
+/* Botões + e − com a área de toque mínima */
+.seletor-local .maplibregl-ctrl-group {
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+.seletor-local .maplibregl-ctrl-group button {
+  width: 44px;
+  height: 44px;
+}
+
+[data-tema='escuro'] .seletor-local .maplibregl-ctrl-group {
+  background: var(--card);
+}
+
+[data-tema='escuro'] .seletor-local .maplibregl-ctrl-icon {
+  filter: invert(1);
 }
 
 /* A ponta do pino fica exatamente no centro do mapa */
@@ -13,6 +32,7 @@
   top: 50%;
   transform: translate(-50%, -100%);
   color: var(--link);
+  filter: drop-shadow(0 4px 6px rgba(15, 27, 61, 0.35));
   pointer-events: none; /* o toque passa direto para o mapa */
 }
 
@@ -21,10 +41,10 @@
   left: 0;
   right: 0;
   bottom: 0;
-  padding: 2px 6px;
-  background: var(--card);
+  padding: 2px 8px;
+  background: var(--vidro-forte);
   color: var(--ink);
-  font-size: 13px;
+  font-size: 0.8125rem;
   text-align: right;
   pointer-events: none;
 }

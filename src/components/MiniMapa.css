@@ -1,15 +1,16 @@
 .mini-mapa {
   position: relative;
-  height: 170px;
+  height: 200px;
   overflow: hidden;
-  border: 1px solid var(--linha);
+  border: 1px solid var(--vidro-borda);
   border-radius: var(--raio);
+  box-shadow: var(--sombra);
 }
 
 /* Pino: gota azul com o ícone do tipo de local */
 .mini-mapa__pino {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -17,32 +18,36 @@
   transform: rotate(-45deg);
   background: var(--primary);
   color: var(--on-primary);
-  border: 2px solid var(--card);
+  border: 2px solid var(--ink);
 }
 
 .mini-mapa__pino svg {
   transform: rotate(45deg);
 }
 
-.mini-mapa__contador {
+/* Etiquetas de vidro por cima do mapa */
+.mini-mapa__contador,
+.mini-mapa__credito {
   position: absolute;
-  right: 8px;
-  bottom: 8px;
-  padding: 4px 10px;
-  background: var(--card);
-  border: 1px solid var(--linha);
-  border-radius: 999px;
-  font-size: 13px;
+  bottom: 10px;
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
+  border: 1px solid var(--vidro-borda);
+  color: var(--ink);
+  font-size: var(--texto-p);
+}
+
+.mini-mapa__contador {
+  right: 10px;
+  padding: 4px 12px;
+  border-radius: var(--raio-botao);
   font-weight: 500;
 }
 
 .mini-mapa__credito {
-  position: absolute;
-  left: 8px;
-  bottom: 8px;
-  padding: 0 4px;
-  background: var(--card);
-  border-radius: 4px;
-  font-size: 13px;
-  color: var(--muted);
+  left: 10px;
+  padding: 2px 8px;
+  border-radius: 8px;
+  font-size: 0.8125rem;
 }

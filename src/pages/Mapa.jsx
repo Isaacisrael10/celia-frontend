@@ -1,40 +1,36 @@
 import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
-import { IconCurrentLocation, IconList, IconMap } from '@tabler/icons-react'
+import { IconCurrentLocation, IconList, IconX } from '@tabler/icons-react'
 import Mapa from '../components/Mapa'
 import ListaTrechos from '../components/ListaTrechos'
 import BuscaLugar from '../components/BuscaLugar'
 import Legenda from '../components/Legenda'
 import BoletimCaminho from '../components/BoletimCaminho'
+import BotaoMenu from '../components/BotaoMenu'
+import BotaoVisaoMapa from '../components/BotaoVisaoMapa'
 import Aviso from '../components/Aviso'
 import { useRotas } from '../hooks/useRotas'
 import { useReportes } from '../hooks/useReportes'
 import { useLocalizacao } from '../hooks/useLocalizacao'
 import { useTema } from '../hooks/useTema'
+import { usePreferencia } from '../hooks/usePreferencia'
 import { useAviso } from '../hooks/useAviso'
 import { useLimiteCalor } from '../hooks/useLimiteCalor'
+import { useConsultaDeTela } from '../hooks/useConsultaDeTela'
+import { useTituloDaPagina } from '../hooks/useTituloDaPagina'
+import { VOCE_PADRAO } from '../domain/mapa'
+import { areaDaRota } from '../domain/rotas'
+import { creditoDoMapa } from '../styles/mapa/estilos'
 import './Mapa.css'
 
-// Posição de reserva quando não temos o GPS (Rua Barão do Bom Retiro, Grajaú)
-const VOCE_PADRAO = { lat: -22.9223585, lng: -43.2586232 }
-
-// Retângulo que cobre todos os pontos dos trechos de uma rota: [[oeste, sul], [leste, norte]]
-function areaDaRota(rota) {
-  const pontos = rota.trechosDaRota.flatMap((t) => t.coords)
-  const lngs = pontos.map((p) => p[0])
-  const lats = pontos.map((p) => p[1])
-  return [
-    [Math.min(...lngs), Math.min(...lats)],
-    [Math.max(...lngs), Math.max(...lats)],
-  ]
-}
-
 /*
-  Tela do Mapa: o mapa ocupa a tela toda (de ponta a ponta).
-  Por cima dele flutuam a busca (em cima), os botões (acima da gaveta)
-  e a gaveta do boletim do caminho de sempre (embaixo).
+  Tela do Mapa: o mapa ocupa a tela toda (de ponta a ponta) e as peças de vidro flutuam por cima.
+  - Celular: busca em cima; botões e o boletim do caminho de sempre embaixo.
+  - Computador: busca, boletim e lista numa coluna à esquerda; o mapa continua aparecendo ao lado.
+  No canto de baixo, à direita: "Meu local" e a troca entre mapa e satélite.
 */
 export default function PaginaMapa() {
+  useTituloDaPagina('Mapa')
   // "escolhida" é o caminho de sempre que a pessoa escolheu na tela Rotas
   const { trechos, poste, escolhida } = useRotas()
   const { reportes } = useReportes()
@@ -47,8 +43,12 @@ export default function PaginaMapa() {
   const { aviso, mostrarAviso } = useAviso((location.state && location.state.aviso) || '')
   // Interação Web Dev: alternar entre o mapa e a lista
   const [visao, setVisao] = useState('mapa')
+  // Interação Web Dev: alternar entre o desenho do mapa e a foto de satélite (fica salvo no navegador)
+  const [satelite, alternarSatelite] = usePreferencia('celia-satelite')
   // Para onde a câmera do mapa deve ir (busca, GPS ou caminho de sempre)
   const [alvo, setAlvo] = useState(null)
+  // Em tela larga cabem o mapa E a lista lado a lado
+  const telaLarga = useConsultaDeTela('(min-width: 960px)')
 
   // Busca de lugar: mostra o mapa e voa até o lugar escolhido
   function irPara(lugar) {
@@ -73,18 +73,23 @@ export default function PaginaMapa() {
   }
 
   const naLista = visao === 'lista'
+  // No celular a lista entra no lugar do mapa; em tela larga o mapa fica sempre
+  const mostrarMapa = telaLarga || !naLista
 
   return (
     <>
-      <main className={'tela-mapa' + (naLista ? ' tela-mapa--lista' : '')}>
+      <main id="conteudo" className={'tela-mapa' + (mostrarMapa ? '' : ' tela-mapa--sem-mapa')}>
         {/* A tela não tem cabeçalho: o título existe para o leitor de tela */}
-        <h1 className="so-leitor">Mapa</h1>
+        <h1 className="so-leitor" tabIndex={-1}>
+          Mapa
+        </h1>
 
-        {!naLista && (
+        {mostrarMapa && (
           <Mapa
             trechos={trechos}
             reportes={reportes}
             escuro={escuro}
+            satelite={satelite}
             voce={posicao || VOCE_PADRAO}
             alvo={alvo}
             destaque={escolhida ? escolhida.trechos : []}
@@ -93,43 +98,48 @@ export default function PaginaMapa() {
           />
         )}
 
-        {/* Em cima: busca e o espaço reservado da logo */}
+        {/* Em cima: o símbolo (abre o menu) e a busca */}
         <div className="tela-mapa__topo">
+          <BotaoMenu />
           <BuscaLugar aoEscolher={irPara} />
-          <span className="tela-mapa__logo" aria-hidden="true">
-            logo
-          </span>
         </div>
 
-        {/* No meio: na visão em lista, a lista de trechos (só ela rola) */}
+        {/* O boletim do caminho de sempre: embaixo no celular, abaixo da busca no computador */}
+        <div className="tela-mapa__boletim">
+          <BoletimCaminho rota={escolhida} poste={poste} limiteCalor={limiteCalor} aoVerNoMapa={verCaminho} />
+        </div>
+
+        {/* A lista de trechos: a alternativa completa ao mapa (só ela rola) */}
         <div className="tela-mapa__meio">
           {naLista && (
-            <div className="tela-mapa__lista">
+            <section className="tela-mapa__lista vidro vidro--forte" aria-label="Trechos em lista">
               <ListaTrechos trechos={trechos} />
-            </div>
+            </section>
           )}
         </div>
 
-        {/* Embaixo: botões flutuantes e a gaveta do boletim */}
-        <div className="tela-mapa__base">
-          <div className="tela-mapa__botoes">
-            {!naLista && <Legenda />}
-            <button
-              className="tela-mapa__pilula"
-              onClick={() => setVisao(naLista ? 'mapa' : 'lista')}
-              aria-pressed={naLista}
-            >
-              {naLista ? <IconMap size={18} aria-hidden="true" /> : <IconList size={18} aria-hidden="true" />}
-              {naLista ? 'Ver mapa' : 'Lista'}
-            </button>
-            {!naLista && (
-              <button className="tela-mapa__meu-local" onClick={irParaMeuLocal} aria-label="Centralizar no meu local">
-                <IconCurrentLocation size={24} aria-hidden="true" />
-              </button>
-            )}
-          </div>
-          {!naLista && <p className="tela-mapa__credito">OpenFreeMap © OpenMapTiles Data from OpenStreetMap</p>}
-          <BoletimCaminho rota={escolhida} poste={poste} limiteCalor={limiteCalor} aoVerNoMapa={verCaminho} />
+        {/* Botões flutuantes: legenda e lista de um lado; meu local e mapa/satélite no canto direito */}
+        <div className="tela-mapa__ferramentas">
+          {mostrarMapa && <Legenda />}
+          <button
+            className="pilula pilula--vidro"
+            onClick={() => setVisao(naLista ? 'mapa' : 'lista')}
+            aria-pressed={naLista}
+          >
+            {naLista ? <IconX size={20} aria-hidden="true" /> : <IconList size={20} aria-hidden="true" />}
+            {naLista ? 'Fechar lista' : 'Lista'}
+          </button>
+          {mostrarMapa && (
+            <>
+              <p className="tela-mapa__credito">{creditoDoMapa(satelite)}</p>
+              <div className="tela-mapa__canto">
+                <button className="botao-icone" onClick={irParaMeuLocal} aria-label="Centralizar no meu local">
+                  <IconCurrentLocation size={24} aria-hidden="true" />
+                </button>
+                <BotaoVisaoMapa satelite={satelite} aoAlternar={alternarSatelite} />
+              </div>
+            </>
+          )}
         </div>
       </main>
       <Aviso mensagem={aviso} />
