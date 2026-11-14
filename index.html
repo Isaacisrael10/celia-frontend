@@ -15,12 +15,21 @@
       href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600&display=swap"
     />
 
-    <!-- Aplica o tema salvo antes do React carregar, para a tela não "piscar" clara -->
+    <!--
+      Aplica o tema e os ajustes de acessibilidade salvos ANTES do React carregar,
+      para a tela não "piscar" clara nem mudar de tamanho depois de aparecer.
+    -->
     <script>
       try {
+        var raiz = document.documentElement;
         var salvo = localStorage.getItem('celia-tema');
         var escuro = window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.dataset.tema = salvo || (escuro ? 'escuro' : 'claro');
+        raiz.dataset.tema = salvo || (escuro ? 'escuro' : 'claro');
+
+        var ajustes = JSON.parse(localStorage.getItem('celia-acessibilidade')) || {};
+        raiz.dataset.texto = ajustes.texto || 'normal';
+        raiz.dataset.movimento = ajustes.menosMovimento ? 'reduzido' : 'normal';
+        raiz.dataset.contraste = ajustes.maisContraste ? 'alto' : 'normal';
       } catch (e) {}
     </script>
   </head>

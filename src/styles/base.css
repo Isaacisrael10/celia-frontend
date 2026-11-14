@@ -1,9 +1,26 @@
-/* Estilos gerais: fonte, fundo, foco e o "frame" do app. */
+/* Estilos gerais: fonte, fundo, foco e a moldura responsiva do app. */
 
 *,
 *::before,
 *::after {
   box-sizing: border-box;
+}
+
+/*
+  100% = o tamanho de fonte que a pessoa configurou no navegador (antes era fixo em 16 px).
+  O Perfil ainda deixa aumentar mais: data-texto="grande" ou "maior".
+*/
+html {
+  font-size: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+html[data-texto='grande'] {
+  font-size: 112.5%;
+}
+
+html[data-texto='maior'] {
+  font-size: 125%;
 }
 
 html,
@@ -12,8 +29,13 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--fonte);
-  font-size: 16px;
-  line-height: 1.45;
+  line-height: 1.5;
+}
+
+body {
+  font-size: var(--texto-m);
+  /* Nada de rolagem para os lados: o conteúdo sempre cabe na largura */
+  overflow-x: hidden;
 }
 
 h1,
@@ -21,6 +43,15 @@ h2,
 h3,
 p {
   margin: 0;
+}
+
+h1,
+h2,
+h3 {
+  line-height: 1.2;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  text-wrap: balance;
 }
 
 button,
@@ -38,7 +69,12 @@ button {
 /* Foco sempre visível, para quem navega pelo teclado */
 :focus-visible {
   outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
+}
+
+/* O título recebe o foco ao trocar de tela (para o leitor de tela anunciar): não precisa de anel */
+h1:focus {
+  outline: none;
 }
 
 /* Texto só para leitor de tela */
@@ -51,30 +87,154 @@ button {
   white-space: nowrap;
 }
 
-/* O app ocupa a tela toda no celular e fica centralizado no computador */
-.app {
-  max-width: 480px;
-  min-height: 100dvh;
-  margin: 0 auto;
-  display: flex;
-  flex-direction: column;
-  background: var(--bg);
+/* "Pular para o conteúdo": primeiro item do teclado, só aparece quando recebe o foco */
+.pular {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 100;
+  padding: 12px 18px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--raio-botao);
+  font-weight: 600;
+  text-decoration: none;
+  transform: translateY(-200%);
 }
 
+.pular:focus {
+  transform: translateY(0);
+}
+
+/* ---------- Moldura do app ---------- */
+
+/*
+  A navegação é fixa (embaixo no celular, na lateral em telas largas).
+  A tela reserva o espaço dela com --nav-baixo e --nav-lado (tokens.css).
+*/
+.app {
+  position: relative;
+  min-height: 100dvh;
+  isolation: isolate; /* o fundo decorativo fica atrás só do app */
+}
+
+.app__tela {
+  min-height: 100dvh;
+  padding-left: var(--nav-lado);
+  padding-bottom: var(--nav-baixo);
+  display: flex;
+  flex-direction: column;
+}
+
+/* Conteúdo das telas: largura fluida, centralizado, com respiro maior em telas largas */
 .app__conteudo {
   flex: 1;
-  padding: 16px 16px 24px;
+  width: 100%;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: 8px 16px 28px;
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 16px;
+  animation: entrar var(--lento) var(--suave) both;
 }
 
-/* Quem pediu menos movimento não vê animação nenhuma */
+@media (min-width: 768px) {
+  .app__conteudo {
+    padding: 8px 28px 40px;
+    gap: 20px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .app__conteudo {
+    padding: 8px 40px 48px;
+  }
+}
+
+/* Grade que se ajusta sozinha: 1 coluna no celular, 2 ou 3 conforme a largura */
+.grade {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 20rem), 1fr));
+  gap: 14px;
+  align-items: start;
+}
+
+/* Variação: todos os cards da linha ficam com a mesma altura (ex.: comparação de rotas) */
+.grade--igual {
+  align-items: stretch;
+}
+
+/* Textos de apoio */
+.apoio {
+  font-size: var(--texto-p);
+  color: var(--muted);
+}
+
+.intro {
+  max-width: 60ch;
+  font-size: var(--texto-g);
+  color: var(--muted);
+}
+
+/* ---------- Movimento ---------- */
+
+/* Entrada de cada tela: aparece subindo de leve (responde ao toque na navegação) */
+@keyframes entrar {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Painéis que abrem (legenda, confirmação, aviso): crescem a partir do botão */
+@keyframes brotar {
+  from {
+    opacity: 0;
+    transform: translateY(6px) scale(0.97);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/*
+  Quem pediu menos movimento não vê animação nenhuma:
+  vale para a configuração do sistema e para o interruptor "Menos animações" do Perfil.
+*/
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
   *::after {
     animation: none !important;
     transition: none !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+[data-movimento='reduzido'] *,
+[data-movimento='reduzido'] *::before,
+[data-movimento='reduzido'] *::after {
+  animation: none !important;
+  transition: none !important;
+  scroll-behavior: auto !important;
+}
+
+/* Modo de alto contraste do Windows: o vidro some, então as peças ganham borda de verdade */
+@media (forced-colors: active) {
+  .vidro,
+  .cartao,
+  .botao,
+  .pilula,
+  .botao-icone {
+    border: 1px solid CanvasText;
   }
 }

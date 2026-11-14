@@ -1,26 +1,67 @@
 /*
-  Peças visuais usadas em várias telas (botões, campos, radios).
-  Medidas tiradas do design (design/README.md, seção "Componentes").
+  Peças visuais usadas em várias telas (vidro, cards, botões, pílulas, campos).
+  Redesenho em grafo: tudo nasce das duas formas do símbolo de acessibilidade,
+  a BOLINHA (círculo azul com contorno escuro) e a LIGAÇÃO (linha de ponta redonda).
 */
+
+/* ---------- Vidro e cards ---------- */
+
+/* Vidro de verdade: translúcido + desfoque. Só em peças que flutuam (navegação, cabeçalho, mapa). */
+.vidro {
+  background: var(--vidro);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-flutuante);
+}
+
+/* Painel com texto: mais cor e menos transparência (contraste AA em cima de qualquer coisa) */
+.vidro--forte {
+  background: var(--vidro-forte);
+}
+
+/* Card de lista: translúcido sem desfoque (muitos desfoques na mesma tela pesam no celular) */
+.cartao {
+  padding: 16px;
+  background: var(--cartao);
+  border: 1px solid var(--vidro-borda);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra);
+}
 
 /* ---------- Botões ---------- */
 .botao {
-  min-height: 48px;
-  padding: 0 16px;
+  min-height: var(--toque);
+  padding: 10px 20px;
   display: flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
   border-radius: var(--raio-botao);
-  font-size: 17px;
+  font-size: 1.0625rem;
   font-weight: 600;
-  white-space: nowrap;
+  line-height: 1.2;
+  text-align: center;
   text-decoration: none;
+  transition:
+    transform var(--rapido) var(--suave),
+    background-color var(--medio) var(--suave),
+    box-shadow var(--medio) var(--suave);
+}
+
+.botao svg {
+  flex: none;
+}
+
+/* Resposta ao toque: o botão "afunda" de leve */
+.botao:active {
+  transform: scale(0.97);
 }
 
 /* Texto à esquerda e ícone à direita */
 .botao--seta {
   justify-content: space-between;
+  text-align: left;
 }
 
 /* No máximo 1 por tela */
@@ -28,12 +69,22 @@
   background: var(--primary);
   color: var(--on-primary);
   border: 0;
+  box-shadow: 0 8px 22px color-mix(in srgb, var(--primary) 38%, transparent);
+}
+
+.botao--primario:hover {
+  box-shadow: 0 10px 28px color-mix(in srgb, var(--primary) 55%, transparent);
 }
 
 .botao--secundario {
-  background: transparent;
+  /* fundo quase cheio: o texto azul mantém contraste AA mesmo em cima do fundo colorido */
+  background: color-mix(in srgb, var(--card) 85%, transparent);
   color: var(--link);
   border: 1.5px solid var(--link);
+}
+
+.botao--secundario:hover {
+  background: color-mix(in srgb, var(--primary) 16%, var(--card));
 }
 
 /* Ação forte sem cor de semáforo (ex.: "Sim, excluir") */
@@ -44,9 +95,8 @@
 }
 
 .botao--pequeno {
-  min-height: 44px;
-  padding: 0 12px;
-  font-size: 16px;
+  padding: 8px 16px;
+  font-size: var(--texto-m);
 }
 
 .botao:disabled {
@@ -54,17 +104,46 @@
   cursor: wait;
 }
 
+/* Botão redondo só com ícone (voltar, meu local, fechar): é uma "bolinha" do grafo */
+.botao-icone {
+  width: var(--toque);
+  height: var(--toque);
+  flex: none;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
+  color: var(--ink);
+  border: 1px solid var(--vidro-borda);
+  border-radius: 50%;
+  box-shadow: var(--sombra);
+  transition:
+    transform var(--rapido) var(--suave),
+    border-color var(--medio) var(--suave);
+}
+
+.botao-icone:hover {
+  border-color: var(--link);
+}
+
+.botao-icone:active {
+  transform: scale(0.94);
+}
+
 /* Ação em texto: parece link, é botão */
 .acao-texto {
-  min-height: 44px;
-  padding: 0;
+  min-height: var(--toque);
+  padding: 0 4px;
   display: inline-flex;
   align-items: center;
   gap: 6px;
   background: none;
   border: 0;
   color: var(--link);
-  font-size: 16px;
+  font-size: var(--texto-m);
   font-weight: 600;
   text-decoration: underline;
   text-underline-offset: 4px;
@@ -72,6 +151,60 @@
 
 .acao-texto--grafite {
   color: var(--ink);
+}
+
+/* ---------- Pílulas (filtros e botões flutuantes do mapa) ---------- */
+.filtros {
+  display: flex;
+  flex-wrap: wrap; /* quebra de linha em vez de rolar para o lado */
+  gap: 8px;
+}
+
+.pilula {
+  min-height: var(--toque);
+  padding: 8px 18px;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--cartao);
+  color: var(--ink);
+  border: 1.5px solid var(--linha);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-m);
+  font-weight: 500;
+  line-height: 1.2;
+  transition:
+    transform var(--rapido) var(--suave),
+    background-color var(--medio) var(--suave),
+    border-color var(--medio) var(--suave);
+}
+
+.pilula:hover {
+  border-color: var(--link);
+}
+
+.pilula:active {
+  transform: scale(0.97);
+}
+
+/*
+  Selecionada: azul do símbolo COM contorno escuro e letra mais grossa.
+  O contorno garante que a diferença não dependa só da cor.
+*/
+.pilula[aria-pressed='true'] {
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--ink);
+  font-weight: 600;
+}
+
+/* Pílula de vidro: flutua em cima do mapa */
+.pilula--vidro {
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
+  border: 1px solid var(--vidro-borda);
+  box-shadow: var(--sombra-flutuante);
 }
 
 /* ---------- Campos de formulário ---------- */
@@ -82,22 +215,29 @@
 }
 
 .campo__rotulo {
-  font-size: 16px;
+  font-size: var(--texto-m);
   font-weight: 600;
 }
 
 .campo__dica {
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
 }
 
 .campo__entrada {
-  min-height: 48px;
-  padding: 0 12px;
-  border: 1px solid var(--borda-campo);
-  border-radius: var(--raio);
+  min-height: 52px;
+  padding: 0 14px;
+  border: 1.5px solid var(--borda-campo);
+  border-radius: 14px;
   background: var(--card);
-  font-size: 16px; /* 16 px evita o zoom automático do iPhone ao tocar no campo */
+  font-size: 1rem; /* 16 px ou mais evita o zoom automático do iPhone ao tocar no campo */
+  transition:
+    border-color var(--rapido) var(--suave),
+    box-shadow var(--rapido) var(--suave);
+}
+
+.campo__entrada:focus-visible {
+  border-color: var(--focus);
 }
 
 textarea.campo__entrada {
@@ -107,26 +247,30 @@ textarea.campo__entrada {
 
 /* Erro sem vermelho: borda mais grossa + ícone + texto */
 .campo__entrada[aria-invalid='true'] {
-  border: 2px solid var(--ink);
+  border: 2.5px solid var(--ink);
 }
 
 .campo__erro {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  font-size: var(--texto-m);
   font-weight: 600;
+}
+
+.campo__erro svg {
+  flex: none;
 }
 
 /* ---------- Radio ---------- */
 .radio {
-  min-height: 48px;
-  padding: 0 4px;
+  min-height: var(--toque);
+  padding: 6px 4px;
   display: flex;
   align-items: center;
   gap: 12px;
   border-bottom: 1px solid var(--line-soft);
-  font-size: 16px;
+  font-size: var(--texto-m);
   cursor: pointer;
 }
 
@@ -137,58 +281,41 @@ textarea.campo__entrada {
 }
 
 .radio__bolinha {
-  width: 24px;
-  height: 24px;
+  width: 26px;
+  height: 26px;
   flex: none;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px solid var(--borda-campo);
+  border: 2px solid var(--borda-campo);
   border-radius: 50%;
+  background: var(--card);
 }
 
-.radio input:checked + .radio__bolinha::after {
+.radio__bolinha::after {
   content: '';
   width: 12px;
   height: 12px;
   border-radius: 50%;
   background: var(--link);
+  transform: scale(0);
+  transition: transform var(--medio) var(--suave);
+}
+
+.radio input:checked + .radio__bolinha {
+  border-color: var(--link);
+}
+
+.radio input:checked + .radio__bolinha::after {
+  transform: scale(1);
 }
 
 .radio input:focus-visible + .radio__bolinha {
   outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
-/* ---------- Abas (filtros, Mapa/Lista) ---------- */
-.abas {
-  display: flex;
-  gap: 18px;
-  overflow-x: auto;
-  scrollbar-width: none; /* rola com o dedo, sem barra visível */
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.abas__aba {
-  min-height: 44px;
-  padding: 0 2px;
-  background: none;
-  border: 0;
-  border-bottom: 3px solid transparent;
-  margin-bottom: -2px;
-  color: var(--muted);
-  font-size: 16px;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.abas__aba[aria-pressed='true'],
-.abas__aba[aria-selected='true'] {
-  color: var(--link);
-  border-bottom-color: var(--link);
-}
-
-/* ---------- Animação de entrada (avisos e toasts) ---------- */
+/* ---------- Animação de entrada antiga (mantida para quem ainda usa o nome) ---------- */
 @keyframes celiaIn {
   from {
     opacity: 0;
