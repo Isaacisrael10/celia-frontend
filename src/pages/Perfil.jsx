@@ -1,4 +1,5 @@
-import { IconMoon, IconCloudRain, IconTemperature } from '@tabler/icons-react'
+import { Link } from 'react-router-dom'
+import { IconMoon, IconCloudRain, IconTemperature, IconSchool, IconChevronRight } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import Interruptor from '../components/Interruptor'
 import { useTema } from '../hooks/useTema'
@@ -50,6 +51,21 @@ export default function Perfil() {
             ))}
           </div>
         </fieldset>
+
+        {/* Mini trilha de IA (HU-19): o que é IA e como usar no trabalho */}
+        <section aria-labelledby="titulo-aprender" className="perfil__aprender">
+          <h2 id="titulo-aprender" className="perfil__titulo">
+            Aprender
+          </h2>
+          <Link to="/trilha" className="perfil__link">
+            <IconSchool size={24} aria-hidden="true" />
+            <span>
+              Trilha de IA no trabalho
+              <span className="perfil__link-apoio">Lições curtas, no seu ritmo</span>
+            </span>
+            <IconChevronRight size={22} aria-hidden="true" />
+          </Link>
+        </section>
 
         <section aria-labelledby="titulo-sobre" className="perfil__sobre">
           <h2 id="titulo-sobre" className="perfil__titulo">

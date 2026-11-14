@@ -72,3 +72,44 @@
   outline: 3px solid var(--focus);
   outline-offset: 2px;
 }
+
+/* Aprender: atalho para a trilha de IA */
+.perfil__aprender {
+  padding-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-top: 1px solid var(--linha);
+}
+
+.perfil__link {
+  min-height: 64px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  box-shadow: var(--sombra);
+  border-radius: var(--raio);
+  color: var(--ink);
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.perfil__link > span {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.perfil__link svg {
+  flex: none;
+  color: var(--link);
+}
+
+.perfil__link-apoio {
+  font-size: 14px;
+  font-weight: 400;
+  color: var(--muted);
+}

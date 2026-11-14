@@ -1,0 +1,130 @@
+/* Mini trilha de IA: lista de lições e a lição aberta */
+
+.trilha__abertura {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.trilha__titulo {
+  font-size: 22px;
+}
+
+.trilha__observacao,
+.trilha__nota {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.trilha__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.trilha__licao {
+  min-height: 64px;
+  padding: 12px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--card);
+  box-shadow: var(--sombra);
+  border-radius: var(--raio);
+  color: var(--ink);
+  text-decoration: none;
+}
+
+.trilha__licao svg {
+  flex: none;
+  color: var(--link);
+}
+
+/* Número da lição num círculo vazado, como as paradas de uma linha */
+.trilha__numero {
+  width: 36px;
+  height: 36px;
+  flex: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--link);
+  border-radius: 50%;
+  color: var(--link);
+  font-weight: 700;
+}
+
+.trilha__textos {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.trilha__nome {
+  font-size: 17px;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.trilha__duracao {
+  font-size: 14px;
+  color: var(--muted);
+}
+
+/* ---------- Lição ---------- */
+.licao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.licao__titulo {
+  font-size: 24px;
+  line-height: 1.25;
+}
+
+.licao__duracao {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+.licao__paragrafo {
+  font-size: 17px;
+  line-height: 1.55;
+}
+
+.licao__bloco {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  background: var(--card);
+  box-shadow: var(--sombra);
+  border-radius: var(--raio);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.licao__subtitulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 18px;
+}
+
+.licao__subtitulo svg {
+  color: var(--link);
+}
+
+/* O título da próxima lição pode ser longo: deixa quebrar a linha */
+.licao .botao {
+  white-space: normal;
+  text-align: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
