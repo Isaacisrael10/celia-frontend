@@ -1,35 +1,30 @@
 import { useEffect, useState } from 'react'
+import { lerSalvo, salvar } from '../services/armazenamento'
 
 const CHAVE = 'celia-tema'
 
 // Descobre o tema inicial: o que a pessoa escolheu antes ou, se não escolheu, o do sistema
 function temaInicial() {
-  try {
-    const salvo = localStorage.getItem(CHAVE)
-    if (salvo === 'claro' || salvo === 'escuro') return salvo
-  } catch {
-    // navegador sem localStorage (aba anônima, por exemplo): segue sem salvar
-  }
+  const salvo = lerSalvo(CHAVE)
+  if (salvo === 'claro' || salvo === 'escuro') return salvo
+
   const sistemaEscuro = window.matchMedia('(prefers-color-scheme: dark)').matches
   return sistemaEscuro ? 'escuro' : 'claro'
 }
 
 /*
-  Custom hook do modo claro/escuro.
+  Custom hook do modo claro/escuro (Web Development: modo Light/Dark).
   - guarda o tema no estado do React
-  - coloca data-tema="claro|escuro" no <html> (o CSS troca as cores por ele)
+  - coloca data-tema="claro|escuro" no <html> (manipulação do DOM): o CSS troca as cores por esse atributo
   - salva a escolha no navegador
+  Ex.: const { escuro, alternarTema } = useTema()
 */
 export function useTema() {
   const [tema, setTema] = useState(temaInicial)
 
   useEffect(() => {
     document.documentElement.dataset.tema = tema
-    try {
-      localStorage.setItem(CHAVE, tema)
-    } catch {
-      // sem localStorage: o tema vale só até fechar a página
-    }
+    salvar(CHAVE, tema)
   }, [tema])
 
   function alternarTema() {

@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { analisarFoto } from '../services/visaoApi'
 import { gerarMiniatura } from '../services/miniatura'
-import { tipoDoResultado } from '../domain/visao'
+import { tipoDoResultado, caixasDaResposta } from '../domain/visao'
 
 /*
   Custom hook da foto do reporte.
@@ -59,7 +59,7 @@ export function useAnaliseFoto() {
       const resposta = await analisarFoto(arquivo)
       if (numero !== ultimaFoto.current) return
       setTipo(tipoDoResultado(resposta.resultado))
-      setCaixas(Array.isArray(resposta.caixas) ? resposta.caixas : [])
+      setCaixas(caixasDaResposta(resposta))
       setEstado('analisada')
     } catch {
       if (numero !== ultimaFoto.current) return
