@@ -7,7 +7,8 @@
 
   Os números seguem o ESP32 (ThingSpeak):
     field5 status: 0 verde · 1 amarelo · 2 vermelho
-    field6 motivo: 0 nenhum · 1 calçada · 2 calor · 3 ambos · 4 veículo · 5 buraco
+    field6 motivo: 0 nenhum · 1 calçada · 2 calor · 3 ambos · 5 buraco
+    (o 4, veículo, saiu do ESP32 em 12/11; o texto dele continua na lista para leituras antigas)
 */
 
 export const FAIXAS = {

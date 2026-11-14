@@ -2,6 +2,7 @@
   Regras das rotas (sem React).
   A recomendada é a mais SEGURA, não a mais curta.
 */
+import { areaDosPontos } from './mapa'
 
 // Gravidade de cada faixa: quanto maior, pior
 const GRAVIDADE = { normal: 0, atencao: 1, semDados: 2, perigo: 3 }
@@ -47,6 +48,11 @@ export function ordenarRotas(rotas) {
 // A rota passa por algum trecho em Perigo? Devolve o primeiro, ou null.
 export function trechoEmPerigo(rota) {
   return rota.trechosDaRota.find((t) => t.faixa.id === 'perigo') || null
+}
+
+// Retângulo que cobre todos os trechos da rota (para o mapa enquadrar o caminho inteiro)
+export function areaDaRota(rota) {
+  return areaDosPontos(rota.trechosDaRota.flatMap((t) => t.coords))
 }
 
 // Ex.: 1.1 → "1,1 km"

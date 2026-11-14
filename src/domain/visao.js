@@ -2,7 +2,8 @@
   Regras da análise de foto (sem React).
 */
 
-// O que a IA pode responder e o texto que aparece na tela
+// O que a IA pode responder e o texto que aparece na tela.
+// Hoje a API só responde "livre" ou "buraco"; "obstaculo" continua aqui para o app não quebrar se ele voltar.
 export const RESULTADOS = {
   livre: 'Calçada livre',
   obstaculo: 'Obstáculo na calçada',
@@ -18,9 +19,20 @@ export function tipoDoResultado(resultado) {
 }
 
 /*
+  Tira da resposta da API a lista de caixas para desenhar sobre a foto.
+  A API só detecta buracos e manda as caixas em "caixas_buracos" (sem o nome da classe),
+  então colocamos a classe "buraco" em cada uma. "caixas" é o nome antigo, aceito por garantia.
+*/
+export function caixasDaResposta(resposta) {
+  const lista = resposta.caixas_buracos || resposta.caixas
+  if (!Array.isArray(lista)) return []
+  return lista.map((caixa) => ({ classe: 'buraco', ...caixa }))
+}
+
+/*
   Converte uma caixa da IA em porcentagens da foto, para desenhar por cima dela.
-  Funciona com as duas possibilidades (PENDENTE confirmar com o Caio):
-  - coordenadas em pixels (ex.: x1 = 120)
+  Funciona com as duas possibilidades:
+  - coordenadas em pixels (ex.: x1 = 120), que é como a API manda hoje
   - coordenadas normalizadas, de 0 a 1 (ex.: x1 = 0.25)
 */
 export function caixaEmPorcentagem(caixa, largura, altura) {

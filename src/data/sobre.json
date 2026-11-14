@@ -1,0 +1,79 @@
+{
+  "lema": "Caminhos em Liberdade, Inclusão e Acessibilidade",
+  "problema": "Quem tem deficiência física ou mobilidade reduzida sai de casa sem saber se a calçada e a rampa do caminho até o trabalho estão livres e seguras.",
+  "solucao": "A C.E.L.I.A. mostra isso antes de a pessoa sair: como está cada trecho, qual é a rota mais segura e onde dá para parar no caminho.",
+  "homenagem": "O nome é uma homenagem à Célia, avó de uma integrante da equipe. Foi ela quem contou para a gente as dificuldades que encontra nas calçadas.",
+  "ficha": [
+    { "rotulo": "Onde", "texto": "Rio de Janeiro. Os testes são no bairro do Grajaú." },
+    { "rotulo": "Para quem", "texto": "Pessoas com deficiência física ou mobilidade reduzida que vão ao trabalho a pé e de ônibus." },
+    { "rotulo": "Desafio", "texto": "Global Solution 2026.2 (CitizenTech) da FIAP, Engenharia de Software, 1º ano." }
+  ],
+  "jornada": [
+    {
+      "titulo": "Antes de sair",
+      "texto": "Veja a rota mais segura, como está cada trecho e o calor no ponto de ônibus."
+    },
+    {
+      "titulo": "No caminho",
+      "texto": "Saiba se um trecho piorou e ache um banheiro acessível ou um lugar para descansar."
+    },
+    {
+      "titulo": "Achou um problema",
+      "texto": "Tire uma foto. A IA confere se há buraco e o reporte entra no mapa, pronto para seguir à prefeitura."
+    },
+    {
+      "titulo": "Depois",
+      "texto": "Os postes guardam o histórico das medições. Com ele dá para saber onde consertar primeiro."
+    }
+  ],
+  "partes": [
+    {
+      "id": "poste",
+      "titulo": "Poste com sensores",
+      "texto": "Um ESP32 no ponto de ônibus mede o espaço livre na calçada e o calor. Mostra a situação num visor e numa luz e envia as leituras para a internet (ThingSpeak)."
+    },
+    {
+      "id": "visao",
+      "titulo": "IA que vê buracos",
+      "texto": "Um modelo treinado pela equipe procura buracos nas fotos de calçada. A foto é analisada na hora e a API não guarda a imagem."
+    },
+    {
+      "id": "python",
+      "titulo": "Programa em Python",
+      "texto": "Lê as medições do poste, calcula um índice de risco e percebe quando a situação está piorando."
+    },
+    {
+      "id": "app",
+      "titulo": "Este aplicativo",
+      "texto": "Junta tudo num lugar só: mapa com a situação dos trechos, rotas, reportes, locais de apoio e ajustes de acessibilidade."
+    },
+    {
+      "id": "trilha",
+      "titulo": "Trilha de IA",
+      "texto": "Lições curtas para usar inteligência artificial no trabalho. A barreira não termina na calçada: é preciso chegar e também seguir no emprego."
+    }
+  ],
+  "ods": [
+    {
+      "numero": 10,
+      "titulo": "Redução das desigualdades",
+      "texto": "A pessoa com deficiência passa a ter a informação de que precisa para escolher o caminho, como qualquer outra pessoa."
+    },
+    {
+      "numero": 11,
+      "titulo": "Cidades e comunidades sustentáveis",
+      "texto": "Mostra onde a calçada falha e ajuda a cidade a decidir o que consertar primeiro."
+    },
+    {
+      "numero": 8,
+      "titulo": "Trabalho decente e crescimento econômico",
+      "texto": "Tira uma barreira do caminho até o emprego e apoia a capacitação em IA para seguir trabalhando."
+    }
+  ],
+  "impacto": "Quantas vezes o trajeto ficou inacessível no horário de ida ao trabalho, medido no histórico do poste. É o indicador proposto pela equipe.",
+  "dados": [
+    "O app não tem cadastro e não pede dados pessoais. O tema, o caminho de sempre e os ajustes ficam só no seu aparelho.",
+    "A API de visão analisa a foto na memória e não guarda a imagem. O reporte guarda só uma miniatura, para mostrar o problema.",
+    "Só o poste do ponto de ônibus é lido ao vivo. O resto dos trechos, as rotas e os locais são exemplos simulados, e a tela avisa isso."
+  ]
+}

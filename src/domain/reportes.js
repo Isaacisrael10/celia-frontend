@@ -17,6 +17,25 @@ export const SITUACOES = {
   resolvido: 'Resolvido',
 }
 
+// Opções do filtro da lista (nomes curtos para caber na largura do celular)
+export const FILTROS_REPORTE = { todos: 'Todos', aberto: 'Abertos', enviado: 'Enviados', resolvido: 'Resolvidos' }
+
+// Devolve só os reportes da situação escolhida ("todos" devolve a lista inteira)
+export function filtrarReportes(reportes, filtro) {
+  if (filtro === 'todos') return reportes
+  return reportes.filter((r) => r.status === filtro)
+}
+
+// Mais recentes primeiro (devolve uma cópia: não mexe na lista original)
+export function ordenarPorData(reportes) {
+  return [...reportes].sort((a, b) => (b.criadoEm || '').localeCompare(a.criadoEm || ''))
+}
+
+// Ex.: 1 → "1 reporte" · 3 → "3 reportes"
+export function textoQuantidade(quantidade) {
+  return quantidade === 1 ? '1 reporte' : quantidade + ' reportes'
+}
+
 // Reporte em branco, usado no formulário de "Novo reporte"
 export const REPORTE_VAZIO = {
   rua: '',
@@ -51,6 +70,19 @@ export function validarReporte(reporte, exigirFoto = false) {
     erros.descricao = 'Escreva pelo menos uma frase.'
   }
   return erros
+}
+
+/*
+  Monta o reporte que vai para a API, a partir do que está no formulário.
+  - dados: os campos do formulário
+  - coordenadas: { lat, lng } do pino do mapa (ou nulos, se a pessoa só digitou o endereço)
+  - daFoto: { tipo, fotoUrl } vindos da foto e da IA. Só no reporte NOVO; na edição vai null,
+    porque a foto e o tipo já estão salvos nos dados.
+*/
+export function montarReporte(dados, coordenadas, daFoto) {
+  const comLocal = { ...dados, lat: coordenadas.lat, lng: coordenadas.lng }
+  if (!daFoto) return comLocal
+  return { ...comLocal, tipo: daFoto.tipo, fotoUrl: daFoto.fotoUrl }
 }
 
 // Ex.: "2026-11-14T10:20:00Z" → "14/11/2026"
