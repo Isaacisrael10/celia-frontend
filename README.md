@@ -39,9 +39,11 @@ O motivo aparece junto: "Evite · buraco", "Atenção · calçada estreita".
 | **Mapa** | Mapa real e livre de ponta a ponta (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, legenda e alternativa em lista para leitor de tela. Embaixo, a gaveta do **boletim do caminho de sempre** responde se dá para ir trabalhar hoje pelo caminho de sempre (livre, Atenção, Perigo ou sem dados), com o calor medido no ponto de ônibus e o alerta de calor escolhido no Perfil. |
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
 | **Rotas** | Compara 3 caminhos até o trabalho, recomenda o mais seguro (que nem sempre é o mais curto) e deixa a pessoa escolher o **caminho de sempre** (salvo no navegador, sem login). |
-| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. |
+| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, descrição sugerida pela IA (a pessoa revisa antes de enviar), local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. |
 | **Locais** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro. |
-| **Perfil** | Modo escuro, alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), modo chuva e informações do projeto. |
+| **Perfil** | Modo escuro, alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), modo chuva, atalho para a trilha de IA e informações do projeto. |
+| **Trilha de IA** | Mini trilha com lições curtas sobre IA no trabalho (abre pelo Perfil). Cada lição tem texto, exemplo no trabalho e um exercício. |
+| **Assistente** | Perguntas sobre o caminho até o trabalho (abre pelas Rotas e pelo boletim). A resposta usa só os trechos e os locais do app, e cita o trecho ou o local com link. |
 
 _(prints das telas em breve)_
 
@@ -55,6 +57,7 @@ _(prints das telas em breve)_
 | Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
 | Reportes | **Reais** na MockAPI (API externa do CRUD). |
 | Análise da foto (IA) | **Real** na demonstração local (API FastAPI da equipe em `127.0.0.1:8000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
+| Trilha de IA e assistente | **Reais** na demonstração local (API da equipe; o assistente usa o Gemini Flash pela API, e o app nunca guarda chave). Na versão publicada, a trilha usa a cópia salva em `src/data/trilha.json` e o assistente e a descrição sugerida mostram uma mensagem (plano B). |
 | Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
 | Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
 | Mapa e ruas | **Reais** (OpenStreetMap). O mapa abre no **Grajaú**, bairro dos testes e das fotos usadas para treinar a IA, mas vai para qualquer lugar pela busca ou pelo GPS. Os trechos coloridos são 39 trechos de 11 ruas reais do Grajaú. |
@@ -94,6 +97,8 @@ Contrato completo entre as partes: [`docs/INTEGRACAO.md`](docs/INTEGRACAO.md).
 - **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/3577155/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 Acessível, 1 Atenção, 2 Evite) e motivo. Valores absurdos de testes antigos são descartados.
 - **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
 - **API de visão** (FastAPI): `POST /analisar` com a foto; devolve o resultado (`livre` ou `buraco`) e as caixas dos buracos, que o app desenha sobre a foto.
+- **Trilha de IA** (mesma API): `GET /trilha` e `GET /trilha/{id}`.
+- **Assistente** (mesma API, que fala com o Gemini Flash): `POST /assistente/trajeto` (pergunta + situação dos trechos + locais) e `POST /assistente/descricao` (sugestão de texto do reporte; a foto nunca vai).
 - **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
 - **Busca de lugares** (Nominatim/OpenStreetMap, sem chave): leva o mapa a qualquer endereço e acha as coordenadas dos reportes. Só busca quando a pessoa confirma, como pede a regra de uso do serviço.
 - **GPS do navegador** (Geolocation API): botão "Meu local".
@@ -107,9 +112,11 @@ A lógica de negócio, o acesso a dados e a apresentação ficam separados:
 ```
 src/
   services/    acesso a dados, sem React
-               reportesApi.js · thingspeak.js · visaoApi.js · miniatura.js · config.js
+               reportesApi.js · thingspeak.js · visaoApi.js · apiEquipe.js · trilhaApi.js
+               assistenteApi.js · geocodificacao.js · miniatura.js · config.js
   domain/      regras de negócio puras (sem React, sem fetch)
                faixas.js · reportes.js · poste.js · trechos.js · rotas.js · boletim.js · visao.js
+               assistente.js · locais.js
   hooks/       custom hooks: juntam serviços, regras e estado
   components/  peças visuais reutilizáveis
   pages/       as telas
@@ -127,6 +134,8 @@ src/
 | `useRotas` | Ordena as rotas da mais segura para a menos segura e guarda o caminho de sempre |
 | `useLimiteCalor` | Temperatura do alerta de calor, escolhida no Perfil e salva no navegador |
 | `useAnaliseFoto` | Envia a foto para a IA e cuida do plano B |
+| `useChamadaApi` | Carregando e erro de qualquer chamada à API da equipe (assistente e descrição), com o plano B |
+| `useTrilha` / `useLicao` | Lê a trilha e cada lição da API; sem a API, usa a cópia salva no app |
 | `useTema` | Modo claro/escuro, salvo no navegador |
 | `usePreferencia` | Preferência liga/desliga salva no navegador (modo chuva) |
 | `useAviso` | Mensagem rápida no rodapé que some sozinha |
@@ -149,6 +158,8 @@ src/
 11. **Escolher o local do reporte** arrastando o mapa (o endereço se preenche sozinho)
 12. **Abrir e fechar a gaveta** do boletim com os detalhes do caminho
 13. **Alerta de calor**: escolher a temperatura no Perfil e o boletim avisar quando o ponto passar dela
+14. **Perguntar ao assistente** (pergunta pronta ou escrita) e a resposta aparecer na conversa
+15. **Sugerir descrição** do reporte com IA, num campo que a pessoa edita antes de enviar
 
 ---
 

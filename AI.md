@@ -74,3 +74,27 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
 - **Como a IA ajudou:** criou o `SeletorLocal` (mapa pequeno com pino fixo no centro, estilo aplicativo de transporte), o hook `useLocalDoReporte` (GPS ao abrir, busca do endereço, e busca reversa que preenche o endereço quando a pessoa arrasta) e a função `enderecoDoPonto` no serviço de geocodificação.
 - **Problema encontrado:** depois de arrastar, o mapa desliza por inércia e o evento final não indica que foi a pessoa; a solução foi marcar o arrasto no início do movimento.
 - **Revisão da equipe:** (preencher)
+
+## 8. Boletim do caminho de sempre (Claude Code + Gemini · 13/11/2026)
+
+- **Prompt (resumo):** discussão de produto com o Gemini sobre o que a pessoa precisa ver ao abrir o app, seguida de "Pode implementar" com a proposta final.
+- **Como a IA ajudou:** mapa de ponta a ponta com a gaveta do **boletim do caminho de sempre** (`domain/boletim.js`, `components/BoletimCaminho.jsx`), escolha do caminho de sempre nas Rotas, alerta de calor no Perfil (`hooks/useLimiteCalor.js`) e selos do mapa que nunca ficam um em cima do outro.
+- **Revisão da equipe:** (preencher)
+
+## 9. Integração com o contrato da equipe (Claude Code · 13/11/2026)
+
+- **Prompt (resumo):** o Isaac anexou o `INTEGRACAO.md` e pediu para alinhar o app a ele.
+- **Como a IA ajudou:** canal 3577155 como padrão, nomes Acessível/Atenção/Evite, motivo 4 removido, descarte de valores absurdos do ThingSpeak, níveis de calor (32 e 41 °C), endereço da API em `VITE_URL_API` e conversão das caixas dos buracos de pixels para frações da foto.
+- **Revisão da equipe:** (preencher)
+
+## 10. Trilha de IA, assistente e descrição sugerida (Claude Code · 14/11/2026)
+
+- **Prompt (resumo):** "Pode ir fazendo o que você consegue aí" (itens do contrato que dependem só do front).
+- **Como a IA ajudou:**
+  - serviço comum `services/apiEquipe.js` (tempo máximo, mensagem em português do campo `detail`, e um erro próprio para quando a API não está no ar) e o hook `useChamadaApi`;
+  - **trilha** (HU-19): telas `Trilha` e `Licao`, com cópia em `src/data/trilha.json` como plano B (vazia até a equipe colar o arquivo da API);
+  - **assistente** (HU-21, RN06): `domain/assistente.js` monta a situação dos trechos do caminho de sempre e a lista de locais; a tela mostra a conversa e transforma os ids citados em links;
+  - **descrição sugerida** (HU-22, RN07): botão no novo reporte; o texto vai para o campo editável e só é enviado quando a pessoa envia o reporte.
+- **Como foi testado:** com uma API falsa local que imita o contrato (respostas, lição inexistente e API desligada). O teste com a API real da equipe ainda falta.
+- **Problema encontrado:** o recurso "horário" dos locais não tem nome e virava uma vírgula sobrando no texto enviado à IA; foi filtrado.
+- **Revisão da equipe:** (preencher)
