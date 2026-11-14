@@ -32,14 +32,14 @@ export default function CardLocal({ local }) {
   const IconeTipo = ICONES_TIPO[local.tipo]
 
   return (
-    <li className="card-local">
+    <li className="card-local cartao">
       <div className="card-local__topo">
         <span className="card-local__icone" aria-hidden="true">
           <IconeTipo size={24} />
         </span>
         <div className="card-local__textos">
           <p className="card-local__tipo">{TIPOS_LOCAL[local.tipo]}</p>
-          <h3 className="card-local__nome">{local.nome}</h3>
+          <h2 className="card-local__nome">{local.nome}</h2>
           <p className="card-local__endereco">{local.endereco}</p>
         </div>
         <p className="card-local__distancia">

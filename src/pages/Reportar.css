@@ -1,0 +1,7 @@
+/* Em telas largas o botão principal não precisa ocupar a largura toda */
+@media (min-width: 768px) {
+  .reportar__novo {
+    align-self: flex-start;
+    min-width: 20rem;
+  }
+}

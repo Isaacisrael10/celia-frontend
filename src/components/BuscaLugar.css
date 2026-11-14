@@ -1,35 +1,83 @@
+/* Busca em pílula de vidro: o campo e o botão moram dentro da mesma pílula */
 .busca-lugar__form {
+  min-height: 52px;
+  padding: 3px 3px 3px 18px;
   display: flex;
-  gap: 8px;
+  align-items: center;
+  gap: 4px;
+  border-radius: var(--raio-botao);
+  transition: box-shadow var(--medio) var(--suave);
+}
+
+/* O foco aparece na pílula inteira (o campo de dentro não tem borda) */
+.busca-lugar__form:focus-within {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
 }
 
 .busca-lugar__entrada {
   flex: 1;
   min-width: 0;
-  min-height: 44px;
-  padding: 0 16px;
-  border-radius: 999px; /* busca em pílula */
+  min-height: 46px;
+  padding: 0;
+  background: transparent;
+  border: 0;
+  font-size: 1rem;
 }
 
+.busca-lugar__entrada:focus-visible {
+  outline: none;
+}
+
+.busca-lugar__entrada::placeholder {
+  color: var(--muted);
+  opacity: 1;
+}
+
+/* Botão de buscar: bolinha azul com contorno, como as do símbolo */
 .busca-lugar__botao {
-  width: 44px;
-  min-height: 44px;
+  width: 46px;
+  height: 46px;
+  flex: none;
   padding: 0;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  transition: transform var(--rapido) var(--suave);
+}
+
+.busca-lugar__botao:active {
+  transform: scale(0.92);
+}
+
+.busca-lugar__botao:disabled {
+  opacity: 0.6;
+  cursor: wait;
 }
 
 .busca-lugar__info {
+  width: max-content;
+  max-width: 100%;
   margin-top: 6px;
-  font-size: 15px;
-  color: var(--muted);
+  padding: 6px 14px;
+  background: var(--vidro-forte);
+  border-radius: var(--raio-p);
+  font-size: var(--texto-p);
+  color: var(--ink);
 }
 
 .busca-lugar__resultados {
   list-style: none;
+  max-height: 50dvh;
   margin: 6px 0 0;
-  padding: 0;
-  background: var(--card);
-  border: 1px solid var(--linha);
+  padding: 6px;
+  overflow-y: auto;
   border-radius: var(--raio);
+  animation: brotar var(--medio) var(--suave);
+  transform-origin: top center;
 }
 
 .busca-lugar__resultado {
@@ -38,16 +86,22 @@
   padding: 10px 12px;
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
   background: transparent;
   border: 0;
-  border-bottom: 1px solid var(--line-soft);
+  border-radius: var(--raio-p);
   text-align: left;
-  font-size: 15px;
-  line-height: 1.3;
+  font-size: var(--texto-m);
+  line-height: 1.35;
+  transition: background-color var(--rapido) var(--suave);
+}
+
+.busca-lugar__resultado:hover {
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
 }
 
 .busca-lugar__resultado svg {
   flex: none;
-  margin-top: 1px;
+  margin-top: 2px;
+  color: var(--link);
 }

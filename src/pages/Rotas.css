@@ -1,16 +1,13 @@
-/* Origem e destino num card suave */
+/* Origem e destino: duas bolinhas ligadas por uma linha */
 .rotas__percurso {
-  padding: 12px 14px;
   display: flex;
   align-items: center;
   gap: 12px;
-  background: var(--card);
-  box-shadow: var(--sombra);
-  border-radius: var(--raio);
 }
 
 .rotas__pontos {
   flex: 1;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -18,66 +15,92 @@
 .rotas__ponto {
   display: flex;
   align-items: center;
-  gap: 10px;
-  font-size: 15px;
+  gap: 12px;
+  font-size: var(--texto-m);
   font-weight: 600;
+  line-height: 1.3;
 }
 
 .rotas__rotulo {
   display: block;
-  font-size: 13px;
+  font-size: var(--texto-p);
   font-weight: 400;
   color: var(--muted);
 }
 
-/* Saída e chegada: bolinhas ligadas por uma linha pontilhada (como as pontas dos trechos no mapa) */
+/* O nome do lugar entra de leve quando a pessoa inverte ida e volta */
+.rotas__lugar {
+  display: block;
+  animation: entrar var(--medio) var(--suave);
+}
+
+/* Saída: bolinha vazada. Chegada: bolinha azul cheia com contorno (como as do símbolo). */
 .rotas__bolinha {
-  width: 16px;
-  height: 16px;
-  margin: 0 5px;
+  width: 20px;
+  height: 20px;
   flex: none;
-  border: 3px solid var(--link);
+  border: 3px solid var(--ink);
   border-radius: 50%;
   background: var(--card);
 }
 
-/* A chegada é a bolinha cheia */
 .rotas__bolinha--destino {
-  background: var(--link);
+  background: var(--primary);
 }
 
+/* A ligação entre as duas: em pé no celular */
 .rotas__ligacao {
-  height: 14px;
-  margin-left: 12px;
-  border-left: 2px dotted var(--link);
+  width: 0;
+  height: 16px;
+  margin: 2px 0 2px 8.5px;
+  border-left: 3px dotted var(--borda-campo);
 }
 
-.rotas__inverter {
-  width: 44px;
-  height: 44px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  border: 1px solid var(--linha);
-  border-radius: 50%;
+/* No celular os pontos ficam um em cima do outro: as setas de inverter ficam em pé */
+.rotas__inverter svg {
+  transform: rotate(90deg);
 }
 
 .rotas__titulo {
-  padding-top: 10px;
   display: flex;
   align-items: baseline;
-  gap: 8px;
+  gap: 10px;
   flex-wrap: wrap;
-  border-top: 1px solid var(--linha);
 }
 
 .rotas__titulo h2 {
-  font-size: 18px;
+  font-size: var(--titulo-p);
 }
 
 .rotas__titulo p {
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
+}
+
+/* Telas largas: saída e chegada lado a lado, com a ligação deitada entre elas */
+@media (min-width: 768px) {
+  .rotas__percurso {
+    padding: 20px 24px;
+    gap: 20px;
+  }
+
+  .rotas__pontos {
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .rotas__inverter svg {
+    transform: none;
+  }
+
+  .rotas__ligacao {
+    flex: 1;
+    min-width: 40px;
+    width: auto;
+    height: 0;
+    margin: 0;
+    border-left: 0;
+    border-top: 3px dotted var(--borda-campo);
+  }
 }

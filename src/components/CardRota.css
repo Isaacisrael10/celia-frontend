@@ -1,33 +1,29 @@
 .card-rota {
-  background: var(--card);
-  box-shadow: var(--sombra);
-  border-radius: var(--raio);
-  overflow: hidden;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
 }
 
-/* A recomendada tem borda azul mais grossa e uma faixa no topo */
+/* A recomendada tem contorno azul e o selo com estrela (não depende só da cor) */
 .card-rota--recomendada {
   border: 2px solid var(--primary);
+  box-shadow:
+    var(--sombra),
+    0 0 0 4px color-mix(in srgb, var(--primary) 18%, transparent);
 }
 
-.card-rota__faixa {
+.card-rota__selo {
+  align-self: flex-start;
   padding: 4px 12px;
-  display: flex;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
   background: var(--primary);
   color: var(--on-primary);
-  font-size: 13px;
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-p);
   font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.04em;
-}
-
-.card-rota__corpo {
-  padding: 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
 }
 
 .card-rota__topo {
@@ -38,13 +34,13 @@
 }
 
 .card-rota__nome {
-  font-size: 17px;
-  line-height: 1.2;
+  font-size: var(--texto-g);
+  line-height: 1.25;
 }
 
 .card-rota__pior {
   margin-top: 2px;
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
 }
 
@@ -56,7 +52,7 @@
 }
 
 .card-rota__minutos {
-  font-size: 24px;
+  font-size: var(--titulo-m);
   font-weight: 600;
   line-height: 1;
   letter-spacing: -0.02em;
@@ -64,28 +60,61 @@
 }
 
 .card-rota__km {
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
 }
 
-/* Marcadores dos trechos e o resumo na mesma linha */
-.card-rota__linha {
+.card-rota__caminho {
   display: flex;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 6px 10px;
+  flex-direction: column;
+  gap: 6px;
 }
 
+/*
+  O caminho como grafo: ○ ─ ✓ ─ ✓ ─ ! ─ ✓ ─ ●
+  A bolinha vazada é a saída, a azul cheia é a chegada e cada trecho fica no meio, na ordem.
+*/
 .card-rota__trechos {
   list-style: none;
   margin: 0;
   padding: 0;
   display: flex;
-  gap: 4px;
+  align-items: center;
+  flex-wrap: wrap;
+  row-gap: 6px;
+}
+
+.card-rota__trecho {
+  display: flex;
+  align-items: center;
+}
+
+/* A ligação antes de cada trecho */
+.card-rota__trecho::before {
+  content: '';
+  width: 14px;
+  height: 3px;
+  background: var(--borda-campo);
+}
+
+/* Saída (bolinha vazada, no começo da lista) e chegada (bolinha azul, no fim) */
+.card-rota__trechos::before,
+.card-rota__chegada {
+  content: '';
+  width: 16px;
+  height: 16px;
+  flex: none;
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  background: var(--card);
+}
+
+.card-rota__chegada {
+  background: var(--primary);
 }
 
 .card-rota__resumo {
-  font-size: 13px;
+  font-size: var(--texto-p);
   color: var(--muted);
 }
 
@@ -93,18 +122,25 @@
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: var(--texto-p);
+}
+
+/* O botão (ou o aviso "Seu caminho de sempre") fica sempre no pé do card */
+.card-rota > .botao,
+.card-rota__atual {
+  margin-top: auto;
 }
 
 /* Caminho de sempre: borda tracejada e ✓ */
 .card-rota__atual {
-  min-height: 44px;
+  min-height: var(--toque);
+  padding: 8px 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
-  border: 1.5px dashed var(--link);
-  border-radius: var(--raio);
-  font-size: 16px;
+  gap: 8px;
+  border: 2px dashed var(--link);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-m);
   font-weight: 600;
 }

@@ -4,22 +4,23 @@ import { IconPlus, IconMessageOff } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import CardReporte from '../components/CardReporte'
 import FormReporte from '../components/FormReporte'
+import Filtros from '../components/Filtros'
 import Aviso from '../components/Aviso'
 import { Carregando, MensagemErro, Vazio } from '../components/Estados'
 import { useReportes } from '../hooks/useReportes'
 import { useAviso } from '../hooks/useAviso'
-import { REPORTE_VAZIO } from '../domain/reportes'
-
-// Opções do filtro (nomes curtos para caber na largura do celular)
-const FILTROS = { todos: 'Todos', aberto: 'Abertos', enviado: 'Enviados', resolvido: 'Resolvidos' }
+import { REPORTE_VAZIO, FILTROS_REPORTE, filtrarReportes, textoQuantidade } from '../domain/reportes'
+import './Reportar.css'
 
 /*
-  Tela de reportes: lista (com filtro) e formulário de novo/editar.
-  O formulário aparece no lugar da lista, como no design.
+  Tela de reportes (o CRUD do projeto): lista com filtro e formulário de novo/editar.
+  O formulário aparece no lugar da lista.
+  A tela só cuida do que aparece: quem fala com a API é o hook useReportes.
 */
 export default function Reportar() {
   const { reportes, carregando, erro, carregar, criar, editar, excluir } = useReportes()
   const { aviso, mostrarAviso } = useAviso()
+  // Interação Web Dev: filtrar os reportes pela situação
   const [filtro, setFiltro] = useState('todos')
   // Vindo do detalhe do trecho ("Reportar problema aqui"), a rua e o ponto já chegam preenchidos
   const location = useLocation()
@@ -29,9 +30,9 @@ export default function Reportar() {
     recebido ? { ...REPORTE_VAZIO, rua: recebido.rua, lat: recebido.lat, lng: recebido.lng } : null,
   )
 
-  // Interação Web Dev: filtrar os reportes pela situação
-  const visiveis = filtro === 'todos' ? reportes : reportes.filter((r) => r.status === filtro)
+  const visiveis = filtrarReportes(reportes, filtro)
 
+  // Criar (reporte sem id) ou editar (reporte com id). Devolve true se deu certo.
   async function salvar(dados) {
     try {
       if (dados.id) {
@@ -65,7 +66,7 @@ export default function Reportar() {
     return (
       <>
         <Cabecalho titulo="Reportes" voltar aoVoltar={() => setFormulario(null)} />
-        <main className="app__conteudo">
+        <main id="conteudo" tabIndex={-1} className="app__conteudo">
           <FormReporte
             inicial={formulario}
             editando={Boolean(formulario.id)}
@@ -82,24 +83,13 @@ export default function Reportar() {
   return (
     <>
       <Cabecalho titulo="Reportes" />
-      <main className="app__conteudo">
-        <button className="botao botao--primario botao--seta" onClick={() => setFormulario(REPORTE_VAZIO)}>
+      <main id="conteudo" tabIndex={-1} className="app__conteudo">
+        <button className="botao botao--primario botao--seta reportar__novo" onClick={() => setFormulario(REPORTE_VAZIO)}>
           Reportar problema
           <IconPlus size={24} aria-hidden="true" />
         </button>
 
-        <div className="abas" role="group" aria-label="Filtrar por situação">
-          {Object.entries(FILTROS).map(([valor, nome]) => (
-            <button
-              key={valor}
-              className="abas__aba"
-              aria-pressed={filtro === valor}
-              onClick={() => setFiltro(valor)}
-            >
-              {nome}
-            </button>
-          ))}
-        </div>
+        <Filtros rotulo="Filtrar por situação" opcoes={FILTROS_REPORTE} valor={filtro} aoMudar={setFiltro} />
 
         {carregando && <Carregando texto="Buscando os reportes…" />}
 
@@ -107,8 +97,8 @@ export default function Reportar() {
 
         {!carregando && !erro && (
           <>
-            <p style={{ fontSize: 15, color: 'var(--muted)' }} aria-live="polite">
-              {visiveis.length === 1 ? '1 reporte' : visiveis.length + ' reportes'}
+            <p className="apoio" aria-live="polite">
+              {textoQuantidade(visiveis.length)}
             </p>
 
             {reportes.length === 0 && (
@@ -119,18 +109,11 @@ export default function Reportar() {
               />
             )}
 
-            {reportes.length > 0 && visiveis.length === 0 && (
-              <Vazio titulo="Nenhum reporte nesta situação" />
-            )}
+            {reportes.length > 0 && visiveis.length === 0 && <Vazio titulo="Nenhum reporte nesta situação" />}
 
-            <ul style={{ listStyle: 'none', margin: 0, padding: 0 }}>
+            <ul className="grade">
               {visiveis.map((reporte) => (
-                <CardReporte
-                  key={reporte.id}
-                  reporte={reporte}
-                  aoEditar={(r) => setFormulario(r)}
-                  aoExcluir={apagar}
-                />
+                <CardReporte key={reporte.id} reporte={reporte} aoEditar={setFormulario} aoExcluir={apagar} />
               ))}
             </ul>
           </>

@@ -25,19 +25,19 @@ export default function BuscaLugar({ aoEscolher }) {
 
   return (
     <div className="busca-lugar">
-      <form className="busca-lugar__form" onSubmit={enviar} role="search">
+      <form className="busca-lugar__form vidro vidro--forte" onSubmit={enviar} role="search">
         <label htmlFor="busca-lugar" className="so-leitor">
           Buscar bairro, rua ou lugar
         </label>
         <input
           id="busca-lugar"
-          className="campo__entrada busca-lugar__entrada"
+          className="busca-lugar__entrada"
           placeholder="Buscar bairro, rua ou lugar"
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
           autoComplete="off"
         />
-        <button type="submit" className="botao botao--secundario busca-lugar__botao" disabled={buscando} aria-label="Buscar">
+        <button type="submit" className="busca-lugar__botao" disabled={buscando} aria-label="Buscar">
           <IconSearch size={22} aria-hidden="true" />
         </button>
       </form>
@@ -48,7 +48,7 @@ export default function BuscaLugar({ aoEscolher }) {
       </div>
 
       {resultados.length > 0 && (
-        <ul className="busca-lugar__resultados" aria-label="Resultados da busca">
+        <ul className="busca-lugar__resultados vidro vidro--forte" aria-label="Resultados da busca">
           {resultados.map((lugar) => (
             <li key={lugar.lat + ',' + lugar.lng}>
               <button className="busca-lugar__resultado" onClick={() => escolher(lugar)}>

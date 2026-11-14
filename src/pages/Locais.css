@@ -1,29 +1,7 @@
-.locais__intro {
-  font-size: 16px;
-  color: var(--muted);
-}
-
-/* Filtros em pílula: o selecionado fica com fundo azul do símbolo */
-.locais__filtros {
-  display: flex;
-  gap: 8px;
-}
-
-.locais__filtro {
-  min-height: 40px;
-  padding: 0 16px;
-  background: var(--card);
-  color: var(--ink);
-  border: 1px solid var(--linha);
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.locais__filtro[aria-pressed='true'] {
-  background: var(--primary);
-  color: var(--on-primary);
-  border-color: var(--primary);
+.locais__colunas {
+  display: grid;
+  gap: 16px;
+  align-items: start;
 }
 
 .locais {
@@ -32,10 +10,19 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.locais__fonte {
-  font-size: 13px;
-  color: var(--muted);
+/* Computador: o mapa fica preso na tela enquanto a lista rola ao lado */
+@media (min-width: 960px) {
+  .locais__colunas {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 20px;
+  }
+
+  .locais__colunas .mini-mapa {
+    position: sticky;
+    top: 20px;
+    height: min(70dvh, 34rem);
+  }
 }

@@ -14,11 +14,15 @@ const ICONES = {
 /*
   Um item da lista de reportes, com Editar e Excluir.
   Excluir pede confirmação dentro do próprio card.
+  A situação é desenhada como um caminho de 3 bolinhas: Aberto → Enviado → Resolvido.
 */
 export default function CardReporte({ reporte, aoEditar, aoExcluir }) {
   const [confirmando, setConfirmando] = useState(false)
   const [excluindo, setExcluindo] = useState(false)
   const Icone = ICONES[reporte.tipo] || IconQuestionMark
+  // Em que passo o reporte está: 0 aberto · 1 enviado · 2 resolvido
+  const passos = Object.keys(SITUACOES)
+  const passoAtual = Math.max(0, passos.indexOf(reporte.status))
 
   async function confirmarExclusao() {
     setExcluindo(true)
@@ -31,7 +35,7 @@ export default function CardReporte({ reporte, aoEditar, aoExcluir }) {
   }
 
   return (
-    <li className="card-reporte">
+    <li className="card-reporte cartao">
       <div className="card-reporte__topo">
         {reporte.fotoUrl ? (
           <img className="card-reporte__foto" src={reporte.fotoUrl} alt="" />
@@ -49,7 +53,12 @@ export default function CardReporte({ reporte, aoEditar, aoExcluir }) {
       </div>
 
       <span className="card-reporte__situacao">
-        <span className={'situacao situacao--' + reporte.status} aria-hidden="true" />
+        {/* Só desenho: as bolinhas até o passo atual ficam cheias. O texto ao lado diz a mesma coisa. */}
+        <span className="card-reporte__passos" aria-hidden="true">
+          {passos.map((passo, i) => (
+            <span key={passo} className={'card-reporte__passo' + (i <= passoAtual ? ' card-reporte__passo--feito' : '')} />
+          ))}
+        </span>
         Situação: {SITUACOES[reporte.status] || 'Aberto'}
       </span>
 

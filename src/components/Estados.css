@@ -3,14 +3,13 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 8px;
-  font-size: 16px;
+  gap: 10px;
+  font-size: var(--texto-m);
 }
 
-.estado--caixa {
-  padding: 14px;
-  box-shadow: var(--sombra);
-  border-radius: var(--raio);
+/* O erro vem dentro de um card (a classe .cartao já traz o fundo e a borda) */
+.estado.cartao {
+  padding: 16px;
 }
 
 .estado__titulo {
@@ -20,16 +19,81 @@
   font-weight: 600;
 }
 
-.estado__titulo--grande {
-  font-size: 19px;
+.estado__titulo svg {
+  flex: none;
 }
 
+.estado__titulo--grande {
+  font-size: var(--titulo-p);
+}
+
+.estado__texto {
+  max-width: 44ch;
+  color: var(--muted);
+}
+
+/* Vazio: bolinha tracejada (um ponto do grafo que ainda não existe) */
 .estado__icone {
-  width: 52px;
-  height: 52px;
+  width: 64px;
+  height: 64px;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1.5px dashed var(--borda-campo);
+  border: 2px dashed var(--borda-campo);
+  border-radius: 50%;
   color: var(--muted);
+}
+
+/* Carregando: três bolinhas ligadas por uma linha, acendendo em sequência */
+.estado--carregando {
+  flex-direction: row;
+  align-items: center;
+  gap: 14px;
+  font-weight: 500;
+}
+
+.estado__bolinhas {
+  position: relative;
+  display: inline-flex;
+  gap: 10px;
+}
+
+.estado__bolinhas::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 6px;
+  right: 6px;
+  height: 2px;
+  margin-top: -1px;
+  background: var(--line-strong);
+}
+
+.estado__bolinhas span {
+  position: relative;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  animation: acender 1.2s var(--suave) infinite;
+}
+
+.estado__bolinhas span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.estado__bolinhas span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes acender {
+  0%,
+  60%,
+  100% {
+    background: var(--card);
+  }
+  30% {
+    background: var(--primary);
+  }
 }

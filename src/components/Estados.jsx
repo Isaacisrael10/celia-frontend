@@ -7,7 +7,13 @@ import './Estados.css'
 
 export function Carregando({ texto = 'Carregando…' }) {
   return (
-    <p className="estado" role="status">
+    <p className="estado estado--carregando" role="status">
+      {/* Três bolinhas ligadas que acendem uma depois da outra (só desenho) */}
+      <span className="estado__bolinhas" aria-hidden="true">
+        <span />
+        <span />
+        <span />
+      </span>
       {texto}
     </p>
   )
@@ -15,7 +21,7 @@ export function Carregando({ texto = 'Carregando…' }) {
 
 export function MensagemErro({ mensagem, aoTentarDeNovo }) {
   return (
-    <div className="estado estado--caixa" role="alert">
+    <div className="estado cartao" role="alert">
       <span className="estado__titulo">
         <IconInfoSquare size={24} aria-hidden="true" />
         {mensagem}

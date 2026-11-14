@@ -1,66 +1,54 @@
+/* O detalhe do trecho é texto corrido: fica numa coluna de leitura confortável */
+.trecho {
+  max-width: 46rem;
+}
+
+.trecho__resumo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+@media (min-width: 768px) {
+  .trecho__resumo {
+    padding: 24px;
+  }
+}
+
 .trecho__rua {
-  font-size: 22px;
+  font-size: var(--titulo-m);
   line-height: 1.15;
 }
 
 .trecho__parte {
   margin-top: 2px;
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
 }
 
-/* Faixa entre bordas grossas, como no design */
+/* Faixa em destaque: bolinha grande + nome e motivo escritos */
 .trecho__faixa {
-  padding: 10px 0;
+  padding: 12px 0;
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   border-top: 1px solid var(--linha);
   border-bottom: 1px solid var(--linha);
 }
 
 .trecho__faixa-nome {
-  font-size: 20px;
+  font-size: var(--titulo-p);
   font-weight: 600;
-  line-height: 1.15;
+  line-height: 1.2;
 }
 
 .trecho__explicacao {
-  font-size: 16px;
+  font-size: var(--texto-g);
 }
 
-.trecho__origem {
-  font-size: 14px;
-  color: var(--muted);
-}
-
+/* Medidas do poste: 2 colunas no celular, 4 quando cabe */
 .trecho__medidas {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-
-.trecho__medida {
-  padding: 10px 12px;
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-  background: var(--card);
-  box-shadow: var(--sombra);
-  border-radius: var(--raio);
-}
-
-.trecho__medida-nome {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.trecho__medida-valor {
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1;
-  letter-spacing: -0.02em;
+  grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr));
+  gap: 10px;
 }

@@ -2,17 +2,15 @@ import { Link } from 'react-router-dom'
 import { IconChevronRight } from '@tabler/icons-react'
 import BadgeFaixa from './BadgeFaixa'
 import { rotuloCompleto } from '../domain/faixas'
-import { nomeDoTrecho } from '../domain/trechos'
+import { nomeDoTrecho, ordenarPorCuidado } from '../domain/trechos'
 import './ListaTrechos.css'
-
-// Ordem da lista: o que pede mais cuidado primeiro
-const ORDEM = { perigo: 0, atencao: 1, semDados: 2, normal: 3 }
 
 /*
   Os trechos em lista: a alternativa completa ao mapa para quem usa leitor de tela.
+  O que pede mais cuidado aparece primeiro (Perigo, Atenção, Sem dados, Normal).
 */
 export default function ListaTrechos({ trechos }) {
-  const ordenados = [...trechos].sort((a, b) => ORDEM[a.faixa.id] - ORDEM[b.faixa.id])
+  const ordenados = ordenarPorCuidado(trechos)
 
   return (
     <ul className="lista-trechos">

@@ -1,0 +1,22 @@
+.medida {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.medida__nome {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: var(--texto-p);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.medida__valor {
+  font-size: 1.75rem;
+  font-weight: 600;
+  line-height: 1;
+  letter-spacing: -0.02em;
+}

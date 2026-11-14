@@ -16,6 +16,7 @@ const TRACO = {
   Legenda do mapa: um botão "Legenda" em cima do mapa que abre um painel
   com as 4 faixas (tipo de linha + marcador ✓ ! ✕ ? + nome).
   Fechada, o mapa fica limpo; aberta, explica as cores sem depender só delas.
+  O botão se chama sempre "Legenda": quem diz se está aberta é o aria-expanded e o ícone.
 */
 export default function Legenda() {
   // Interação: abrir e fechar a legenda
@@ -24,7 +25,7 @@ export default function Legenda() {
   return (
     <div className="legenda">
       {aberta && (
-        <div className="legenda__painel" id="painel-legenda">
+        <div className="legenda__painel vidro vidro--forte" id="painel-legenda">
           <ul aria-label="Legenda do mapa" className="legenda__lista">
             {Object.values(FAIXAS).map((faixa) => (
               <li key={faixa.id} className="legenda__item">
@@ -49,13 +50,13 @@ export default function Legenda() {
       )}
 
       <button
-        className="legenda__botao"
+        className="pilula pilula--vidro"
         onClick={() => setAberta(!aberta)}
         aria-expanded={aberta}
         aria-controls="painel-legenda"
       >
-        {aberta ? <IconChevronDown size={18} aria-hidden="true" /> : <IconListDetails size={18} aria-hidden="true" />}
-        {aberta ? 'Esconder legenda' : 'Legenda'}
+        {aberta ? <IconChevronDown size={20} aria-hidden="true" /> : <IconListDetails size={20} aria-hidden="true" />}
+        Legenda
       </button>
     </div>
   )

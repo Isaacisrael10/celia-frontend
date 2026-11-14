@@ -1,5 +1,6 @@
 import { IconCamera, IconSparkles, IconInfoSquare } from '@tabler/icons-react'
 import FotoComCaixas from './FotoComCaixas'
+import ErroCampo from './ErroCampo'
 import { RESULTADOS, TEXTO_PLANO_B } from '../domain/visao'
 import './EtapaFoto.css'
 
@@ -16,7 +17,7 @@ export default function EtapaFoto({ analise, erro }) {
       <span className="campo__rotulo" id="rotulo-foto">
         Foto da calçada
       </span>
-      <span className="campo__dica">A IA confere se tem buraco ou obstáculo.</span>
+      <span className="campo__dica">A IA confere se tem buraco na calçada.</span>
 
       {previa && <FotoComCaixas src={previa} caixas={caixas} />}
 
@@ -61,12 +62,7 @@ export default function EtapaFoto({ analise, erro }) {
         )}
       </div>
 
-      {erro && (
-        <span className="campo__erro" role="alert">
-          <IconInfoSquare size={22} aria-hidden="true" />
-          {erro}
-        </span>
-      )}
+      {erro && <ErroCampo texto={erro} />}
     </div>
   )
 }

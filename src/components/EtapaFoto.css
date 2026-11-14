@@ -5,32 +5,39 @@
 /* Foco do input escondido aparece no botão */
 .etapa-foto__botao:focus-within {
   outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  outline-offset: 3px;
 }
 
 .etapa-foto__status {
-  font-size: 16px;
+  font-size: var(--texto-m);
   font-weight: 600;
 }
 
+/* Resultado da IA: faixa azul clara com ícone (sem cor de semáforo) */
 .etapa-foto__resultado {
+  padding: 10px 14px;
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 16px;
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+  border-radius: var(--raio-p);
+  font-size: var(--texto-m);
   font-weight: 600;
+  animation: brotar var(--medio) var(--suave);
 }
 
 /* Plano B: caixa tracejada, sem cor de alerta */
 .etapa-foto__plano-b {
-  padding: 12px;
+  padding: 12px 14px;
   display: flex;
   gap: 10px;
-  border: 1.5px dashed var(--borda-campo);
-  border-radius: var(--raio);
-  font-size: 16px;
+  border: 2px dashed var(--borda-campo);
+  border-radius: 14px;
+  font-size: var(--texto-m);
+  animation: brotar var(--medio) var(--suave);
 }
 
+.etapa-foto__resultado svg,
 .etapa-foto__plano-b svg {
   flex: none;
 }

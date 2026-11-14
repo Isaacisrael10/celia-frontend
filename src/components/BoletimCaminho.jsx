@@ -1,12 +1,12 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { IconRoute, IconTemperature, IconArrowsExchange, IconMap2, IconChevronUp, IconChevronDown } from '@tabler/icons-react'
+import { IconRoute, IconTemperature, IconArrowsExchange, IconMap2, IconChevronDown } from '@tabler/icons-react'
 import BadgeFaixa from './BadgeFaixa'
 import { boletimDaRota, linhaDoPoste } from '../domain/boletim'
 import './BoletimCaminho.css'
 
 /*
-  Gaveta embaixo do mapa: o "boletim do caminho de sempre".
+  Cartão de vidro em cima do mapa: o "boletim do caminho de sempre".
   Responde em poucos segundos se dá para ir trabalhar hoje pelo caminho de sempre.
   - rota: o caminho de sempre já analisado (ou null se a pessoa ainda não escolheu)
   - poste: o que o useStatusPoste devolve
@@ -21,7 +21,7 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
   // Primeira vez: a pessoa ainda não escolheu o caminho de sempre
   if (!rota) {
     return (
-      <section className="boletim" aria-labelledby="boletim-titulo">
+      <section className="boletim vidro vidro--forte" aria-labelledby="boletim-titulo">
         <div className="boletim__topo">
           <span className="boletim__icone" aria-hidden="true">
             <IconRoute size={20} />
@@ -44,12 +44,9 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
   const { faixa, titulo, apoio } = boletimDaRota(rota)
 
   return (
-    <section className="boletim" aria-labelledby="boletim-titulo">
-      {/* Barrinha de gaveta: só desenho (quem abre e fecha é o botão "Detalhes") */}
-      <span className="boletim__barrinha" aria-hidden="true" />
-
+    <section className="boletim vidro vidro--forte" aria-labelledby="boletim-titulo">
       <div className="boletim__topo">
-        <BadgeFaixa faixa={faixa} tamanho={32} />
+        <BadgeFaixa faixa={faixa} tamanho={40} />
         <div className="boletim__textos">
           {/* O título fica em cor escura: só o marcador leva a cor da faixa (contraste no sol) */}
           <h2 id="boletim-titulo" className="boletim__titulo">
@@ -79,12 +76,17 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
           aria-controls="boletim-detalhes"
         >
           Detalhes
-          {aberto ? <IconChevronDown size={20} aria-hidden="true" /> : <IconChevronUp size={20} aria-hidden="true" />}
+          {/* A setinha gira quando os detalhes abrem */}
+          <IconChevronDown size={20} aria-hidden="true" className={'boletim__seta' + (aberto ? ' boletim__seta--aberta' : '')} />
         </button>
       </div>
 
-      {aberto && (
-        <div id="boletim-detalhes" className="boletim__detalhes">
+      {/*
+        Os detalhes ficam sempre na página para a altura poder abrir e fechar com movimento suave.
+        Fechados, "inert" tira o conteúdo do teclado e do leitor de tela.
+      */}
+      <div id="boletim-detalhes" className={'boletim__dobra' + (aberto ? ' boletim__dobra--aberta' : '')} inert={!aberto}>
+        <div className="boletim__detalhes">
           <p className="boletim__percurso">
             <span className="boletim__rotulo">Caminho de sempre</span>
             {rota.nome} · {rota.minutos} min
@@ -101,7 +103,7 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
             Trocar caminho
           </Link>
         </div>
-      )}
+      </div>
     </section>
   )
 }

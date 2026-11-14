@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { IconArrowsSort } from '@tabler/icons-react'
+import { IconArrowsExchange } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import CardRota from '../components/CardRota'
 import { useRotas } from '../hooks/useRotas'
@@ -27,14 +27,18 @@ export default function Rotas() {
   return (
     <>
       <Cabecalho titulo="Rotas" />
-      <main className="app__conteudo">
-        <div className="rotas__percurso">
+      <main id="conteudo" tabIndex={-1} className="app__conteudo">
+        {/* Saída e chegada: duas bolinhas ligadas por uma linha (o menor grafo possível) */}
+        <section className="rotas__percurso cartao" aria-label="Seu percurso">
           <div className="rotas__pontos">
             <p className="rotas__ponto">
               <span className="rotas__bolinha" aria-hidden="true" />
               <span>
                 <span className="rotas__rotulo">Saindo de</span>
-                {saindoDe}
+                {/* key: quando o texto troca, ele entra de novo com um movimento suave */}
+                <span key={saindoDe} className="rotas__lugar">
+                  {saindoDe}
+                </span>
               </span>
             </p>
             <span className="rotas__ligacao" aria-hidden="true" />
@@ -42,33 +46,40 @@ export default function Rotas() {
               <span className="rotas__bolinha rotas__bolinha--destino" aria-hidden="true" />
               <span>
                 <span className="rotas__rotulo">Indo para</span>
-                {indoPara}
+                <span key={indoPara} className="rotas__lugar">
+                  {indoPara}
+                </span>
               </span>
             </p>
           </div>
-          <button className="rotas__inverter" onClick={() => setVolta(!volta)} aria-label="Inverter origem e destino">
-            <IconArrowsSort size={22} aria-hidden="true" />
+          <button
+            className="botao-icone rotas__inverter"
+            onClick={() => setVolta(!volta)}
+            aria-label="Inverter origem e destino"
+          >
+            <IconArrowsExchange size={24} aria-hidden="true" />
           </button>
-        </div>
+        </section>
 
         <div className="rotas__titulo">
           <h2>{rotas.length} caminhos</h2>
           <p>do mais seguro ao menos seguro</p>
         </div>
 
-        {rotas.map((rota) => (
-          <CardRota
-            key={rota.id}
-            rota={rota}
-            recomendada={rota.id === recomendada.id}
-            atual={escolhida && rota.id === escolhida.id}
-            aoEscolher={escolherRota}
-          />
-        ))}
+        <ul className="grade grade--igual">
+          {rotas.map((rota) => (
+            <li key={rota.id}>
+              <CardRota
+                rota={rota}
+                recomendada={rota.id === recomendada.id}
+                atual={escolhida && rota.id === escolhida.id}
+                aoEscolher={escolherRota}
+              />
+            </li>
+          ))}
+        </ul>
 
-        <p style={{ fontSize: 15, color: 'var(--muted)' }}>
-          Rotas de exemplo. O status de cada trecho vem do poste ao vivo e dos dados simulados.
-        </p>
+        <p className="apoio">Rotas de exemplo. O status de cada trecho vem do poste ao vivo e dos dados simulados.</p>
       </main>
     </>
   )
