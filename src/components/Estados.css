@@ -33,3 +33,31 @@
   border: 1.5px dashed var(--borda-campo);
   color: var(--muted);
 }
+
+/* Card de espera da IA (CardCarregando) */
+.estado--carregando {
+  background: var(--card);
+}
+
+.estado__girando {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+  border: 3px solid var(--line-strong);
+  border-top-color: var(--link);
+  border-radius: 50%;
+  animation: estadoGirar 0.9s linear infinite;
+}
+
+@keyframes estadoGirar {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* Quem pediu menos movimento no sistema vê o círculo parado (o texto continua avisando) */
+@media (prefers-reduced-motion: reduce) {
+  .estado__girando {
+    animation: none;
+  }
+}

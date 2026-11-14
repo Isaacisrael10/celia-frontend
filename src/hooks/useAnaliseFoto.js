@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { analisarFoto } from '../services/visaoApi'
+import { analisarFoto, modeloPronto } from '../services/visaoApi'
 import { gerarMiniatura } from '../services/miniatura'
 import { tipoDoResultado } from '../domain/visao'
 
@@ -12,8 +12,15 @@ import { tipoDoResultado } from '../domain/visao'
      - deu certo → guarda o resultado e as caixas
      - API fora do ar → PLANO B: o reporte segue como "Não analisada"
 
-  estado: 'vazio' | 'analisando' | 'analisada' | 'planoB' | 'erro'
+  estado: 'vazio' | 'preparando' | 'analisando' | 'analisada' | 'planoB' | 'erro'
+  'preparando': a API está ligando a IA (aquecendo o modelo); o app pergunta de 2 em 2 s
 */
+
+// Pergunta a cada 2 s se a IA ficou pronta, por até 2 minutos (60 vezes)
+const ESPERA_MODELO_MS = 2000
+const MAX_PERGUNTAS_MODELO = 60
+
+const esperar = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 export function useAnaliseFoto() {
   const [estado, setEstado] = useState('vazio')
   const [previa, setPrevia] = useState('') // endereço da foto para mostrar na tela
@@ -56,6 +63,17 @@ export function useAnaliseFoto() {
     }
 
     try {
+      // A IA ainda está ligando? Mostra "Preparando a IA" até ela ficar pronta
+      let pronto = await modeloPronto()
+      for (let i = 0; !pronto && i < MAX_PERGUNTAS_MODELO; i++) {
+        if (numero !== ultimaFoto.current) return
+        setEstado('preparando')
+        await esperar(ESPERA_MODELO_MS)
+        pronto = await modeloPronto()
+      }
+      if (numero !== ultimaFoto.current) return
+      setEstado('analisando')
+
       const resposta = await analisarFoto(arquivo)
       if (numero !== ultimaFoto.current) return
       setTipo(tipoDoResultado(resposta.resultado))

@@ -13,6 +13,23 @@ export function Carregando({ texto = 'Carregando…' }) {
   )
 }
 
+/*
+  Card de espera para chamadas demoradas à IA (foto e assistente).
+  O círculo girando mostra que o app não travou; o texto diz o que está acontecendo.
+  role="status": o leitor de tela anuncia o texto sem interromper a pessoa (RNF08).
+*/
+export function CardCarregando({ titulo, texto }) {
+  return (
+    <div className="estado estado--caixa estado--carregando" role="status">
+      <span className="estado__titulo">
+        <span className="estado__girando" aria-hidden="true" />
+        {titulo}
+      </span>
+      {texto && <span className="estado__texto">{texto}</span>}
+    </div>
+  )
+}
+
 export function MensagemErro({ mensagem, aoTentarDeNovo }) {
   return (
     <div className="estado estado--caixa" role="alert">

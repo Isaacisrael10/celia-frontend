@@ -7,16 +7,36 @@
     "caixas_buracos": [x1, y1, x2, y2, confianca] por buraco, em pixels,
     "largura", "altura" (tamanho da foto que a API analisou), "mqtt_enviado" }
 */
-import { VISAO_URL } from './config'
+import { URL_API, VISAO_URL } from './config'
 
 // Nome do campo do arquivo no formulário
 const CAMPO_ARQUIVO = 'foto'
 
 // Se a API demorar mais que isso, desistimos e usamos o plano B
-const TEMPO_MAXIMO_MS = 20000
+const TEMPO_MAXIMO_MS = 30000
 
 // Erro especial: a API não está rodando (versão publicada, sem o computador da demonstração)
 export class VisaoIndisponivel extends Error {}
+
+/*
+  Pergunta à API se o modelo de buracos já está pronto (GET /, campo modelo_pronto).
+  Logo que a API liga, ela "aquece" o modelo: a primeira análise leva mais de 1 minuto.
+  Devolve true ou false. Se a API não responder, dispara VisaoIndisponivel (plano B).
+*/
+export async function modeloPronto() {
+  const controle = new AbortController()
+  const timer = setTimeout(() => controle.abort(), 5000)
+  try {
+    const resposta = await fetch(URL_API + '/', { signal: controle.signal })
+    const dados = await resposta.json()
+    // API antiga, sem o campo: consideramos pronta
+    return dados.modelo_pronto !== false
+  } catch {
+    throw new VisaoIndisponivel()
+  } finally {
+    clearTimeout(timer)
+  }
+}
 
 export async function analisarFoto(arquivo) {
   const formulario = new FormData()
