@@ -1,0 +1,66 @@
+/* Card da descrição sugerida pela IA (CardDescricaoIa) */
+.descricao-ia {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  /* Faixa azul do símbolo na lateral: mostra que o texto veio da IA */
+  border-left: 4px solid var(--primary);
+  animation: descricaoAparece var(--medio, 0.3s) var(--suave, ease-out);
+}
+
+.descricao-ia__titulo {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--texto-m);
+  font-weight: 600;
+}
+
+.descricao-ia__texto {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.descricao-ia__aviso {
+  margin: 0;
+  color: var(--muted);
+  font-size: var(--texto-p);
+}
+
+.descricao-ia__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+}
+
+.descricao-ia__acoes .acao-texto {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.descricao-ia__plano-b {
+  margin: 0;
+  display: flex;
+  gap: 8px;
+  color: var(--muted);
+}
+
+@keyframes descricaoAparece {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .descricao-ia {
+    animation: none;
+  }
+}

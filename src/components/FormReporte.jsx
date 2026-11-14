@@ -3,6 +3,7 @@ import { TIPOS, SITUACOES } from '../domain/reportes'
 import { useFormReporte } from '../hooks/useFormReporte'
 import { useTema } from '../hooks/useTema'
 import EtapaFoto from './EtapaFoto'
+import CardDescricaoIa from './CardDescricaoIa'
 import SeletorLocal from './SeletorLocal'
 import ErroCampo from './ErroCampo'
 import './FormReporte.css'
@@ -23,7 +24,7 @@ function textoDoBotao(enviando, analisando, editando) {
   - aoCancelar: volta para a lista
 */
 export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar }) {
-  const { dados, erros, enviando, analisando, tipoAtual, analise, local, mudar, mudarTipo, enviar } =
+  const { dados, erros, enviando, analisando, tipoAtual, analise, local, descricaoIa, mudar, mudarTipo, enviar } =
     useFormReporte(inicial, editando, aoSalvar)
   const { escuro } = useTema()
 
@@ -95,6 +96,13 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
               ))}
             </select>
           </label>
+
+          {/* Depois da análise da foto: a descrição que a IA escreveu para a Prefeitura */}
+          {!editando && (
+            <div aria-live="polite">
+              <CardDescricaoIa ia={descricaoIa} />
+            </div>
+          )}
 
           <label className="campo">
             <span className="campo__rotulo">O que você viu?</span>
