@@ -81,3 +81,10 @@
   font-size: 14px;
   color: var(--muted);
 }
+
+/* Os 3 cards das rotas (no computador ficam lado a lado, ver responsivo.css) */
+.rotas__cards {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

@@ -39,3 +39,10 @@
   font-size: 13px;
   color: var(--muted);
 }
+
+/* Mini mapa + lista (no computador ficam lado a lado, ver responsivo.css) */
+.locais__corpo {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

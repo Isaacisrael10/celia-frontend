@@ -14,6 +14,11 @@ const ABAS = [
 export default function BarraInferior() {
   return (
     <nav className="barra-inferior" aria-label="Navegação principal">
+      {/* Nome do app no topo do menu lateral (só aparece no computador) */}
+      <div className="barra-inferior__marca" aria-hidden="true">
+        <span className="barra-inferior__logo">logo</span>
+        <span className="barra-inferior__nome">C.E.L.I.A.</span>
+      </div>
       {ABAS.map(({ caminho, rotulo, Icone }) => (
         // NavLink já coloca aria-current="page" na aba da tela atual
         <NavLink key={caminho} to={caminho} end={caminho === '/'} className="barra-inferior__aba">

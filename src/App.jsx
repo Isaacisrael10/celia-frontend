@@ -10,11 +10,14 @@ import Trilha from './pages/Trilha'
 import Licao from './pages/Licao'
 import Assistente from './pages/Assistente'
 
-// Moldura comum a todas as telas: o conteúdo da tela (Outlet) + a barra inferior
+// Moldura comum a todas as telas: o conteúdo da tela (Outlet) + a barra de navegação
+// (no celular ela fica embaixo; no computador vira um menu na lateral, ver responsivo.css)
 function Layout() {
   return (
     <div className="app">
-      <Outlet />
+      <div className="app__tela">
+        <Outlet />
+      </div>
       <BarraInferior />
     </div>
   )

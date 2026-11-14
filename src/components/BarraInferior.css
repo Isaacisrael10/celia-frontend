@@ -12,6 +12,10 @@
   border-top: 1px solid var(--linha);
 }
 
+.barra-inferior__marca {
+  display: none;
+}
+
 .barra-inferior__aba {
   display: flex;
   flex-direction: column;

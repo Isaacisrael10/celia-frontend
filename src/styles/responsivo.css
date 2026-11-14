@@ -1,0 +1,243 @@
+/*
+  Responsivo: ajustes para tablet e computador.
+  O app é feito primeiro para o celular (os outros arquivos CSS).
+  Aqui ficam só as mudanças para telas maiores, em dois degraus:
+  - a partir de 600 px (tablet): o app usa a largura toda e o conteúdo fica numa coluna de leitura
+  - a partir de 960 px (computador): a barra de baixo vira um menu na lateral e algumas telas ganham colunas
+*/
+
+/* Largura máxima das colunas de conteúdo */
+:root {
+  --coluna: 760px; /* telas de leitura e formulários */
+  --coluna-larga: 1120px; /* telas com cards lado a lado */
+}
+
+/* ========== Tablet: a partir de 600 px ========== */
+@media (min-width: 600px) {
+  /* No celular o app tinha no máximo 480 px; agora usa a tela toda */
+  .app {
+    max-width: none;
+  }
+
+  /* O conteúdo fica centralizado numa coluna confortável de ler */
+  .app__conteudo {
+    width: 100%;
+    max-width: var(--coluna);
+    margin: 0 auto;
+    padding: 24px 24px 40px;
+  }
+
+  .app__conteudo--largo {
+    max-width: var(--coluna-larga);
+  }
+
+  /* O título do cabeçalho alinha com a coluna de conteúdo logo abaixo */
+  .cabecalho {
+    padding-inline: max(24px, calc((100% - var(--coluna)) / 2 + 24px));
+  }
+
+  .cabecalho:has(+ .app__conteudo--largo) {
+    padding-inline: max(24px, calc((100% - var(--coluna-larga)) / 2 + 24px));
+  }
+
+  /* Mensagem rápida: no meio da área do app, sem ficar larga demais */
+  .aviso {
+    width: min(480px, calc(100% - 24px));
+  }
+
+  /* Mapa em lista: a lista também numa coluna de leitura */
+  .tela-mapa__lista {
+    width: 100%;
+    max-width: var(--coluna);
+    margin: 0 auto;
+  }
+
+  /* Reportes em duas colunas */
+  .reportes__lista {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    column-gap: 32px;
+  }
+
+  /* Locais: dois cards por linha */
+  .locais {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .mini-mapa {
+    height: 260px;
+  }
+}
+
+/* ========== Computador: a partir de 960 px ========== */
+@media (min-width: 960px) {
+  /* Menu na lateral à esquerda, conteúdo à direita */
+  .app {
+    flex-direction: row;
+  }
+
+  .barra-inferior {
+    order: -1; /* vem antes do conteúdo na tela (no código continua depois) */
+    box-sizing: border-box; /* a largura e a altura já incluem o espaçamento interno */
+    position: sticky;
+    top: 0;
+    width: 232px;
+    height: 100dvh;
+    padding: 20px 12px;
+    flex: none;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    border-top: 0;
+    border-right: 1px solid var(--linha);
+  }
+
+  .barra-inferior__marca {
+    margin: 0 4px 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .barra-inferior__logo {
+    width: 40px;
+    height: 40px;
+    flex: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1.5px dashed var(--line-strong);
+    border-radius: 12px;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  .barra-inferior__nome {
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+  }
+
+  /* Cada aba vira uma linha: ícone + nome */
+  .barra-inferior__aba {
+    min-height: 52px;
+    padding: 0 14px;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 12px;
+    border-radius: 12px;
+    font-size: 16px;
+  }
+
+  .barra-inferior__aba:hover {
+    background: var(--line-soft);
+    color: var(--ink);
+  }
+
+  /* Aba ativa: fundo azul claro e o arco azul vira uma barrinha na esquerda */
+  .barra-inferior__aba[aria-current='page'] {
+    background: color-mix(in srgb, var(--primary) 18%, var(--card));
+    color: var(--ink);
+  }
+
+  .barra-inferior__aba[aria-current='page'] svg {
+    color: var(--link);
+  }
+
+  .barra-inferior__aba[aria-current='page']::before {
+    top: 12px;
+    left: 0;
+    width: 4px;
+    height: 28px;
+    transform: none;
+    border: 0;
+    border-radius: 0 4px 4px 0;
+    background: var(--primary);
+  }
+
+  /* A logo já aparece no menu: tira o espaço repetido do cabeçalho e do mapa */
+  .cabecalho__logo,
+  .tela-mapa__logo {
+    display: none;
+  }
+
+  .cabecalho {
+    min-height: 72px;
+  }
+
+  /* Sem barra embaixo, a mensagem rápida desce e centraliza na área do conteúdo (fora do menu) */
+  .aviso {
+    bottom: 24px;
+    left: calc(50% + 116px);
+  }
+
+  /* ---------- Mapa ---------- */
+  .tela-mapa__topo {
+    padding: 16px 16px 0;
+  }
+
+  .tela-mapa__topo .busca-lugar {
+    flex: 0 1 460px;
+  }
+
+  .tela-mapa__botoes {
+    padding: 0 16px 12px;
+  }
+
+  /* O boletim vira um cartão flutuante no canto, em vez de gaveta presa embaixo */
+  .tela-mapa__base .boletim {
+    align-self: flex-start;
+    width: 420px;
+    margin: 0 16px 16px;
+    border-radius: 20px;
+    box-shadow: var(--sombra-flutuante);
+  }
+
+  .boletim__barrinha {
+    display: none;
+  }
+
+  /* ---------- Rotas: os 3 caminhos lado a lado para comparar ---------- */
+  .rotas__percurso {
+    max-width: var(--coluna);
+  }
+
+  .rotas__cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    align-items: start;
+    gap: 16px;
+  }
+
+  .rotas__cards + .botao {
+    align-self: flex-start;
+  }
+
+  /* ---------- Locais: mini mapa fixo à esquerda, lista à direita ---------- */
+  .locais__corpo {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: start;
+    gap: 20px;
+  }
+
+  .locais__corpo .mini-mapa {
+    position: sticky;
+    top: 24px;
+    height: 460px;
+  }
+
+  .locais__corpo .locais {
+    grid-template-columns: 1fr;
+  }
+
+  /* ---------- Botões de ação principais não esticam na tela toda ---------- */
+  .app__conteudo > .botao--primario,
+  .licao .botao {
+    align-self: flex-start;
+    min-width: 280px;
+  }
+}
