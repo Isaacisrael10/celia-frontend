@@ -1,46 +1,48 @@
+/* Celular: barra de vidro presa no topo (o conteúdo passa desfocado por trás ao rolar) */
 .cabecalho {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  min-height: 64px;
+  padding: max(8px, env(safe-area-inset-top)) 12px 8px 16px;
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 60px;
-  padding: 8px 16px;
-  background: var(--head);
-  color: var(--on-head);
-  border-bottom: 1px solid var(--linha);
+  color: var(--ink);
+  /* só a borda de baixo: a barra encosta nas laterais e no topo */
+  border-width: 0 0 1px;
+  box-shadow: none;
 }
 
 .cabecalho__titulo {
   flex: 1;
-  font-size: 24px;
-  line-height: 1.1;
-  font-weight: 600;
-  letter-spacing: -0.01em;
+  min-width: 0;
+  font-size: var(--titulo-m);
+  line-height: 1.15;
 }
 
-.cabecalho__voltar {
-  width: 44px;
-  height: 44px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: transparent;
-  color: var(--on-head);
-  border: 1px solid var(--linha);
-  border-radius: 50%;
+/* Telas largas: sem barra. O título fica grande e solto, alinhado com o conteúdo. */
+@media (min-width: 768px) {
+  .cabecalho {
+    position: static;
+    width: 100%;
+    max-width: 76rem;
+    margin: 0 auto;
+    padding: 28px 28px 8px;
+    background: none;
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+    border: 0;
+  }
+
+  .cabecalho__titulo {
+    font-size: var(--titulo-g);
+    letter-spacing: -0.02em;
+  }
 }
 
-/* Espaço reservado da logo (a logo ainda não existe) */
-.cabecalho__logo {
-  width: 40px;
-  height: 40px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px dashed var(--line-strong);
-  border-radius: 12px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 500;
+@media (min-width: 1200px) {
+  .cabecalho {
+    padding: 36px 40px 8px;
+  }
 }

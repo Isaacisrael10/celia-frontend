@@ -1,0 +1,408 @@
+/*
+  Menu em forma do símbolo: ocupa a tela toda, com um véu de vidro por cima do app.
+  Atenção: display só é definido em [open], senão o menu apareceria mesmo fechado.
+*/
+.menu-grafo {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: var(--veu);
+  -webkit-backdrop-filter: blur(28px) saturate(160%);
+  backdrop-filter: blur(28px) saturate(160%);
+  color: var(--ink);
+  /* o menu em si não rola: quem rola é a parte de dentro, e o botão de fechar fica parado */
+  overflow: hidden;
+}
+
+.menu-grafo[open] {
+  animation: menu-aparecer var(--medio) var(--suave);
+}
+
+/* O véu já é o próprio menu: o fundo padrão do navegador fica transparente */
+.menu-grafo::backdrop {
+  background: transparent;
+}
+
+@keyframes menu-aparecer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Fechar: sempre no canto de cima da tela, por cima do conteúdo */
+.menu-grafo__fechar {
+  position: absolute;
+  z-index: 2;
+  top: max(12px, env(safe-area-inset-top));
+  right: max(12px, env(safe-area-inset-right));
+}
+
+.menu-grafo__rolagem {
+  height: 100%;
+  overflow-y: auto;
+}
+
+.menu-grafo__caixa {
+  min-height: 100%;
+  max-width: 60rem;
+  margin: 0 auto;
+  padding: max(16px, env(safe-area-inset-top)) 16px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Título e frase de apoio: centralizados */
+.menu-grafo__topo {
+  width: 100%;
+  /* no celular o título começa abaixo do botão de fechar: os dois nunca se encostam */
+  padding-top: 48px;
+  /* espaço para o nome da cabeça, que fica acima do desenho */
+  margin-bottom: 44px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.menu-grafo__titulo {
+  font-size: var(--titulo-g);
+}
+
+.menu-grafo__apoio {
+  max-width: 34ch;
+  margin-top: 4px;
+  font-size: var(--texto-m);
+  color: var(--muted);
+}
+
+/* ---------- O símbolo ---------- */
+
+/*
+  A figura é um quadrado, centralizado no espaço que sobra.
+  Fica uma margem dos lados porque as mãos ficam bem na borda do círculo
+  e o nome delas precisa caber na tela.
+*/
+.menu-grafo__figura {
+  --bolinha: 58px; /* mãos e pés */
+  --cabeca: 70px; /* a cabeça (Mapa) é maior, como no símbolo */
+  --miolo: 48px; /* o meio do corpo (Trilha IA) é menor, para caber entre a cabeça e as pernas */
+  position: relative;
+  width: min(100% - 76px, 26rem);
+  aspect-ratio: 1;
+  margin: auto 0;
+}
+
+.menu-grafo__tracos {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/*
+  As linhas "se desenham" ao abrir o menu.
+  pathLength="1" (no SVG) faz o comprimento de cada linha valer 1,
+  então um tracejado de 1 que começa deslocado 1 vai aparecendo até o fim.
+*/
+.menu-grafo__traco {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 6;
+  stroke-linecap: round;
+  stroke-dasharray: 1;
+  stroke-dashoffset: 1;
+  animation: desenhar 0.9s var(--suave) 0.1s forwards;
+}
+
+.menu-grafo__traco--circulo {
+  stroke-width: 4;
+  animation-duration: 1.2s;
+}
+
+@keyframes desenhar {
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+
+.menu-grafo__nos {
+  position: absolute;
+  inset: 0;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Cada item é um ponto sem tamanho, colocado na posição da bolinha no símbolo */
+.menu-grafo__no {
+  --tam: var(--bolinha);
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  width: 0;
+  height: 0;
+  /* As bolinhas surgem uma depois da outra, depois que as linhas começam a aparecer */
+  animation: no-surgir var(--lento) var(--suave) both;
+  animation-delay: calc(0.3s + var(--ordem) * 70ms);
+}
+
+.menu-grafo__no--mapa {
+  --tam: var(--cabeca);
+}
+
+.menu-grafo__no--trilha {
+  --tam: var(--miolo);
+}
+
+@keyframes no-surgir {
+  from {
+    opacity: 0;
+    transform: scale(0.6);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/*
+  O link: por padrão a bolinha fica centralizada no ponto e os textos ficam logo abaixo
+  (translate: metade da largura para a esquerda, metade da bolinha para cima).
+*/
+.menu-grafo__link {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: max-content;
+  transform: translate(-50%, calc(var(--tam) / -2));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  color: var(--ink);
+  text-decoration: none;
+  border-radius: 24px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.menu-grafo__textos {
+  max-width: 10rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+/*
+  Cabeça (Mapa): os textos ficam ACIMA da bolinha, para não brigar com a linha dos braços.
+  A ordem na tela inverte: "Você está aqui", depois o nome, depois a bolinha.
+*/
+.menu-grafo__no--mapa .menu-grafo__link {
+  flex-direction: column-reverse;
+  transform: translate(-50%, calc(-100% + var(--tam) / 2));
+}
+
+.menu-grafo__no--mapa .menu-grafo__textos {
+  flex-direction: column-reverse;
+}
+
+/* Todas as bolinhas são azuis com contorno escuro, como no símbolo de verdade */
+.menu-grafo__bolinha {
+  width: var(--tam);
+  height: var(--tam);
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 3px solid var(--ink);
+  border-radius: 50%;
+  /* anel da cor do fundo: "abre" as linhas em volta da bolinha, como no símbolo */
+  box-shadow: 0 0 0 6px var(--bg);
+  transition: transform var(--medio) var(--suave);
+}
+
+.menu-grafo__link:hover .menu-grafo__bolinha {
+  transform: scale(1.08);
+}
+
+.menu-grafo__link:active .menu-grafo__bolinha {
+  transform: scale(0.95);
+}
+
+/* Tela atual: anel duplo (não depende de cor) + o texto "Você está aqui" */
+.menu-grafo__link[aria-current='page'] .menu-grafo__bolinha {
+  box-shadow:
+    0 0 0 4px var(--bg),
+    0 0 0 8px var(--ink);
+}
+
+/* Nome numa etiqueta: fica legível mesmo quando uma linha do símbolo passa por trás */
+.menu-grafo__nome {
+  padding: 2px 12px;
+  background: var(--card);
+  border: 1px solid var(--linha);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-m);
+  font-weight: 600;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.menu-grafo__aqui {
+  padding: 1px 10px;
+  background: var(--ink);
+  color: var(--bg);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-p);
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+/* No celular a frase de apoio não cabe ao lado das bolinhas: fica só para o leitor de tela */
+.menu-grafo__descricao {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* ---------- Sobre o projeto: fora do símbolo, no fim do menu ---------- */
+.menu-grafo__sobre {
+  flex: none;
+  /* espaço para o nome dos pés, que fica abaixo do desenho */
+  margin-top: 68px;
+  text-decoration: none;
+  background: var(--card);
+}
+
+/* ---------- Telas maiores: bolinhas maiores, frase de apoio visível, textos fora das linhas ---------- */
+@media (min-width: 768px) and (min-height: 640px) {
+  .menu-grafo__fechar {
+    top: 20px;
+    right: 20px;
+  }
+
+  .menu-grafo__caixa {
+    padding: 28px 28px 24px;
+  }
+
+  /* Aqui o botão de fechar fica longe do título (lá no canto), então o título sobe */
+  .menu-grafo__topo {
+    padding-top: 0;
+    margin-bottom: 84px;
+  }
+
+  .menu-grafo__figura {
+    --bolinha: 72px;
+    --cabeca: 96px;
+    --miolo: 60px;
+    /* sobram 190 px de cada lado para os textos das mãos */
+    width: min(100% - 380px, 26rem);
+  }
+
+  .menu-grafo__descricao {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    font-size: var(--texto-p);
+    line-height: 1.3;
+    color: var(--muted);
+  }
+
+  .menu-grafo__textos {
+    gap: 6px;
+  }
+
+  /*
+    Cabeça e meio do corpo: a frase de apoio passa por cima de uma linha do símbolo,
+    então ganha um fundo da cor da tela (a linha "abre" ali, como em volta das bolinhas).
+  */
+  .menu-grafo__no--mapa .menu-grafo__descricao,
+  .menu-grafo__no--trilha .menu-grafo__descricao {
+    padding: 2px 8px;
+    background: var(--bg);
+    border-radius: 8px;
+  }
+
+  /* Mão esquerda (Rotas): textos para fora do círculo, à esquerda */
+  .menu-grafo__no--rotas .menu-grafo__link {
+    flex-direction: row-reverse;
+    gap: 14px;
+    transform: translate(calc(-100% + var(--tam) / 2), -50%);
+  }
+
+  .menu-grafo__no--rotas .menu-grafo__textos {
+    max-width: 9rem;
+    align-items: flex-end;
+    text-align: right;
+  }
+
+  /* Mão direita (Reportar): textos para fora do círculo, à direita */
+  .menu-grafo__no--reportar .menu-grafo__link {
+    flex-direction: row;
+    gap: 14px;
+    transform: translate(calc(var(--tam) / -2), -50%);
+  }
+
+  .menu-grafo__no--reportar .menu-grafo__textos {
+    max-width: 9rem;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .menu-grafo__sobre {
+    margin-top: 108px;
+  }
+}
+
+/* ---------- Celular deitado: pouca altura, então o título vai para o lado do símbolo ---------- */
+@media (orientation: landscape) and (max-height: 540px) {
+  .menu-grafo__caixa {
+    position: relative;
+    padding: 12px 16px;
+    flex-direction: row;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Título centralizado na metade esquerda; o símbolo fica na metade direita */
+  .menu-grafo__topo {
+    flex: 1;
+    padding-top: 0;
+    margin-bottom: 0;
+  }
+
+  /* O desenho encolhe para caber na altura da tela, com espaço para os nomes em cima e embaixo */
+  .menu-grafo__figura {
+    --bolinha: 50px;
+    --cabeca: 62px;
+    --miolo: 42px;
+    flex: none;
+    width: min(100dvh - 140px, 45%);
+    margin: 44px 70px 56px;
+  }
+
+  /* O Sobre vai para o canto de baixo, embaixo do título */
+  .menu-grafo__sobre {
+    position: absolute;
+    left: 16px;
+    bottom: 12px;
+    margin-top: 0;
+  }
+}

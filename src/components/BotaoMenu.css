@@ -1,0 +1,28 @@
+.botao-menu {
+  width: var(--toque);
+  height: var(--toque);
+  flex: none;
+  padding: 0;
+  display: grid;
+  place-items: center;
+  background: none;
+  border: 0;
+  border-radius: 50%;
+  filter: drop-shadow(0 4px 10px rgba(15, 27, 61, 0.18));
+  transition: transform var(--rapido) var(--suave);
+}
+
+.botao-menu:hover {
+  transform: scale(1.06);
+}
+
+.botao-menu:active {
+  transform: scale(0.94);
+}
+
+/* Em telas largas (ou celular deitado) o símbolo já está no trilho lateral */
+@media (min-width: 768px), (orientation: landscape) and (max-height: 540px) {
+  .botao-menu {
+    display: none;
+  }
+}

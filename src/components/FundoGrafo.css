@@ -1,0 +1,33 @@
+/* Fica preso atrás de tudo e não recebe toque */
+.fundo-grafo {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+/* Mancha de luz: azul do símbolo no centro, sumindo até a borda */
+.fundo-grafo__centro {
+  stop-color: var(--primary);
+  stop-opacity: var(--fundo-brilho);
+}
+
+.fundo-grafo__borda {
+  stop-color: var(--primary);
+  stop-opacity: 0;
+}
+
+/* Linhas do símbolo: sempre fininhas, não importa o tamanho da tela */
+.fundo-grafo__tracos {
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 1.5px;
+  stroke-linecap: round;
+  opacity: var(--fundo-traco);
+}
+
+.fundo-grafo__tracos * {
+  vector-effect: non-scaling-stroke;
+}
