@@ -1,6 +1,6 @@
 import { useState } from 'react'
-import { useNavigate } from 'react-router-dom'
-import { IconArrowsSort } from '@tabler/icons-react'
+import { Link, useNavigate } from 'react-router-dom'
+import { IconArrowsSort, IconMessageQuestion } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import CardRota from '../components/CardRota'
 import { useRotas } from '../hooks/useRotas'
@@ -65,6 +65,11 @@ export default function Rotas() {
             aoEscolher={escolherRota}
           />
         ))}
+
+        <Link to="/assistente" className="botao botao--secundario">
+          <IconMessageQuestion size={22} aria-hidden="true" />
+          Perguntar sobre o caminho
+        </Link>
 
         <p style={{ fontSize: 15, color: 'var(--muted)' }}>
           Rotas de exemplo. O status de cada trecho vem do poste ao vivo e dos dados simulados.

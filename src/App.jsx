@@ -6,6 +6,9 @@ import Reportar from './pages/Reportar'
 import Locais from './pages/Locais'
 import Perfil from './pages/Perfil'
 import Trecho from './pages/Trecho'
+import Trilha from './pages/Trilha'
+import Licao from './pages/Licao'
+import Assistente from './pages/Assistente'
 
 // Moldura comum a todas as telas: o conteúdo da tela (Outlet) + a barra inferior
 function Layout() {
@@ -28,6 +31,9 @@ export default function App() {
           <Route path="/reportar" element={<Reportar />} />
           <Route path="/locais" element={<Locais />} />
           <Route path="/perfil" element={<Perfil />} />
+          <Route path="/trilha" element={<Trilha />} />
+          <Route path="/trilha/:id" element={<Licao />} />
+          <Route path="/assistente" element={<Assistente />} />
         </Route>
       </Routes>
     </BrowserRouter>
