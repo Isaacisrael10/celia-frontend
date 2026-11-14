@@ -41,7 +41,13 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 | **Rotas** | Compara 3 caminhos até o trabalho, recomenda o mais seguro (que nem sempre é o mais curto) e deixa a pessoa escolher o **caminho de sempre** (salvo no navegador, sem login). |
 | **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. |
 | **Locais** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro. |
-| **Perfil** | Modo escuro, alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), modo chuva e informações do projeto. |
+| **Trilha IA** | Mini trilha de IA para o trabalho [HU-19, RF18]: lições curtas que abrem e fecham, com exemplo no trabalho e exercício. Vem da API da equipe (`GET /trilha`); sem a API, usa a cópia que vem com o app. |
+| **Perfil** | Cards organizados em grade: Aparência (modo escuro e modo chuva), Alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), Acessibilidade (tamanho do texto, menos animações, mais contraste) e um resumo do projeto. |
+| **Sobre o projeto** | Problema, para quem é, jornada do cidadão, o que cada parte faz (poste, IA, Python, app, trilha), ODS 8, 10 e 11, indicador de impacto e cuidado com os dados. Fica embaixo da navegação lateral, no menu e no Perfil. |
+
+### Navegação
+
+Cada parte do app é um ponto do símbolo internacional de acessibilidade: Mapa (cabeça), Rotas e Reportar (mãos), Locais e Perfil (pés) e Trilha IA (meio do corpo). No celular é uma barra de vidro embaixo; em telas largas, um trilho lateral com os ícones distribuídos na altura toda e o "Sobre" no pé. O símbolo abre um menu em tela cheia com todas as partes.
 
 _(prints das telas em breve)_
 
@@ -54,10 +60,11 @@ _(prints das telas em breve)_
 | Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s e mostrado no boletim do caminho de sempre. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
 | Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
 | Reportes | **Reais** na MockAPI (API externa do CRUD). |
-| Análise da foto (IA) | **Real** na demonstração local (API Flask do Caio em `localhost:5000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
+| Análise da foto (IA) | **Real** na demonstração local (API FastAPI da equipe em `127.0.0.1:8000`, modelo próprio de buracos). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
+| Trilha de IA | **Real** na demonstração local (`GET /trilha`). Sem a API, o app usa a cópia em `src/data/trilha.json` (plano B). |
 | Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
 | Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
-| Mapa e ruas | **Reais** (OpenStreetMap). O mapa abre no **Grajaú**, bairro dos testes e das fotos usadas para treinar a IA, mas vai para qualquer lugar pela busca ou pelo GPS. Os trechos coloridos são 39 trechos de 11 ruas reais do Grajaú. |
+| Mapa e ruas | **Reais** (OpenStreetMap). Modo satélite com imagens da Esri (World Imagery), escolhido pelo botão no canto de baixo do mapa. O mapa abre no **Grajaú**, bairro dos testes e das fotos usadas para treinar a IA, mas vai para qualquer lugar pela busca ou pelo GPS. Os trechos coloridos são 39 trechos de 11 ruas reais do Grajaú. |
 | Localização dos reportes | **Real**: vem do trecho de onde a pessoa reportou ou do endereço digitado (busca no Nominatim/OpenStreetMap). |
 
 Nenhum dado pessoal real é usado.
@@ -82,8 +89,8 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 | Variável | Para quê |
 |---|---|
 | `VITE_REPORTES_URL` | URL do recurso `reportes` na MockAPI |
-| `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste |
-| `VITE_VISAO_URL` | API de visão (padrão `http://localhost:5000/analisar`) |
+| `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste (padrão `3577155`) |
+| `VITE_URL_API` | API da equipe em Python (padrão `http://127.0.0.1:8000`): foto e trilha |
 
 ---
 
@@ -91,7 +98,8 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 
 - **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/{ID}/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 verde, 1 amarelo, 2 vermelho) e motivo.
 - **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
-- **API de visão** (Flask): `POST /analisar` com a foto; devolve o resultado (`livre`, `obstaculo` ou `buraco`) e as caixas, que o app desenha sobre a foto.
+- **API da equipe** (FastAPI): `POST /analisar` com a foto (campo `foto`); devolve `resultado` (`livre` ou `buraco`) e `caixas_buracos`, que o app desenha sobre a foto. `GET /trilha` devolve as lições da trilha de IA.
+- **Satélite**: imagens Esri World Imagery (sem chave), com os nomes das ruas do OpenFreeMap por cima.
 - **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
 - **Busca de lugares** (Nominatim/OpenStreetMap, sem chave): leva o mapa a qualquer endereço e acha as coordenadas dos reportes. Só busca quando a pessoa confirma, como pede a regra de uso do serviço.
 - **GPS do navegador** (Geolocation API): botão "Meu local".
@@ -105,9 +113,11 @@ A lógica de negócio, o acesso a dados e a apresentação ficam separados:
 ```
 src/
   services/    acesso a dados, sem React
-               reportesApi.js · thingspeak.js · visaoApi.js · miniatura.js · config.js
+               reportesApi.js · thingspeak.js · visaoApi.js · trilhaApi.js · geocodificacao.js
+               miniatura.js · armazenamento.js (localStorage) · config.js
   domain/      regras de negócio puras (sem React, sem fetch)
                faixas.js · reportes.js · poste.js · trechos.js · rotas.js · boletim.js · visao.js
+               locais.js · mapa.js · navegacao.js · trilha.js
   hooks/       custom hooks: juntam serviços, regras e estado
   components/  peças visuais reutilizáveis
   pages/       as telas
@@ -131,6 +141,14 @@ src/
 | `useBuscaLugar` | Busca de bairro, rua ou lugar para levar o mapa até lá |
 | `useLocalizacao` | Pede o GPS do celular para o botão "Meu local" |
 | `useLocalDoReporte` | Local do reporte: GPS ao abrir, pino no mapa que preenche o endereço, e busca do endereço digitado |
+| `useFormReporte` | Campos, validação (RN05) e envio do formulário de reporte; a tela só desenha |
+| `useTrilha` | Busca a trilha na API e cai na cópia local se a API não responder; controla a lição aberta |
+| `useLocais` | Filtro e ordenação dos locais |
+| `useSelosDoMapa` | Escolhe os selos ! e ✕ que cabem na tela sem sobrepor |
+| `useAcessibilidade` | Tamanho do texto, menos animações e mais contraste, aplicados no app inteiro |
+| `useConsultaDeTela` | Responde se a tela é larga (mesma sintaxe das media queries) |
+| `useTituloDaPagina` | Troca o título da aba conforme a tela |
+| `useFocoNoTitulo` | Leva o foco ao título ao trocar de tela (leitor de tela) |
 
 ### Interações em JavaScript (Web Development)
 
@@ -147,12 +165,16 @@ src/
 11. **Escolher o local do reporte** arrastando o mapa (o endereço se preenche sozinho)
 12. **Abrir e fechar a gaveta** do boletim com os detalhes do caminho
 13. **Alerta de calor**: escolher a temperatura no Perfil e o boletim avisar quando o ponto passar dela
+14. **Mapa / Satélite**: trocar o jeito de ver o mapa pelo botão do canto de baixo (fica salvo no navegador)
+15. **Abrir e fechar lições** da Trilha IA
+16. **Menu em forma de símbolo**: abrir, navegar e fechar (botão, Esc ou clique fora)
+17. **Ajustes de acessibilidade** no Perfil (tamanho do texto, menos animações, mais contraste)
 
 ---
 
 ## Acessibilidade
 
-- Fonte **Atkinson Hyperlegible**, criada para pessoas com baixa visão
+- Fonte **Lexend**, criada para facilitar a leitura; tamanhos em `rem` (respeitam a fonte do navegador)
 - Contraste AA nos dois modos; texto do corpo com 16 px ou mais
 - Áreas de toque com 44 px ou mais
 - Foco visível em tudo; navegação completa pelo teclado

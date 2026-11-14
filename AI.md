@@ -74,3 +74,41 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
 - **Como a IA ajudou:** criou o `SeletorLocal` (mapa pequeno com pino fixo no centro, estilo aplicativo de transporte), o hook `useLocalDoReporte` (GPS ao abrir, busca do endereço, e busca reversa que preenche o endereço quando a pessoa arrasta) e a função `enderecoDoPonto` no serviço de geocodificação.
 - **Problema encontrado:** depois de arrastar, o mapa desliza por inércia e o evento final não indica que foi a pessoa; a solução foi marcar o arrasto no início do movimento.
 - **Revisão da equipe:** (preencher)
+
+## 8. Redesenho em grafo (Claude Code · 14/11/2026 · PROPOSTA, experimento local do João)
+
+> Ainda não aprovado pelo Isaac. Feito num clone local para testar a ideia, sem PR e sem merge.
+
+- **Prompt (resumo):** "Não gostei do design, não está responsivo nem muito acessível. Busque ideias de conexão como se fosse um grafo: cada função seria uma bolinha do símbolo de acessibilidade da ONU. Mantenha as cores. Quero acessível, responsivo, atual, com vidro desfocado e animações suaves. Teste até ficar bom."
+- **Ideia:** o símbolo de acessibilidade tem 5 bolinhas (cabeça, duas mãos e dois pés) e o app tem 5 partes. Cada parte virou uma bolinha: Mapa (cabeça), Rotas e Reportar (mãos), Locais e Perfil (pés). A lista fica em `src/domain/navegacao.js`.
+- **Como a IA ajudou:**
+  - **Navegação em grafo** (`NavGrafo`, no lugar da `BarraInferior`): barra de vidro embaixo no celular e trilho lateral em telas largas, com uma linha ligando as bolinhas e uma bolinha azul que desliza até a tela atual;
+  - **Menu em forma do símbolo** (`MenuGrafo`): o símbolo desenhado grande, com cada bolinha como link. Usa a tag `<dialog>`, que já prende o foco e fecha com Esc;
+  - **Responsivo de verdade:** antes o app era uma coluna de 480 px no meio da tela. Agora o mapa ocupa a tela toda, as rotas ficam em 3 colunas e os formulários em 2 no computador. Testado de 320 px a 1440 px e com o celular deitado;
+  - **Vidro e fundo** (`FundoGrafo`): peças translúcidas com desfoque e, atrás, o próprio símbolo bem grande e suave. As cores dos tokens não mudaram;
+  - **Acessibilidade:** textos em `rem` (respeitam a fonte do navegador), link "Pular para o conteúdo", foco no título ao trocar de tela, título da aba por tela, alvos de toque de 44 px ou mais, e a seção nova **Acessibilidade** no Perfil (tamanho do texto, menos animações e mais contraste), com o hook `useAcessibilidade`;
+  - novos custom hooks: `useConsultaDeTela`, `useTituloDaPagina` e `useAcessibilidade`.
+- **Testes:** script com Playwright e axe-core fora do repositório. Sem estouro horizontal em 6 larguras, nenhum alvo de toque abaixo de 44 px, nenhuma violação do axe nos dois temas, e contraste medido pixel a pixel em cerca de 1.200 textos (pior caso 4,68:1, acima do mínimo AA de 4,5:1).
+- **Problemas encontrados e decisões:**
+  - o axe não consegue medir contraste em cima de vidro, então a medição foi feita pela foto da tela;
+  - no celular deitado o mapa abria afastado demais, porque as folgas do enquadramento não cabiam na altura; a folga passou a depender da altura da tela;
+  - muitas peças com desfoque pesam no celular: só as peças que flutuam usam desfoque, os cards de lista são translúcidos sem desfoque;
+  - **navegação em glassmorfismo** (pedido seguinte: "deixe a nav bar em aspecto glassmorphism, mantendo o design"): fundo bem mais transparente, desfoque forte, borda clara, reflexo de luz e bolinhas foscas (variáveis `--nav-*` em `tokens.css`). Um teste de estresse com o pior fundo possível atrás da barra (foto branca no tema escuro, preto no claro) mostrou os nomes caindo para 3,9:1 no escuro; o vidro escuro ficou mais cheio e o pior caso passou a 5,56:1.
+- **Revisão da equipe:** (preencher)
+
+## 9. Ajustes de design, Trilha IA, Sobre, satélite e refatoração (Claude Code · 14/11/2026 · PROPOSTA do João)
+
+> Continuação do item 8. Ainda precisa da revisão do Isaac (dono do front). Vai como PR, sem merge.
+
+- **Prompt (resumo):** "Centralizar o título do menu e levar o X para o canto. Na nav bar lateral, 80% está em branco: distribuir os ícones com proporção. Colocar um SOBRE o projeto embaixo. Organizar os cards do Perfil. Modo satélite com botão de troca no canto inferior direito. Acrescentar a aba Trilha IA. Depois, refatorar o código conforme os requisitos de Front-end Design e Web Development, mantendo as regras de negócio."
+- **Como a IA ajudou:**
+  - **Menu:** título e apoio centralizados; botão de fechar preso no canto da tela (não rola junto); link "Sobre o projeto" no fim;
+  - **Nav bar:** no trilho lateral as casas dividem a altura em partes iguais (CSS grid com `--total`), então os ícones se espalham na altura toda; "Sobre" preso embaixo; frase de apoio sob cada nome quando há altura;
+  - **Trilha IA** [HU-19, RF18]: novo ponto do símbolo (meio do corpo), tela `Trilha`, `CardLicao`, `useTrilha`, `services/trilhaApi.js` e `domain/trilha.js`. Lições da API (`GET /trilha`) com cópia local como plano B;
+  - **Sobre o projeto:** página com problema, jornada, partes, ODS, indicador e LGPD (textos em `src/data/sobre.json`);
+  - **Satélite:** `styles/mapa/estilos.js` monta um estilo com as imagens Esri e só as camadas de texto por cima; `BotaoVisaoMapa` troca e `usePreferencia('celia-satelite')` lembra a escolha;
+  - **Perfil:** grade com áreas nomeadas (duas colunas de mesma altura e o Sobre de ponta a ponta);
+  - **Refatoração (separação lógica, dados e apresentação):** `localStorage` só em `services/armazenamento.js`; regras que estavam em componentes foram para `domain/` (filtros, ordenações, GeoJSON dos trechos, textos de quantidade, área da rota); novos hooks `useFormReporte`, `useLocais`, `useSelosDoMapa`, `useFocoNoTitulo`; componentes reutilizáveis `Filtros`, `Opcoes`, `Medida`, `ErroCampo`, `CamadasTrechos`, `PassosLigados`;
+  - **Integração:** canal ThingSpeak `3577155` como padrão e API de visão no contrato atual (FastAPI, `caixas_buracos`, só buraco).
+- **Testes:** `npm run lint` sem avisos em `src/` e `npm run build` ok. A conferência visual no navegador ficou pendente (extensão desconectada nesta sessão).
+- **Revisão da equipe:** (preencher)
