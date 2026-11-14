@@ -1,74 +1,139 @@
-.perfil__titulo {
-  margin-bottom: 4px;
-  font-size: 19px;
+/*
+  Os cards do Perfil numa grade.
+  Celular: uma coluna, um card embaixo do outro (a ordem é a do código).
+*/
+.perfil {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 16px;
 }
 
-.perfil__dica {
-  margin-top: 8px;
-  font-size: 15px;
-  color: var(--muted);
+/*
+  Tela larga: duas colunas iguais. Cada card tem um lugar marcado (grid-area):
+
+    Aparência        | Acessibilidade
+    Alerta de calor  | Acessibilidade   (ocupa as duas linhas)
+    Sobre  .  .  .  .  .  .  .  .  .  . (de ponta a ponta)
+
+  A grade estica os cards da mesma linha até a mesma altura,
+  então as duas colunas começam e terminam juntas.
+*/
+@media (min-width: 900px) {
+  .perfil {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-areas:
+      'aparencia acessibilidade'
+      'calor     acessibilidade'
+      'sobre     sobre';
+    gap: 20px;
+  }
+
+  .perfil__secao--aparencia {
+    grid-area: aparencia;
+  }
+
+  .perfil__secao--calor {
+    grid-area: calor;
+  }
+
+  .perfil__secao--acessibilidade {
+    grid-area: acessibilidade;
+  }
+
+  .perfil__secao--sobre {
+    grid-area: sobre;
+  }
 }
 
-.perfil__sobre {
-  padding-top: 16px;
+.perfil__secao {
+  padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  border-top: 1px solid var(--linha);
-  font-size: 16px;
+  gap: 8px;
 }
 
-/* Alerta de calor: opções em pílula (o rádio de verdade fica escondido, mas funciona no teclado) */
-.perfil__calor {
+.perfil__titulo {
+  padding: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--titulo-p);
+  font-weight: 600;
+  line-height: 1.2;
+}
+
+.perfil__titulo svg,
+.perfil__legenda svg {
+  flex: none;
+}
+
+/* O último interruptor de cada card não precisa de linha embaixo */
+.perfil__secao .interruptor:last-of-type {
+  border-bottom: 0;
+}
+
+/* fieldset sem a moldura padrão do navegador */
+.perfil__grupo {
+  min-width: 0;
   margin: 0;
-  padding: 16px 0 0;
+  padding: 0;
   border: 0;
-  border-top: 1px solid var(--linha);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Dentro do card de Acessibilidade o grupo fica separado dos interruptores por um respiro */
+.perfil__secao--acessibilidade .perfil__grupo {
+  padding: 8px 0 12px;
+  border-bottom: 1px solid var(--line-soft);
 }
 
 .perfil__legenda {
   padding: 0;
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 12px;
+  font-size: var(--texto-m);
+  font-weight: 600;
 }
 
-.perfil__opcoes {
-  margin-top: 12px;
+/* ---------- Sobre: símbolo, texto e botão ---------- */
+.perfil__secao--sobre {
+  gap: 16px;
+  font-size: var(--texto-m);
+}
+
+.perfil__secao--sobre > svg {
+  flex: none;
+}
+
+.perfil__sobre-textos {
+  min-width: 0;
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 8px;
 }
 
-.perfil__opcao {
-  position: relative;
+.perfil__sobre-botao {
+  align-self: flex-start;
 }
 
-.perfil__opcao input {
-  position: absolute;
-  opacity: 0;
-}
+/* A partir do tablet o Sobre vira uma faixa deitada: símbolo, texto no meio e botão na ponta */
+@media (min-width: 768px) {
+  .perfil__secao--sobre {
+    padding: 24px;
+    flex-direction: row;
+    align-items: center;
+    gap: 24px;
+  }
 
-.perfil__opcao span {
-  min-height: 44px;
-  padding: 0 16px;
-  display: inline-flex;
-  align-items: center;
-  background: var(--card);
-  border: 1.5px solid var(--borda-campo);
-  border-radius: 999px;
-  font-size: 16px;
-  font-weight: 500;
-  cursor: pointer;
-}
+  .perfil__sobre-textos {
+    flex: 1;
+  }
 
-.perfil__opcao input:checked + span {
-  background: var(--link);
-  border-color: var(--link);
-  color: var(--card);
-}
-
-.perfil__opcao input:focus-visible + span {
-  outline: 3px solid var(--focus);
-  outline-offset: 2px;
+  .perfil__sobre-botao {
+    flex: none;
+    align-self: center;
+  }
 }
