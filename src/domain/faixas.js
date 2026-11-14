@@ -2,8 +2,9 @@
   Regras das faixas do semáforo (sem React, só dados e funções puras).
 
   Tudo o que diz respeito a nome, cor, ícone e motivo das faixas fica AQUI.
-  Se a equipe mudar os nomes (ex.: "acessível / atenção / evite"),
-  basta trocar neste arquivo e o app inteiro acompanha.
+  Nomes iguais aos do ESP32 e da documentação: Acessível · Atenção · Evite.
+  Se a equipe mudar, basta trocar neste arquivo e o app inteiro acompanha.
+  (Os ids "normal" e "perigo" são só nomes internos do código.)
 
   Os números seguem o ESP32 (ThingSpeak):
     field5 status: 0 verde · 1 amarelo · 2 vermelho
@@ -14,7 +15,7 @@
 export const FAIXAS = {
   normal: {
     id: 'normal',
-    nome: 'Normal',
+    nome: 'Acessível',
     icone: '✓',
     cor: 'var(--faixa-normal)',
     linha: 'continua',
@@ -30,7 +31,7 @@ export const FAIXAS = {
   },
   perigo: {
     id: 'perigo',
-    nome: 'Perigo',
+    nome: 'Evite',
     icone: '✕',
     cor: 'var(--faixa-perigo)',
     linha: 'tracejado-curto',
@@ -56,7 +57,8 @@ export const CORES_MAPA = {
 }
 
 // Texto do motivo, na ordem do field6 do ESP32
-export const MOTIVOS = ['', 'calçada estreita', 'calor', 'calçada e calor', 'veículo bloqueando', 'buraco']
+// O 4 (veículo) foi removido em 12/11 (o modelo marcava carros estacionados): fica vazio
+export const MOTIVOS = ['', 'calçada estreita', 'calor', 'calçada e calor', '', 'buraco']
 
 // Converte o número do status (0, 1, 2) na faixa. Qualquer outra coisa vira "Sem dados".
 export function faixaDoStatus(status) {
@@ -71,7 +73,7 @@ export function textoDoMotivo(motivo) {
   return MOTIVOS[motivo] || ''
 }
 
-// Junta faixa e motivo para mostrar na tela. Ex.: "Perigo · calor"
+// Junta faixa e motivo para mostrar na tela. Ex.: "Evite · calor"
 export function rotuloCompleto(faixa, motivo) {
   const texto = textoDoMotivo(motivo)
   if (faixa.id === 'normal' || faixa.id === 'semDados' || texto === '') {

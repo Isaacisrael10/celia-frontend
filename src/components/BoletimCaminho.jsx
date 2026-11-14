@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import { IconRoute, IconTemperature, IconArrowsExchange, IconMap2, IconChevronDown } from '@tabler/icons-react'
+import { IconRoute, IconTemperature, IconArrowsExchange, IconMap2, IconChevronDown, IconMessageQuestion } from '@tabler/icons-react'
 import BadgeFaixa from './BadgeFaixa'
 import { boletimDaRota, linhaDoPoste } from '../domain/boletim'
 import './BoletimCaminho.css'
@@ -63,6 +63,11 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
           Calor acima de {limiteCalor} °C no ponto de ônibus
         </p>
       )}
+      {linhaPoste && linhaPoste.calorExtremo && (
+        <Link to="/locais" className="acao-texto">
+          Ver lugares para descansar na sombra
+        </Link>
+      )}
 
       <div className="boletim__acoes">
         <button className="botao botao--secundario botao--pequeno" onClick={aoVerNoMapa}>
@@ -98,10 +103,16 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
           <p className="boletim__simulado">
             Só o poste do ponto é lido ao vivo. Os outros trechos usam dados simulados de exemplo.
           </p>
-          <Link to="/rotas" className="acao-texto boletim__trocar">
-            <IconArrowsExchange size={20} aria-hidden="true" />
-            Trocar caminho
-          </Link>
+          <div className="boletim__links">
+            <Link to="/rotas" className="acao-texto">
+              <IconArrowsExchange size={20} aria-hidden="true" />
+              Trocar caminho
+            </Link>
+            <Link to="/assistente" className="acao-texto">
+              <IconMessageQuestion size={20} aria-hidden="true" />
+              Perguntar
+            </Link>
+          </div>
         </div>
       </div>
     </section>

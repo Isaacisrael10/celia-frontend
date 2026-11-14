@@ -136,6 +136,8 @@
   color: var(--muted);
 }
 
-.boletim__trocar {
-  align-self: flex-start;
+.boletim__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 20px;
 }

@@ -7,7 +7,7 @@ import { MensagemErro } from '../components/Estados'
 import HistoricoPoste from '../components/HistoricoPoste'
 import { useTrechos } from '../hooks/useTrechos'
 import { rotuloCompleto } from '../domain/faixas'
-import { textoAtualizado, textoDaMedida } from '../domain/poste'
+import { textoAtualizado, textoDaMedida, situacaoDaCalcada, faixaDoCalor } from '../domain/poste'
 import { meioDoTrecho } from '../domain/trechos'
 import './Trecho.css'
 
@@ -79,8 +79,18 @@ export default function Trecho() {
 
         {mostrarMedidas && (
           <div className="trecho__medidas">
-            <Medida Icone={IconArrowsHorizontal} nome="Distância livre" texto={textoDaMedida(leitura.distancia, 'cm')} />
-            <Medida Icone={IconSun} nome="Índice de calor" texto={textoDaMedida(leitura.indiceCalor, '°C')} />
+            <Medida
+              Icone={IconArrowsHorizontal}
+              nome="Distância livre"
+              texto={textoDaMedida(leitura.distancia, 'cm')}
+              detalhe={situacaoDaCalcada(leitura.distancia)}
+            />
+            <Medida
+              Icone={IconSun}
+              nome="Índice de calor"
+              texto={textoDaMedida(leitura.indiceCalor, '°C')}
+              detalhe={faixaDoCalor(leitura.indiceCalor) ? 'Calor: ' + faixaDoCalor(leitura.indiceCalor).nome : ''}
+            />
             <Medida Icone={IconTemperature} nome="Temperatura" texto={textoDaMedida(leitura.temperatura, '°C')} />
             <Medida Icone={IconDroplet} nome="Umidade" texto={textoDaMedida(leitura.umidade, '%')} />
           </div>

@@ -18,8 +18,8 @@ export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
   const perigo = trechoEmPerigo(rota)
   const { contagem } = rota
 
-  // Ex.: "3 Normal · 1 Atenção · 0 Perigo" (+ "1 Sem dados" se houver)
-  let resumo = `${contagem.normal} Normal · ${contagem.atencao} Atenção · ${contagem.perigo} Perigo`
+  // Ex.: "3 Acessível · 1 Atenção · 0 Evite" (+ "1 Sem dados" se houver)
+  let resumo = `${contagem.normal} ${FAIXAS.normal.nome} · ${contagem.atencao} ${FAIXAS.atencao.nome} · ${contagem.perigo} ${FAIXAS.perigo.nome}`
   if (contagem.semDados > 0) resumo += ` · ${contagem.semDados} Sem dados`
 
   return (
@@ -65,7 +65,7 @@ export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
         <p className="card-rota__alerta">
           <BadgeFaixa faixa={FAIXAS.perigo} tamanho={24} />
           <span>
-            <strong>Passa por Perigo:</strong> {perigo.rua}.
+            <strong>Passa por trecho para evitar:</strong> {perigo.rua}.
           </span>
         </p>
       )}

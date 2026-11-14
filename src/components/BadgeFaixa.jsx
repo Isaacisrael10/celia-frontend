@@ -7,7 +7,7 @@ import './BadgeFaixa.css'
   O quadrado é escondido do leitor de tela, para o nome não ser lido duas vezes.
   - faixa: um objeto de FAIXAS (src/domain/faixas.js)
   - tamanho: 28, 32, 36, 40 ou 56 (px)
-  - comNome: true escreve o nome ao lado ("Perigo")
+  - comNome: true escreve o nome ao lado ("Evite")
 */
 export default function BadgeFaixa({ faixa, tamanho = 32, comNome = false }) {
   const semDados = faixa.id === 'semDados'

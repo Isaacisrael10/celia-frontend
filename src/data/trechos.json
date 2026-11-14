@@ -390,7 +390,7 @@
   "parte": 2,
   "poste": null,
   "statusSimulado": 1,
-  "motivoSimulado": 4,
+  "motivoSimulado": 1,
   "metros": 47,
   "coords": [
    [-43.2668482, -22.9224565],
@@ -471,7 +471,7 @@
   "parte": 2,
   "poste": null,
   "statusSimulado": 2,
-  "motivoSimulado": 4,
+  "motivoSimulado": 1,
   "metros": 589,
   "coords": [
    [-43.2671767, -22.9217661],

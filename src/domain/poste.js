@@ -1,3 +1,5 @@
+import { FAIXAS } from './faixas'
+
 /*
   Regras do poste (sem React).
 */
@@ -34,4 +36,27 @@ export function textoAtualizado(dataIso, agora) {
   if (min < 1) return 'Atualizado agora há pouco'
   if (min < 60) return 'Atualizado há ' + min + ' min'
   return 'Sem dados recentes'
+}
+
+/*
+  Nível de calor (INTEGRACAO.md seção 3, índice de calor em °C; valores ainda em validação):
+  abaixo de 32 = Normal · 32 a 40 = Atenção · 41 ou mais = Perigo
+  Devolve o nome para a tela e a faixa (cor e ícone) do semáforo.
+*/
+export function faixaDoCalor(indiceCalor) {
+  if (indiceCalor === null || indiceCalor === undefined) return null
+  if (indiceCalor >= 41) return { nome: 'Perigo', faixa: FAIXAS.perigo }
+  if (indiceCalor >= 32) return { nome: 'Atenção', faixa: FAIXAS.atencao }
+  return { nome: 'Normal', faixa: FAIXAS.normal }
+}
+
+/*
+  Situação da calçada pela distância livre (NBR 9050: faixa livre de 1,20 m):
+  120 cm ou mais = livre · 90 a 119 = estreita · menos de 90 = bloqueada
+*/
+export function situacaoDaCalcada(distanciaCm) {
+  if (distanciaCm === null || distanciaCm === undefined) return ''
+  if (distanciaCm >= 120) return 'Calçada livre'
+  if (distanciaCm >= 90) return 'Calçada estreita'
+  return 'Calçada bloqueada'
 }

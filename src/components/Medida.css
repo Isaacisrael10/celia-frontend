@@ -20,3 +20,9 @@
   line-height: 1;
   letter-spacing: -0.02em;
 }
+
+/* O que o valor quer dizer, embaixo do número */
+.medida__detalhe {
+  color: var(--muted);
+  font-size: var(--texto-p);
+}

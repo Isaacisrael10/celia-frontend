@@ -5,7 +5,7 @@
   O caminho de sempre é a rota que a pessoa escolheu na tela Rotas (fica salva no navegador).
 */
 import { textoDoMotivo } from './faixas'
-import { minutosDesde } from './poste'
+import { minutosDesde, faixaDoCalor } from './poste'
 
 /*
   Título e linha de apoio do boletim, a partir da rota já analisada (analisarRota).
@@ -38,7 +38,7 @@ export function boletimDaRota(rota) {
   Linha do poste no boletim (o que o poste mediu no ponto de ônibus).
   - poste: o que o useStatusPoste devolve
   - limiteCalor: número (°C) escolhido no Perfil, ou 0 se a pessoa desligou o alerta
-  Devolve { texto, calorAlto } ou null quando o poste nunca mandou leitura.
+  Devolve { texto, calorAlto, calorExtremo } ou null quando o poste nunca mandou leitura.
 */
 export function linhaDoPoste(poste, limiteCalor) {
   const { leitura, recente, agora } = poste
@@ -49,15 +49,22 @@ export function linhaDoPoste(poste, limiteCalor) {
   // Regra dos 10 minutos: leitura velha não vale como situação de agora
   if (!recente) {
     const quando = minutos < 60 ? 'há ' + minutos + ' min' : 'há mais de 1 hora'
-    return { texto: 'Poste sem sinal recente: última leitura ' + quando, calorAlto: false }
+    return { texto: 'Poste sem sinal recente: última leitura ' + quando, calorAlto: false, calorExtremo: false }
   }
 
   const graus = leitura.indiceCalor !== null ? Math.round(leitura.indiceCalor) : null
   const quando = minutos < 1 ? 'agora há pouco' : 'há ' + minutos + ' min'
   const calorAlto = graus !== null && limiteCalor > 0 && graus >= limiteCalor
+  // Nível de calor da equipe (Normal, Atenção, Perigo); Perigo sugere lugares para descansar
+  const nivel = faixaDoCalor(leitura.indiceCalor)
+  const calorExtremo = nivel !== null && nivel.nome === 'Perigo'
 
-  if (graus === null) return { texto: 'Poste do ponto atualizado ' + quando, calorAlto }
-  return { texto: graus + ' °C no ponto de ônibus · atualizado ' + quando, calorAlto }
+  if (graus === null) return { texto: 'Poste do ponto atualizado ' + quando, calorAlto, calorExtremo }
+  return {
+    texto: graus + ' °C no ponto de ônibus (calor ' + nivel.nome + ') · atualizado ' + quando,
+    calorAlto,
+    calorExtremo,
+  }
 }
 
 // Opções do alerta de calor no Perfil (0 = desligado)
