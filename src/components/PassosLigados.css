@@ -1,0 +1,90 @@
+/* Celular: os passos ficam um embaixo do outro, com a linha em pé ligando as bolinhas */
+.passos {
+  --numero: 40px; /* tamanho da bolinha */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.passos__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+/* Bolinha azul com contorno escuro, como as do símbolo */
+.passos__numero {
+  position: relative;
+  z-index: 1;
+  width: var(--numero);
+  height: var(--numero);
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* A ligação: sai de baixo de uma bolinha e vai até a de baixo */
+.passos__item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--numero) / 2 - 1px);
+  top: calc(var(--numero) + 4px);
+  bottom: -16px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--borda-campo);
+}
+
+/* O último passo não liga em ninguém */
+.passos__item:last-child::before {
+  display: none;
+}
+
+.passos__textos {
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--texto-m);
+}
+
+.passos__titulo {
+  font-size: var(--texto-g);
+}
+
+/* Telas largas: os passos ficam lado a lado e a ligação deita, de uma bolinha até a outra */
+@media (min-width: 900px) {
+  .passos {
+    flex-direction: row;
+    gap: 20px;
+  }
+
+  .passos__item {
+    flex: 1;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 12px;
+  }
+
+  .passos__item::before {
+    left: calc(var(--numero) + 6px);
+    right: -14px;
+    top: calc(var(--numero) / 2 - 1px);
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+
+  .passos__textos {
+    padding-top: 0;
+  }
+}

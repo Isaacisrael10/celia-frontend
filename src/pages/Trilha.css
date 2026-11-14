@@ -1,0 +1,23 @@
+/* A trilha é texto para ler: fica numa coluna de leitura confortável */
+.trilha {
+  max-width: 48rem;
+}
+
+.trilha__topo {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.trilha__titulo {
+  font-size: var(--titulo-p);
+}
+
+.trilha__licoes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}

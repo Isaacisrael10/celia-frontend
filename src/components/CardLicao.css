@@ -1,0 +1,148 @@
+/*
+  Cada lição: a bolinha com o número à esquerda e o card à direita.
+  Uma linha liga a bolinha de uma lição à da próxima (a trilha é um grafo em linha).
+*/
+.licao {
+  --numero: 40px; /* tamanho da bolinha */
+  --descida: 12px; /* quanto a bolinha desce para ficar na altura do título */
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 12px;
+  align-items: start;
+}
+
+.licao__numero {
+  position: relative;
+  z-index: 1;
+  width: var(--numero);
+  height: var(--numero);
+  margin-top: var(--descida);
+  display: grid;
+  place-items: center;
+  background: var(--card);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+  font-weight: 600;
+  line-height: 1;
+  transition:
+    background-color var(--medio) var(--suave),
+    color var(--medio) var(--suave);
+}
+
+/* Lição aberta: a bolinha fica azul (e o card mostra o texto, então não depende só da cor) */
+.licao--aberta .licao__numero {
+  background: var(--primary);
+  color: var(--on-primary);
+  border-width: 2.5px;
+}
+
+/* A ligação até a próxima lição: sai de baixo da bolinha e vai até a de baixo */
+.licao::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--numero) / 2 - 1px);
+  top: calc(var(--descida) + var(--numero) + 4px);
+  /* atravessa o espaço entre as lições (14 px) e a descida da próxima bolinha */
+  bottom: calc(-14px - var(--descida) + 4px);
+  width: 2px;
+  border-radius: 2px;
+  background: var(--borda-campo);
+}
+
+.licao:last-child::before {
+  display: none;
+}
+
+/* O card não tem enchimento: quem dá o espaço são o botão e o corpo */
+.licao__cartao {
+  padding: 0;
+  overflow: hidden;
+}
+
+.licao__titulo {
+  font-size: inherit;
+  letter-spacing: 0;
+}
+
+/* O título inteiro é o botão que abre e fecha (área de toque grande) */
+.licao__botao {
+  width: 100%;
+  min-height: 64px;
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  background: none;
+  border: 0;
+  border-radius: var(--raio);
+  color: var(--ink);
+  text-align: left;
+  outline-offset: -3px;
+}
+
+.licao__botao:hover {
+  background: color-mix(in srgb, var(--primary) 12%, transparent);
+}
+
+.licao__nome {
+  display: block;
+  font-size: var(--texto-g);
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+.licao__duracao {
+  display: block;
+  margin-top: 2px;
+  font-size: var(--texto-p);
+  font-weight: 400;
+  color: var(--muted);
+}
+
+/* A setinha gira quando a lição abre */
+.licao__seta {
+  flex: none;
+  transition: transform var(--medio) var(--suave);
+}
+
+.licao--aberta .licao__seta {
+  transform: rotate(180deg);
+}
+
+.licao__corpo {
+  padding: 14px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  border-top: 1px solid var(--linha);
+  font-size: var(--texto-m);
+  line-height: 1.6;
+  animation: brotar var(--medio) var(--suave);
+}
+
+/* "display: flex" ganharia do atributo hidden: aqui garantimos que fechada ela some */
+.licao__corpo[hidden] {
+  display: none;
+}
+
+/* Exemplo no trabalho e exercício: caixas com um fundo azul bem leve */
+.licao__bloco {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-radius: var(--raio-p);
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
+.licao__bloco-titulo {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--texto-m);
+  font-weight: 600;
+  line-height: 1.3;
+}

@@ -1,0 +1,151 @@
+/* Página Sobre: seções empilhadas, com respiro maior entre elas */
+.sobre {
+  gap: 28px;
+}
+
+.sobre__secao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sobre__titulo {
+  font-size: var(--titulo-m);
+}
+
+.sobre__subtitulo {
+  font-size: var(--texto-g);
+  line-height: 1.25;
+}
+
+.sobre__subtitulo--icone {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.sobre__subtitulo--icone svg {
+  flex: none;
+}
+
+/* ---------- Apresentação: símbolo + nome + problema ---------- */
+.sobre__apresentacao {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 16px;
+}
+
+.sobre__apresentacao > svg {
+  flex: none;
+}
+
+.sobre__textos {
+  max-width: 62ch;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--texto-m);
+}
+
+.sobre__nome {
+  font-size: var(--titulo-g);
+  letter-spacing: 0.01em;
+}
+
+.sobre__lema {
+  margin-top: -6px;
+  font-size: var(--texto-g);
+  font-weight: 500;
+  color: var(--link);
+}
+
+.sobre__problema {
+  font-size: var(--texto-g);
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .sobre__apresentacao {
+    padding: 28px;
+    flex-direction: row;
+    align-items: center;
+    gap: 28px;
+  }
+}
+
+/* ---------- Ficha rápida: 1 coluna no celular, 3 quando cabe ---------- */
+.sobre__ficha {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 14px;
+}
+
+.sobre__ficha-item {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.sobre__ficha dt {
+  font-size: var(--texto-p);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.sobre__ficha dd {
+  margin: 0;
+  font-size: var(--texto-m);
+  font-weight: 500;
+}
+
+/* ---------- Cards das partes e dos ODS ---------- */
+.sobre__parte {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--texto-m);
+}
+
+/* Bolinha azul com contorno escuro (a mesma do símbolo), com um ícone ou um número dentro */
+.sobre__bolinha {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+}
+
+.sobre__bolinha--numero {
+  font-size: var(--texto-g);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ---------- Resultado e dados: lado a lado em telas largas ---------- */
+.sobre__dupla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 900px) {
+  .sobre__dupla {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 20px;
+  }
+}
+
+.sobre__lista {
+  margin: 0;
+  padding-left: 1.2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
