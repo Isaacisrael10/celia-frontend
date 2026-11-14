@@ -8,8 +8,12 @@
 export const REPORTES_URL =
   import.meta.env.VITE_REPORTES_URL || 'https://6af6378ee844c7ff741b357c.mockapi.io/api/v1/reportes'
 
-// ThingSpeak: número do canal público do poste01 (o Caio vai passar)
-export const THINGSPEAK_CHANNEL_ID = import.meta.env.VITE_THINGSPEAK_CHANNEL_ID || ''
+// ThingSpeak: canal público do poste01 (leitura sem chave, contrato em INTEGRACAO.md seção 2)
+export const THINGSPEAK_CHANNEL_ID = import.meta.env.VITE_THINGSPEAK_CHANNEL_ID || '3577155'
 
-// API de visão do Caio (só roda na demonstração local)
-export const VISAO_URL = import.meta.env.VITE_VISAO_URL || 'http://localhost:5000/analisar'
+// API da equipe (FastAPI do João). Por enquanto só roda no computador, na demonstração.
+// Quando ela for para a VPS, só este endereço muda (no .env: VITE_URL_API).
+export const URL_API = import.meta.env.VITE_URL_API || 'http://127.0.0.1:8000'
+
+// Análise da foto (INTEGRACAO.md seção 4)
+export const VISAO_URL = URL_API + '/analisar'

@@ -23,12 +23,12 @@ Cada faixa usa **cor + ícone + nome escrito + tipo de linha no mapa**, para nun
 
 | Faixa | Ícone | Linha no mapa |
 |---|---|---|
-| Normal | ✓ | contínua |
+| Acessível | ✓ | contínua |
 | Atenção | ! | tracejado longo |
-| Perigo | ✕ | tracejado curto |
+| Evite | ✕ | tracejado curto |
 | Sem dados | ? | pontilhada |
 
-O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
+O motivo aparece junto: "Evite · buraco", "Atenção · calçada estreita".
 
 ---
 
@@ -51,10 +51,10 @@ _(prints das telas em breve)_
 
 | Parte | Situação |
 |---|---|
-| Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s e mostrado no boletim do caminho de sempre. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
+| Poste `poste01` (ThingSpeak) | **Real** (canal público 3577155), lido ao vivo a cada 20 s e mostrado no boletim do caminho de sempre. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
 | Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
 | Reportes | **Reais** na MockAPI (API externa do CRUD). |
-| Análise da foto (IA) | **Real** na demonstração local (API Flask do Caio em `localhost:5000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
+| Análise da foto (IA) | **Real** na demonstração local (API FastAPI da equipe em `127.0.0.1:8000`). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
 | Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
 | Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
 | Mapa e ruas | **Reais** (OpenStreetMap). O mapa abre no **Grajaú**, bairro dos testes e das fotos usadas para treinar a IA, mas vai para qualquer lugar pela busca ou pelo GPS. Os trechos coloridos são 39 trechos de 11 ruas reais do Grajaú. |
@@ -82,16 +82,18 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 | Variável | Para quê |
 |---|---|
 | `VITE_REPORTES_URL` | URL do recurso `reportes` na MockAPI |
-| `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste |
-| `VITE_VISAO_URL` | API de visão (padrão `http://localhost:5000/analisar`) |
+| `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste (padrão `3577155`) |
+| `VITE_URL_API` | Endereço da API da equipe (padrão `http://127.0.0.1:8000`) |
 
 ---
 
 ## Integrações
 
-- **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/{ID}/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 verde, 1 amarelo, 2 vermelho) e motivo.
+Contrato completo entre as partes: [`docs/INTEGRACAO.md`](docs/INTEGRACAO.md).
+
+- **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/3577155/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 Acessível, 1 Atenção, 2 Evite) e motivo. Valores absurdos de testes antigos são descartados.
 - **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
-- **API de visão** (Flask): `POST /analisar` com a foto; devolve o resultado (`livre`, `obstaculo` ou `buraco`) e as caixas, que o app desenha sobre a foto.
+- **API de visão** (FastAPI): `POST /analisar` com a foto; devolve o resultado (`livre` ou `buraco`) e as caixas dos buracos, que o app desenha sobre a foto.
 - **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
 - **Busca de lugares** (Nominatim/OpenStreetMap, sem chave): leva o mapa a qualquer endereço e acha as coordenadas dos reportes. Só busca quando a pessoa confirma, como pede a regra de uso do serviço.
 - **GPS do navegador** (Geolocation API): botão "Meu local".

@@ -6,7 +6,7 @@ import { MensagemErro } from '../components/Estados'
 import HistoricoPoste from '../components/HistoricoPoste'
 import { useTrechos } from '../hooks/useTrechos'
 import { rotuloCompleto } from '../domain/faixas'
-import { textoAtualizado } from '../domain/poste'
+import { textoAtualizado, situacaoDaCalcada, faixaDoCalor } from '../domain/poste'
 import { meioDoTrecho } from '../domain/trechos'
 import './Trecho.css'
 
@@ -69,8 +69,18 @@ export default function Trecho() {
 
         {mostrarMedidas && (
           <div className="trecho__medidas">
-            <Medida Icone={IconArrowsHorizontal} nome="Distância livre" texto={valor(leitura.distancia, 'cm')} />
-            <Medida Icone={IconSun} nome="Índice de calor" texto={valor(leitura.indiceCalor, '°C')} />
+            <Medida
+              Icone={IconArrowsHorizontal}
+              nome="Distância livre"
+              texto={valor(leitura.distancia, 'cm')}
+              detalhe={situacaoDaCalcada(leitura.distancia)}
+            />
+            <Medida
+              Icone={IconSun}
+              nome="Índice de calor"
+              texto={valor(leitura.indiceCalor, '°C')}
+              detalhe={faixaDoCalor(leitura.indiceCalor) ? 'Calor: ' + faixaDoCalor(leitura.indiceCalor).nome : ''}
+            />
             <Medida Icone={IconTemperature} nome="Temperatura" texto={valor(leitura.temperatura, '°C')} />
             <Medida Icone={IconDroplet} nome="Umidade" texto={valor(leitura.umidade, '%')} />
           </div>
@@ -87,7 +97,7 @@ export default function Trecho() {
   )
 }
 
-function Medida({ Icone, nome, texto }) {
+function Medida({ Icone, nome, texto, detalhe }) {
   return (
     <div className="trecho__medida">
       <span className="trecho__medida-nome">
@@ -95,6 +105,7 @@ function Medida({ Icone, nome, texto }) {
         {nome}
       </span>
       <span className="trecho__medida-valor">{texto}</span>
+      {detalhe && <span className="trecho__medida-detalhe">{detalhe}</span>}
     </div>
   )
 }

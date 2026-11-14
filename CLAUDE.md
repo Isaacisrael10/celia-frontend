@@ -39,21 +39,24 @@ Regras gerais da GS: nada de dados pessoais reais (dados simulados ou públicos,
 
 ## Integrações (contratos)
 
+> **Fonte única: `docs/INTEGRACAO.md`** (contrato da equipe, 13/11). Se divergir deste resumo, vale o de lá.
+
 ### ThingSpeak (status do poste, leitura pública sem chave)
-`GET https://api.thingspeak.com/channels/{CHANNEL_ID}/feeds.json?results=20`
+`GET https://api.thingspeak.com/channels/3577155/feeds.json?results=20` (canal **3577155**, padrão em `src/services/config.js`)
 - field1 temperatura · field2 umidade · field3 índice de calor · field4 distância livre (cm)
-- field5 **status**: 0 verde · 1 amarelo · 2 vermelho
-- field6 **motivo**: 0 nenhum · 1 calçada · 2 calor · 3 ambos · 4 veículo · 5 buraco
+- field5 **status**: 0 Acessível (verde) · 1 Atenção (amarelo) · 2 Evite (vermelho). A cor vem direto do field5, sem recalcular.
+- field6 **motivo**: 0 nenhum · 1 calçada · 2 calor · 3 ambos · 5 buraco (o **4 veículo foi removido em 12/11**)
+- Valores vêm como texto; sensor com falha vem `null`; registros antigos de teste têm valores absurdos (o app descarta valores fora da faixa possível).
+- Nível de calor (field3): Normal < 32 °C · Atenção ≥ 32 · Perigo ≥ 41 (em validação).
 - ESP32 envia a cada 20 s → app busca a cada 20 s.
 - **Sem leitura há mais de 10 min → "Sem dados" (cinza).**
 - Só existe um poste (`poste01`): só um trecho do mapa é ao vivo.
 - **Decisão (12/11):** os trechos sem poste mostram uma **faixa de exemplo simulada** (`statusSimulado`/`motivoSimulado` em `src/data/trechos.json`), avisada na tela do trecho. Explicar no README como "simulado".
-- **Pendente:** CHANNEL_ID (Caio).
 
-### API de visão (Flask, só na demonstração local)
-- `POST http://localhost:5000/analisar` com a foto (multipart).
-- Resposta esperada (a confirmar): `{ "resultado": "livre|obstaculo|buraco", "caixas": [{ "x1","y1","x2","y2","classe","confianca" }] }`
-- **Pendentes com o Caio:** formato final, coordenadas em pixels ou normalizadas, nome do campo do arquivo, CORS liberado.
+### API da equipe (FastAPI do João, só na demonstração local até ir para a VPS)
+- Endereço base `VITE_URL_API` (padrão `http://127.0.0.1:8000`). CORS liberado só para `localhost:5173` e `localhost:3000`.
+- `POST /analisar`, campo `foto` (multipart). Resposta: `resultado` (`livre` ou `buraco`), `caixas_buracos` (x1, y1, x2, y2, confianca em pixels), `largura`, `altura`, `mqtt_enviado`. O serviço converte as caixas para frações da foto.
+- Também no contrato (ainda não feitos no app): `GET /trilha` e `/trilha/{id}` (mini trilha de IA) e `POST /assistente/trajeto` e `/assistente/descricao` (Gemini Flash pela API; o app nunca fala com o Gemini nem guarda chave).
 - O professor de Edge aceitou a demonstração rodando no computador. **Plano B obrigatório:** se a API não responder (versão publicada, avaliada pelos professores de Front e Web), mostrar mensagem amigável ("A análise por IA roda na demonstração local. Veja o vídeo no README.") e permitir criar o reporte como "Não analisada". Nunca erro cru.
 
 ### MockAPI (CRUD de reportes = a "API externa" do Fábio)
@@ -82,7 +85,7 @@ Barra inferior: **Mapa · Rotas · Reportar · Locais · Perfil**. Detalhes em `
 - **Semáforo:** verde, amarelo e vermelho **só** nas faixas. Sempre cor + ícone (✓ ! ✕ ?) + nome escrito + tipo de linha no mapa (contínua, tracejado longo, tracejado curto, pontilhado). O **motivo** aparece junto ("Perigo · calor").
   - Claro: `#1E8E3E` · `#B26A00` · `#C62828` · sem dados `#6B717B` (contorno tracejado)
   - Escuro: `#5BD08A` · `#F2B84B` · `#FF7A7A` · sem dados `#A0A6B0` (contorno tracejado)
-- **Nomes das faixas: pendentes.** O Edge usa "acessível / atenção / evite"; o design usava "Normal / Atenção / Perigo". Precisa ser igual no app, no Python e no Edge. Centralizar em `src/domain/faixas.js` para trocar num lugar só.
+- **Nomes das faixas: Acessível · Atenção · Evite** (contrato de 13/11, iguais no app, no Python e no Edge). Ficam em `src/domain/faixas.js`; os ids internos continuam `normal`/`atencao`/`perigo`.
 - **Acessibilidade:** contraste AA nos dois modos; corpo ≥ 16 px, nada < 13 px; toque ≥ 48 px; leitor de tela (rótulos em botões de ícone, ordem lógica, alternativa em lista para o mapa); linguagem simples.
 
 ### Mapa

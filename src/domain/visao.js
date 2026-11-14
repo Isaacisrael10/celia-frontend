@@ -3,6 +3,7 @@
 */
 
 // O que a IA pode responder e o texto que aparece na tela
+// (a IA hoje só responde livre ou buraco; "obstaculo" continua valendo para quem reporta sem foto analisada)
 export const RESULTADOS = {
   livre: 'Calçada livre',
   obstaculo: 'Obstáculo na calçada',
@@ -19,9 +20,8 @@ export function tipoDoResultado(resultado) {
 
 /*
   Converte uma caixa da IA em porcentagens da foto, para desenhar por cima dela.
-  Funciona com as duas possibilidades (PENDENTE confirmar com o Caio):
-  - coordenadas em pixels (ex.: x1 = 120)
-  - coordenadas normalizadas, de 0 a 1 (ex.: x1 = 0.25)
+  O serviço (visaoApi.js) já entrega as caixas de 0 a 1 (fração da foto).
+  Por segurança, se vierem em pixels (ex.: x1 = 120), usamos o tamanho da foto.
 */
 export function caixaEmPorcentagem(caixa, largura, altura) {
   const normalizada = [caixa.x1, caixa.y1, caixa.x2, caixa.y2].every((v) => v >= 0 && v <= 1)

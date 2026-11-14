@@ -66,6 +66,11 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
           Calor acima de {limiteCalor} °C no ponto de ônibus
         </p>
       )}
+      {linhaPoste && linhaPoste.calorExtremo && (
+        <Link to="/locais" className="acao-texto">
+          Ver lugares para descansar na sombra
+        </Link>
+      )}
 
       <div className="boletim__acoes">
         <button className="botao botao--secundario botao--pequeno" onClick={aoVerNoMapa}>

@@ -64,3 +64,8 @@
   line-height: 1;
   letter-spacing: -0.02em;
 }
+
+.trecho__medida-detalhe {
+  font-size: 14px;
+  color: var(--muted);
+}
