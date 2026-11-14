@@ -1,6 +1,7 @@
 import { IconCamera, IconSparkles, IconInfoSquare } from '@tabler/icons-react'
 import FotoComCaixas from './FotoComCaixas'
 import ErroCampo from './ErroCampo'
+import { CardCarregando } from './Estados'
 import { RESULTADOS, TEXTO_PLANO_B } from '../domain/visao'
 import './EtapaFoto.css'
 
@@ -37,7 +38,16 @@ export default function EtapaFoto({ analise, erro }) {
 
       {/* Resultado da análise (anunciado pelo leitor de tela) */}
       <div aria-live="polite">
-        {estado === 'analisando' && <p className="etapa-foto__status">Analisando a foto…</p>}
+        {estado === 'preparando' && (
+          <CardCarregando
+            titulo="Preparando a IA…"
+            texto="Na primeira foto, a IA leva até 1 minuto para ligar. Sua foto já está na fila."
+          />
+        )}
+
+        {estado === 'analisando' && (
+          <CardCarregando titulo="Analisando a foto…" texto="A IA está procurando buracos na calçada." />
+        )}
 
         {estado === 'analisada' && (
           <p className="etapa-foto__resultado">

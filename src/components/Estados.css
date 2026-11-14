@@ -97,3 +97,53 @@
     background: var(--primary);
   }
 }
+
+/* Card de espera da IA (CardCarregando) */
+.estado--card-ia {
+  gap: 10px;
+}
+
+.estado--card-ia .estado__titulo {
+  gap: 14px;
+}
+
+/* Linhas de texto "se formando": um brilho passa da esquerda para a direita */
+.estado__linhas {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.estado__linhas span {
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, var(--line-soft) 25%, var(--line-strong) 50%, var(--line-soft) 75%);
+  background-size: 200% 100%;
+  animation: formarTexto 1.4s linear infinite;
+}
+
+.estado__linhas span:nth-child(2) {
+  width: 92%;
+}
+
+.estado__linhas span:nth-child(3) {
+  width: 64%;
+}
+
+@keyframes formarTexto {
+  from {
+    background-position: 100% 0;
+  }
+  to {
+    background-position: -100% 0;
+  }
+}
+
+/* Quem pediu menos movimento vê tudo parado (o texto continua avisando) */
+@media (prefers-reduced-motion: reduce) {
+  .estado__linhas span,
+  .estado--card-ia .estado__bolinhas span {
+    animation: none;
+  }
+}

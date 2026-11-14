@@ -8,16 +8,39 @@
     "largura", "altura" }
   A foto é analisada em memória e não fica guardada na API (RNF01).
 */
-import { VISAO_URL, apiAoAlcance } from './config'
+import { API_URL, VISAO_URL, apiAoAlcance } from './config'
 
 // Nome do campo do arquivo no formulário (combinado com a API)
 const CAMPO_ARQUIVO = 'foto'
 
 // Se a API demorar mais que isso, desistimos e usamos o plano B
-const TEMPO_MAXIMO_MS = 20000
+const TEMPO_MAXIMO_MS = 30000
 
 // Erro especial: a API não está rodando (versão publicada, sem o computador da demonstração)
 export class VisaoIndisponivel extends Error {}
+
+/*
+  Pergunta à API se o modelo de buracos já está pronto (GET /, campo modelo_pronto).
+  Logo que a API liga, ela "aquece" o modelo: sem isso, a primeira análise levava mais de 1 minuto.
+  Devolve true ou false. Se a API não responder, dispara VisaoIndisponivel (plano B).
+*/
+export async function modeloPronto() {
+  if (!apiAoAlcance(API_URL)) {
+    throw new VisaoIndisponivel()
+  }
+  const controle = new AbortController()
+  const timer = setTimeout(() => controle.abort(), 5000)
+  try {
+    const resposta = await fetch(API_URL + '/', { signal: controle.signal })
+    const dados = await resposta.json()
+    // API antiga, sem o campo: consideramos pronta
+    return dados.modelo_pronto !== false
+  } catch {
+    throw new VisaoIndisponivel()
+  } finally {
+    clearTimeout(timer)
+  }
+}
 
 export async function analisarFoto(arquivo) {
   // App publicado e API em "localhost": nem tenta, vai direto para o plano B
