@@ -106,3 +106,14 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
 - **Problemas encontrados:** o menu lateral herdou o `box-sizing` da barra do celular e ficou mais largo e mais alto que a tela; e no Perfil a linha do fieldset atravessava o título "Alerta de calor no ponto" (também no celular), corrigido com `float` no legend.
 - **Revisão da equipe:** (preencher)
 
+
+## 12. Integração com a API real: espera da IA e novas tentativas (Claude Code · 14/11/2026, branch staging-test-integracao, pedido do João)
+
+- **Prompt (resumo):** "Coloque um card de loading, seguindo as regras de design, até a IA carregar de verdade. No assistente, tela de carregamento e, se der erro 5xx, mostrar o motivo e tentar de novo."
+- **Como a IA ajudou:**
+  - `CardCarregando` em `components/Estados.jsx`: card com círculo girando (parado para quem pede menos movimento) e `role="status"` para o leitor de tela;
+  - foto (HU-05, RF08): `modeloPronto()` em `services/visaoApi.js` consulta `GET /` da API; o `useAnaliseFoto` mostra "Preparando a IA…" até `modelo_pronto` ser `true` e depois "Analisando a foto…";
+  - assistente e descrição sugerida (HU-21, HU-22): o `useChamadaApi` tenta de novo sozinho até 3 vezes quando a API responde 5xx (espera 3, 6 e 12 s), mostrando o motivo; depois aparece "Tentar de novo". Não tenta sem parar para não estourar a cota grátis do Gemini;
+  - tempo máximo do assistente subiu para 65 s, porque a API agora tenta 3 modelos do Gemini (até 20 s cada).
+- **Como foi testado:** API real rodando local (`GET /` com `modelo_pronto`, `/analisar` em 0,3 s depois do aquecimento) e `npm run build`. Falta o teste clicando nas telas.
+- **Revisão da equipe:** (preencher)
