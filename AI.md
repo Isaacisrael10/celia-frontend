@@ -112,3 +112,16 @@ Ferramentas: **Claude Design** (protótipo visual) e **Claude Code** (código).
   - **Integração:** canal ThingSpeak `3577155` como padrão e API de visão no contrato atual (FastAPI, `caixas_buracos`, só buraco).
 - **Testes:** `npm run lint` sem avisos em `src/` e `npm run build` ok. A conferência visual no navegador ficou pendente (extensão desconectada nesta sessão).
 - **Revisão da equipe:** (preencher)
+
+## 10. Assistente, descrição para a Prefeitura e espera da IA na versão em grafo (Claude Code · 14/11/2026 · pedido do João)
+
+- **Contexto:** esta branch saiu antes de o assistente entrar na main. Em vez de juntar as duas (27 conflitos), foi portado só o que faltava, mantendo o visual em grafo.
+- **Prompt (resumo):** "Aplique no front certo as mudanças de integração. Além das caixas na foto, mostre um card com a descrição gerada pela IA depois da análise do YOLO, com animação de loading e o texto Gerando sua descrição para a Prefeitura."
+- **Como a IA ajudou:**
+  - **assistente** (HU-21, RF20, RN06): tela `/assistente` trazida da main; na navegação ele fica fora do símbolo, junto do Sobre (trilho lateral e menu), porque os 6 pontos já são as partes do corpo;
+  - **descrição para a Prefeitura** (HU-22, RF21, RN05, RN07): quando o YOLO termina, o `useFormReporte` já pede o texto ao Gemini. O `CardDescricaoIa` mostra "Gerando sua descrição para a Prefeitura…" (bolinhas ligadas + linhas de texto se formando) e depois o texto, com "Usar esta descrição" e "Gerar outra". O texto só vai para o reporte quando a pessoa escolhe usar, e ela ainda pode corrigir;
+  - **espera da IA** (HU-05, RF08): `CardCarregando` com as bolinhas do grafo; "Preparando a IA…" enquanto a API aquece o modelo (`GET /`, `modelo_pronto`) e "Analisando a foto…";
+  - **novas tentativas:** `useChamadaApi` tenta de novo sozinho até 3 vezes quando a API responde 5xx (3, 6 e 12 s), mostrando o motivo; depois aparece "Tentar de novo".
+- **Problema encontrado:** a sugestão de descrição dava erro 422, porque o app manda `obstaculo` e `nao_analisada` e a API só aceitava `livre` e `buraco`. Corrigido na API.
+- **Como foi testado:** API real local (descrição com os 4 tipos), `oxlint` e `npm run build`. Falta o teste clicando nas telas.
+- **Revisão da equipe:** (preencher)
