@@ -2,7 +2,7 @@ import { useEffect, useRef } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import { IconX } from '@tabler/icons-react'
 import IconeNo from './IconeNo'
-import { NOS, SOBRE, noAtivo } from '../domain/navegacao'
+import { NOS, SOBRE, ASSISTENTE, noAtivo } from '../domain/navegacao'
 import './MenuGrafo.css'
 
 /*
@@ -87,8 +87,16 @@ export default function MenuGrafo({ aberto, aoFechar }) {
             </ul>
           </nav>
 
-          {/* Fora do símbolo: a página que explica o projeto */}
-          <Link to={SOBRE.caminho} className="pilula menu-grafo__sobre" onClick={aoFechar}>
+          {/* Fora do símbolo: o assistente de IA e a página que explica o projeto */}
+          <Link to={ASSISTENTE.caminho} className="pilula menu-grafo__sobre" onClick={aoFechar}>
+            <IconeNo id={ASSISTENTE.id} tamanho={20} />
+            Assistente de IA
+          </Link>
+          <Link
+            to={SOBRE.caminho}
+            className="pilula menu-grafo__sobre menu-grafo__sobre--seguinte"
+            onClick={aoFechar}
+          >
             <IconeNo id={SOBRE.id} tamanho={20} />
             Sobre o projeto
           </Link>

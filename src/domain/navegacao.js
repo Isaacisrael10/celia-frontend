@@ -34,6 +34,20 @@ export const NOS = [
 export const SOBRE = { id: 'sobre', caminho: '/sobre', rotulo: 'Sobre', apoio: 'Problema, solução e ODS' }
 
 /*
+  Assistente de IA [HU-21, RF20]: também fica fora do símbolo (os 6 pontos já são as partes do corpo).
+  Aparece embaixo do trilho lateral e no menu, junto do Sobre.
+*/
+export const ASSISTENTE = {
+  id: 'assistente',
+  caminho: '/assistente',
+  rotulo: 'Assistente',
+  apoio: 'Pergunte sobre o caminho',
+}
+
+// Telas fora do símbolo, na ordem em que aparecem embaixo do trilho e no menu
+export const EXTRAS = [ASSISTENTE, SOBRE]
+
+/*
   Descobre em qual ponto a pessoa está, a partir do endereço da tela.
   Ex.: "/rotas" → "rotas" · "/trecho/itabaiana-2" → "mapa" (o trecho faz parte do Mapa)
        "/sobre" → "" (nenhum ponto do símbolo)

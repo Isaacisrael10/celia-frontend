@@ -1,0 +1,121 @@
+/* Assistente do trajeto: conversa curta, campo de pergunta embaixo */
+
+.assistente__intro {
+  font-size: 16px;
+  color: var(--muted);
+}
+
+.assistente__conversa {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.assistente__conversa:empty {
+  display: none;
+}
+
+.assistente__troca {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Pergunta da pessoa: à direita, fundo azul bem claro */
+.assistente__pergunta {
+  align-self: flex-end;
+  max-width: 85%;
+  padding: 10px 14px;
+  border-radius: 16px 16px 4px 16px;
+  background: color-mix(in srgb, var(--primary) 22%, var(--card));
+  font-size: 16px;
+}
+
+/* Resposta: cartão branco à esquerda */
+.assistente__resposta {
+  align-self: flex-start;
+  max-width: 92%;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  border-radius: 16px 16px 16px 4px;
+  background: var(--card);
+  box-shadow: var(--sombra);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+.assistente__citados {
+  margin: 0;
+  padding: 6px 0 0;
+  list-style: none;
+  border-top: 1px solid var(--line-soft);
+}
+
+.assistente__pensando,
+.assistente__aviso {
+  font-size: 15px;
+  color: var(--muted);
+}
+
+.assistente__erro {
+  padding: 12px 14px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  background: var(--card);
+  box-shadow: var(--sombra);
+  border-radius: var(--raio);
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.assistente__erro svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.assistente__prontas {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.assistente__rotulo {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Pergunta pronta: linha inteira, texto alinhado à esquerda */
+.assistente__pronta {
+  min-height: 48px;
+  padding: 10px 14px;
+  background: var(--card);
+  border: 1.5px solid var(--line-strong);
+  border-radius: var(--raio);
+  color: var(--ink);
+  font-size: 16px;
+  text-align: left;
+}
+
+.assistente__form {
+  display: flex;
+  gap: 8px;
+}
+
+.assistente__campo {
+  flex: 1;
+  min-width: 0;
+}
+
+.assistente__enviar {
+  width: 52px;
+  min-height: 52px;
+  padding: 0;
+  flex: none;
+}

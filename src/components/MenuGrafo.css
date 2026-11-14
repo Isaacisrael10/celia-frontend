@@ -406,3 +406,8 @@
     margin-top: 0;
   }
 }
+
+/* Segundo link fora do símbolo (Sobre, logo abaixo do Assistente): sem o espaço grande de cima */
+.menu-grafo__sobre.menu-grafo__sobre--seguinte {
+  margin-top: 10px;
+}

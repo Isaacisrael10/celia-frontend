@@ -1,7 +1,7 @@
 import { Link, useLocation } from 'react-router-dom'
 import FiguraPessoa from './FiguraPessoa'
 import IconeNo from './IconeNo'
-import { NOS, SOBRE, noAtivo } from '../domain/navegacao'
+import { NOS, EXTRAS, noAtivo } from '../domain/navegacao'
 import './NavGrafo.css'
 
 /*
@@ -22,7 +22,6 @@ export default function NavGrafo({ aoAbrirMenu }) {
   // Posição da tela atual na lista (0, 1, 2...): o CSS usa este número para mover o viajante.
   // Vale -1 quando a tela não é um ponto do grafo (ex.: Sobre): aí o viajante não aparece.
   const indice = NOS.findIndex((no) => no.id === ativo)
-  const noSobre = pathname.startsWith(SOBRE.caminho)
 
   return (
     <nav className="nav-grafo" aria-label="Navegação principal">
@@ -62,18 +61,26 @@ export default function NavGrafo({ aoAbrirMenu }) {
         </ul>
       </div>
 
-      {/* Embaixo do trilho: a página que explica o projeto. No celular ela fica no menu e no Perfil. */}
-      <Link to={SOBRE.caminho} className="nav-grafo__sobre" aria-current={noSobre ? 'page' : undefined}>
-        <span className="nav-grafo__sobre-icone">
-          <IconeNo id={SOBRE.id} />
-        </span>
-        <span className="nav-grafo__textos">
-          <span className="nav-grafo__rotulo">{SOBRE.rotulo}</span>
-          <span className="nav-grafo__apoio" aria-hidden="true">
-            {SOBRE.apoio}
+      {/* Embaixo do trilho: o Assistente e a página que explica o projeto (fora do símbolo).
+          No celular eles ficam no menu (e o Sobre também no Perfil). */}
+      {EXTRAS.map((extra) => (
+        <Link
+          key={extra.id}
+          to={extra.caminho}
+          className="nav-grafo__sobre"
+          aria-current={pathname.startsWith(extra.caminho) ? 'page' : undefined}
+        >
+          <span className="nav-grafo__sobre-icone">
+            <IconeNo id={extra.id} />
           </span>
-        </span>
-      </Link>
+          <span className="nav-grafo__textos">
+            <span className="nav-grafo__rotulo">{extra.rotulo}</span>
+            <span className="nav-grafo__apoio" aria-hidden="true">
+              {extra.apoio}
+            </span>
+          </span>
+        </Link>
+      ))}
     </nav>
   )
 }

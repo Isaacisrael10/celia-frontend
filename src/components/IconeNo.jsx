@@ -6,6 +6,7 @@ import {
   IconSchool,
   IconUserCircle,
   IconInfoCircle,
+  IconMessageChatbot,
 } from '@tabler/icons-react'
 
 // Ícone de cada ponto do grafo de navegação (os ids vêm de src/domain/navegacao.js)
@@ -17,10 +18,11 @@ const ICONES = {
   trilha: IconSchool,
   perfil: IconUserCircle,
   sobre: IconInfoCircle,
+  assistente: IconMessageChatbot,
 }
 
 /*
-  - id: 'mapa', 'rotas', 'reportar', 'locais', 'trilha', 'perfil' ou 'sobre'
+  - id: 'mapa', 'rotas', 'reportar', 'locais', 'trilha', 'perfil', 'sobre' ou 'assistente'
   - tamanho: em px
   O ícone é só desenho: o nome da tela sempre aparece escrito ao lado.
 */

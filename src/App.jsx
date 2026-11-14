@@ -11,6 +11,7 @@ import Locais from './pages/Locais'
 import Trilha from './pages/Trilha'
 import Perfil from './pages/Perfil'
 import Sobre from './pages/Sobre'
+import Assistente from './pages/Assistente'
 import Trecho from './pages/Trecho'
 
 /*
@@ -62,6 +63,7 @@ export default function App() {
           <Route path="/trilha" element={<Trilha />} />
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/sobre" element={<Sobre />} />
+          <Route path="/assistente" element={<Assistente />} />
         </Route>
       </Routes>
     </BrowserRouter>
