@@ -1,9 +1,10 @@
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconSend, IconInfoSquare } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import { useRotas } from '../hooks/useRotas'
-import { useChamadaApi } from '../hooks/useChamadaApi'
+import { useChamadaApi, MAX_TENTATIVAS } from '../hooks/useChamadaApi'
+import { CardCarregando, MensagemErro } from '../components/Estados'
 import { perguntarTrajeto } from '../services/assistenteApi'
 import { montarContexto, idsParaOAssistente, PERGUNTAS_PRONTAS } from '../domain/assistente'
 import { nomeDoTrecho } from '../domain/trechos'
@@ -17,7 +18,9 @@ import './Assistente.css'
 */
 export default function Assistente() {
   const { rotas, escolhida, trechos } = useRotas()
-  const { executar, carregando, erro, indisponivel } = useChamadaApi()
+  const { executar, carregando, erro, indisponivel, tentativa, aviso } = useChamadaApi()
+  // Guarda a última pergunta para o botão "Tentar de novo"
+  const ultimaPergunta = useRef('')
   const [pergunta, setPergunta] = useState('')
   // Interação Web Dev: as perguntas e respostas da conversa (some ao sair da tela, nada é guardado)
   const [conversa, setConversa] = useState([])
@@ -25,6 +28,7 @@ export default function Assistente() {
   async function perguntar(texto) {
     const limpa = texto.trim()
     if (!limpa || carregando) return
+    ultimaPergunta.current = limpa
 
     const contexto = montarContexto(trechos, idsParaOAssistente(rotas, escolhida), dadosLocais.locais)
     const r = await executar(() => perguntarTrajeto(limpa, contexto))
@@ -93,18 +97,29 @@ export default function Assistente() {
           ))}
         </ol>
 
+        {/* Espera: se o Gemini falhar (5xx), o card mostra o motivo e a nova tentativa */}
         {carregando && (
-          <p className="assistente__pensando" role="status">
-            Pensando… pode levar uns 20 segundos.
-          </p>
+          <CardCarregando
+            titulo="Pensando…"
+            texto={
+              tentativa > 0
+                ? `${aviso} Tentando de novo sozinho (${tentativa} de ${MAX_TENTATIVAS})…`
+                : 'Pode levar uns 20 segundos.'
+            }
+          />
         )}
 
         {/* Plano B: a API não está no ar. Nunca mostra erro cru. */}
-        {erro && (
+        {erro && indisponivel && (
           <p className="assistente__erro" role="alert">
             <IconInfoSquare size={22} aria-hidden="true" />
-            {indisponivel ? 'O assistente roda na demonstração local. Veja o vídeo no README.' : erro}
+            O assistente roda na demonstração local. Veja o vídeo no README.
           </p>
+        )}
+
+        {/* A API respondeu com erro (ex.: Gemini fora mesmo depois das 3 tentativas) */}
+        {erro && !indisponivel && (
+          <MensagemErro mensagem={erro} aoTentarDeNovo={() => perguntar(ultimaPergunta.current)} />
         )}
 
         {conversa.length === 0 && !carregando && (

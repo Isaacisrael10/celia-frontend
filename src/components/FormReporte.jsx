@@ -4,7 +4,7 @@ import { TIPOS, SITUACOES, validarReporte } from '../domain/reportes'
 import { useAnaliseFoto } from '../hooks/useAnaliseFoto'
 import { useLocalDoReporte } from '../hooks/useLocalDoReporte'
 import { useTema } from '../hooks/useTema'
-import { useChamadaApi } from '../hooks/useChamadaApi'
+import { useChamadaApi, MAX_TENTATIVAS } from '../hooks/useChamadaApi'
 import { sugerirDescricao } from '../services/assistenteApi'
 import EtapaFoto from './EtapaFoto'
 import SeletorLocal from './SeletorLocal'
@@ -163,7 +163,9 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
             {sugestao.carregando ? 'Escrevendo…' : 'Sugerir descrição com IA'}
           </button>
           <span className="campo__dica" id="dica-sugestao" aria-live="polite">
-            {sugestao.indisponivel
+            {sugestao.carregando && sugestao.tentativa > 0
+              ? `${sugestao.aviso} Tentando de novo sozinho (${sugestao.tentativa} de ${MAX_TENTATIVAS})…`
+              : sugestao.indisponivel
               ? 'A sugestão por IA roda na demonstração local. Escreva com suas palavras.'
               : sugestao.erro
                 ? sugestao.erro

@@ -8,8 +8,9 @@
 */
 import { URL_API } from './config'
 
-// O assistente pode levar uns 20 s para responder (INTEGRACAO.md, passo 7)
-const TEMPO_MAXIMO_MS = 30000
+// O assistente pode levar uns 20 s por modelo, e a API tenta até 3 modelos do Gemini
+// (principal, reserva e Flash-Lite): por isso esperamos até 65 s
+const TEMPO_MAXIMO_MS = 65000
 
 export const TEXTO_API_LOCAL = 'A IA da equipe roda na demonstração local. Veja o vídeo no README.'
 
@@ -56,7 +57,9 @@ export async function chamarApi(caminho, opcoes = {}) {
 
   if (!resposta.ok) {
     const temDetalhe = dados && typeof dados.detail === 'string'
-    throw new Error(temDetalhe ? dados.detail : mensagemDoCodigo(resposta.status))
+    const erro = new Error(temDetalhe ? dados.detail : mensagemDoCodigo(resposta.status))
+    erro.codigo = resposta.status // ex.: 503 → o useChamadaApi tenta de novo sozinho
+    throw erro
   }
   return dados
 }
