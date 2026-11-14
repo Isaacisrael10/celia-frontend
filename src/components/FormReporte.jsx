@@ -1,9 +1,11 @@
 import { useState } from 'react'
-import { IconInfoSquareFilled, IconSearch } from '@tabler/icons-react'
+import { IconInfoSquareFilled, IconSearch, IconSparkles } from '@tabler/icons-react'
 import { TIPOS, SITUACOES, validarReporte } from '../domain/reportes'
 import { useAnaliseFoto } from '../hooks/useAnaliseFoto'
 import { useLocalDoReporte } from '../hooks/useLocalDoReporte'
 import { useTema } from '../hooks/useTema'
+import { useChamadaApi } from '../hooks/useChamadaApi'
+import { sugerirDescricao } from '../services/assistenteApi'
 import EtapaFoto from './EtapaFoto'
 import SeletorLocal from './SeletorLocal'
 
@@ -30,6 +32,10 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
     setDados((atual) => ({ ...atual, rua: texto })),
   )
 
+  // Descrição assistida por IA (HU-22): a IA sugere, a pessoa revisa e só então envia (RN07)
+  const sugestao = useChamadaApi()
+  const [sugerida, setSugerida] = useState(false)
+
   const tipoAtual = editando ? dados.tipo : tipoManual || analise.tipo
   const analisando = analise.estado === 'analisando'
 
@@ -41,6 +47,14 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
   function mudarTipo(valor) {
     if (editando) mudar('tipo', valor)
     else setTipoManual(valor)
+  }
+
+  async function pedirSugestao() {
+    // A API nunca recebe a foto: só o resultado da análise, o local e o que a pessoa escreveu
+    const r = await sugestao.executar(() => sugerirDescricao(tipoAtual, dados.rua, dados.descricao))
+    if (!r) return
+    mudar('descricao', r.descricao_sugerida)
+    setSugerida(true)
   }
 
   async function enviar(evento) {
@@ -131,9 +145,34 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
           value={dados.descricao}
           onChange={(e) => mudar('descricao', e.target.value)}
           aria-invalid={erros.descricao ? 'true' : 'false'}
+          aria-describedby={editando ? undefined : 'dica-sugestao'}
         />
         {erros.descricao && <ErroCampo texto={erros.descricao} />}
       </label>
+
+      {!editando && (
+        <div className="campo" style={{ marginTop: -10 }}>
+          <button
+            type="button"
+            className="botao botao--secundario botao--pequeno"
+            style={{ alignSelf: 'flex-start' }}
+            onClick={pedirSugestao}
+            disabled={sugestao.carregando}
+          >
+            <IconSparkles size={20} aria-hidden="true" />
+            {sugestao.carregando ? 'Escrevendo…' : 'Sugerir descrição com IA'}
+          </button>
+          <span className="campo__dica" id="dica-sugestao" aria-live="polite">
+            {sugestao.indisponivel
+              ? 'A sugestão por IA roda na demonstração local. Escreva com suas palavras.'
+              : sugestao.erro
+                ? sugestao.erro
+                : sugerida
+                  ? 'Texto sugerido pela IA. Revise e corrija antes de enviar.'
+                  : 'A IA escreve um texto claro a partir da foto e do local. Você revisa antes de enviar.'}
+          </span>
+        </div>
+      )}
 
       <fieldset style={{ border: 0, padding: 0, margin: 0 }}>
         <legend className="campo__rotulo" style={{ padding: 0, marginBottom: 8 }}>
