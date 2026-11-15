@@ -1,22 +1,7 @@
 /*
-  Regras da análise de foto (sem React).
+  Regras da IA de visão (sem React).
+  A IA de visão (YOLO) é dos postes: hoje só a câmera do poste, na tela Prefeitura, usa estas regras.
 */
-
-// O que a IA pode responder e o texto que aparece na tela.
-// Hoje a API só responde "livre" ou "buraco"; "obstaculo" continua aqui para o app não quebrar se ele voltar.
-export const RESULTADOS = {
-  livre: 'Calçada livre',
-  obstaculo: 'Obstáculo na calçada',
-  buraco: 'Buraco na calçada',
-}
-
-// Texto do plano B, quando a API de visão não está rodando
-export const TEXTO_PLANO_B = 'A análise por IA roda na demonstração local. Veja o vídeo no README.'
-
-// Converte o resultado da IA no tipo do reporte. Qualquer coisa estranha vira "nao_analisada".
-export function tipoDoResultado(resultado) {
-  return RESULTADOS[resultado] ? resultado : 'nao_analisada'
-}
 
 /*
   Tira da resposta da API a lista de caixas para desenhar sobre a foto.

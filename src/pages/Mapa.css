@@ -18,7 +18,7 @@
   flex-direction: column;
   gap: 8px;
   /* as bordas deixam livre o espaço da navegação (embaixo no celular, na lateral em telas largas) */
-  padding: max(10px, env(safe-area-inset-top)) 10px calc(var(--nav-baixo) + 2px) max(10px, var(--nav-lado));
+  padding: max(10px, env(safe-area-inset-top)) 10px calc(var(--nav-baixo) + 2px) calc(var(--nav-lado) + 10px);
 }
 
 /* As camadas por cima do mapa deixam o toque passar, menos nas próprias peças */
@@ -134,7 +134,7 @@
     grid-template-columns: minmax(20rem, 25rem) minmax(0, 1fr);
     grid-template-rows: auto auto minmax(0, 1fr) auto;
     gap: 10px 12px;
-    padding: 12px 12px 12px var(--nav-lado);
+    padding: 12px 12px 12px calc(var(--nav-lado) + 12px); /* respiro entre o trilho e a coluna */
   }
 
   .tela-mapa__topo {

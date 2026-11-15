@@ -1,87 +1,9 @@
 /*
-  Menu em forma do símbolo: ocupa a tela toda, com um véu de vidro por cima do app.
-  Atenção: display só é definido em [open], senão o menu apareceria mesmo fechado.
+  Grafo de acessibilidade: o símbolo de acessibilidade em que cada ponto é um link.
+  Estes estilos vieram do antigo MenuGrafo.css SEM mudança: só saíram as partes da caixa de diálogo
+  (véu, botão de fechar, título e os links de Assistente, Prefeitura e Sobre), que não existem mais.
+  Quem usa: a página do Menu (src/pages/Menu.jsx).
 */
-.menu-grafo {
-  width: 100%;
-  max-width: none;
-  height: 100%;
-  max-height: none;
-  margin: 0;
-  padding: 0;
-  border: 0;
-  background: var(--veu);
-  -webkit-backdrop-filter: blur(28px) saturate(160%);
-  backdrop-filter: blur(28px) saturate(160%);
-  color: var(--ink);
-  /* o menu em si não rola: quem rola é a parte de dentro, e o botão de fechar fica parado */
-  overflow: hidden;
-}
-
-.menu-grafo[open] {
-  animation: menu-aparecer var(--medio) var(--suave);
-}
-
-/* O véu já é o próprio menu: o fundo padrão do navegador fica transparente */
-.menu-grafo::backdrop {
-  background: transparent;
-}
-
-@keyframes menu-aparecer {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-}
-
-/* Fechar: sempre no canto de cima da tela, por cima do conteúdo */
-.menu-grafo__fechar {
-  position: absolute;
-  z-index: 2;
-  top: max(12px, env(safe-area-inset-top));
-  right: max(12px, env(safe-area-inset-right));
-}
-
-.menu-grafo__rolagem {
-  height: 100%;
-  overflow-y: auto;
-}
-
-.menu-grafo__caixa {
-  min-height: 100%;
-  max-width: 60rem;
-  margin: 0 auto;
-  padding: max(16px, env(safe-area-inset-top)) 16px 16px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-/* Título e frase de apoio: centralizados */
-.menu-grafo__topo {
-  width: 100%;
-  /* no celular o título começa abaixo do botão de fechar: os dois nunca se encostam */
-  padding-top: 48px;
-  /* espaço para o nome da cabeça, que fica acima do desenho */
-  margin-bottom: 44px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-}
-
-.menu-grafo__titulo {
-  font-size: var(--titulo-g);
-}
-
-.menu-grafo__apoio {
-  max-width: 34ch;
-  margin-top: 4px;
-  font-size: var(--texto-m);
-  color: var(--muted);
-}
 
 /* ---------- O símbolo ---------- */
 
@@ -279,32 +201,8 @@
   white-space: nowrap;
 }
 
-/* ---------- Sobre o projeto: fora do símbolo, no fim do menu ---------- */
-.menu-grafo__sobre {
-  flex: none;
-  /* espaço para o nome dos pés, que fica abaixo do desenho */
-  margin-top: 68px;
-  text-decoration: none;
-  background: var(--card);
-}
-
-/* ---------- Telas maiores: bolinhas maiores, frase de apoio visível, textos fora das linhas ---------- */
+/* Telas maiores: bolinhas maiores, frase de apoio visível, textos das mãos para fora do círculo */
 @media (min-width: 768px) and (min-height: 640px) {
-  .menu-grafo__fechar {
-    top: 20px;
-    right: 20px;
-  }
-
-  .menu-grafo__caixa {
-    padding: 28px 28px 24px;
-  }
-
-  /* Aqui o botão de fechar fica longe do título (lá no canto), então o título sobe */
-  .menu-grafo__topo {
-    padding-top: 0;
-    margin-bottom: 84px;
-  }
-
   .menu-grafo__figura {
     --bolinha: 72px;
     --cabeca: 96px;
@@ -365,29 +263,10 @@
     align-items: flex-start;
     text-align: left;
   }
-
-  .menu-grafo__sobre {
-    margin-top: 108px;
-  }
 }
 
-/* ---------- Celular deitado: pouca altura, então o título vai para o lado do símbolo ---------- */
+/* Celular deitado: pouca altura, então o desenho encolhe */
 @media (orientation: landscape) and (max-height: 540px) {
-  .menu-grafo__caixa {
-    position: relative;
-    padding: 12px 16px;
-    flex-direction: row;
-    align-items: center;
-    gap: 16px;
-  }
-
-  /* Título centralizado na metade esquerda; o símbolo fica na metade direita */
-  .menu-grafo__topo {
-    flex: 1;
-    padding-top: 0;
-    margin-bottom: 0;
-  }
-
   /* O desenho encolhe para caber na altura da tela, com espaço para os nomes em cima e embaixo */
   .menu-grafo__figura {
     --bolinha: 50px;
@@ -397,17 +276,4 @@
     width: min(100dvh - 140px, 45%);
     margin: 44px 70px 56px;
   }
-
-  /* O Sobre vai para o canto de baixo, embaixo do título */
-  .menu-grafo__sobre {
-    position: absolute;
-    left: 16px;
-    bottom: 12px;
-    margin-top: 0;
-  }
-}
-
-/* Segundo link fora do símbolo (Sobre, logo abaixo do Assistente): sem o espaço grande de cima */
-.menu-grafo__sobre.menu-grafo__sobre--seguinte {
-  margin-top: 10px;
 }

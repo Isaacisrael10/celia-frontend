@@ -1,0 +1,141 @@
+.etapas-poste {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.etapas-poste__titulo {
+  font-size: var(--titulo-p);
+  line-height: 1.25;
+  text-align: center;
+}
+
+.etapas-poste__lista {
+  --bolinha: 36px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  /* A lista cresce para preencher o card, que tem a mesma altura do card da câmera */
+  flex: 1;
+}
+
+/* Cada etapa divide a altura igualmente; a linha até a próxima acompanha esse espaço */
+.etapas-poste__item {
+  position: relative;
+  flex: 1;
+  min-height: calc(var(--bolinha) + 14px);
+  padding-bottom: 14px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: start;
+  gap: 12px;
+  transition: opacity var(--medio) var(--suave);
+}
+
+/* Linha que liga uma etapa à seguinte (o mesmo grafo do resto do app) */
+.etapas-poste__item:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--bolinha) / 2 - 1px);
+  top: calc(var(--bolinha) + 2px);
+  bottom: 2px;
+  width: 2px;
+  background: var(--line-strong);
+}
+
+.etapas-poste__bolinha {
+  position: relative;
+  z-index: 1;
+  width: var(--bolinha);
+  height: var(--bolinha);
+  display: grid;
+  place-items: center;
+  border: 2.5px solid var(--borda-campo);
+  border-radius: 50%;
+  background: var(--card);
+  font-weight: 600;
+  color: var(--muted);
+  transition: background var(--medio) var(--suave), border-color var(--medio) var(--suave);
+}
+
+.etapas-poste__textos {
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.etapas-poste__nome {
+  font-weight: 600;
+}
+
+.etapas-poste__texto,
+.etapas-poste__estado {
+  font-size: var(--texto-p);
+  color: var(--muted);
+}
+
+.etapas-poste__estado {
+  padding-top: 6px;
+  font-weight: 600;
+}
+
+/* Agora: bolinha azul pulsando */
+.etapas-poste__item--ativa .etapas-poste__bolinha {
+  background: var(--primary);
+  border-color: var(--ink);
+  color: var(--on-primary);
+  animation: etapa-pulsar 1.2s ease-in-out infinite;
+}
+
+.etapas-poste__item--ativa .etapas-poste__estado {
+  color: var(--link);
+}
+
+/* Feita: bolinha azul cheia com ✓ e a linha até a próxima fica escura */
+.etapas-poste__item--feita .etapas-poste__bolinha {
+  background: var(--link);
+  border-color: var(--ink);
+  color: #ffffff;
+}
+
+.etapas-poste__item--feita:not(:last-child)::before {
+  background: var(--ink);
+}
+
+/* Não precisou (calçada livre): fica apagada */
+.etapas-poste__item--pulada {
+  opacity: 0.5;
+}
+
+.etapas-poste__reporte {
+  margin: 0;
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  border-left: 4px solid var(--link);
+  border-radius: 0 16px 16px 0;
+  background: color-mix(in srgb, var(--primary) 12%, var(--card));
+  animation: brotar var(--medio) var(--suave);
+}
+
+.etapas-poste__reporte-rotulo {
+  font-size: var(--texto-p);
+  font-weight: 600;
+  color: var(--link);
+}
+
+@keyframes etapa-pulsar {
+  50% {
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 35%, transparent);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .etapas-poste__item--ativa .etapas-poste__bolinha {
+    animation: none;
+  }
+}

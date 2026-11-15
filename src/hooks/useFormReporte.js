@@ -1,17 +1,18 @@
 import { useState } from 'react'
-import { useAnaliseFoto } from './useAnaliseFoto'
+import { useFotoReporte } from './useFotoReporte'
 import { useChamadaApi } from './useChamadaApi'
 import { sugerirDescricao } from '../services/assistenteApi'
 import { useLocalDoReporte } from './useLocalDoReporte'
-import { validarReporte, montarReporte } from '../domain/reportes'
+import { validarReporte, montarReporte, TIPOS_CIDADAO } from '../domain/reportes'
 
 /*
   Custom hook do formulário de reporte (novo e edição).
   Junta três coisas para a tela só precisar desenhar:
   - os campos digitados (dados) e os erros da validação
-  - a foto e a análise da IA (useAnaliseFoto), só no reporte novo
+  - a foto (useFotoReporte), só no reporte novo. Sem YOLO: a IA de visão é dos postes (tela Prefeitura)
   - o local escolhido no mapa (useLocalDoReporte)
-  - a descrição para a Prefeitura sugerida pela IA depois da análise da foto [HU-22, RF21]
+  - a descrição para a Prefeitura sugerida pela IA (Gemini) assim que a foto é escolhida [HU-22, RF21]
+    A pessoa revisa antes de enviar (RN07): é a diferença para o reporte do poste, que vai sozinho.
 
   - inicial: os dados que começam preenchidos
   - editando: true na edição (a foto e a IA não entram)
@@ -21,8 +22,8 @@ export function useFormReporte(inicial, editando, aoSalvar) {
   const [dados, setDados] = useState(inicial)
   const [erros, setErros] = useState({})
   const [enviando, setEnviando] = useState(false)
-  // Tipo escolhido à mão; enquanto for null, vale o que a IA disse
-  const [tipoManual, setTipoManual] = useState(null)
+  // Tipo do problema no reporte novo: o cidadão escolhe (buraco ou obstáculo)
+  const [tipoNovo, setTipoNovo] = useState(TIPOS_CIDADAO[inicial.tipo] ? inicial.tipo : 'buraco')
 
   // Descrição sugerida pela IA (Gemini). RN07: só entra no reporte quando a pessoa escolhe usar.
   const chamadaDescricao = useChamadaApi()
@@ -30,13 +31,13 @@ export function useFormReporte(inicial, editando, aoSalvar) {
 
   async function gerarDescricao(tipo) {
     setSugestao('')
-    // A API nunca recebe a foto: só o resultado da análise, o local e o que a pessoa escreveu
+    // A API nunca recebe a foto: só o tipo escolhido, o local e o que a pessoa escreveu
     const r = await chamadaDescricao.executar(() => sugerirDescricao(tipo, dados.rua, dados.descricao))
     if (r) setSugestao(r.descricao_sugerida)
   }
 
-  // Foto + IA de visão. Quando o YOLO termina, já pede a descrição ao Gemini.
-  const analise = useAnaliseFoto((tipo) => gerarDescricao(tipo))
+  // Foto do reporte. Quando ela fica pronta, já pede a descrição ao Gemini.
+  const foto = useFotoReporte(() => gerarDescricao(tipoNovo))
 
   // Local do problema: mapa com pino, GPS e busca de endereço
   const local = useLocalDoReporte({ lat: inicial.lat, lng: inicial.lng }, (texto) =>
@@ -44,8 +45,7 @@ export function useFormReporte(inicial, editando, aoSalvar) {
     setDados((atual) => ({ ...atual, rua: texto })),
   )
 
-  const tipoAtual = editando ? dados.tipo : tipoManual || analise.tipo
-  const analisando = analise.estado === 'analisando' || analise.estado === 'preparando'
+  const tipoAtual = editando ? dados.tipo : tipoNovo
 
   // Tudo o que o card da descrição precisa para desenhar e para os botões
   const descricaoIa = {
@@ -67,15 +67,14 @@ export function useFormReporte(inicial, editando, aoSalvar) {
 
   function mudarTipo(valor) {
     if (editando) mudar('tipo', valor)
-    else setTipoManual(valor)
+    else setTipoNovo(valor)
   }
 
   async function enviar(evento) {
     evento.preventDefault() // não deixa o navegador recarregar a página
-    if (analisando) return
 
     // No reporte novo entram também o tipo e a miniatura da foto (regra RN05)
-    const daFoto = editando ? null : { tipo: tipoAtual, fotoUrl: analise.miniatura }
+    const daFoto = editando ? null : { tipo: tipoAtual, fotoUrl: foto.miniatura }
     const reporte = montarReporte(dados, local.coordenadas, daFoto)
 
     const encontrados = validarReporte(reporte, !editando)
@@ -87,5 +86,5 @@ export function useFormReporte(inicial, editando, aoSalvar) {
     if (!deuCerto) setEnviando(false)
   }
 
-  return { dados, erros, enviando, analisando, tipoAtual, analise, local, descricaoIa, mudar, mudarTipo, enviar }
+  return { dados, erros, enviando, tipoAtual, foto, local, descricaoIa, mudar, mudarTipo, enviar }
 }

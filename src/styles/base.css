@@ -180,6 +180,19 @@ h1:focus {
   color: var(--muted);
 }
 
+/*
+  Textos soltos da tela (fora dos cards) ficam centralizados em todas as telas:
+  - o texto de abertura, embaixo do título (.intro)
+  - as notas de apoio e de fonte, em geral no pé da tela (.apoio direto no conteúdo)
+  Os títulos que apresentam um grupo de cards ou botões são centralizados no CSS de cada tela.
+  O texto DENTRO dos cards continua alinhado à esquerda: é mais fácil de ler.
+*/
+.app__conteudo > .intro,
+.app__conteudo > .apoio {
+  margin-inline: auto;
+  text-align: center;
+}
+
 /* ---------- Movimento ---------- */
 
 /* Entrada de cada tela: aparece subindo de leve (responde ao toque na navegação) */

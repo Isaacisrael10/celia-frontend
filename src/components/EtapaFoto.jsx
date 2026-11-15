@@ -1,26 +1,26 @@
-import { IconCamera, IconSparkles, IconInfoSquare } from '@tabler/icons-react'
+import { IconCamera } from '@tabler/icons-react'
 import FotoComCaixas from './FotoComCaixas'
 import ErroCampo from './ErroCampo'
-import { CardCarregando } from './Estados'
-import { RESULTADOS, TEXTO_PLANO_B } from '../domain/visao'
 import './EtapaFoto.css'
 
 /*
-  Primeira etapa do novo reporte: a foto e o resultado da IA.
-  - analise: o que o useAnaliseFoto devolve
+  Primeira etapa do novo reporte: a foto da calçada.
+  A foto vai junto com o reporte (miniatura). A IA de visão (YOLO) não roda aqui:
+  quem procura buracos sozinho são as câmeras dos postes da Prefeitura.
+  - foto: o que o useFotoReporte devolve
   - erro: texto de erro da validação (ex.: falta a foto)
 */
-export default function EtapaFoto({ analise, erro }) {
-  const { estado, previa, tipo, caixas, escolherFoto } = analise
+export default function EtapaFoto({ foto, erro }) {
+  const { estado, previa, escolherFoto } = foto
 
   return (
     <div className="campo">
       <span className="campo__rotulo" id="rotulo-foto">
         Foto da calçada
       </span>
-      <span className="campo__dica">A IA confere se tem buraco na calçada.</span>
+      <span className="campo__dica">A foto vai junto com o seu reporte para a Prefeitura.</span>
 
-      {previa && <FotoComCaixas src={previa} caixas={caixas} />}
+      {previa && <FotoComCaixas src={previa} />}
 
       {/* O input de arquivo fica escondido; o label funciona como botão */}
       <label className="botao botao--secundario etapa-foto__botao">
@@ -36,41 +36,11 @@ export default function EtapaFoto({ analise, erro }) {
         />
       </label>
 
-      {/* Resultado da análise (anunciado pelo leitor de tela) */}
-      <div aria-live="polite">
-        {estado === 'preparando' && (
-          <CardCarregando
-            titulo="Preparando a IA…"
-            texto="Na primeira foto, a IA leva até 1 minuto para ligar. Sua foto já está na fila."
-          />
-        )}
-
-        {estado === 'analisando' && (
-          <CardCarregando titulo="Analisando a foto…" texto="A IA está procurando buracos na calçada." />
-        )}
-
-        {estado === 'analisada' && (
-          <p className="etapa-foto__resultado">
-            <IconSparkles size={22} aria-hidden="true" />
-            Resultado da IA: {RESULTADOS[tipo] || 'não reconhecido'}
-          </p>
-        )}
-
-        {estado === 'planoB' && (
-          <p className="etapa-foto__plano-b">
-            <IconInfoSquare size={22} aria-hidden="true" />
-            <span>
-              {TEXTO_PLANO_B} O reporte vai como <strong>Não analisada</strong>.
-            </span>
-          </p>
-        )}
-
-        {estado === 'erro' && (
-          <p className="campo__erro" role="alert">
-            {analise.erro}
-          </p>
-        )}
-      </div>
+      {estado === 'erro' && (
+        <p className="campo__erro" role="alert">
+          {foto.erro}
+        </p>
+      )}
 
       {erro && <ErroCampo texto={erro} />}
     </div>

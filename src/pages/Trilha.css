@@ -6,6 +6,8 @@
 .trilha__topo {
   display: flex;
   flex-direction: column;
+  align-items: center; /* título da trilha centralizado, acima das lições */
+  text-align: center;
   gap: 2px;
 }
 

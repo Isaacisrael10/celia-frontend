@@ -62,22 +62,32 @@
   font-size: var(--texto-g);
 }
 
-/* Telas largas: os passos ficam lado a lado e a ligação deita, de uma bolinha até a outra */
+/*
+  Telas largas: os passos ficam lado a lado, cada um com a mesma largura.
+  A bolinha fica no meio, em cima do texto (também centralizado), e a ligação deita:
+  sai da direita de uma bolinha e chega na esquerda da próxima.
+*/
 @media (min-width: 900px) {
   .passos {
+    --vao: 24px; /* espaço entre um passo e o outro */
     flex-direction: row;
-    gap: 20px;
+    gap: var(--vao);
   }
 
   .passos__item {
     flex: 1;
+    min-width: 0;
     grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-content: start; /* passo com texto curto não "desce": todos os títulos na mesma linha */
     gap: 12px;
+    text-align: center;
   }
 
+  /* Da borda direita desta bolinha (meio + raio) até a borda esquerda da próxima */
   .passos__item::before {
-    left: calc(var(--numero) + 6px);
-    right: -14px;
+    left: calc(50% + var(--numero) / 2 + 6px);
+    right: calc(-50% - var(--vao) + var(--numero) / 2 + 6px);
     top: calc(var(--numero) / 2 - 1px);
     bottom: auto;
     width: auto;
@@ -86,5 +96,6 @@
 
   .passos__textos {
     padding-top: 0;
+    align-items: center;
   }
 }

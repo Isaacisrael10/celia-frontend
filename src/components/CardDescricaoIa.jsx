@@ -5,8 +5,8 @@ import './CardDescricaoIa.css'
 
 /*
   Card da descrição sugerida pela IA para a Prefeitura [HU-22, RF21, RN05, RN07].
-  Aparece sozinho depois que a IA de visão (YOLO) termina de analisar a foto:
-  o Gemini escreve o texto a partir do resultado da análise e do local.
+  Aparece sozinho depois que o cidadão escolhe a foto:
+  o Gemini escreve o texto a partir do tipo de problema escolhido e do local.
   RN07: o texto só vai para o reporte se a pessoa tocar em "Usar esta descrição",
   e ela ainda pode corrigir no campo "O que você viu?" antes de enviar.
 
@@ -21,7 +21,7 @@ export default function CardDescricaoIa({ ia }) {
         texto={
           ia.tentativa > 0
             ? `${ia.aviso} Tentando de novo sozinho (${ia.tentativa} de ${MAX_TENTATIVAS})…`
-            : 'A IA escreve a partir da análise da foto. Você revisa antes de enviar.'
+            : 'A IA escreve a partir do tipo de problema e do local. Você revisa antes de enviar.'
         }
         linhas
       />

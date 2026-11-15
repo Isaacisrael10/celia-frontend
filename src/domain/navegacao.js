@@ -19,7 +19,7 @@
   - A ordem desta lista é a ordem da navegação e da leitura no teclado.
 */
 export const NOS = [
-  { id: 'mapa', caminho: '/', rotulo: 'Mapa', apoio: 'Como estão as calçadas agora', x: 50, y: 25.7 },
+  { id: 'mapa', caminho: '/mapa', rotulo: 'Mapa', apoio: 'Como estão as calçadas agora', x: 50, y: 25.7 },
   { id: 'rotas', caminho: '/rotas', rotulo: 'Rotas', apoio: 'Compare os caminhos', x: 3.6, y: 35.2 },
   { id: 'reportar', caminho: '/reportar', rotulo: 'Reportar', apoio: 'Avise um problema', x: 96.4, y: 35.2 },
   { id: 'locais', caminho: '/locais', rotulo: 'Locais', apoio: 'Banheiros e descanso', x: 23.8, y: 89.5 },
@@ -44,16 +44,28 @@ export const ASSISTENTE = {
   apoio: 'Pergunte sobre o caminho',
 }
 
+/*
+  Prefeitura: o OUTRO usuário do app (não o cidadão). Tem a câmera do poste com a IA de visão,
+  a caixa de entrada de reportes e os alertas de calor.
+  Só se entra pelo botão "Acesso Prefeitura" do Menu: por isso NÃO está na barra de navegação do cidadão.
+*/
+export const PREFEITURA = {
+  id: 'prefeitura',
+  caminho: '/prefeitura',
+  rotulo: 'Prefeitura',
+  apoio: 'Câmera do poste e reportes',
+}
+
 // Telas fora do símbolo, na ordem em que aparecem embaixo do trilho e no menu
 export const EXTRAS = [ASSISTENTE, SOBRE]
 
 /*
   Descobre em qual ponto a pessoa está, a partir do endereço da tela.
   Ex.: "/rotas" → "rotas" · "/trecho/itabaiana-2" → "mapa" (o trecho faz parte do Mapa)
-       "/sobre" → "" (nenhum ponto do símbolo)
+       "/sobre" → "" (nenhum ponto do símbolo) · "" (Menu aberto direto) → ""
 */
 export function noAtivo(caminhoAtual) {
-  if (caminhoAtual === '/' || caminhoAtual.startsWith('/trecho')) return 'mapa'
-  const no = NOS.find((n) => n.caminho !== '/' && caminhoAtual.startsWith(n.caminho))
+  if (caminhoAtual.startsWith('/trecho')) return 'mapa'
+  const no = NOS.find((n) => caminhoAtual.startsWith(n.caminho))
   return no ? no.id : ''
 }

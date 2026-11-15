@@ -63,6 +63,7 @@
 
 .rotas__titulo {
   display: flex;
+  justify-content: center; /* título da lista de rotas centralizado */
   align-items: baseline;
   gap: 10px;
   flex-wrap: wrap;

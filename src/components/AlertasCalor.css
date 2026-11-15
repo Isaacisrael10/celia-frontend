@@ -1,0 +1,109 @@
+.alertas-calor {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Explicação: centralizada, numa coluna de leitura confortável */
+.alertas-calor__explica {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  text-align: center;
+  font-size: var(--texto-m);
+}
+
+.alertas-calor__explica p {
+  max-width: 68ch;
+}
+
+.alertas-calor__titulo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: var(--titulo-p);
+  line-height: 1.25;
+}
+
+.alertas-calor__titulo svg {
+  flex: none;
+  color: var(--link);
+}
+
+/* Legenda: três pílulas com a cor, o nome, o limite e quantos alertas há */
+.alertas-calor__legenda {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 10px;
+}
+
+.alertas-calor__legenda li {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 8px 6px 6px;
+  border: 1.5px solid var(--cor-nivel);
+  border-radius: var(--raio-botao);
+  background: var(--cartao);
+  font-size: var(--texto-p);
+}
+
+.alertas-calor__bolinha {
+  width: 24px;
+  height: 24px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--cor-nivel);
+  color: var(--faixa-icone);
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.alertas-calor__quantos {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--raio-botao);
+  background: var(--ink);
+  color: var(--bg);
+  font-weight: 600;
+}
+
+.alertas-calor .filtros {
+  justify-content: center;
+}
+
+/* Cards pequenos: 3 por linha no computador, centralizados, todos da mesma altura */
+.alertas-calor__lista {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 16rem), 21rem));
+  justify-content: center;
+  align-items: stretch;
+  gap: 14px;
+}
+
+.alertas-calor__nota {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  gap: 8px;
+  text-align: center;
+  font-size: var(--texto-p);
+  color: var(--muted);
+}
+
+.alertas-calor__nota svg {
+  flex: none;
+  margin-top: 1px;
+}

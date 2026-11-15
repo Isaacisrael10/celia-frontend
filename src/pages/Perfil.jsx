@@ -1,7 +1,6 @@
 import { Link } from 'react-router-dom'
 import {
   IconMoon,
-  IconCloudRain,
   IconTemperature,
   IconTextSize,
   IconPlayerPause,
@@ -15,7 +14,6 @@ import Interruptor from '../components/Interruptor'
 import Opcoes from '../components/Opcoes'
 import FiguraPessoa from '../components/FiguraPessoa'
 import { useTema } from '../hooks/useTema'
-import { usePreferencia } from '../hooks/usePreferencia'
 import { useLimiteCalor } from '../hooks/useLimiteCalor'
 import { useAcessibilidade, TAMANHOS_TEXTO } from '../hooks/useAcessibilidade'
 import { LIMITES_CALOR, textoDoLimite } from '../domain/boletim'
@@ -34,8 +32,6 @@ const OPCOES_TEXTO = Object.entries(TAMANHOS_TEXTO).map(([valor, rotulo]) => ({ 
 */
 export default function Perfil() {
   const { escuro, alternarTema } = useTema()
-  // Modo chuva: o comportamento ainda está sendo definido pela equipe
-  const [chuva, alternarChuva] = usePreferencia('celia-chuva')
   // Alerta de calor: a partir de quantos graus o boletim do Mapa avisa
   const [limiteCalor, setLimiteCalor] = useLimiteCalor()
   // Ajustes de acessibilidade: tamanho do texto, menos animações e mais contraste
@@ -53,8 +49,6 @@ export default function Perfil() {
             </h2>
             {/* Interação Web Dev nº 1: alternar modo claro/escuro (Light/Dark) */}
             <Interruptor Icone={IconMoon} rotulo="Modo escuro" ligado={escuro} aoAlternar={alternarTema} />
-            <Interruptor Icone={IconCloudRain} rotulo="Modo chuva" ligado={chuva} aoAlternar={alternarChuva} />
-            <p className="apoio">O modo chuva ainda está em construção.</p>
           </section>
 
           {/* Interação Web Dev: escolher o alerta de calor (usa o índice de calor medido pelo poste) */}

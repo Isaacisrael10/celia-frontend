@@ -20,7 +20,7 @@ export default function Locais() {
   return (
     <>
       <Cabecalho titulo="Locais" />
-      <main id="conteudo" tabIndex={-1} className="app__conteudo">
+      <main id="conteudo" tabIndex={-1} className="app__conteudo locais-tela">
         <p className="intro">Banheiros acessíveis e lugares para descansar perto do caminho.</p>
 
         <Filtros rotulo="Filtrar locais" opcoes={FILTROS_LOCAL} valor={filtro} aoMudar={mudarFiltro} />

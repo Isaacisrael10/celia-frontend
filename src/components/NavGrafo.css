@@ -226,11 +226,20 @@
     --folga: 6px;
     --casa-minima: 70px; /* menor altura de cada casa: bolinha + nome */
 
-    left: 12px;
-    top: 12px;
-    bottom: 12px;
-    width: calc(var(--nav-lado) - 24px);
-    transform: none;
+    /*
+      Trilho de ponta a ponta: do topo ao pé da página e colado na borda esquerda.
+      Colado na borda (left: 0) também evita o "tremor": antes havia um vão de 12 px à esquerda.
+      Com o mouse nesse vão, o trilho abria, saía de baixo do mouse, fechava, voltava... sem parar.
+    */
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-width: 0 1px 0 0;
+    border-radius: 0 14px 14px 0; /* cantos discretos: o trilho vai do topo ao pé da página */
+    /* Largura fixa (trilho aberto). Quando --nav-lado encolhe, o trilho desliza para a esquerda
+       e fica só uma beirada à mostra; ao passar o mouse, ele volta da esquerda para a direita. */
+    width: var(--nav-largura);
+    transform: translateX(calc(var(--nav-lado) - var(--nav-largura)));
     padding: 12px 8px;
     /* coluna: símbolo em cima, bolinhas no meio (ocupam o que sobra) e Sobre embaixo */
     display: flex;
@@ -398,8 +407,6 @@
     --bolinha: 40px;
     --casa-minima: 44px;
 
-    top: 6px;
-    bottom: 6px;
     padding: 6px 8px;
     gap: 4px;
   }

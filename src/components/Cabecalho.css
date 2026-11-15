@@ -46,3 +46,21 @@
     padding: 36px 40px 8px;
   }
 }
+
+/*
+  Título centralizado em todas as telas.
+  No celular, sem o botão de voltar, o recuo à esquerda equilibra o botão do menu da direita.
+*/
+.cabecalho__titulo {
+  text-align: center;
+}
+
+.cabecalho--sem-voltar .cabecalho__titulo {
+  padding-left: var(--toque);
+}
+
+@media (min-width: 768px) {
+  .cabecalho--sem-voltar .cabecalho__titulo {
+    padding-left: 0;
+  }
+}

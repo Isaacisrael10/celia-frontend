@@ -14,7 +14,7 @@ import './NavGrafo.css'
   O fundo é glassmorfismo: translúcido, com o que está atrás desfocado (ver NavGrafo.css).
 
   A bolinha azul (o "viajante") desliza pela linha até a tela escolhida.
-  - aoAbrirMenu(): abre o menu em forma de símbolo (MenuGrafo)
+  - aoAbrirMenu(): abre a página do Menu (/menu)
 */
 export default function NavGrafo({ aoAbrirMenu }) {
   const { pathname } = useLocation()
@@ -26,7 +26,7 @@ export default function NavGrafo({ aoAbrirMenu }) {
   return (
     <nav className="nav-grafo" aria-label="Navegação principal">
       {/* O símbolo é a marca e também o botão do menu (só aparece no trilho lateral) */}
-      <button className="nav-grafo__marca" onClick={aoAbrirMenu} aria-haspopup="dialog">
+      <button className="nav-grafo__marca" onClick={aoAbrirMenu}>
         <FiguraPessoa tamanho={48} />
         <span className="nav-grafo__marca-textos">
           <span className="nav-grafo__marca-nome">C.E.L.I.A.</span>

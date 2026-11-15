@@ -1,5 +1,5 @@
 import { IconSearch } from '@tabler/icons-react'
-import { TIPOS, SITUACOES } from '../domain/reportes'
+import { TIPOS, TIPOS_CIDADAO, SITUACOES } from '../domain/reportes'
 import { useFormReporte } from '../hooks/useFormReporte'
 import { useTema } from '../hooks/useTema'
 import EtapaFoto from './EtapaFoto'
@@ -9,9 +9,8 @@ import ErroCampo from './ErroCampo'
 import './FormReporte.css'
 
 // Texto do botão principal, conforme o momento
-function textoDoBotao(enviando, analisando, editando) {
+function textoDoBotao(enviando, editando) {
   if (enviando) return 'Enviando…'
-  if (analisando) return 'Aguarde a análise…'
   return editando ? 'Salvar alterações' : 'Enviar reporte'
 }
 
@@ -24,8 +23,13 @@ function textoDoBotao(enviando, analisando, editando) {
   - aoCancelar: volta para a lista
 */
 export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar }) {
-  const { dados, erros, enviando, analisando, tipoAtual, analise, local, descricaoIa, mudar, mudarTipo, enviar } =
-    useFormReporte(inicial, editando, aoSalvar)
+  const { dados, erros, enviando, tipoAtual, foto, local, descricaoIa, mudar, mudarTipo, enviar } = useFormReporte(
+    inicial,
+    editando,
+    aoSalvar,
+  )
+  // No reporte novo o cidadão só escolhe buraco ou obstáculo; na edição aparecem todos (reportes antigos)
+  const tiposDoCampo = editando ? TIPOS : TIPOS_CIDADAO
   const { escuro } = useTema()
 
   // Enter no endereço busca no mapa (em vez de enviar o formulário)
@@ -44,7 +48,7 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
       <div className="form-reporte__colunas">
         <div className="form-reporte__coluna cartao">
           {/* O erro "falta a foto" some assim que a foto é escolhida */}
-          {!editando && <EtapaFoto analise={analise} erro={analise.miniatura ? '' : erros.foto} />}
+          {!editando && <EtapaFoto foto={foto} erro={foto.miniatura ? '' : erros.foto} />}
 
           <div className="campo">
             <label className="campo__rotulo" htmlFor="campo-rua">
@@ -87,9 +91,9 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
         <div className="form-reporte__coluna cartao">
           <label className="campo">
             <span className="campo__rotulo">Tipo de problema</span>
-            {!editando && <span className="campo__dica">Vem da análise da foto. Corrija se precisar.</span>}
+            {!editando && <span className="campo__dica">O que você encontrou na calçada?</span>}
             <select className="campo__entrada" value={tipoAtual} onChange={(e) => mudarTipo(e.target.value)}>
-              {Object.entries(TIPOS).map(([valor, nome]) => (
+              {Object.entries(tiposDoCampo).map(([valor, nome]) => (
                 <option key={valor} value={valor}>
                   {nome}
                 </option>
@@ -97,7 +101,7 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
             </select>
           </label>
 
-          {/* Depois da análise da foto: a descrição que a IA escreveu para a Prefeitura */}
+          {/* Depois da foto: a descrição que a IA escreveu para a Prefeitura (o cidadão revisa) */}
           {!editando && (
             <div aria-live="polite">
               <CardDescricaoIa ia={descricaoIa} />
@@ -134,8 +138,8 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
           </fieldset>
 
           <div className="form-reporte__acoes">
-            <button type="submit" className="botao botao--primario" disabled={enviando || analisando}>
-              {textoDoBotao(enviando, analisando, editando)}
+            <button type="submit" className="botao botao--primario" disabled={enviando}>
+              {textoDoBotao(enviando, editando)}
             </button>
             <button type="button" className="acao-texto" onClick={aoCancelar}>
               Cancelar

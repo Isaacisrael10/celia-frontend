@@ -11,6 +11,7 @@
 
 .sobre__titulo {
   font-size: var(--titulo-m);
+  text-align: center; /* título de cada seção centralizado, acima dos cards */
 }
 
 .sobre__subtitulo {
@@ -20,6 +21,7 @@
 
 .sobre__subtitulo--icone {
   display: flex;
+  justify-content: center;
   align-items: center;
   gap: 10px;
 }
@@ -28,13 +30,14 @@
   flex: none;
 }
 
-/* ---------- Apresentação: símbolo + nome + problema ---------- */
+/* ---------- Apresentação: símbolo em cima, nome e textos embaixo, tudo no centro ---------- */
 .sobre__apresentacao {
   padding: 20px;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 16px;
+  text-align: center;
 }
 
 .sobre__apresentacao > svg {
@@ -43,6 +46,7 @@
 
 .sobre__textos {
   max-width: 62ch;
+  align-items: center;
   display: flex;
   flex-direction: column;
   gap: 10px;
@@ -68,10 +72,8 @@
 
 @media (min-width: 768px) {
   .sobre__apresentacao {
-    padding: 28px;
-    flex-direction: row;
-    align-items: center;
-    gap: 28px;
+    padding: 32px 28px;
+    gap: 20px;
   }
 }
 
@@ -86,7 +88,9 @@
 .sobre__ficha-item {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 4px;
+  text-align: center;
 }
 
 .sobre__ficha dt {
@@ -102,11 +106,30 @@
 }
 
 /* ---------- Cards das partes e dos ODS ---------- */
+
+/*
+  Cards em linhas que quebram (flex-wrap), centralizadas: a última linha incompleta
+  (ex.: 2 cards embaixo de 3) fica no meio, e não encostada à esquerda.
+  Cada card tem até 22rem; os da mesma linha ficam com a mesma altura.
+*/
+.sobre .grade {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.sobre .grade > li {
+  flex: 0 1 22rem;
+}
+
 .sobre__parte {
   display: flex;
   flex-direction: column;
+  align-items: center;
   gap: 8px;
   font-size: var(--texto-m);
+  text-align: center;
 }
 
 /* Bolinha azul com contorno escuro (a mesma do símbolo), com um ícone ou um número dentro */
@@ -144,8 +167,10 @@
 
 .sobre__lista {
   margin: 0;
-  padding-left: 1.2rem;
+  padding: 0;
+  list-style: none; /* lista centralizada: sem marcador, cada frase separada pelo espaço */
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 8px;
 }

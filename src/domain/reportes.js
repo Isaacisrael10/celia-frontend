@@ -2,12 +2,21 @@
   Regras dos reportes (sem React): tipos, situações, validação e data.
 */
 
-// Tipo = o que a IA de visão encontrou na foto (ou "não analisada", no plano B)
+/*
+  Tipo do problema. "livre" e "nao_analisada" vêm de reportes antigos (quando a foto do cidadão
+  passava pela IA de visão); continuam aqui para esses reportes aparecerem certo na lista.
+*/
 export const TIPOS = {
   buraco: 'Buraco na calçada',
   obstaculo: 'Obstáculo na calçada',
   livre: 'Calçada livre',
   nao_analisada: 'Não analisada',
+}
+
+// No reporte NOVO, o cidadão escolhe só entre estes (a IA de visão agora é dos postes)
+export const TIPOS_CIDADAO = {
+  buraco: 'Buraco na calçada',
+  obstaculo: 'Obstáculo na calçada',
 }
 
 // Situação do reporte. Usa só grafite e azul: o semáforo é reservado às faixas.
@@ -39,7 +48,7 @@ export function textoQuantidade(quantidade) {
 // Reporte em branco, usado no formulário de "Novo reporte"
 export const REPORTE_VAZIO = {
   rua: '',
-  tipo: 'nao_analisada',
+  tipo: 'buraco',
   descricao: '',
   status: 'aberto',
   fotoUrl: '',

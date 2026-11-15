@@ -11,13 +11,14 @@ import './Cabecalho.css'
   - titulo: texto do h1 (também vai para a aba do navegador)
   - voltar: true mostra o botão de voltar
   - aoVoltar: (opcional) o que fazer ao voltar. Sem ele, volta para a tela anterior.
+  O título fica sempre centralizado (padrão de todas as telas).
 */
 export default function Cabecalho({ titulo, voltar = false, aoVoltar }) {
   const navigate = useNavigate()
   useTituloDaPagina(titulo)
 
   return (
-    <header className="cabecalho vidro">
+    <header className={'cabecalho vidro' + (voltar ? '' : ' cabecalho--sem-voltar')}>
       {voltar && (
         <button className="botao-icone" onClick={aoVoltar || (() => navigate(-1))} aria-label="Voltar">
           <IconArrowLeft size={24} aria-hidden="true" />

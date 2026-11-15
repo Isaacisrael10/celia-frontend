@@ -229,16 +229,57 @@
   }
 }
 
-/* A navegação sai de baixo e vai para a lateral em telas largas ou em celular deitado */
+/*
+  --nav-lado é registrada como medida (@property) para o navegador conseguir ANIMAR a troca de valor.
+  Sem isso, a variável pularia de um valor para o outro, sem transição.
+*/
+@property --nav-lado {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+/*
+  A navegação sai de baixo e vai para a lateral em telas largas ou em celular deitado.
+  --nav-largura: a largura do trilho aberto
+  --nav-lado:    o espaço que as telas reservam para ele AGORA (muda quando o trilho abre e fecha)
+*/
 @media (min-width: 768px), (orientation: landscape) and (max-height: 540px) {
   :root {
     --nav-baixo: 0px;
+    --nav-largura: 108px;
     --nav-lado: 108px;
+    --nav-recolhida: 12px; /* o pedacinho do trilho que fica à mostra quando ele está escondido */
   }
 }
 
 @media (min-width: 1200px) and (min-height: 541px) {
   :root {
+    --nav-largura: 276px;
     --nav-lado: 276px;
+  }
+}
+
+/*
+  Trilho escondido: só com mouse (hover: hover). Em tablet de toque não existe "passar o mouse",
+  então lá o trilho continua sempre aberto.
+  Ao passar o mouse (ou chegar nele pelo teclado, :focus-within), --nav-lado cresce até a largura do trilho.
+  O trilho e TODAS as telas usam --nav-lado, então tudo desliza junto, na mesma velocidade.
+*/
+@media (hover: hover) and ((min-width: 768px) or ((orientation: landscape) and (max-height: 540px))) {
+  :root {
+    --nav-lado: var(--nav-recolhida);
+    transition: --nav-lado 480ms var(--suave);
+  }
+
+  :root:has(.nav-grafo:hover, .nav-grafo:focus-within) {
+    --nav-lado: var(--nav-largura);
+  }
+}
+
+/* Quem pediu menos movimento: abre e fecha na hora, sem deslizar */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    transition: none;
   }
 }

@@ -1,0 +1,113 @@
+/* Card pequeno: a cor do nível aparece na faixa da esquerda, no selo e no número */
+.alerta-calor {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-left: 22px;
+  overflow: hidden;
+}
+
+/* Faixa colorida na borda esquerda */
+.alerta-calor::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 6px;
+  background: var(--cor-nivel);
+}
+
+.alerta-calor__topo {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Selo do nível: fundo da cor do nível com texto branco (contraste AA nas três cores) */
+.alerta-calor__selo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 3px 10px 3px 4px;
+  border-radius: var(--raio-botao);
+  background: var(--cor-nivel);
+  color: var(--faixa-icone);
+  font-size: var(--texto-p);
+  font-weight: 600;
+}
+
+.alerta-calor__icone {
+  width: 20px;
+  height: 20px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.alerta-calor__hora {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--texto-p);
+  color: var(--muted);
+  font-variant-numeric: tabular-nums;
+}
+
+.alerta-calor__graus {
+  display: flex;
+  flex-direction: column;
+  font-size: var(--titulo-m);
+  font-weight: 600;
+  line-height: 1.1;
+  color: var(--cor-nivel);
+  font-variant-numeric: tabular-nums;
+}
+
+.alerta-calor__rotulo {
+  margin-top: 2px;
+  font-size: var(--texto-p);
+  font-weight: 500;
+  color: var(--muted);
+}
+
+.alerta-calor__local,
+.alerta-calor__medidas {
+  display: flex;
+  align-items: flex-start;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: var(--texto-p);
+}
+
+.alerta-calor__local svg,
+.alerta-calor__medidas svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--link);
+}
+
+.alerta-calor__local {
+  flex-wrap: nowrap;
+  gap: 6px;
+}
+
+.alerta-calor__medidas span {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 4px;
+  color: var(--muted);
+}
+
+/* Orientação: no pé do card, separada por um fio */
+.alerta-calor__orientacao {
+  margin-top: auto;
+  padding-top: 8px;
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--texto-p);
+}

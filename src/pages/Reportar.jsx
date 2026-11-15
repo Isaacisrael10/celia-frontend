@@ -83,7 +83,7 @@ export default function Reportar() {
   return (
     <>
       <Cabecalho titulo="Reportes" />
-      <main id="conteudo" tabIndex={-1} className="app__conteudo">
+      <main id="conteudo" tabIndex={-1} className="app__conteudo reportar">
         <button className="botao botao--primario botao--seta reportar__novo" onClick={() => setFormulario(REPORTE_VAZIO)}>
           Reportar problema
           <IconPlus size={24} aria-hidden="true" />
@@ -111,7 +111,7 @@ export default function Reportar() {
 
             {reportes.length > 0 && visiveis.length === 0 && <Vazio titulo="Nenhum reporte nesta situação" />}
 
-            <ul className="grade">
+            <ul className="grade grade--igual reportar__lista">
               {visiveis.map((reporte) => (
                 <CardReporte key={reporte.id} reporte={reporte} aoEditar={setFormulario} aoExcluir={apagar} />
               ))}

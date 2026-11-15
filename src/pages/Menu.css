@@ -1,0 +1,172 @@
+/*
+  Camada própria da página: o fundo animado (FundoGrafo) usa z-index -1.
+  Sem uma camada isolada, ele vai para trás do fundo do <body> e some.
+  (As outras telas não precisam disto porque ficam dentro do .app, que já é isolado.)
+*/
+.menu-tela {
+  position: relative;
+  isolation: isolate;
+  min-height: 100dvh;
+}
+
+/*
+  Página do Menu: tela inteira (mínimo de 100% da altura).
+  Celular e tablet: painel de acesso em cima, grafo embaixo.
+  Computador: duas colunas, grafo à esquerda e painel de acesso à direita.
+*/
+.menu-pagina {
+  position: relative;
+  min-height: 100dvh;
+  max-width: 76rem;
+  margin: 0 auto;
+  padding: max(32px, env(safe-area-inset-top)) 16px 32px;
+  display: grid;
+  grid-template-areas:
+    'lado'
+    'grafo';
+  align-items: center;
+  gap: 28px;
+  animation: entrar var(--lento) var(--suave) both;
+}
+
+/* ---------- Grafo (esquerda no computador): centralizado na coluna, na horizontal e na vertical ---------- */
+.menu-pagina__grafo {
+  grid-area: grafo;
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ---------- Coluna da direita: título em cima, painel de acesso embaixo ---------- */
+.menu-pagina__lado {
+  grid-area: lado;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+/* "Para onde vamos?" e a frase de apoio, centralizados em cima do painel */
+.menu-pagina__chamada {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.menu-pagina__grafo-titulo {
+  font-size: var(--titulo-g);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.menu-pagina__grafo-apoio {
+  max-width: 36ch;
+  font-size: var(--texto-g);
+  color: var(--muted);
+}
+
+/* Espaço em cima para o nome da cabeça (Mapa) e embaixo para os nomes dos pés (Locais e Perfil) */
+.menu-pagina__grafo .menu-grafo__figura {
+  margin: 64px 0 76px;
+}
+
+/* ---------- Painel de acesso (embaixo do título, na coluna da direita) ---------- */
+.menu-pagina__acesso {
+  width: 100%;
+  max-width: 34rem;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+.menu-pagina__marca {
+  font-size: var(--texto-g);
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  color: var(--link);
+}
+
+.menu-pagina__titulo {
+  font-size: var(--titulo-g);
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+}
+
+.menu-pagina__descricao {
+  font-size: var(--texto-m);
+  color: var(--muted);
+}
+
+/* Os dois botões, um embaixo do outro, com a mesma largura */
+.menu-pagina__acoes {
+  width: 100%;
+  margin-top: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.menu-pagina__botao {
+  min-height: 56px;
+  font-size: var(--texto-g);
+}
+
+/* Hover: sobe um pouco e ganha sombra. Focus (teclado): anel bem visível em volta */
+.menu-pagina__botao:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--sombra-flutuante);
+}
+
+.menu-pagina__botao:active {
+  transform: translateY(0) scale(0.98);
+}
+
+.menu-pagina__botao:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 4px;
+}
+
+/* ---------- Telas maiores ---------- */
+@media (min-width: 768px) {
+  .menu-pagina {
+    padding: 48px 28px 40px;
+  }
+
+  .menu-pagina__acesso {
+    padding: 36px 32px;
+  }
+
+  .menu-pagina__grafo .menu-grafo__figura {
+    margin: 104px 0 110px;
+  }
+}
+
+/*
+  Computador: duas colunas lado a lado, grafo à esquerda e acesso à direita.
+  O grafo mora em meia tela: a figura fica um pouco menor, deixando espaço
+  para os nomes das mãos (Rotas e Reportar), que ficam para fora do círculo.
+*/
+@media (min-width: 1100px) {
+  .menu-pagina {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    grid-template-areas: 'grafo lado';
+    gap: 72px; /* espaço para o texto da mão direita (Reportar) não encostar no painel */
+  }
+
+  .menu-pagina__grafo .menu-grafo__figura {
+    width: min(100% - 240px, 26rem);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menu-pagina__botao:hover {
+    transform: none;
+  }
+}

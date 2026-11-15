@@ -3,8 +3,7 @@ import { lerSalvo, salvar } from '../services/armazenamento'
 
 /*
   Custom hook de uma preferência liga/desliga salva no navegador.
-  Ex.: const [chuva, alternarChuva] = usePreferencia('celia-chuva')
-       const [satelite, alternarSatelite] = usePreferencia('celia-satelite')
+  Ex.: const [satelite, alternarSatelite] = usePreferencia('celia-satelite')
   - chave: nome usado para guardar no navegador
   - inicial: valor de quem nunca escolheu (desligado, se não disser nada)
 */

@@ -1,7 +1,5 @@
-import { useState } from 'react'
-import { BrowserRouter, Routes, Route, Outlet } from 'react-router-dom'
+import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import NavGrafo from './components/NavGrafo'
-import MenuGrafo from './components/MenuGrafo'
 import FundoGrafo from './components/FundoGrafo'
 import { useFocoNoTitulo } from './hooks/useFocoNoTitulo'
 import Mapa from './pages/Mapa'
@@ -13,23 +11,22 @@ import Perfil from './pages/Perfil'
 import Sobre from './pages/Sobre'
 import Assistente from './pages/Assistente'
 import Trecho from './pages/Trecho'
+import Prefeitura from './pages/Prefeitura'
+import Menu from './pages/Menu'
 
 /*
   Moldura comum a todas as telas:
-  fundo decorativo + navegação em grafo + o conteúdo da tela (Outlet) + menu em forma de símbolo.
+  fundo decorativo + navegação em grafo + o conteúdo da tela (Outlet).
+  O menu é uma página própria (/menu): abrir o menu leva para lá, dizendo de qual tela a pessoa veio.
 */
 function Layout() {
-  // Interação: abrir e fechar o menu em forma de símbolo
-  const [menuAberto, setMenuAberto] = useState(false)
+  const navigate = useNavigate()
+  const { pathname } = useLocation()
   // Ao trocar de tela, o foco vai para o título da tela nova (acessibilidade)
   useFocoNoTitulo()
 
   function abrirMenu() {
-    setMenuAberto(true)
-  }
-
-  function fecharMenu() {
-    setMenuAberto(false)
+    navigate('/menu', { state: { de: pathname } })
   }
 
   return (
@@ -44,18 +41,21 @@ function Layout() {
         {/* context: as telas recebem a função de abrir o menu (usada pelo BotaoMenu) */}
         <Outlet context={{ abrirMenu }} />
       </div>
-      <MenuGrafo aberto={menuAberto} aoFechar={fecharMenu} />
     </div>
   )
 }
 
-// Cada endereço do app abre uma tela (as telas ficam em src/pages)
+// Cada endereço do app abre uma tela (as telas ficam em src/pages). "/" e "/home" levam ao Menu; o Mapa fica em "/mapa".
 export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        {/* Menu: página própria, fora da moldura (sem a barra de navegação). É também a entrada do app. */}
+        <Route path="/menu" element={<Menu />} />
+        <Route path="/" element={<Navigate to="/menu" replace />} />
+        <Route path="/home" element={<Navigate to="/menu" replace />} />
         <Route element={<Layout />}>
-          <Route path="/" element={<Mapa />} />
+          <Route path="/mapa" element={<Mapa />} />
           <Route path="/trecho/:id" element={<Trecho />} />
           <Route path="/rotas" element={<Rotas />} />
           <Route path="/reportar" element={<Reportar />} />
@@ -64,6 +64,7 @@ export default function App() {
           <Route path="/perfil" element={<Perfil />} />
           <Route path="/sobre" element={<Sobre />} />
           <Route path="/assistente" element={<Assistente />} />
+          <Route path="/prefeitura" element={<Prefeitura />} />
         </Route>
       </Routes>
     </BrowserRouter>

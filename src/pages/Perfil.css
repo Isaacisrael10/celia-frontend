@@ -55,6 +55,7 @@
 .perfil__titulo {
   padding: 0;
   display: flex;
+  justify-content: center; /* título de cada card de ajustes centralizado, acima dos botões */
   align-items: center;
   gap: 10px;
   font-size: var(--titulo-p);

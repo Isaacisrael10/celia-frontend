@@ -21,7 +21,7 @@ export default function Rotas() {
   function escolherRota(id) {
     escolher(id)
     const rota = rotas.find((r) => r.id === id)
-    navigate('/', { state: { aviso: 'Caminho de sempre: ' + rota.nome + '.' } })
+    navigate('/mapa', { state: { aviso: 'Caminho de sempre: ' + rota.nome + '.' } })
   }
 
   return (

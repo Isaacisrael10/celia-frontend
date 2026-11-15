@@ -1,3 +1,8 @@
+/* Filtros (Todos, Banheiros, Descanso) centralizados */
+.locais-tela .filtros {
+  justify-content: center;
+}
+
 .locais__colunas {
   display: grid;
   gap: 16px;
@@ -13,16 +18,19 @@
   gap: 12px;
 }
 
-/* Computador: o mapa fica preso na tela enquanto a lista rola ao lado */
+/*
+  Computador: mapa e lista lado a lado, com a MESMA altura.
+  O mapa estica do primeiro ao último card (stretch), em vez de ficar com altura fixa.
+*/
 @media (min-width: 960px) {
   .locais__colunas {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
     gap: 20px;
   }
 
   .locais__colunas .mini-mapa {
-    position: sticky;
-    top: 20px;
-    height: min(70dvh, 34rem);
+    height: auto;
+    min-height: 20rem;
   }
 }
