@@ -13,12 +13,6 @@ export function trilhaValida(dados) {
   return dados.licoes.every((licao) => Boolean(licao.titulo) && Array.isArray(licao.paragrafos))
 }
 
-// De onde vieram as lições que estão na tela (aparece no fim da página)
-export const TEXTO_ORIGEM = {
-  api: 'Lições servidas pela API da C.E.L.I.A.',
-  copia: 'Lições guardadas no app. A API da equipe, que serve a trilha, roda na demonstração local.',
-}
-
 // Soma os minutos de todas as lições. Ex.: 3 + 4 + 4 + 4 + 3 → 18
 export function minutosDaTrilha(licoes) {
   let total = 0

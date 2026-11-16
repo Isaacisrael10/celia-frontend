@@ -23,3 +23,61 @@
   flex-direction: column;
   gap: 14px;
 }
+
+/*
+  "Por que uma trilha de IA num app de calçadas?": texto de leitura, alinhado à esquerda,
+  com um fio azul do lado (o mesmo traço das ligações do grafo).
+*/
+.trilha__porque {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--primary);
+  font-size: var(--texto-g);
+  line-height: 1.55;
+}
+
+.trilha__porque p {
+  max-width: 62ch;
+}
+
+.trilha__porque-titulo {
+  font-size: var(--titulo-m);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.trilha__ligacoes-titulo {
+  margin-top: 8px;
+  font-size: var(--texto-g);
+}
+
+.trilha__ligacoes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--texto-m);
+}
+
+/* Cada ligação: a bolinha do grafo com o ícone, e o texto ao lado */
+.trilha__ligacao {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+
+.trilha__ligacao-icone {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
+}
