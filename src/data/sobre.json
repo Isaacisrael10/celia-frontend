@@ -1,29 +1,46 @@
 {
   "lema": "Caminhos em Liberdade, Inclusão e Acessibilidade",
-  "problema": "Quem tem deficiência física ou mobilidade reduzida sai de casa sem saber se a calçada e a rampa do caminho até o trabalho estão livres e seguras.",
-  "solucao": "A C.E.L.I.A. mostra isso antes de a pessoa sair: como está cada trecho, qual é a rota mais segura e onde dá para parar no caminho.",
+  "problema": "Quem tem deficiência física ou mobilidade reduzida sai de casa sem saber se a calçada e a rampa do ponto de ônibus estão livres, nem se o calor no ponto está suportável. Um buraco novo pode aparecer e ninguém avisa.",
+  "solucao": "A C.E.L.I.A. mostra isso antes de a pessoa sair: como está cada trecho, qual é a rota mais segura e onde dá para parar no caminho. Os postes nos pontos de ônibus vigiam a calçada sozinhos, e a Prefeitura recebe os problemas já descritos, para saber o que consertar primeiro.",
   "homenagem": "O nome é uma homenagem à Célia, avó de uma integrante da equipe. Foi ela quem contou para a gente as dificuldades que encontra nas calçadas.",
   "ficha": [
-    { "rotulo": "Onde", "texto": "Rio de Janeiro. Os testes são no bairro do Grajaú." },
-    { "rotulo": "Para quem", "texto": "Pessoas com deficiência física ou mobilidade reduzida que vão ao trabalho a pé e de ônibus." },
-    { "rotulo": "Desafio", "texto": "Global Solution 2026.2 (CitizenTech) da FIAP, Engenharia de Software, 1º ano." }
+    {
+      "rotulo": "Onde",
+      "texto": "Rio de Janeiro. Os testes são no bairro do Grajaú."
+    },
+    {
+      "rotulo": "Para quem",
+      "texto": "Pessoas com deficiência física ou mobilidade reduzida que vão ao trabalho a pé e de ônibus. E a Prefeitura, que recebe os reportes e acompanha os postes."
+    },
+    {
+      "rotulo": "Desafio",
+      "texto": "Global Solution 2026.2 (CitizenTech) da FIAP, Engenharia de Software, 1º ano."
+    }
   ],
   "jornada": [
     {
       "titulo": "Antes de sair",
-      "texto": "Veja a rota mais segura, como está cada trecho e o calor no ponto de ônibus."
+      "texto": "Veja a rota mais acessível, como está cada trecho e o calor no ponto de ônibus. O assistente de IA ajuda a planejar."
     },
     {
       "titulo": "No caminho",
-      "texto": "Saiba se um trecho piorou e ache um banheiro acessível ou um lugar para descansar."
+      "texto": "Receba um aviso se um trecho do seu caminho piorar e ache um banheiro acessível ou um lugar para descansar."
     },
     {
       "titulo": "Achou um problema",
-      "texto": "Tire uma foto e conte o que viu. A IA ajuda a escrever o reporte, você revisa e ele segue para a prefeitura."
+      "texto": "Tire uma foto e escolha o tipo do problema. A IA sugere a descrição, você revisa e o reporte vai para a Prefeitura e aparece no mapa."
+    },
+    {
+      "titulo": "Enquanto ninguém reporta",
+      "texto": "A câmera do poste fotografa a calçada a cada 20 segundos. Se a IA acha um buraco, o trecho vira \"Evite\" e o reporte chega sozinho à Prefeitura."
+    },
+    {
+      "titulo": "No trabalho",
+      "texto": "A trilha de IA ensina, em lições curtas e acessíveis, a usar inteligência artificial no dia a dia do emprego."
     },
     {
       "titulo": "Depois",
-      "texto": "Os postes guardam o histórico das medições. Com ele dá para saber onde consertar primeiro."
+      "texto": "A Prefeitura acompanha câmeras, reportes e alertas de calor na sua área do app e decide onde consertar, dar sombra ou cobrir o ponto."
     }
   ],
   "partes": [
@@ -45,12 +62,22 @@
     {
       "id": "app",
       "titulo": "Este aplicativo",
-      "texto": "Junta tudo num lugar só: mapa com a situação dos trechos, rotas, reportes, locais de apoio e ajustes de acessibilidade."
+      "texto": "Junta tudo num lugar só: mapa com a situação dos trechos, rotas, reportes, locais de apoio, trilha de IA e ajustes de acessibilidade."
+    },
+    {
+      "id": "assistente",
+      "titulo": "Assistente de IA",
+      "texto": "O Gemini responde perguntas sobre o caminho usando só os dados do app, sem inventar lugares. Também sugere a descrição do reporte, que a pessoa revisa antes de enviar."
+    },
+    {
+      "id": "prefeitura",
+      "titulo": "Área da Prefeitura",
+      "texto": "A Prefeitura entra pelo seu próprio acesso e vê a última foto de cada câmera com os buracos marcados, a caixa de reportes (dos postes e dos cidadãos) e os alertas de calor dos pontos."
     },
     {
       "id": "trilha",
       "titulo": "Trilha de IA",
-      "texto": "Lições curtas para usar inteligência artificial no trabalho. A barreira não termina na calçada: é preciso chegar e também seguir no emprego."
+      "texto": "Lições curtas e acessíveis para usar inteligência artificial no trabalho. Chegar ao emprego é a primeira parte; continuar nele pede essa habilidade nova."
     }
   ],
   "ods": [

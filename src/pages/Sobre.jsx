@@ -1,4 +1,14 @@
-import { IconCpu, IconEye, IconCode, IconDeviceMobile, IconSchool, IconChartLine, IconShieldLock } from '@tabler/icons-react'
+import {
+  IconCpu,
+  IconEye,
+  IconCode,
+  IconDeviceMobile,
+  IconSchool,
+  IconMessageChatbot,
+  IconBuildingBank,
+  IconChartLine,
+  IconShieldLock,
+} from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import FiguraPessoa from '../components/FiguraPessoa'
 import PassosLigados from '../components/PassosLigados'
@@ -12,6 +22,8 @@ const ICONES_PARTE = {
   python: IconCode,
   app: IconDeviceMobile,
   trilha: IconSchool,
+  assistente: IconMessageChatbot,
+  prefeitura: IconBuildingBank,
 }
 
 /*
