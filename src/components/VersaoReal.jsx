@@ -30,16 +30,16 @@ const ETAPAS = [
     id: 'captura',
     Icone: IconCamera,
     titulo: 'A câmera fotografa a calçada',
-    texto: 'De tempos em tempos, o poste tira uma foto do trecho em frente ao ponto.',
+    texto: 'A cada 20 segundos, a câmera do poste (ESP32-CAM) tira uma foto do trecho em frente ao ponto e envia pela internet.',
     demo: '6 fotos já baixadas fazem o papel da câmera (dataset público de buracos e calçadas do Rio, com fonte).',
   },
   {
     id: 'visao',
     Icone: IconEye,
-    titulo: 'A IA procura buracos no próprio poste',
+    titulo: 'A IA procura buracos no servidor',
     texto:
-      'O modelo de buracos treinado pela equipe (YOLO) analisa a foto ali mesmo. A imagem é lida na memória e descartada em seguida.',
-    demo: 'A API da equipe em Python (FastAPI) roda o mesmo modelo, na rota /analisar.',
+      'A foto chega ao servidor da C.E.L.I.A., onde o modelo de buracos treinado pela equipe (YOLO) analisa a imagem. O poste só fotografa: um ESP32 não tem força para rodar a IA.',
+    demo: 'A API da equipe em Python (FastAPI) roda o modelo na rota /analisar, igual à versão real.',
   },
   {
     id: 'led',
@@ -68,8 +68,8 @@ const ETAPAS = [
     id: 'lgpd',
     Icone: IconShieldLock,
     titulo: 'Dados com cuidado (LGPD)',
-    texto: 'Nenhuma foto fica guardada. Só trafegam o resultado (livre ou buraco) e o texto do reporte, sem dados pessoais.',
-    demo: 'A API nunca grava a imagem em disco, e o Gemini recebe só texto.',
+    texto: 'As fotos das câmeras dos postes ficam guardadas no banco do servidor, para a Prefeitura consultar o histórico. São fotos da calçada, sem cadastro de ninguém. A foto do cidadão vai só como miniatura no reporte e não passa pela IA.',
+    demo: 'O banco de capturas (SQLite) ainda está sendo feito na API. O Gemini recebe só texto, nunca a foto.',
   },
 ]
 

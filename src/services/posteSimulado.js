@@ -1,8 +1,8 @@
 /*
   Câmera SIMULADA do poste.
-  Na versão real, o ESP32-CAM tira a foto e roda a IA ali mesmo, no poste.
+  Na versão real, o ESP32-CAM tira a foto a cada 20 s e envia à API, que roda a IA (RF09, RF22).
   No protótipo não temos a câmera: as "capturas" são fotos já baixadas (public/poste/)
-  e a API da equipe roda o YOLO no lugar do poste.
+  e o app manda essas fotos para a mesma API.
 
   Só faz trabalho de rede: não sabe nada de React nem de tela.
 */

@@ -35,7 +35,7 @@ function useRelogio() {
   Câmera do poste "ao vivo" (SIMULAÇÃO).
   Parece uma transmissão de câmera de segurança: selo AO VIVO, relógio, linhas de vídeo
   e uma varredura enquanto a IA analisa. As caixas do YOLO aparecem sobre a imagem.
-  Na versão real, tudo isso roda dentro do poste (ESP32-CAM).
+  Na versão real, o poste (ESP32-CAM) só tira a foto e envia; a IA roda no servidor (API da equipe).
   - camera: o que o useCameraPoste devolve
   - poste: dados do poste (nome, câmera e local)
 */

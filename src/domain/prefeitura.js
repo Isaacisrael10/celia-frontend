@@ -2,12 +2,12 @@
   Regras do módulo da Prefeitura (sem React).
 
   Dois tipos de reporte chegam à Prefeitura:
-  - do POSTE: a câmera do poste (ESP32-CAM, na versão real) roda a IA de visão (YOLO).
+  - do POSTE: a câmera do poste (ESP32-CAM, na versão real) envia a foto e a API roda a IA de visão (YOLO).
     Quando acha um buraco, o Gemini escreve o reporte e ele é enviado SOZINHO, sem revisão humana.
   - do CIDADÃO: enviado pelo app. A IA só ajuda a escrever; o cidadão revisa antes de enviar (RN07).
 
   No protótipo não temos ESP32-CAM: fotos já baixadas fazem o papel da câmera (SIMULAÇÃO),
-  e a API da equipe roda o YOLO no lugar do poste. Isso aparece escrito na tela.
+  e o app envia essas fotos para a mesma API. Isso aparece escrito na tela.
 */
 
 // De onde veio o reporte

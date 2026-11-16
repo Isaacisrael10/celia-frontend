@@ -25,7 +25,7 @@ const ABAS = [
 
 /*
   Módulo da PREFEITURA (outro usuário do app, não o cidadão).
-  - Aba "Câmera do poste": a câmera simulada do poste ao vivo. A IA de visão (YOLO) roda aqui,
+  - Aba "Câmera do poste": a câmera simulada do poste ao vivo. A IA de visão (YOLO) da API analisa cada foto,
     e quando acha um buraco o Gemini escreve o reporte e ele é enviado sozinho.
   - Aba "Reportes recebidos": a caixa de entrada, com reportes dos postes e dos cidadãos,
     o local e a data. Começa com reportes de exemplo.

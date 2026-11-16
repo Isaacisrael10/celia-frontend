@@ -35,7 +35,7 @@
     {
       "id": "visao",
       "titulo": "IA que vê buracos",
-      "texto": "Um modelo treinado pela equipe roda na câmera do poste e procura buracos sozinho. Quando acha um, o reporte é escrito por IA e enviado à prefeitura automaticamente. No protótipo, fotos já baixadas fazem o papel da câmera (veja a área da Prefeitura)."
+      "texto": "A câmera do poste fotografa a calçada a cada 20 segundos e um modelo treinado pela equipe, no servidor, procura buracos sozinho. Quando acha um, o reporte é escrito por IA e enviado à prefeitura automaticamente. No protótipo, fotos já baixadas fazem o papel da câmera (veja a área da Prefeitura)."
     },
     {
       "id": "python",
@@ -73,7 +73,7 @@
   "impacto": "Quantas vezes o trajeto ficou inacessível no horário de ida ao trabalho, medido no histórico do poste. É o indicador proposto pela equipe.",
   "dados": [
     "O app não tem cadastro e não pede dados pessoais. O tema, o caminho de sempre e os ajustes ficam só no seu aparelho.",
-    "A IA de visão analisa a imagem do poste na memória e não guarda a foto. O reporte do cidadão guarda só uma miniatura, para mostrar o problema.",
+    "As fotos das câmeras dos postes (só da calçada) ficam guardadas no servidor para a Prefeitura consultar. A foto do cidadão não passa pela IA, e o reporte guarda só uma miniatura, para mostrar o problema.",
     "Só o poste do ponto de ônibus é lido ao vivo. O resto dos trechos, as rotas e os locais são exemplos simulados, e a tela avisa isso."
   ]
 }
