@@ -10,7 +10,7 @@ import { VOCE_PADRAO } from '../domain/mapa'
 import './Locais.css'
 
 /*
-  Tela Locais acessíveis perto de mim: banheiros acessíveis e pontos de descanso perto do caminho [HU-12, HU-14].
+  Tela Locais acessíveis perto de mim: banheiros acessíveis, pontos de descanso e lazer acessível perto do caminho [HU-12, HU-14].
   A lista e o filtro vêm do hook useLocais; aqui fica só o desenho da tela.
 */
 export default function Locais() {
@@ -21,7 +21,7 @@ export default function Locais() {
     <>
       <Cabecalho titulo="Locais acessíveis perto de mim" />
       <main id="conteudo" tabIndex={-1} className="app__conteudo locais-tela">
-        <p className="intro">Banheiros acessíveis e lugares para descansar perto do caminho.</p>
+        <p className="intro">Banheiros acessíveis, lugares para descansar e opções de lazer acessível perto do caminho.</p>
 
         <Filtros rotulo="Filtrar locais" opcoes={FILTROS_LOCAL} valor={filtro} aoMudar={mudarFiltro} />
 

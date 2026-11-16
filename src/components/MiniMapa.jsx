@@ -1,13 +1,13 @@
 import MapaBase, { Marker } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { IconToiletPaper, IconArmchair } from '@tabler/icons-react'
+import { IconToiletPaper, IconArmchair, IconTrees } from '@tabler/icons-react'
 import FiguraPessoa from './FiguraPessoa'
 import { estiloDoMapa } from '../styles/mapa/estilos'
 import { areaDosPontos } from '../domain/mapa'
 import { textoQuantidade } from '../domain/locais'
 import './MiniMapa.css'
 
-const ICONES = { banheiro: IconToiletPaper, descanso: IconArmchair }
+const ICONES = { banheiro: IconToiletPaper, descanso: IconArmchair, lazer: IconTrees }
 
 /*
   Mapa pequeno com os locais (pinos) e a pessoa.

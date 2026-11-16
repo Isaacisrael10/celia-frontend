@@ -41,7 +41,7 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
 | **Rotas** | Compara 3 caminhos até o trabalho, recomenda o mais seguro (que nem sempre é o mais curto) e deixa a pessoa escolher o **caminho de sempre** (salvo no navegador, sem login). |
 | **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto (vai só a miniatura), tipo do problema e descrição sugerida pela IA (Gemini) que a pessoa revisa antes de enviar, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. A foto do cidadão não passa pela IA de visão [RF08, RF21, RN07]. |
-| **Locais acessíveis perto de mim** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro, mini mapa e "Como chegar". |
+| **Locais acessíveis perto de mim** | Banheiros acessíveis, pontos de descanso e **lazer acessível** (praça, quadra, sala de leitura) perto do caminho, com filtro, mini mapa e "Como chegar". |
 | **Trilha IA** | Mini trilha de IA para o trabalho [HU-19, RF18]. Abre explicando por que uma trilha de IA faz parte de um app de calçadas e onde a IA já trabalha dentro da C.E.L.I.A. Depois vêm as lições curtas que abrem e fecham, com exemplo no trabalho e exercício. As lições vêm da API da equipe (`GET /trilha`); sem a API, usa a cópia que vem com o app. |
 | **Assistente** | Conversa com o assistente de IA (Gemini, pela API da equipe) sobre o caminho até o trabalho. Responde só com os trechos e locais do app e transforma os citados em links [HU-21, RF20, RN06]. |
 | **Perfil** | Cards organizados em grade: Aparência (modo claro e escuro), Alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), Acessibilidade (tamanho do texto, menos animações, mais contraste) e um resumo do projeto. |
@@ -166,7 +166,7 @@ src/
 1. Alternar **modo claro/escuro** (Perfil)
 2. **Filtrar reportes** por situação
 3. Alternar **Mapa / Lista**
-4. **Filtrar locais** por tipo
+4. **Filtrar locais** por tipo (banheiros, descanso e lazer)
 5. **Inverter** origem e destino nas rotas
 6. **Escolher o caminho de sempre** e ver o boletim no mapa (muda sozinho se um trecho mudar de faixa)
 7. **Confirmar exclusão** de um reporte dentro do próprio card

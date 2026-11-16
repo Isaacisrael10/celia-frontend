@@ -8,11 +8,14 @@ import {
   IconAccessible,
   IconClock,
   IconArrowRight,
+  IconTrees,
+  IconDisabled,
+  IconRoad,
 } from '@tabler/icons-react'
 import { TIPOS_LOCAL, RECURSOS, linkComoChegar } from '../domain/locais'
 import './CardLocal.css'
 
-const ICONES_TIPO = { banheiro: IconToiletPaper, descanso: IconArmchair }
+const ICONES_TIPO = { banheiro: IconToiletPaper, descanso: IconArmchair, lazer: IconTrees }
 
 // Ícone de cada recurso de acessibilidade
 const ICONES_RECURSO = {
@@ -22,6 +25,9 @@ const ICONES_RECURSO = {
   banco: IconArmchair,
   bebedouro: IconDroplet,
   cobertura: IconUmbrella,
+  rampa: IconDisabled,
+  'piso-tatil': IconRoad,
+  'banheiro-acessivel': IconToiletPaper,
 }
 
 /*

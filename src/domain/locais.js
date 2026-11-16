@@ -6,10 +6,11 @@
 export const TIPOS_LOCAL = {
   banheiro: 'Banheiro acessível',
   descanso: 'Ponto de descanso',
+  lazer: 'Lazer acessível',
 }
 
 // Opções do filtro da tela Locais
-export const FILTROS_LOCAL = { todos: 'Todos', banheiro: 'Banheiros', descanso: 'Descanso' }
+export const FILTROS_LOCAL = { todos: 'Todos', banheiro: 'Banheiros', descanso: 'Descanso', lazer: 'Lazer' }
 
 // Recursos de acessibilidade de cada local (aparecem como selos no card)
 export const RECURSOS = {
@@ -19,6 +20,9 @@ export const RECURSOS = {
   banco: 'Banco',
   bebedouro: 'Bebedouro',
   cobertura: 'Cobertura',
+  rampa: 'Rampa de acesso',
+  'piso-tatil': 'Piso tátil',
+  'banheiro-acessivel': 'Banheiro acessível',
 }
 
 // Devolve os locais do tipo escolhido ("todos" devolve todos), do mais perto para o mais longe

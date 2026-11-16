@@ -29,7 +29,7 @@ export const NOS = [
     caminho: '/locais',
     rotulo: 'Locais',
     rotuloLongo: 'Locais acessíveis',
-    apoio: 'Banheiros e descanso perto de você',
+    apoio: 'Banheiros, descanso e lazer perto de você',
     x: 23.8,
     y: 89.5,
   },
