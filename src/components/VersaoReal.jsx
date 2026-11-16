@@ -31,7 +31,7 @@ const ETAPAS = [
     Icone: IconCamera,
     titulo: 'A câmera fotografa a calçada',
     texto: 'A cada 20 segundos, a câmera do poste (ESP32-CAM) tira uma foto do trecho em frente ao ponto e envia pela internet.',
-    demo: '6 fotos já baixadas fazem o papel da câmera (dataset público de buracos e calçadas do Rio, com fonte).',
+    demo: 'A API já recebe a foto da ESP32-CAM pela rota /poste/captura (com chave). Sem a câmera ligada, 6 fotos já baixadas fazem o papel dela (dataset público de buracos e calçadas do Rio, com fonte).',
   },
   {
     id: 'visao',
@@ -39,7 +39,7 @@ const ETAPAS = [
     titulo: 'A IA procura buracos no servidor',
     texto:
       'A foto chega ao servidor da C.E.L.I.A., onde o modelo de buracos treinado pela equipe (YOLO) analisa a imagem. O poste só fotografa: um ESP32 não tem força para rodar a IA.',
-    demo: 'A API da equipe em Python (FastAPI) roda o modelo na rota /analisar, igual à versão real.',
+    demo: 'A API da equipe em Python (FastAPI) roda o modelo assim que a foto chega, igual à versão real.',
   },
   {
     id: 'led',
@@ -62,14 +62,14 @@ const ETAPAS = [
     titulo: 'O reporte chega sozinho à Prefeitura',
     texto:
       'O Gemini escreve o texto e o reporte é enviado sem revisão humana. Já o reporte do cidadão é revisado por ele antes de sair.',
-    demo: 'A rota /assistente/descricao pede o texto ao Gemini e o reporte entra em "Reportes recebidos".',
+    demo: 'Com a câmera real, a própria API pede o texto ao Gemini (no máximo um reporte a cada 10 min por poste) e ele entra em "Reportes recebidos". Na câmera simulada, o app pede pela rota /assistente/descricao.',
   },
   {
     id: 'lgpd',
     Icone: IconShieldLock,
     titulo: 'Dados com cuidado (LGPD)',
     texto: 'As fotos das câmeras dos postes ficam guardadas no banco do servidor, para a Prefeitura consultar o histórico. São fotos da calçada, sem cadastro de ninguém. A foto do cidadão vai só como miniatura no reporte e não passa pela IA.',
-    demo: 'O banco de capturas (SQLite) ainda está sendo feito na API. O Gemini recebe só texto, nunca a foto.',
+    demo: 'A API guarda as capturas e os reportes num banco SQLite. O Gemini recebe só texto, nunca a foto.',
   },
 ]
 
