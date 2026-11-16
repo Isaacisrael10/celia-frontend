@@ -41,7 +41,7 @@ export default function GrafoAcessibilidade({ ativo = '', aoEscolher }) {
               </span>
               {/* Nome, frase de apoio e "Você está aqui": o CSS decide de que lado da bolinha eles ficam */}
               <span className="menu-grafo__textos">
-                <span className="menu-grafo__nome">{no.rotulo}</span>
+                <span className="menu-grafo__nome">{no.rotuloLongo || no.rotulo}</span>
                 <span className="menu-grafo__descricao">{no.apoio}</span>
                 {no.id === ativo && <span className="menu-grafo__aqui">Você está aqui</span>}
               </span>

@@ -174,3 +174,33 @@
   flex-direction: column;
   gap: 8px;
 }
+
+/*
+  Passar o mouse nos cards do Sobre: o card sobe um pouco, a borda acende no azul do símbolo
+  e a bolinha cresce e gira de leve. Só em aparelhos com mouse (hover: hover), para o toque
+  no celular não deixar o card "preso" levantado. "Menos animações" desliga tudo (base.css).
+*/
+@media (hover: hover) {
+  .sobre__parte,
+  .sobre__ficha-item {
+    transition:
+      transform var(--medio) var(--suave),
+      box-shadow var(--medio) var(--suave),
+      border-color var(--medio) var(--suave);
+  }
+
+  .sobre__parte:hover,
+  .sobre__ficha-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-flutuante);
+    border-color: var(--primary);
+  }
+
+  .sobre__bolinha {
+    transition: transform var(--medio) var(--suave);
+  }
+
+  .sobre__parte:hover .sobre__bolinha {
+    transform: scale(1.12) rotate(-8deg);
+  }
+}

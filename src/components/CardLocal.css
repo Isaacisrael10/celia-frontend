@@ -80,3 +80,36 @@
 .card-local__chegar {
   align-self: flex-end;
 }
+
+/*
+  Passar o mouse num local: o card sobe um pouco, a borda acende no azul do símbolo
+  e a bolinha do tipo (banheiro ou descanso) fica cheia, como as bolinhas do grafo.
+  Só com mouse (hover: hover); "Menos animações" desliga a transição (base.css).
+*/
+@media (hover: hover) {
+  .card-local {
+    transition:
+      transform var(--medio) var(--suave),
+      box-shadow var(--medio) var(--suave),
+      border-color var(--medio) var(--suave);
+  }
+
+  .card-local__icone {
+    transition:
+      background var(--medio) var(--suave),
+      color var(--medio) var(--suave),
+      transform var(--medio) var(--suave);
+  }
+
+  .card-local:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-flutuante);
+    border-color: var(--primary);
+  }
+
+  .card-local:hover .card-local__icone {
+    background: var(--primary);
+    color: var(--on-primary);
+    transform: scale(1.06);
+  }
+}

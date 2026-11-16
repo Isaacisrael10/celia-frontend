@@ -17,12 +17,22 @@
     O meio do corpo fica um pouco abaixo do encontro das linhas (54% em vez de 50,7%),
     para a bolinha dele não encostar na cabeça em telas pequenas.
   - A ordem desta lista é a ordem da navegação e da leitura no teclado.
+  - rotuloLongo (opcional): nome mais explícito, usado no grafo da home, onde há espaço.
+    A barra de navegação do celular usa o rótulo curto, porque seis nomes dividem a largura.
 */
 export const NOS = [
   { id: 'mapa', caminho: '/mapa', rotulo: 'Mapa', apoio: 'Como estão as calçadas agora', x: 50, y: 25.7 },
   { id: 'rotas', caminho: '/rotas', rotulo: 'Rotas', apoio: 'Compare os caminhos', x: 3.6, y: 35.2 },
   { id: 'reportar', caminho: '/reportar', rotulo: 'Reportar', apoio: 'Avise um problema', x: 96.4, y: 35.2 },
-  { id: 'locais', caminho: '/locais', rotulo: 'Locais', apoio: 'Banheiros e descanso', x: 23.8, y: 89.5 },
+  {
+    id: 'locais',
+    caminho: '/locais',
+    rotulo: 'Locais',
+    rotuloLongo: 'Locais acessíveis',
+    apoio: 'Banheiros e descanso perto de você',
+    x: 23.8,
+    y: 89.5,
+  },
   { id: 'trilha', caminho: '/trilha', rotulo: 'Trilha IA', apoio: 'Aprenda IA para o trabalho', x: 50, y: 54 },
   { id: 'perfil', caminho: '/perfil', rotulo: 'Perfil', apoio: 'Ajustes e acessibilidade', x: 76.2, y: 89.5 },
 ]
