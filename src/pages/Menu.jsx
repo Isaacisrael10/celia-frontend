@@ -11,10 +11,10 @@ import './Menu.css'
 /*
   Página do Menu (endereço /menu). É também a entrada do app: "/" e "/home" levam para cá.
   Fica FORA da moldura das outras telas (sem a barra de navegação), ocupando a tela inteira.
-  - à esquerda: o grafo de acessibilidade, em que cada ponto do símbolo abre uma parte do app
-  - à direita: o título "Para onde vamos?" e, embaixo dele, o painel de acesso
-    com os dois perfis de quem usa (Prefeitura e Cidadão)
-  No celular: título, painel de acesso e, por último, o grafo.
+  - à esquerda: o título "Para onde vamos?" e o grafo de acessibilidade,
+    em que cada ponto do símbolo abre uma parte do app
+  - à direita: o painel de acesso com os dois perfis de quem usa (Prefeitura e Cidadão)
+  No celular: painel de acesso em cima; depois o título e o grafo.
 
   Quem abre o menu pela barra (o símbolo no topo) manda junto a tela de onde veio (state.de):
   o grafo mostra "Você está aqui" nela. Para sair, a pessoa escolhe um ponto do grafo ou um dos botões.
@@ -33,20 +33,19 @@ export default function Menu() {
     <div className="menu-tela">
       <FundoGrafo />
       <main id="conteudo" className="menu-pagina">
-        {/* Esquerda: grafo de acessibilidade (o título dele fica em cima do painel, à direita) */}
+        {/* Esquerda: "Para onde vamos?" e, logo embaixo, o grafo de acessibilidade */}
         <section className="menu-pagina__grafo" aria-labelledby="menu-grafo-titulo">
-          <GrafoAcessibilidade ativo={noAtivo(veioDe)} />
-        </section>
-
-        {/* Direita: título "Para onde vamos?" e, embaixo, o painel de acesso */}
-        <div className="menu-pagina__lado">
           <div className="menu-pagina__chamada">
             <h2 id="menu-grafo-titulo" className="menu-pagina__grafo-titulo">
               Para onde vamos?
             </h2>
             <p className="menu-pagina__grafo-apoio">Cada ponto do símbolo de acessibilidade abre uma parte da C.E.L.I.A.</p>
           </div>
+          <GrafoAcessibilidade ativo={noAtivo(veioDe)} />
+        </section>
 
+        {/* Direita: o painel de acesso, com os dois perfis */}
+        <div className="menu-pagina__lado">
           <section className="menu-pagina__acesso cartao" aria-labelledby="menu-titulo">
             <p className="menu-pagina__marca">C.E.L.I.A.</p>
             <h1 id="menu-titulo" className="menu-pagina__titulo">

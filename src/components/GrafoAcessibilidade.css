@@ -228,14 +228,26 @@
   }
 
   /*
-    Cabeça e meio do corpo: a frase de apoio passa por cima de uma linha do símbolo,
+    Cabeça: a frase de apoio passa por cima do círculo do símbolo,
     então ganha um fundo da cor da tela (a linha "abre" ali, como em volta das bolinhas).
   */
-  .menu-grafo__no--mapa .menu-grafo__descricao,
-  .menu-grafo__no--trilha .menu-grafo__descricao {
+  .menu-grafo__no--mapa .menu-grafo__descricao {
     padding: 2px 8px;
     background: var(--bg);
     border-radius: 8px;
+  }
+
+  /*
+    Meio do corpo (Trilha IA): fica entre as duas pernas, onde não cabe a frase de apoio.
+    Ela continua para o leitor de tela; na tela fica só o nome, sem tampar as linhas.
+  */
+  .menu-grafo__no--trilha .menu-grafo__descricao {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
   }
 
   /* Mão esquerda (Rotas): textos para fora do círculo, à esquerda */
