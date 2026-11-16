@@ -270,3 +270,8 @@
     transition: none;
   }
 }
+
+/* O link "Ver o caminho completo" (câmera do poste) pula até aqui: sobra espaço para o cabeçalho de vidro */
+.historia__cabeca {
+  scroll-margin-top: 96px;
+}

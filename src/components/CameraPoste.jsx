@@ -58,7 +58,22 @@ export default function CameraPoste({ camera, poste }) {
           </h2>
           <p className="apoio">{poste.local}</p>
         </div>
-        <span className="camera__selo-simulacao">Simulação</span>
+        <span className="camera__selo-simulacao">Câmera simulada</span>
+      </div>
+
+      {/* Deixa claro, antes de ligar, o que é real e o que faz o papel da câmera nesta demonstração */}
+      <div className="camera__explica">
+        <p>
+          <strong>Na rua:</strong> o poste do ponto de ônibus fotografa a calçada a cada 20 segundos. A IA de visão
+          procura buracos e, se achar, o reporte vai sozinho para a Prefeitura.
+        </p>
+        <p>
+          <strong>Nesta demonstração:</strong> ainda não temos a câmera do poste (ESP32-CAM). {total} fotos já baixadas
+          fazem o papel dela. A IA, o aviso ao poste e o reporte do Gemini funcionam de verdade.
+        </p>
+        <a href="#historia-titulo" className="acao-texto">
+          Ver o caminho completo, do poste até a Prefeitura
+        </a>
       </div>
 
       <div className={'camera__tela camera__tela--' + fase}>

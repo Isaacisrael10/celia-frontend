@@ -29,6 +29,21 @@
   color: var(--muted);
 }
 
+/* Explicação "Na rua / Nesta demonstração": fio à esquerda, sem cor de semáforo */
+.camera__explica {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 0 2px 14px;
+  border-left: 3px solid var(--borda-campo);
+  font-size: var(--texto-m);
+  line-height: 1.5;
+}
+
+.camera__explica p {
+  margin: 0;
+}
+
 /*
   A "tela" da câmera: sempre 4:3 e escura, como um monitor de câmera de segurança.
   Os textos por cima são brancos sobre fundo preto translúcido (contraste AA em qualquer foto).
