@@ -275,3 +275,13 @@
 .historia__cabeca {
   scroll-margin-top: 96px;
 }
+
+/*
+  Celular: o card fechado esperava 32 px à direita e empurrava a página para o lado
+  (rolagem horizontal na Prefeitura). Aqui ele entra só de baixo para cima.
+*/
+@media (max-width: 767px) {
+  .historia .historia__etapa:not(.historia__etapa--aberta) .historia__card {
+    translate: 0 24px;
+  }
+}
