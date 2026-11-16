@@ -73,6 +73,7 @@ export default function Rotas() {
                 rota={rota}
                 recomendada={rota.id === recomendada.id}
                 atual={escolhida && rota.id === escolhida.id}
+                volta={volta}
                 aoEscolher={escolherRota}
               />
             </li>

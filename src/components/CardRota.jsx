@@ -1,7 +1,7 @@
-import { IconArrowRight, IconCheck, IconStarFilled } from '@tabler/icons-react'
+import { IconArrowRight, IconCheck, IconStarFilled, IconExternalLink } from '@tabler/icons-react'
 import BadgeFaixa from './BadgeFaixa'
 import { FAIXAS, rotuloCompleto } from '../domain/faixas'
-import { trechoEmPerigo, textoDistancia } from '../domain/rotas'
+import { trechoEmPerigo, textoDistancia, linkRotaNoMaps } from '../domain/rotas'
 import { nomeDoTrecho } from '../domain/trechos'
 import './CardRota.css'
 
@@ -12,10 +12,13 @@ import './CardRota.css'
   - rota: rota já analisada (analisarRota)
   - recomendada: true mostra o selo "Recomendada" e o botão principal
   - atual: true se é o caminho de sempre da pessoa
+  - volta: true se a pessoa inverteu o percurso (do trabalho para casa)
   - aoEscolher(id)
 */
-export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
+export default function CardRota({ rota, recomendada, atual, volta, aoEscolher }) {
   const perigo = trechoEmPerigo(rota)
+  // Link do Google Maps com o caminho a pé por estas ruas (no sentido escolhido)
+  const linkMaps = linkRotaNoMaps(rota, volta)
   const { contagem } = rota
 
   // Ex.: "3 Acessível · 1 Atenção · 0 Evite" (+ "1 Sem dados" se houver)
@@ -71,9 +74,24 @@ export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
       )}
 
       {atual ? (
-        <p className="card-rota__atual">
-          <IconCheck size={20} aria-hidden="true" /> Seu caminho de sempre
-        </p>
+        <>
+          <p className="card-rota__atual">
+            <IconCheck size={20} aria-hidden="true" /> Seu caminho de sempre
+          </p>
+          {/* Caminho de sempre: o botão principal leva direto ao Google Maps para seguir a rota */}
+          {linkMaps && (
+            <a
+              className="botao botao--pequeno botao--primario botao--seta"
+              href={linkMaps}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Seguir no Google Maps
+              <IconExternalLink size={20} aria-hidden="true" />
+              <span className="so-leitor"> (abre em outra aba)</span>
+            </a>
+          )}
+        </>
       ) : (
         <button
           className={'botao botao--pequeno botao--seta ' + (recomendada ? 'botao--primario' : 'botao--secundario')}
@@ -82,6 +100,15 @@ export default function CardRota({ rota, recomendada, atual, aoEscolher }) {
           Usar como caminho de sempre
           <IconArrowRight size={20} aria-hidden="true" />
         </button>
+      )}
+
+      {/* As outras rotas também podem ser vistas no Google Maps, sem virar o caminho de sempre */}
+      {!atual && linkMaps && (
+        <a className="acao-texto card-rota__maps" href={linkMaps} target="_blank" rel="noopener noreferrer">
+          Ver esta rota no Google Maps
+          <IconExternalLink size={18} aria-hidden="true" />
+          <span className="so-leitor"> (abre em outra aba)</span>
+        </a>
       )}
     </article>
   )

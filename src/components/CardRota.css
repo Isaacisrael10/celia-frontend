@@ -144,3 +144,13 @@
   font-size: var(--texto-m);
   font-weight: 600;
 }
+
+/* "Ver esta rota no Google Maps": link discreto embaixo do botão, com o ícone de "abre fora" */
+.card-rota__maps {
+  align-self: center;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--toque);
+  font-size: var(--texto-m);
+}
