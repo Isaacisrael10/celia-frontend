@@ -8,6 +8,8 @@ import {
   IconBuildingBank,
   IconChartLine,
   IconShieldLock,
+  IconExternalLink,
+  IconChevronDown,
 } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
 import FiguraPessoa from '../components/FiguraPessoa'
@@ -27,8 +29,8 @@ const ICONES_PARTE = {
 }
 
 /*
-  Sobre o projeto: o problema, para quem é, como a solução ajuda, o que cada parte faz,
-  os ODS e o cuidado com os dados. Os textos ficam em src/data/sobre.json;
+  Sobre o projeto: o problema, o problema em números (com fonte), para quem é, como a solução ajuda,
+  o que cada parte faz, os ODS, o cuidado com os dados e as perguntas frequentes. Os textos ficam em src/data/sobre.json;
   esta tela só desenha.
 */
 export default function Sobre() {
@@ -59,6 +61,28 @@ export default function Sobre() {
             </div>
           ))}
         </dl>
+
+        {/* O problema em números: dados públicos, cada um com a fonte e o link */}
+        <section aria-labelledby="sobre-numeros" className="sobre__secao">
+          <h2 id="sobre-numeros" className="sobre__titulo">
+            O problema em números
+          </h2>
+          <p className="sobre__intro-secao">{sobre.numeros_intro}</p>
+          <ul className="sobre__numeros">
+            {sobre.numeros.map((n) => (
+              <li key={n.valor} className="cartao sobre__numero">
+                <p className="sobre__numero-valor">{n.valor}</p>
+                <p>{n.texto}</p>
+                <a className="sobre__fonte" href={n.url} target="_blank" rel="noopener noreferrer">
+                  Fonte: {n.fonte}
+                  <IconExternalLink size={16} aria-hidden="true" />
+                  <span className="so-leitor"> (abre em outra aba)</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+          <p className="sobre__fecho">{sobre.numeros_fecho}</p>
+        </section>
 
         <section aria-labelledby="sobre-jornada" className="sobre__secao">
           <h2 id="sobre-jornada" className="sobre__titulo">
@@ -129,6 +153,24 @@ export default function Sobre() {
             </ul>
           </section>
         </div>
+
+        {/* Perguntas frequentes: <details> abre e fecha sem JavaScript e funciona com teclado e leitor de tela */}
+        <section aria-labelledby="sobre-faq" className="sobre__secao">
+          <h2 id="sobre-faq" className="sobre__titulo">
+            Perguntas frequentes
+          </h2>
+          <div className="sobre__faq">
+            {sobre.faq.map((item) => (
+              <details key={item.pergunta} className="cartao sobre__pergunta">
+                <summary>
+                  {item.pergunta}
+                  <IconChevronDown size={22} aria-hidden="true" className="sobre__pergunta-seta" />
+                </summary>
+                <p>{item.resposta}</p>
+              </details>
+            ))}
+          </div>
+        </section>
       </main>
     </>
   )

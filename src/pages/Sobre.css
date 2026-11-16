@@ -204,3 +204,142 @@
     transform: scale(1.12) rotate(-8deg);
   }
 }
+
+/* ---------- O problema em números ---------- */
+.sobre__intro-secao {
+  max-width: 60ch;
+  margin: -4px auto 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Cards de número: 1 coluna no celular, quantas couberem nas telas largas */
+.sobre__numeros {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 14px;
+}
+
+/* Número grande à esquerda, texto e fonte embaixo: leitura de cima para baixo, sem centralizar */
+.sobre__numero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--texto-m);
+  border-top: 3px solid var(--primary);
+}
+
+.sobre__numero-valor {
+  font-size: var(--titulo-m);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.sobre__fonte {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--texto-p);
+  color: var(--link);
+}
+
+.sobre__fecho {
+  max-width: 62ch;
+  margin: 0 auto;
+  font-size: var(--texto-g);
+  font-weight: 500;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ---------- Perguntas frequentes ---------- */
+.sobre__faq {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 52rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sobre__pergunta {
+  padding: 0;
+}
+
+/* A pergunta é a área de toque inteira (48 px no mínimo), com a seta à direita */
+.sobre__pergunta summary {
+  min-height: var(--toque);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--texto-g);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--raio);
+}
+
+.sobre__pergunta summary::-webkit-details-marker {
+  display: none;
+}
+
+.sobre__pergunta summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.sobre__pergunta-seta {
+  flex: none;
+  transition: transform var(--medio) var(--suave);
+}
+
+.sobre__pergunta[open] .sobre__pergunta-seta {
+  transform: rotate(180deg);
+}
+
+.sobre__pergunta p {
+  padding: 0 16px 16px;
+  max-width: 65ch;
+  font-size: var(--texto-m);
+  line-height: 1.55;
+}
+
+@media (hover: hover) {
+  .sobre__numero {
+    transition:
+      transform var(--medio) var(--suave),
+      box-shadow var(--medio) var(--suave);
+  }
+
+  .sobre__numero:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-flutuante);
+  }
+
+  .sobre__pergunta summary:hover {
+    color: var(--link);
+  }
+}
+
+/* Computador: 5 números em duas linhas cheias (3 em cima, 2 embaixo), sem card sobrando sozinho */
+@media (min-width: 1024px) {
+  .sobre__numeros {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .sobre__numero {
+    grid-column: span 2;
+  }
+
+  .sobre__numero:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+}
