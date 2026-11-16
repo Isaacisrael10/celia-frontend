@@ -198,3 +198,57 @@ export function textoGraus(valor) {
 export function horaDoAlerta(textoIso) {
   return new Date(textoIso).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })
 }
+
+/*
+  ---------- Câmera REAL do poste (ESP32-CAM), lida da API [HU-25, RF24] ----------
+  PROPOSTA: a câmera conta como "ao vivo" se a última foto chegou há menos de 2 min.
+  Ela manda uma foto a cada 20 s: 2 min é folga para algumas fotos perdidas no Wi-Fi.
+  Passou disso, a tela volta para a câmera simulada (RNF10).
+*/
+export const LIMITE_CAMERA_VIVA_MS = 2 * 60 * 1000
+
+// A última foto ainda é recente? Ex.: foto de 30 s atrás → true · de 5 min atrás → false
+export function capturaRecente(captura, agora) {
+  if (!captura) return false
+  const recebida = Date.parse(captura.recebida_em)
+  return !isNaN(recebida) && agora - recebida < LIMITE_CAMERA_VIVA_MS
+}
+
+// Converte um report da API (seção 8.2 do contrato) no formato dos cards da caixa de entrada
+export function reportePosteDaApi(reporte, poste) {
+  return {
+    id: 'api-' + reporte.id,
+    origem: 'poste',
+    poste: poste.nome,
+    tipo: 'buraco',
+    rua: poste.rua || poste.local, // o bairro vai separado (o card mostra "rua, bairro")
+    bairro: 'Grajaú',
+    lat: poste.lat,
+    lng: poste.lng,
+    criadoEm: reporte.criado_em,
+    descricao: reporte.texto,
+    situacao: 'recebido',
+    fotoCaminho: reporte.captura.foto,
+    real: true, // veio da câmera de verdade, não dos dados de exemplo
+  }
+}
+
+/*
+  Em que etapa está a última foto real (as mesmas fases da simulação, para EtapasPoste):
+  - sem resultado (chegou com a IA ligando) → 'capturando'
+  - livre → 'livre'
+  - buraco com report desta foto, ou com report do poste há menos de 10 min (RN09) → 'enviado'
+  - buraco sem report ainda → 'escrevendo' (o Gemini está escrevendo)
+  Devolve { fase, texto } (texto = o report que foi para a Prefeitura, quando houver).
+*/
+const INTERVALO_REPORTS_MS = 10 * 60 * 1000
+
+export function etapaDaCapturaReal(captura, reportes, agora) {
+  if (!captura || !captura.resultado) return { fase: 'capturando', texto: '' }
+  if (captura.resultado === 'livre') return { fase: 'livre', texto: '' }
+  const daFoto = reportes.find((r) => r.fotoCaminho === captura.foto)
+  if (daFoto) return { fase: 'enviado', texto: daFoto.descricao }
+  const recente = reportes.find((r) => agora - Date.parse(r.criadoEm) < INTERVALO_REPORTS_MS)
+  if (recente) return { fase: 'enviado', texto: recente.descricao }
+  return { fase: 'escrevendo', texto: '' }
+}

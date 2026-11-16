@@ -7,8 +7,9 @@ import { filtrarPorOrigem, ordenarRecentes, contarPorOrigem } from '../domain/pr
   - Começa com reportes de EXEMPLO (src/data/prefeitura.json), para a lista não abrir vazia.
   - Os reportes que a câmera do poste envia na demonstração entram no topo (adicionar).
   Ficam só na memória da tela: ao recarregar a página, voltam os de exemplo.
+  - reportesApi: (opcional) os reports da câmera REAL do poste, vindos da API (useCameraReal)
 */
-export function useReportesPrefeitura() {
+export function useReportesPrefeitura(reportesApi = []) {
   const [reportes, setReportes] = useState(dados.reportes)
   // Interação: filtrar por origem (todos, postes ou cidadãos)
   const [filtro, setFiltro] = useState('todos')
@@ -18,9 +19,10 @@ export function useReportesPrefeitura() {
     setReportes((atuais) => [reporte, ...atuais])
   }
 
-  const ordenados = ordenarRecentes(reportes)
+  const todos = [...reportesApi, ...reportes]
+  const ordenados = ordenarRecentes(todos)
   const visiveis = filtrarPorOrigem(ordenados, filtro)
-  const novos = reportes.filter((r) => r.novo).length
+  const novos = todos.filter((r) => r.novo).length
 
-  return { reportes: ordenados, visiveis, filtro, setFiltro, contagem: contarPorOrigem(reportes), novos, adicionar }
+  return { reportes: ordenados, visiveis, filtro, setFiltro, contagem: contarPorOrigem(todos), novos, adicionar }
 }

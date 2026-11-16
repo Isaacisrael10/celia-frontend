@@ -201,3 +201,8 @@
     transform: none;
   }
 }
+
+/* Aviso de "câmera real sem foto": ocupa a linha inteira, embaixo da câmera e das etapas */
+.prefeitura__nota--camera {
+  grid-column: 1 / -1;
+}

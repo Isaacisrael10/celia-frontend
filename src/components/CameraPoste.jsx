@@ -32,14 +32,15 @@ function useRelogio() {
 }
 
 /*
-  Câmera do poste "ao vivo" (SIMULAÇÃO).
+  Câmera do poste "ao vivo": SIMULAÇÃO ou, com real=true, a foto de verdade da ESP32-CAM.
   Parece uma transmissão de câmera de segurança: selo AO VIVO, relógio, linhas de vídeo
   e uma varredura enquanto a IA analisa. As caixas do YOLO aparecem sobre a imagem.
   Na versão real, o poste (ESP32-CAM) só tira a foto e envia; a IA roda no servidor (API da equipe).
   - camera: o que o useCameraPoste devolve
   - poste: dados do poste (nome, câmera e local)
+  - real: true quando a foto veio da câmera de verdade (sem botões de ligar e pausar, sem contador)
 */
-export default function CameraPoste({ camera, poste }) {
+export default function CameraPoste({ camera, poste, real = false }) {
   const { fase, ligada, quadro, indice, total, caixas } = camera
   const hora = useRelogio()
   const frase = textoDaFase(camera)
@@ -58,7 +59,11 @@ export default function CameraPoste({ camera, poste }) {
           </h2>
           <p className="apoio">{poste.local}</p>
         </div>
-        <span className="camera__selo-simulacao">Câmera simulada</span>
+        {real ? (
+          <span className="camera__selo-simulacao camera__selo-real">Ao vivo · ESP32-CAM</span>
+        ) : (
+          <span className="camera__selo-simulacao">Câmera simulada</span>
+        )}
       </div>
 
       {/* Deixa claro, antes de ligar, o que é real e o que faz o papel da câmera nesta demonstração */}
@@ -67,10 +72,17 @@ export default function CameraPoste({ camera, poste }) {
           <strong>Na rua:</strong> o poste do ponto de ônibus fotografa a calçada a cada 20 segundos. A IA de visão
           procura buracos e, se achar, o reporte vai sozinho para a Prefeitura.
         </p>
-        <p>
-          <strong>Nesta demonstração:</strong> ainda não temos a câmera do poste (ESP32-CAM). {total} fotos já baixadas
-          fazem o papel dela. A IA, o aviso ao poste e o reporte do Gemini funcionam de verdade.
-        </p>
+        {real ? (
+          <p>
+            <strong>Agora:</strong> esta é a foto real da câmera do poste (ESP32-CAM), recebida pela API. A IA, o aviso ao
+            poste e o reporte do Gemini funcionam de verdade.
+          </p>
+        ) : (
+          <p>
+            <strong>Nesta demonstração:</strong> a câmera do poste (ESP32-CAM) não está mandando fotos agora. {total}{' '}
+            fotos já baixadas fazem o papel dela. A IA, o aviso ao poste e o reporte do Gemini funcionam de verdade.
+          </p>
+        )}
         <a href="#historia-titulo" className="acao-texto">
           Ver o caminho completo, do poste até a Prefeitura
         </a>
@@ -79,7 +91,7 @@ export default function CameraPoste({ camera, poste }) {
       <div className={'camera__tela camera__tela--' + fase}>
         {/* A imagem fica parada; só os desenhos por cima (caixas, varredura, AO VIVO) mudam */}
         <div className="camera__imagem">
-          <img src={quadro.src} alt={descricao} />
+          <img key={quadro.src} src={quadro.src} alt={descricao} />
           {caixas.map((caixa, i) => {
             const pos = caixaEmPorcentagem(caixa, camera.tamanho.largura, camera.tamanho.altura)
             return (
@@ -109,9 +121,11 @@ export default function CameraPoste({ camera, poste }) {
           </span>
         </div>
 
-        <span className="camera__contador" aria-hidden="true">
-          Quadro {indice + 1} de {total}
-        </span>
+        {!real && (
+          <span className="camera__contador" aria-hidden="true">
+            Quadro {indice + 1} de {total}
+          </span>
+        )}
 
         {/* Faixa de status: muda de cor quando acha buraco ou envia o reporte */}
         <p className={'camera__status camera__status--' + fase} aria-live="polite">
@@ -119,7 +133,7 @@ export default function CameraPoste({ camera, poste }) {
         </p>
 
         {/* Antes de ligar: botão grande no meio da tela */}
-        {fase === 'parada' && indice === 0 && (
+        {!real && fase === 'parada' && indice === 0 && (
           <div className="camera__capa">
             <button className="botao botao--primario" onClick={camera.ligar}>
               <IconPlayerPlay size={24} aria-hidden="true" />
@@ -154,13 +168,13 @@ export default function CameraPoste({ camera, poste }) {
       </div>
 
       <div className="camera__controles">
-        {ligada && (
+        {!real && ligada && (
           <button className="botao botao--secundario botao--pequeno" onClick={camera.pausar}>
             <IconPlayerPause size={20} aria-hidden="true" />
             Pausar
           </button>
         )}
-        {fase === 'parada' && indice > 0 && (
+        {!real && fase === 'parada' && indice > 0 && (
           <button className="botao botao--secundario botao--pequeno" onClick={camera.ligar}>
             <IconPlayerPlay size={20} aria-hidden="true" />
             Continuar

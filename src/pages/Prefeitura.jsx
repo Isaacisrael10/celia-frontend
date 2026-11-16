@@ -10,6 +10,7 @@ import Filtros from '../components/Filtros'
 import Aviso from '../components/Aviso'
 import { Vazio } from '../components/Estados'
 import { useCameraPoste } from '../hooks/useCameraPoste'
+import { useCameraReal } from '../hooks/useCameraReal'
 import { useReportesPrefeitura } from '../hooks/useReportesPrefeitura'
 import { useAviso } from '../hooks/useAviso'
 import { FILTROS_ORIGEM, textoQuantidade } from '../domain/prefeitura'
@@ -25,7 +26,8 @@ const ABAS = [
 
 /*
   Módulo da PREFEITURA (outro usuário do app, não o cidadão).
-  - Aba "Câmera do poste": a câmera simulada do poste ao vivo. A IA de visão (YOLO) da API analisa cada foto,
+  - Aba "Câmera do poste": a câmera REAL do poste (ESP32-CAM), lida da API a cada 5 s, quando
+    ela mandou foto há pouco; senão, a câmera simulada (RNF10). Nas duas, a IA de visão (YOLO) da API analisa cada foto,
     e quando acha um buraco o Gemini escreve o reporte e ele é enviado sozinho.
   - Aba "Reportes recebidos": a caixa de entrada, com reportes dos postes e dos cidadãos,
     o local e a data. Começa com reportes de exemplo.
@@ -40,7 +42,11 @@ export default function Prefeitura() {
     return ABAS.some((a) => a.id === pedida) ? pedida : 'camera'
   })
   const { aviso, mostrarAviso } = useAviso()
-  const caixa = useReportesPrefeitura()
+  // Câmera real: quando chega um report novo da API, avisa na tela
+  const real = useCameraReal(dados.poste, (reporte) =>
+    mostrarAviso('Novo reporte da câmera real do ' + reporte.poste + ' na caixa de entrada.'),
+  )
+  const caixa = useReportesPrefeitura(real.reportes)
   const camera = useCameraPoste({
     poste: dados.poste,
     quadros: dados.quadros,
@@ -115,8 +121,23 @@ export default function Prefeitura() {
 
         {aba === 'camera' && (
           <section id="painel-camera" role="tabpanel" aria-labelledby="aba-camera" className="prefeitura__camera">
-            <CameraPoste camera={camera} poste={dados.poste} />
-            <EtapasPoste fase={camera.fase} mqttEnviado={camera.mqttEnviado} texto={camera.texto} />
+            {real.aoVivo ? (
+              <>
+                <CameraPoste camera={real.camera} poste={dados.poste} real />
+                <EtapasPoste fase={real.etapa.fase} mqttEnviado={real.captura.mqtt_enviado} texto={real.etapa.texto} />
+              </>
+            ) : (
+              <>
+                <CameraPoste camera={camera} poste={dados.poste} />
+                <EtapasPoste fase={camera.fase} mqttEnviado={camera.mqttEnviado} texto={camera.texto} />
+              </>
+            )}
+            {!real.aoVivo && real.apiNoAr && (
+              <p className="prefeitura__nota prefeitura__nota--camera">
+                <IconInfoSquare size={20} aria-hidden="true" />
+                A câmera real do poste (ESP32-CAM) não mandou foto nos últimos 2 minutos. Mostrando a câmera simulada.
+              </p>
+            )}
             <VersaoReal />
           </section>
         )}
