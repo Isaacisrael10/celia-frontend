@@ -25,26 +25,36 @@ export default function Assistente() {
   // Interação Web Dev: as perguntas e respostas da conversa (some ao sair da tela, nada é guardado)
   const [conversa, setConversa] = useState([])
 
-  async function perguntar(texto) {
+  // repetir = true quando vem do "Tentar de novo": a pergunta já está na conversa
+  async function perguntar(texto, repetir = false) {
     const limpa = texto.trim()
     if (!limpa || carregando) return
     ultimaPergunta.current = limpa
+
+    // A pergunta vira balão na hora e o campo fica limpo, sem esperar a resposta da IA
+    if (!repetir) {
+      setConversa((atual) => [...atual, { pergunta: limpa, resposta: null, trechos: [], locais: [] }])
+      setPergunta('')
+    }
 
     const contexto = montarContexto(trechos, idsParaOAssistente(rotas, escolhida), dadosLocais.locais)
     const r = await executar(() => perguntarTrajeto(limpa, contexto))
     if (!r) return
 
-    setConversa([
-      ...conversa,
-      {
-        pergunta: limpa,
-        resposta: r.resposta,
-        // Ids citados pela IA viram links para o trecho e para os locais
-        trechos: trechos.filter((t) => (r.trechos_citados || []).includes(t.id)),
-        locais: dadosLocais.locais.filter((l) => (r.locais_citados || []).includes(l.id)),
-      },
-    ])
-    setPergunta('')
+    // A resposta entra no último balão (o da pergunta que acabou de ser feita)
+    setConversa((atual) =>
+      atual.map((item, i) =>
+        i === atual.length - 1
+          ? {
+              ...item,
+              resposta: r.resposta,
+              // Ids citados pela IA viram links para o trecho e para os locais
+              trechos: trechos.filter((t) => (r.trechos_citados || []).includes(t.id)),
+              locais: dadosLocais.locais.filter((l) => (r.locais_citados || []).includes(l.id)),
+            }
+          : item,
+      ),
+    )
   }
 
   function enviar(evento) {
@@ -69,30 +79,36 @@ export default function Assistente() {
                 <span className="so-leitor">Você perguntou: </span>
                 {item.pergunta}
               </p>
-              <div className="assistente__resposta">
-                <p>
-                  <span className="so-leitor">Resposta: </span>
-                  {item.resposta}
-                </p>
-                {(item.trechos.length > 0 || item.locais.length > 0) && (
-                  <ul className="assistente__citados" aria-label="Citados na resposta">
-                    {item.trechos.map((t) => (
-                      <li key={t.id}>
-                        <Link to={'/trecho/' + t.id} className="acao-texto">
-                          {nomeDoTrecho(t)}
-                        </Link>
-                      </li>
-                    ))}
-                    {item.locais.map((l) => (
-                      <li key={l.id}>
-                        <Link to="/locais" className="acao-texto">
-                          {l.nome}
-                        </Link>
-                      </li>
-                    ))}
-                  </ul>
-                )}
-              </div>
+              {/* Pergunta antiga que ficou sem resposta (a IA falhou e a pessoa perguntou outra coisa) */}
+              {item.resposta === null && i < conversa.length - 1 && (
+                <p className="assistente__sem-resposta">Sem resposta para esta pergunta.</p>
+              )}
+              {item.resposta !== null && (
+                <div className="assistente__resposta">
+                  <p>
+                    <span className="so-leitor">Resposta: </span>
+                    {item.resposta}
+                  </p>
+                  {(item.trechos.length > 0 || item.locais.length > 0) && (
+                    <ul className="assistente__citados" aria-label="Citados na resposta">
+                      {item.trechos.map((t) => (
+                        <li key={t.id}>
+                          <Link to={'/trecho/' + t.id} className="acao-texto">
+                            {nomeDoTrecho(t)}
+                          </Link>
+                        </li>
+                      ))}
+                      {item.locais.map((l) => (
+                        <li key={l.id}>
+                          <Link to="/locais" className="acao-texto">
+                            {l.nome}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              )}
             </li>
           ))}
         </ol>
@@ -119,7 +135,7 @@ export default function Assistente() {
 
         {/* A API respondeu com erro (ex.: Gemini fora mesmo depois das 3 tentativas) */}
         {erro && !indisponivel && (
-          <MensagemErro mensagem={erro} aoTentarDeNovo={() => perguntar(ultimaPergunta.current)} />
+          <MensagemErro mensagem={erro} aoTentarDeNovo={() => perguntar(ultimaPergunta.current, true)} />
         )}
 
         {conversa.length === 0 && !carregando && (
