@@ -36,18 +36,21 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 
 | Tela | O que faz |
 |---|---|
+| **Menu (entrada)** | Primeira tela do app. À esquerda, "Para onde vamos?" e o grafo de acessibilidade, em que cada ponto do símbolo abre uma parte do app. À direita, os dois acessos: **Prefeitura** e **Cidadão** [HU-27, RF25]. |
 | **Mapa** | Mapa real e livre de ponta a ponta (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, legenda e alternativa em lista para leitor de tela. Embaixo, a gaveta do **boletim do caminho de sempre** responde se dá para ir trabalhar hoje pelo caminho de sempre (livre, Atenção, Perigo ou sem dados), com o calor medido no ponto de ônibus e o alerta de calor escolhido no Perfil. |
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
 | **Rotas** | Compara 3 caminhos até o trabalho, recomenda o mais seguro (que nem sempre é o mais curto) e deixa a pessoa escolher o **caminho de sempre** (salvo no navegador, sem login). |
-| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto e IA, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. |
-| **Locais** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro. |
-| **Trilha IA** | Mini trilha de IA para o trabalho [HU-19, RF18]: lições curtas que abrem e fecham, com exemplo no trabalho e exercício. Vem da API da equipe (`GET /trilha`); sem a API, usa a cópia que vem com o app. |
-| **Perfil** | Cards organizados em grade: Aparência (modo escuro e modo chuva), Alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), Acessibilidade (tamanho do texto, menos animações, mais contraste) e um resumo do projeto. |
-| **Sobre o projeto** | Problema, para quem é, jornada do cidadão, o que cada parte faz (poste, IA, Python, app, trilha), ODS 8, 10 e 11, indicador de impacto e cuidado com os dados. Fica embaixo da navegação lateral, no menu e no Perfil. |
+| **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto (vai só a miniatura), tipo do problema e descrição sugerida pela IA (Gemini) que a pessoa revisa antes de enviar, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. A foto do cidadão não passa pela IA de visão [RF08, RF21, RN07]. |
+| **Locais acessíveis perto de mim** | Banheiros acessíveis e pontos de descanso perto do caminho, com filtro, mini mapa e "Como chegar". |
+| **Trilha IA** | Mini trilha de IA para o trabalho [HU-19, RF18]. Abre explicando por que uma trilha de IA faz parte de um app de calçadas e onde a IA já trabalha dentro da C.E.L.I.A. Depois vêm as lições curtas que abrem e fecham, com exemplo no trabalho e exercício. As lições vêm da API da equipe (`GET /trilha`); sem a API, usa a cópia que vem com o app. |
+| **Assistente** | Conversa com o assistente de IA (Gemini, pela API da equipe) sobre o caminho até o trabalho. Responde só com os trechos e locais do app e transforma os citados em links [HU-21, RF20, RN06]. |
+| **Perfil** | Cards organizados em grade: Aparência (modo claro e escuro), Alerta de calor no ponto (30, 32 ou 35 °C, ou desligado), Acessibilidade (tamanho do texto, menos animações, mais contraste) e um resumo do projeto. |
+| **Sobre o projeto** | Problema, **o problema em números** (dados do IBGE, Mobilize Brasil e Alerta Rio, com link para a fonte), jornada do cidadão em 6 etapas, o que cada parte faz, ODS 8, 10 e 11, indicador de impacto, cuidado com os dados e **perguntas frequentes**. |
+| **Prefeitura** | Área do outro usuário do app, aberta pelo botão "Acesso Prefeitura" do Menu [HU-25, HU-26, RF24]. Três abas: **Câmera do poste** (fotos de exemplo fazem o papel da ESP32-CAM e passam pela IA de visão da API; com buraco, o Gemini escreve o reporte e ele chega sozinho), **Reportes recebidos** (dos postes e dos cidadãos, com filtro por origem) e **Alertas de calor** dos pontos de ônibus. |
 
 ### Navegação
 
-Cada parte do app é um ponto do símbolo internacional de acessibilidade: Mapa (cabeça), Rotas e Reportar (mãos), Locais e Perfil (pés) e Trilha IA (meio do corpo). No celular é uma barra de vidro embaixo; em telas largas, um trilho lateral com os ícones distribuídos na altura toda e o "Sobre" no pé. O símbolo abre um menu em tela cheia com todas as partes.
+Cada parte do app é um ponto do símbolo internacional de acessibilidade: Mapa (cabeça), Rotas e Reportar (mãos), Locais e Perfil (pés) e Trilha IA (meio do corpo). No celular é uma barra de vidro embaixo; em telas largas, um trilho lateral com os ícones distribuídos na altura toda, que se recolhe na borda e abre ao passar o mouse, com Assistente e Sobre no pé. O símbolo no topo leva ao Menu, que é também a entrada do app. A área da Prefeitura não aparece na navegação do cidadão.
 
 _(prints das telas em breve)_
 
@@ -60,7 +63,9 @@ _(prints das telas em breve)_
 | Poste `poste01` (ThingSpeak) | **Real**, lido ao vivo a cada 20 s e mostrado no boletim do caminho de sempre. Sem leitura há mais de 10 min, vira "Sem dados". O ponto de ônibus do poste no mapa ainda vai ser definido pela equipe. |
 | Outros trechos do mapa | **Simulados** (faixa de exemplo em `src/data/trechos.json`). Só existe um poste. A tela do trecho avisa isso. |
 | Reportes | **Reais** na MockAPI (API externa do CRUD). |
-| Análise da foto (IA) | **Real** na demonstração local (API FastAPI da equipe em `127.0.0.1:8000`, modelo próprio de buracos). Na versão publicada a API não está no ar: o app mostra uma mensagem e o reporte vai como "Não analisada" (plano B). |
+| Câmera do poste (Prefeitura) | **Simulada**: ainda não há ESP32-CAM, então fotos públicas de exemplo fazem o papel da câmera. A análise delas é **real** (modelo próprio de buracos na API FastAPI da equipe, `POST /analisar`), e o reporte é escrito de verdade pelo Gemini. Sem a API, a tela explica e mostra o plano B. |
+| Assistente e descrição do reporte | **Reais** com a API da equipe (Gemini Flash, chave só no servidor). Sem a API, o app mostra uma mensagem amigável e o reporte pode ser escrito à mão. |
+| Reportes recebidos e alertas de calor (Prefeitura) | **Simulados** (`src/data/prefeitura.json`), avisados na tela. Os reportes que a câmera envia na demonstração entram no topo da lista. |
 | Trilha de IA | **Real** na demonstração local (`GET /trilha`). Sem a API, o app usa a cópia em `src/data/trilha.json` (plano B). |
 | Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
 | Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
@@ -98,7 +103,7 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 
 - **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/{ID}/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 verde, 1 amarelo, 2 vermelho) e motivo.
 - **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
-- **API da equipe** (FastAPI): `POST /analisar` com a foto (campo `foto`); devolve `resultado` (`livre` ou `buraco`) e `caixas_buracos`, que o app desenha sobre a foto. `GET /trilha` devolve as lições da trilha de IA.
+- **API da equipe** (FastAPI, endereço em `VITE_URL_API`): `POST /analisar` com a foto da câmera do poste (campo `foto`), que devolve `resultado` (`livre` ou `buraco`) e `caixas_buracos`, desenhadas sobre a foto; `POST /assistente/trajeto` e `POST /assistente/descricao` (Gemini); `GET /trilha` com as lições. O app nunca fala direto com o Gemini nem guarda chave.
 - **Satélite**: imagens Esri World Imagery (sem chave), com os nomes das ruas do OpenFreeMap por cima.
 - **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
 - **Busca de lugares** (Nominatim/OpenStreetMap, sem chave): leva o mapa a qualquer endereço e acha as coordenadas dos reportes. Só busca quando a pessoa confirma, como pede a regra de uso do serviço.
@@ -149,6 +154,12 @@ src/
 | `useConsultaDeTela` | Responde se a tela é larga (mesma sintaxe das media queries) |
 | `useTituloDaPagina` | Troca o título da aba conforme a tela |
 | `useFocoNoTitulo` | Leva o foco ao título ao trocar de tela (leitor de tela) |
+| `useChamadaApi` | Qualquer chamada à API da equipe: guarda carregando e erro, tenta de novo quando o Gemini falha e marca quando a API está fora do ar (plano B) |
+| `useFotoReporte` | Foto do reporte do cidadão: mostra a foto e gera a miniatura que vai para a MockAPI |
+| `useCameraPoste` | Câmera simulada do poste: passa pelas fotos, manda cada uma para a IA de visão e, com buraco, pede o reporte ao Gemini e envia sozinho |
+| `useCameraReal` | Câmera real do poste: a cada 5 s pergunta à API pela última foto da ESP32-CAM e pelos reportes automáticos; sem foto recente, a tela fica com a simulação |
+| `useReportesPrefeitura` | Caixa de entrada da Prefeitura: reportes de exemplo, os que a câmera envia e o filtro por origem |
+| `useAparecerAoRolar` | Avisa quando um elemento entra na tela ao rolar (abre os cards da linha do tempo) |
 
 ### Interações em JavaScript (Web Development)
 
@@ -167,8 +178,12 @@ src/
 13. **Alerta de calor**: escolher a temperatura no Perfil e o boletim avisar quando o ponto passar dela
 14. **Mapa / Satélite**: trocar o jeito de ver o mapa pelo botão do canto de baixo (fica salvo no navegador)
 15. **Abrir e fechar lições** da Trilha IA
-16. **Menu em forma de símbolo**: abrir, navegar e fechar (botão, Esc ou clique fora)
+16. **Menu em forma de símbolo**: cada ponto do grafo abre uma parte do app, e o Menu marca "Você está aqui"
 17. **Ajustes de acessibilidade** no Perfil (tamanho do texto, menos animações, mais contraste)
+18. **Conversar com o assistente**: a pergunta vira balão na hora e a resposta entra embaixo
+19. **Câmera do poste**: ligar, pausar e continuar a ronda; os reportes chegam na caixa de entrada
+20. **Abas da Prefeitura** (também pelas setas do teclado) e **filtros** por origem e por nível de calor
+21. **Perguntas frequentes** do Sobre, que abrem e fecham
 
 ---
 
@@ -176,7 +191,7 @@ src/
 
 - Fonte **Lexend**, criada para facilitar a leitura; tamanhos em `rem` (respeitam a fonte do navegador)
 - Contraste AA nos dois modos; texto do corpo com 16 px ou mais
-- Áreas de toque com 44 px ou mais
+- Áreas de toque com 48 px ou mais
 - Foco visível em tudo; navegação completa pelo teclado
 - Rótulos para leitor de tela em botões de ícone e nos selos do mapa (sem o "Map marker" em inglês do MapLibre)
 - Selos do mapa nunca ficam um em cima do outro: quando não cabem, aparece o mais grave
