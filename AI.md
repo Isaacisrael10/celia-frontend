@@ -257,3 +257,17 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
 - **Fontes das imagens (RNF04):** Pothole Dataset (KugaN, Roboflow Universe, CC BY 4.0, conjunto de teste) e Wikimedia Commons (domínio público). Cortadas em 800×600; o modelo v2 com confiança 0,40 acertou as 6.
 - **Como foi testado:** `oxlint` sem avisos e `npm run build` ok. Falta o teste no navegador com a API ligada.
 - **Revisão da equipe:** (preencher)
+
+## 16. Mapa e texto grande: card sem rolagem, botões no rodapé e barra sem sobreposição (Claude Code · 16 e 17/11/2026 · pedido do João)
+
+- **Contexto:** depois do merge da PR #3 e do commit de responsividade (`f41fb00`), o João achou bugs no Mapa e na letra "Maior" do Perfil.
+- **Prompt (resumo):** "No mapa, o card do caminho de sempre tem que dar scroll para caber. Os botões Lista e Legenda devem ficar no rodapé, com a lista perto deles. Diminua um pouco o card 'Qual é o seu caminho de sempre'. No tamanho Maior, os textos da barra e de outros componentes se sobrepõem: faça uma varredura e corrija."
+- **Como a IA ajudou:**
+  - **card do caminho de sempre** (HU-04, RF02): o `max-height: 55%` virava 55% do próprio card na grade do computador, e o card sempre rolava (91 px visíveis de 203). Trocado por `55dvh` (altura da janela);
+  - **título do card sem hífen:** o `hyphens: auto` dos títulos partia palavras ("cami-nho"); no card o texto só quebra entre palavras;
+  - **Legenda e Lista no rodapé:** os botões do canto (Meu local e satélite, empilhados) deixavam a faixa de baixo com 104 px e afastavam a lista. No computador eles saem do fluxo e a lista desce até 10 px dos botões;
+  - **card "Qual é o seu caminho de sempre?" menor:** de 165 para 148 px (menos espaço interno, ícone de 32 px e título de 16 px; o menor texto continua com 14 px, RNF05);
+  - **barra lateral com letra Grande ou Maior** (RNF05): nome e frase de apoio invadiam a casa de baixo ("Locais" em cima de "Trilha IA"). Nome com teto de 18 px; a frase de apoio só aparece com letra grande em tela de 900 px ou mais de altura;
+  - **mini mapa de Locais:** em 320 px, "8 locais perto" cobria o crédito do OpenStreetMap; cada um ficou na sua metade.
+- **Como foi testado:** scripts com o Chrome headless (protocolo DevTools) medindo alturas, distâncias e textos sobrepostos em 11 telas, 4 a 8 tamanhos de janela e letra Normal, Grande e Maior, antes e depois. `oxlint` e `npm run build` ok. O hífen não aparece no Chrome headless (sem dicionário de pt-BR): conferido pelo João no navegador.
+- **Revisão da equipe:** (preencher)
