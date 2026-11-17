@@ -1,5 +1,6 @@
 import { Link, useLocation } from 'react-router-dom'
-import FiguraPessoa from './FiguraPessoa'
+import LogoCelia from './LogoCelia'
+import NomeCelia from './NomeCelia'
 import IconeNo from './IconeNo'
 import { NOS, EXTRAS, noAtivo } from '../domain/navegacao'
 import './NavGrafo.css'
@@ -25,11 +26,13 @@ export default function NavGrafo({ aoAbrirMenu }) {
 
   return (
     <nav className="nav-grafo" aria-label="Navegação principal">
-      {/* O símbolo é a marca e também o botão do menu (só aparece no trilho lateral) */}
+      {/* A logo é a marca e também o botão do menu (só aparece no trilho lateral) */}
       <button className="nav-grafo__marca" onClick={aoAbrirMenu}>
-        <FiguraPessoa tamanho={48} />
+        <LogoCelia tamanho={48} />
         <span className="nav-grafo__marca-textos">
-          <span className="nav-grafo__marca-nome">C.E.L.I.A.</span>
+          <span className="nav-grafo__marca-nome">
+            <NomeCelia />
+          </span>
           <span className="nav-grafo__marca-apoio">Abrir o menu</span>
         </span>
       </button>

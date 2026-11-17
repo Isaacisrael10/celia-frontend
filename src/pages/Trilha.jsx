@@ -6,6 +6,7 @@ import { useTrilha } from '../hooks/useTrilha'
 import { resumoDaTrilha } from '../domain/trilha'
 import textos from '../data/trilhaTextos.json'
 import './Trilha.css'
+import { comNomeCelia } from '../components/comNomeCelia'
 
 // Um ícone para cada ligação entre a trilha e o app (na mesma ordem de textos.porque.ligacoes)
 const ICONES_LIGACAO = [IconEye, IconMessageChatbot, IconPencil]
@@ -33,10 +34,10 @@ export default function Trilha() {
             {porque.titulo}
           </h2>
           {porque.paragrafos.map((paragrafo) => (
-            <p key={paragrafo}>{paragrafo}</p>
+            <p key={paragrafo}>{comNomeCelia(paragrafo)}</p>
           ))}
 
-          <h3 className="trilha__ligacoes-titulo">{porque.ligacoes_titulo}</h3>
+          <h3 className="trilha__ligacoes-titulo">{comNomeCelia(porque.ligacoes_titulo)}</h3>
           <ul className="trilha__ligacoes">
             {porque.ligacoes.map((texto, i) => {
               const Icone = ICONES_LIGACAO[i]
@@ -74,7 +75,7 @@ export default function Trilha() {
               ))}
             </ol>
 
-            <p className="apoio">{textos.origem[origem]}</p>
+            <p className="apoio">{comNomeCelia(textos.origem[origem])}</p>
           </>
         )}
       </main>

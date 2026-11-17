@@ -12,7 +12,9 @@ import {
   IconChevronDown,
 } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
-import FiguraPessoa from '../components/FiguraPessoa'
+import LogoCelia from '../components/LogoCelia'
+import NomeCelia from '../components/NomeCelia'
+import { comNomeCelia } from '../components/comNomeCelia'
 import PassosLigados from '../components/PassosLigados'
 import sobre from '../data/sobre.json'
 import './Sobre.css'
@@ -38,16 +40,16 @@ export default function Sobre() {
     <>
       <Cabecalho titulo="Sobre o projeto" />
       <main id="conteudo" tabIndex={-1} className="app__conteudo sobre">
-        {/* Apresentação: o símbolo, o nome e o problema em uma frase */}
+        {/* Apresentação: a logo, o nome e o problema em uma frase */}
         <section className="cartao sobre__apresentacao" aria-labelledby="sobre-nome">
-          <FiguraPessoa tamanho={104} />
+          <LogoCelia tamanho={104} />
           <div className="sobre__textos">
             <h2 id="sobre-nome" className="sobre__nome">
-              C.E.L.I.A.
+              <NomeCelia />
             </h2>
             <p className="sobre__lema">{sobre.lema}</p>
             <p className="sobre__problema">{sobre.problema}</p>
-            <p>{sobre.solucao}</p>
+            <p>{comNomeCelia(sobre.solucao)}</p>
             <p className="apoio">{sobre.homenagem}</p>
           </div>
         </section>
@@ -81,7 +83,7 @@ export default function Sobre() {
               </li>
             ))}
           </ul>
-          <p className="sobre__fecho">{sobre.numeros_fecho}</p>
+          <p className="sobre__fecho">{comNomeCelia(sobre.numeros_fecho)}</p>
         </section>
 
         <section aria-labelledby="sobre-jornada" className="sobre__secao">
@@ -166,7 +168,7 @@ export default function Sobre() {
                   {item.pergunta}
                   <IconChevronDown size={22} aria-hidden="true" className="sobre__pergunta-seta" />
                 </summary>
-                <p>{item.resposta}</p>
+                <p>{comNomeCelia(item.resposta)}</p>
               </details>
             ))}
           </div>

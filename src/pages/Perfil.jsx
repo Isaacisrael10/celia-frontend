@@ -12,7 +12,8 @@ import {
 import Cabecalho from '../components/Cabecalho'
 import Interruptor from '../components/Interruptor'
 import Opcoes from '../components/Opcoes'
-import FiguraPessoa from '../components/FiguraPessoa'
+import LogoCelia from '../components/LogoCelia'
+import NomeCelia from '../components/NomeCelia'
 import { useTema } from '../hooks/useTema'
 import { useLimiteCalor } from '../hooks/useLimiteCalor'
 import { useAcessibilidade, TAMANHOS_TEXTO } from '../hooks/useAcessibilidade'
@@ -100,12 +101,14 @@ export default function Perfil() {
             <p className="apoio">Mais contraste tira a transparência e reforça as bordas.</p>
           </section>
 
-          {/* Faixa de ponta a ponta: o símbolo, um resumo e o caminho para a página Sobre */}
+          {/* Faixa de ponta a ponta: a logo, um resumo e o caminho para a página Sobre */}
           <section className="cartao perfil__secao perfil__secao--sobre" aria-labelledby="titulo-sobre">
-            <FiguraPessoa tamanho={72} />
+            <LogoCelia tamanho={72} />
             <div className="perfil__sobre-textos">
               <h2 id="titulo-sobre" className="perfil__titulo">
-                Sobre a C.E.L.I.A.
+                <span>
+                  Sobre a <NomeCelia />
+                </span>
               </h2>
               <p>
                 <strong>Caminhos em Liberdade, Inclusão e Acessibilidade.</strong> Mostra, antes de sair de casa, como

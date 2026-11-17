@@ -271,3 +271,15 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **mini mapa de Locais:** em 320 px, "8 locais perto" cobria o crédito do OpenStreetMap; cada um ficou na sua metade.
 - **Como foi testado:** scripts com o Chrome headless (protocolo DevTools) medindo alturas, distâncias e textos sobrepostos em 11 telas, 4 a 8 tamanhos de janela e letra Normal, Grande e Maior, antes e depois. `oxlint` e `npm run build` ok. O hífen não aparece no Chrome headless (sem dicionário de pt-BR): conferido pelo João no navegador.
 - **Revisão da equipe:** (preencher)
+
+## 17. Nova logo e "I.A." em azul no nome C.E.L.I.A. (Claude Code · 17/11/2026 · pedido do João)
+
+- **Contexto:** a equipe ganhou uma logo (um "C" azul-marinho abraçando uma pessoa azul), gerada pelo João com o Gemini.
+- **Prompt (resumo):** "Coloque a logo na barra, no topo à esquerda, no lugar do ícone (não substitua o grafo do Menu). Substitua também no /sobre e no /perfil. Atenção às proporções. Em todo lugar onde estiver escrito C.E.L.I.A., os caracteres I.A. ficam no azul #49c8f5 e o resto na cor padrão. Acrescente a logo no /menu, ao lado do C.E.L.I.A., no card de acesso."
+- **Como a IA ajudou:**
+  - **`LogoCelia`:** a logo redesenhada em SVG a partir da imagem (medidas tiradas com Python: centro e raios do arco, círculo da cabeça e curva dos braços) e conferida sobrepondo o SVG à imagem original. Fica nítida em qualquer tamanho e sem fundo. Cores da imagem (#0e2b57 e #4aaae6, tokens `--logo-escuro` e `--logo-azul`); no modo escuro o "C" fica claro;
+  - **onde entrou:** trilho lateral (48 px), botão do topo no celular (40 px), Sobre (104 px), Perfil (72 px) e card de acesso do Menu (36 px). O grafo do Menu e o bonequinho "Você está aqui" do mapa continuam com o símbolo de acessibilidade;
+  - **`NomeCelia`:** escreve "C.E.L." na cor do texto e "I.A." em #49c8f5 (token `--cor-ia`). Os textos dos arquivos de dados (Sobre, Trilha, linha do tempo da Prefeitura) e as respostas do Assistente passam pela função `comNomeCelia`, que troca cada "C.E.L.I.A." pelo nome colorido. O leitor de tela continua lendo o nome inteiro.
+- **Pontos em aberto:** #49c8f5 sobre branco tem contraste baixo (cerca de 1,9:1, RNF05). No card do Menu, no modo escuro, "C.E.L." usa a cor de link, que também é #49c8f5.
+- **Como foi testado:** Chrome headless em Menu, Perfil, Sobre, Trilha, Prefeitura e Mapa, no celular e no computador, nos modos claro e escuro: cor real do "I.A.", tamanho de cada logo e nenhum "C.E.L.I.A." visível sem o azul. `oxlint` e `npm run build` ok.
+- **Revisão da equipe:** (preencher)

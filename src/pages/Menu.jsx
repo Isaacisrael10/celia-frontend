@@ -7,6 +7,8 @@ import { useTema } from '../hooks/useTema'
 import { useAcessibilidade } from '../hooks/useAcessibilidade'
 import { PREFEITURA, noAtivo } from '../domain/navegacao'
 import './Menu.css'
+import LogoCelia from '../components/LogoCelia'
+import NomeCelia from '../components/NomeCelia'
 
 /*
   Página do Menu (endereço /menu). É também a entrada do app: "/" e "/home" levam para cá.
@@ -39,7 +41,7 @@ export default function Menu() {
             <h2 id="menu-grafo-titulo" className="menu-pagina__grafo-titulo">
               Para onde vamos?
             </h2>
-            <p className="menu-pagina__grafo-apoio">Cada ponto do símbolo de acessibilidade abre uma parte da C.E.L.I.A.</p>
+            <p className="menu-pagina__grafo-apoio">Cada ponto do símbolo de acessibilidade abre uma parte da <NomeCelia /></p>
           </div>
           <GrafoAcessibilidade ativo={noAtivo(veioDe)} />
         </section>
@@ -47,7 +49,10 @@ export default function Menu() {
         {/* Direita: o painel de acesso, com os dois perfis */}
         <div className="menu-pagina__lado">
           <section className="menu-pagina__acesso cartao" aria-labelledby="menu-titulo">
-            <p className="menu-pagina__marca">C.E.L.I.A.</p>
+            <p className="menu-pagina__marca">
+              <LogoCelia tamanho={36} />
+              <NomeCelia />
+            </p>
             <h1 id="menu-titulo" className="menu-pagina__titulo">
               Saia de casa sabendo se o caminho até o trabalho está livre.
             </h1>

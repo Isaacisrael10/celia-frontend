@@ -1,11 +1,11 @@
 import { useOutletContext } from 'react-router-dom'
-import FiguraPessoa from './FiguraPessoa'
+import LogoCelia from './LogoCelia'
 import './BotaoMenu.css'
 
 /*
-  O símbolo de acessibilidade como botão: abre a página do Menu (/menu).
+  A logo da C.E.L.I.A. como botão: abre a página do Menu (/menu).
   Aparece no topo das telas no celular. Em telas largas ele some,
-  porque o trilho lateral já tem o símbolo.
+  porque o trilho lateral já tem a logo.
   A função abrirMenu vem da moldura do app (Layout, em App.jsx) pelo Outlet.
 */
 export default function BotaoMenu() {
@@ -13,7 +13,7 @@ export default function BotaoMenu() {
 
   return (
     <button className="botao-menu" onClick={abrirMenu} aria-label="Abrir o menu da C.E.L.I.A.">
-      <FiguraPessoa tamanho={44} />
+      <LogoCelia tamanho={40} />
     </button>
   )
 }
