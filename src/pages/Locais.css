@@ -19,18 +19,22 @@
 }
 
 /*
-  Computador: mapa e lista lado a lado, com a MESMA altura.
-  O mapa estica do primeiro ao último card (stretch), em vez de ficar com altura fixa.
+  Computador: mapa e lista lado a lado.
+  O mapa tem a altura da tela e fica parado (sticky) enquanto a lista rola ao lado.
+  Antes ele esticava até o fim da lista: com muitos locais passava de 3.000 px,
+  os pinos ficavam no meio dessa altura e o topo (o que aparece) mostrava outro bairro.
 */
 @media (min-width: 960px) {
   .locais__colunas {
     grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
-    align-items: stretch;
+    align-items: start;
     gap: 20px;
   }
 
   .locais__colunas .mini-mapa {
-    height: auto;
+    position: sticky;
+    top: 24px;
+    height: min(36rem, 100dvh - 48px);
     min-height: 20rem;
   }
 }

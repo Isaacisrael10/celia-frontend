@@ -1,6 +1,6 @@
 import MapaBase, { Marker } from 'react-map-gl/maplibre'
 import 'maplibre-gl/dist/maplibre-gl.css'
-import { IconToiletPaper, IconArmchair, IconTrees } from '@tabler/icons-react'
+import { IconToiletPaper, IconArmchair, IconTrees, IconBallBasketball, IconMasksTheater } from '@tabler/icons-react'
 import FiguraPessoa from './FiguraPessoa'
 import { estiloDoMapa } from '../styles/mapa/estilos'
 import { areaDosPontos } from '../domain/mapa'
@@ -8,6 +8,8 @@ import { textoQuantidade } from '../domain/locais'
 import './MiniMapa.css'
 
 const ICONES = { banheiro: IconToiletPaper, descanso: IconArmchair, lazer: IconTrees }
+// No lazer o pino mostra a categoria, igual ao ícone do card
+const ICONES_CATEGORIA = { esporte: IconBallBasketball, cultura: IconMasksTheater, 'ar-livre': IconTrees }
 
 /*
   Mapa pequeno com os locais (pinos) e a pessoa.
@@ -32,7 +34,7 @@ export default function MiniMapa({ locais, voce, escuro }) {
         style={{ width: '100%', height: '100%' }}
       >
         {locais.map((local) => {
-          const Icone = ICONES[local.tipo]
+          const Icone = ICONES_CATEGORIA[local.categoria] || ICONES[local.tipo]
           return (
             <Marker key={local.id} longitude={local.lng} latitude={local.lat} anchor="bottom">
               <span className="mini-mapa__pino">

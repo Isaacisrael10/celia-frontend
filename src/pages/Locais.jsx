@@ -5,7 +5,7 @@ import Filtros from '../components/Filtros'
 import { Vazio } from '../components/Estados'
 import { useTema } from '../hooks/useTema'
 import { useLocais } from '../hooks/useLocais'
-import { FILTROS_LOCAL, textoQuantidade } from '../domain/locais'
+import { FILTROS_LOCAL, CATEGORIAS_LAZER, textoQuantidade } from '../domain/locais'
 import { VOCE_PADRAO } from '../domain/mapa'
 import './Locais.css'
 
@@ -15,15 +15,20 @@ import './Locais.css'
 */
 export default function Locais() {
   const { escuro } = useTema()
-  const { filtro, mudarFiltro, visiveis, fonte } = useLocais()
+  const { filtro, mudarFiltro, categoria, mudarCategoria, visiveis, fonte } = useLocais()
 
   return (
     <>
       <Cabecalho titulo="Locais acessíveis perto de mim" />
       <main id="conteudo" tabIndex={-1} className="app__conteudo locais-tela">
-        <p className="intro">Banheiros acessíveis, lugares para descansar e opções de lazer acessível perto do caminho.</p>
+        <p className="intro">Banheiros acessíveis, lugares para descansar e lazer acessível perto do caminho: esporte adaptado, cultura com audiodescrição e Libras e espaços ao ar livre.</p>
 
         <Filtros rotulo="Filtrar locais" opcoes={FILTROS_LOCAL} valor={filtro} aoMudar={mudarFiltro} />
+
+        {/* No lazer aparece um segundo filtro, com o tipo de lazer */}
+        {filtro === 'lazer' && (
+          <Filtros rotulo="Tipo de lazer" opcoes={CATEGORIAS_LAZER} valor={categoria} aoMudar={mudarCategoria} />
+        )}
 
         {/* Só para o leitor de tela: avisa quantos locais sobraram depois do filtro */}
         <p className="so-leitor" aria-live="polite">

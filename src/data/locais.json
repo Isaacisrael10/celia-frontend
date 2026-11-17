@@ -5,7 +5,7 @@
       "id": "b1",
       "tipo": "banheiro",
       "nome": "Banheiro acessível da praça",
-      "endereco": "Rua Barão do Bom Retiro, perto do nº 1500",
+      "endereco": "Rua Barão do Bom Retiro, perto do nº 1500",
       "recursos": [
         "porta-larga",
         "barras",
@@ -20,7 +20,7 @@
       "id": "b2",
       "tipo": "banheiro",
       "nome": "Banheiro acessível da avenida",
-      "endereco": "Avenida Engenheiro Richard, perto do nº 200",
+      "endereco": "Avenida Engenheiro Richard, perto do nº 200",
       "recursos": [
         "porta-larga",
         "barras",
@@ -35,7 +35,7 @@
       "id": "d1",
       "tipo": "descanso",
       "nome": "Banco com sombra",
-      "endereco": "Rua Grajaú, perto do nº 100",
+      "endereco": "Rua Grajaú, perto do nº 100",
       "recursos": [
         "sombra",
         "banco"
@@ -48,7 +48,7 @@
       "id": "d2",
       "tipo": "descanso",
       "nome": "Ponto de ônibus coberto",
-      "endereco": "Rua Barão do Bom Retiro, perto do nº 1800",
+      "endereco": "Rua Barão do Bom Retiro, perto do nº 1800",
       "recursos": [
         "cobertura",
         "banco"
@@ -61,7 +61,7 @@
       "id": "d3",
       "tipo": "descanso",
       "nome": "Área de descanso da praça",
-      "endereco": "Rua Itabaiana, perto do nº 50",
+      "endereco": "Rua Itabaiana, perto do nº 50",
       "recursos": [
         "sombra",
         "banco",
@@ -75,7 +75,7 @@
       "id": "l1",
       "tipo": "lazer",
       "nome": "Praça com brinquedos acessíveis",
-      "endereco": "Rua Grajaú, perto do nº 300",
+      "endereco": "Rua Grajaú, perto do nº 300",
       "recursos": [
         "rampa",
         "sombra",
@@ -83,13 +83,14 @@
       ],
       "metros": 240,
       "lat": -22.9235518,
-      "lng": -43.2617542
+      "lng": -43.2617542,
+      "categoria": "ar-livre"
     },
     {
       "id": "l2",
       "tipo": "lazer",
-      "nome": "Quadra esportiva com arquibancada acessível",
-      "endereco": "Rua Borda do Mato, perto do nº 400",
+      "nome": "Quadra esportiva acessível",
+      "endereco": "Rua Borda do Mato, perto do nº 400",
       "recursos": [
         "rampa",
         "banheiro-acessivel"
@@ -97,13 +98,14 @@
       "horario": "Aberta das 7h às 21h",
       "metros": 380,
       "lat": -22.9240567,
-      "lng": -43.2606774
+      "lng": -43.2606774,
+      "categoria": "esporte"
     },
     {
       "id": "l3",
       "tipo": "lazer",
       "nome": "Sala de leitura do centro cultural",
-      "endereco": "Rua Itabaiana, perto do nº 120",
+      "endereco": "Rua Itabaiana, perto do nº 120",
       "recursos": [
         "rampa",
         "piso-tatil",
@@ -113,7 +115,108 @@
       "horario": "Aberta das 9h às 18h",
       "metros": 290,
       "lat": -22.9217467,
-      "lng": -43.2648536
+      "lng": -43.2648536,
+      "categoria": "cultura"
+    },
+    {
+      "id": "l4",
+      "tipo": "lazer",
+      "categoria": "esporte",
+      "nome": "Piscina com aulas adaptadas",
+      "endereco": "Avenida Engenheiro Richard, perto do nº 350",
+      "recursos": [
+        "rampa",
+        "vestiario",
+        "banheiro-acessivel",
+        "horario"
+      ],
+      "horario": "Aulas adaptadas de terça a sábado, 8h às 12h",
+      "metros": 540,
+      "lat": -22.9217196,
+      "lng": -43.2626061
+    },
+    {
+      "id": "l5",
+      "tipo": "lazer",
+      "categoria": "esporte",
+      "nome": "Bocha adaptada na praça",
+      "endereco": "Rua Uberaba, perto do nº 80",
+      "recursos": [
+        "rampa",
+        "sombra",
+        "banco",
+        "horario"
+      ],
+      "horario": "Terças e quintas, 9h às 11h",
+      "metros": 230,
+      "lat": -22.9239183,
+      "lng": -43.2585946
+    },
+    {
+      "id": "l6",
+      "tipo": "lazer",
+      "categoria": "cultura",
+      "nome": "Cineclube com audiodescrição",
+      "endereco": "Rua Botucatu, perto do nº 200",
+      "recursos": [
+        "rampa",
+        "audiodescricao",
+        "libras",
+        "area-reservada",
+        "horario"
+      ],
+      "horario": "Sessões aos sábados, 15h",
+      "metros": 660,
+      "lat": -22.9266363,
+      "lng": -43.256802
+    },
+    {
+      "id": "l7",
+      "tipo": "lazer",
+      "categoria": "cultura",
+      "nome": "Roda de samba acessível",
+      "endereco": "Rua Araxá, perto do nº 400",
+      "recursos": [
+        "rampa",
+        "area-reservada",
+        "banheiro-acessivel",
+        "horario"
+      ],
+      "horario": "Sextas, 18h às 22h",
+      "metros": 170,
+      "lat": -22.9212171,
+      "lng": -43.2587633
+    },
+    {
+      "id": "l8",
+      "tipo": "lazer",
+      "categoria": "ar-livre",
+      "nome": "Academia ao ar livre adaptada",
+      "endereco": "Rua Professor Valadares, perto do nº 150",
+      "recursos": [
+        "caminho-plano",
+        "sombra",
+        "bebedouro"
+      ],
+      "metros": 530,
+      "lat": -22.9198341,
+      "lng": -43.2615384
+    },
+    {
+      "id": "l9",
+      "tipo": "lazer",
+      "categoria": "ar-livre",
+      "nome": "Pista de caminhada plana",
+      "endereco": "Rua Canavieiras, perto do nº 60",
+      "recursos": [
+        "caminho-plano",
+        "banco",
+        "sombra",
+        "bebedouro"
+      ],
+      "metros": 1060,
+      "lat": -22.9233819,
+      "lng": -43.2664678
     }
   ]
 }
