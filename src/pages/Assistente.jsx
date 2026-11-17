@@ -1,14 +1,11 @@
-import { useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { IconSend, IconInfoSquare } from '@tabler/icons-react'
 import Cabecalho from '../components/Cabecalho'
-import { useRotas } from '../hooks/useRotas'
-import { useChamadaApi, MAX_TENTATIVAS } from '../hooks/useChamadaApi'
+import { useAssistente } from '../hooks/useAssistente'
+import { MAX_TENTATIVAS } from '../hooks/useChamadaApi'
 import { CardCarregando, MensagemErro } from '../components/Estados'
-import { perguntarTrajeto } from '../services/assistenteApi'
-import { montarContexto, idsParaOAssistente, PERGUNTAS_PRONTAS } from '../domain/assistente'
+import { PERGUNTAS_PRONTAS } from '../domain/assistente'
 import { nomeDoTrecho } from '../domain/trechos'
-import dadosLocais from '../data/locais.json'
 import './Assistente.css'
 import { comNomeCelia } from '../components/comNomeCelia'
 
@@ -16,47 +13,22 @@ import { comNomeCelia } from '../components/comNomeCelia'
   Assistente do trajeto (HU-21).
   A pessoa pergunta; o app manda a pergunta + a situação dos trechos e a lista de locais
   para a API da equipe, que responde só com esses dados (RN06).
+  A tela só desenha: a conversa e a chamada à API ficam no hook useAssistente.
 */
 export default function Assistente() {
-  const { rotas, escolhida, trechos } = useRotas()
-  const { executar, carregando, erro, indisponivel, tentativa, aviso } = useChamadaApi()
-  // Guarda a última pergunta para o botão "Tentar de novo"
-  const ultimaPergunta = useRef('')
-  const [pergunta, setPergunta] = useState('')
-  // Interação Web Dev: as perguntas e respostas da conversa (some ao sair da tela, nada é guardado)
-  const [conversa, setConversa] = useState([])
-
-  // repetir = true quando vem do "Tentar de novo": a pergunta já está na conversa
-  async function perguntar(texto, repetir = false) {
-    const limpa = texto.trim()
-    if (!limpa || carregando) return
-    ultimaPergunta.current = limpa
-
-    // A pergunta vira balão na hora e o campo fica limpo, sem esperar a resposta da IA
-    if (!repetir) {
-      setConversa((atual) => [...atual, { pergunta: limpa, resposta: null, trechos: [], locais: [] }])
-      setPergunta('')
-    }
-
-    const contexto = montarContexto(trechos, idsParaOAssistente(rotas, escolhida), dadosLocais.locais)
-    const r = await executar(() => perguntarTrajeto(limpa, contexto))
-    if (!r) return
-
-    // A resposta entra no último balão (o da pergunta que acabou de ser feita)
-    setConversa((atual) =>
-      atual.map((item, i) =>
-        i === atual.length - 1
-          ? {
-              ...item,
-              resposta: r.resposta,
-              // Ids citados pela IA viram links para o trecho e para os locais
-              trechos: trechos.filter((t) => (r.trechos_citados || []).includes(t.id)),
-              locais: dadosLocais.locais.filter((l) => (r.locais_citados || []).includes(l.id)),
-            }
-          : item,
-      ),
-    )
-  }
+  const {
+    conversa,
+    pergunta,
+    mudarPergunta,
+    perguntar,
+    tentarDeNovo,
+    escolhida,
+    carregando,
+    erro,
+    indisponivel,
+    tentativa,
+    aviso,
+  } = useAssistente()
 
   function enviar(evento) {
     evento.preventDefault()
@@ -136,7 +108,7 @@ export default function Assistente() {
 
         {/* A API respondeu com erro (ex.: Gemini fora mesmo depois das 3 tentativas) */}
         {erro && !indisponivel && (
-          <MensagemErro mensagem={erro} aoTentarDeNovo={() => perguntar(ultimaPergunta.current, true)} />
+          <MensagemErro mensagem={erro} aoTentarDeNovo={tentarDeNovo} />
         )}
 
         {conversa.length === 0 && !carregando && (
@@ -159,7 +131,7 @@ export default function Assistente() {
             className="campo__entrada assistente__campo"
             placeholder="Escreva sua pergunta"
             value={pergunta}
-            onChange={(e) => setPergunta(e.target.value)}
+            onChange={(e) => mudarPergunta(e.target.value)}
             maxLength={300}
             autoComplete="off"
           />
