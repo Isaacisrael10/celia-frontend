@@ -7,6 +7,13 @@
 import { nomeDoTrecho } from './trechos'
 import { RECURSOS } from './locais'
 
+/*
+  Tipos de local que a API do assistente aceita hoje (visao/api/assistente.py, classe Local).
+  Um tipo fora desta lista faz a API recusar a pergunta inteira (erro 422).
+  O lazer fica de fora até a API aceitar "lazer"; quando aceitar, é só incluir aqui.
+*/
+const TIPOS_ACEITOS_NA_API = ['banheiro', 'descanso']
+
 // Faixa do app → número do field5 do ThingSpeak (0 Acessível, 1 Atenção, 2 Evite)
 const STATUS_DA_FAIXA = { normal: 0, atencao: 1, perigo: 2 }
 
@@ -27,17 +34,19 @@ export function montarContexto(trechos, idsDoCaminho, locais) {
       status: STATUS_DA_FAIXA[t.faixa.id],
       motivo: t.motivo,
     })),
-    locais: locais.map((l) => ({
-      id: l.id,
-      nome: l.nome,
-      tipo: l.tipo,
-      // Só os recursos que têm nome (o "horario" fica de fora: ele vai no campo horario do card)
-      acessibilidade: l.recursos
-        .map((r) => RECURSOS[r])
-        .filter(Boolean)
-        .join(', '),
-      endereco: l.endereco,
-    })),
+    locais: locais
+      .filter((l) => TIPOS_ACEITOS_NA_API.includes(l.tipo))
+      .map((l) => ({
+        id: l.id,
+        nome: l.nome,
+        tipo: l.tipo,
+        // Só os recursos que têm nome (o "horario" fica de fora: ele vai no campo horario do card)
+        acessibilidade: l.recursos
+          .map((r) => RECURSOS[r])
+          .filter(Boolean)
+          .join(', '),
+        endereco: l.endereco,
+      })),
   }
 }
 
