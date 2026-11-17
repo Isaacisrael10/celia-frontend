@@ -283,3 +283,39 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
 - **Pontos em aberto:** #49c8f5 sobre branco tem contraste baixo (cerca de 1,9:1, RNF05). No card do Menu, no modo escuro, "C.E.L." usa a cor de link, que também é #49c8f5.
 - **Como foi testado:** Chrome headless em Menu, Perfil, Sobre, Trilha, Prefeitura e Mapa, no celular e no computador, nos modos claro e escuro: cor real do "I.A.", tamanho de cada logo e nenhum "C.E.L.I.A." visível sem o azul. `oxlint` e `npm run build` ok.
 - **Revisão da equipe:** (preencher)
+
+## 18. Responsividade no app inteiro: zoom e texto grande sem nada sobreposto (Claude Code · 16/11/2026 · pedido do Isaac)
+
+- **Contexto:** com zoom alto no navegador, alguns textos ficavam um em cima do outro.
+- **Prompt (resumo):** "Dependendo do zoom, letras ficam sobrepostas. Ajuste a responsividade no aplicativo inteiro para não ficar nada grudado."
+- **Como a IA ajudou:**
+  - **regras gerais** (`base.css`): `overflow-wrap: anywhere` no corpo (palavra comprida quebra em vez de vazar) e hífen nos títulos;
+  - **container queries:** o grafo do Menu e as figuras redondas (`container: figura` e `container: grafo`) trocam para rótulos curtos ou para lista quando o próprio espaço fica estreito, e não só a janela;
+  - **pontos de quebra em `em`/`rem`:** acompanham o zoom e o tamanho de letra do Perfil;
+  - **grades fluidas:** resumo da Prefeitura com `repeat(auto-fit, minmax(min(100%, 6.5rem), 1fr))` e abas que quebram linha;
+  - **barra de navegação:** rótulo com teto de tamanho e quebra de linha; abaixo de 360 px de largura a barra usa 13 px (mínimo do RNF05).
+- **Como foi testado:** script com o Chrome headless (protocolo DevTools) que procura textos sobrepostos e rolagem lateral em 13 telas × 15 cenários (larguras de 320 a 1440 px, zoom e letra Normal, Grande e Maior). Resultado: 0 problemas. `oxlint` e `npm run build` ok.
+- **Revisão da equipe:** (preencher)
+
+## 19. Mais opções de lazer acessível em Locais (Claude Code · 17/11/2026 · pedido do Isaac)
+
+- **Contexto:** para a demonstração, a tela de Locais precisava de mais opções de lazer acessível perto da pessoa. Dados simulados.
+- **Prompt (resumo):** "Adicionar mais opções de lazer acessível perto do usuário, com dados mocados para a demonstração. Sempre conferir se está responsivo, os cards estavam quebrando linha."
+- **Como a IA ajudou:**
+  - **dados** (`locais.json`): 9 locais de lazer em ruas reais do Grajaú, com `categoria` (esporte, cultura, ao ar livre) e recursos (vestiário, audiodescrição, Libras, área reservada, caminho plano);
+  - **regras** (`domain/locais.js`): `CATEGORIAS_LAZER`, `filtrarLocais(locais, filtro, categoria)` e `nomeDoTipo` ("Lazer acessível · Cultura");
+  - **hook** `useLocais`: guarda a categoria e volta para "Todo tipo" ao trocar o filtro principal;
+  - **tela:** segundo filtro "Tipo de lazer" (só no lazer); card redesenhado (ícone na linha do tipo, nome e endereço na largura toda, distância e "Como chegar" no rodapé) e mini mapa fixo na tela do computador;
+  - **erro 422 no Assistente:** a API (`Local.tipo`) só aceita `banheiro`, `descanso` e `capacite-se`. O app passou a mandar só os tipos aceitos (`TIPOS_ACEITOS_NA_API` em `domain/assistente.js`). Para o Assistente citar o lazer, o João precisa acrescentar `lazer` na API.
+- **Como foi testado:** script que conta as linhas de cada card em 320, 375, 768 e 1280 px com letra Normal e Maior (2 linhas no máximo, só em 320 px ou letra Maior) e a varredura de sobreposição. `oxlint` e `npm run build` ok.
+- **Revisão da equipe:** (preencher)
+
+## 20. Revisão final pelos requisitos de Front-end Design e Web Development (Claude Code · 17/11/2026 · pedido do Isaac)
+
+- **Prompt (resumo):** "Revisão final do código de acordo com os requisitos do projeto de Front-end Design e de Web Dev."
+- **Como a IA ajudou:**
+  - **auditoria:** CRUD completo na MockAPI pela interface; 26 custom hooks; `fetch` só em `services/`; regras sem React em `domain/`; modo claro/escuro por `data-tema`; 21 interações listadas; nenhuma chave no repositório;
+  - **separação de camadas:** a tela do Assistente guardava a conversa e chamava a API. Isso foi para o custom hook `useAssistente`; a tela só desenha;
+  - **README:** ficha CitizenTech com link do app publicado, nomes das faixas atualizados (Acessível, Atenção, Evite), tabela de hooks e lista de serviços corrigidas e duas tabelas que ligam cada requisito das disciplinas ao arquivo onde ele está.
+- **Como foi testado:** Assistente no navegador (pergunta pronta vira balão; com a API desligada aparece o plano B amigável). `oxlint` e `npm run build` ok.
+- **Revisão da equipe:** (preencher)

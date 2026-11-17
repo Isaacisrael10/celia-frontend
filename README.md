@@ -3,7 +3,19 @@
 **Caminhos em Liberdade, Inclusão e Acessibilidade**
 Global Solution 2026.2 (CitizenTech) · FIAP · Engenharia de Software, 1º ano · Rio de Janeiro
 
+> **App publicado:** https://celia-frontend.vercel.app
+> **Repositório:** https://github.com/Isaacisrael10/celia-frontend
 > Vídeo de demonstração: _(link em breve)_
+
+### Ficha CitizenTech
+
+| | |
+|---|---|
+| **Onde** | Rio de Janeiro. Os testes são no bairro do Grajaú. |
+| **Para quem** | Pessoas com deficiência física ou mobilidade reduzida que vão ao trabalho a pé e de ônibus. E a Prefeitura, que recebe os reportes e acompanha os postes. |
+| **ODS** | 10 (Redução das desigualdades), 11 (Cidades e comunidades sustentáveis) e 8 (Trabalho decente) |
+| **Indicador de impacto** | Quantas vezes o trajeto ficou inacessível no horário de ida ao trabalho, medido no histórico do poste. |
+| **Disciplinas deste repositório** | Front-end Design (React, custom hooks, CRUD com API externa) e Web Development (interações em JavaScript, modo claro/escuro) |
 
 ---
 
@@ -23,12 +35,12 @@ Cada faixa usa **cor + ícone + nome escrito + tipo de linha no mapa**, para nun
 
 | Faixa | Ícone | Linha no mapa |
 |---|---|---|
-| Normal | ✓ | contínua |
+| Acessível | ✓ | contínua |
 | Atenção | ! | tracejado longo |
-| Perigo | ✕ | tracejado curto |
+| Evite | ✕ | tracejado curto |
 | Sem dados | ? | pontilhada |
 
-O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
+O motivo aparece junto: "Evite · calor", "Atenção · calçada estreita". Os nomes são os mesmos no app, na API em Python e no ESP32 (contrato da equipe).
 
 ---
 
@@ -37,7 +49,7 @@ O motivo aparece junto: "Perigo · calor", "Atenção · calçada estreita".
 | Tela | O que faz |
 |---|---|
 | **Menu (entrada)** | Primeira tela do app. À esquerda, "Para onde vamos?" e o grafo de acessibilidade, em que cada ponto do símbolo abre uma parte do app. À direita, os dois acessos: **Prefeitura** e **Cidadão** [HU-27, RF25]. |
-| **Mapa** | Mapa real e livre de ponta a ponta (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, legenda e alternativa em lista para leitor de tela. Embaixo, a gaveta do **boletim do caminho de sempre** responde se dá para ir trabalhar hoje pelo caminho de sempre (livre, Atenção, Perigo ou sem dados), com o calor medido no ponto de ônibus e o alerta de calor escolhido no Perfil. |
+| **Mapa** | Mapa real e livre de ponta a ponta (busca de bairro/rua/lugar e botão "Meu local" com GPS), trechos coloridos, reportes das pessoas como marcadores, legenda e alternativa em lista para leitor de tela. Embaixo, a gaveta do **boletim do caminho de sempre** responde se dá para ir trabalhar hoje pelo caminho de sempre (Acessível, Atenção, Evite ou sem dados), com o calor medido no ponto de ônibus e o alerta de calor escolhido no Perfil. |
 | **Detalhe do trecho** | Faixa e motivo, medidas do poste ao vivo (distância livre, índice de calor, temperatura, umidade), últimas leituras e atalho para reportar. |
 | **Rotas** | Compara 3 caminhos até o trabalho, recomenda o mais seguro (que nem sempre é o mais curto) e deixa a pessoa escolher o **caminho de sempre** (salvo no navegador, sem login). |
 | **Reportar** | CRUD de reportes: lista com filtro, novo reporte com foto (vai só a miniatura), tipo do problema e descrição sugerida pela IA (Gemini) que a pessoa revisa antes de enviar, local escolhido num mapa com pino (abre no GPS, arrasta ou busca o endereço), editar e excluir. A foto do cidadão não passa pela IA de visão [RF08, RF21, RN07]. |
@@ -118,15 +130,16 @@ A lógica de negócio, o acesso a dados e a apresentação ficam separados:
 ```
 src/
   services/    acesso a dados, sem React
-               reportesApi.js · thingspeak.js · visaoApi.js · trilhaApi.js · geocodificacao.js
+               reportesApi.js · thingspeak.js · apiEquipe.js · visaoApi.js · assistenteApi.js
+               trilhaApi.js · posteApi.js · posteSimulado.js · geocodificacao.js
                miniatura.js · armazenamento.js (localStorage) · config.js
   domain/      regras de negócio puras (sem React, sem fetch)
                faixas.js · reportes.js · poste.js · trechos.js · rotas.js · boletim.js · visao.js
-               locais.js · mapa.js · navegacao.js · trilha.js
+               locais.js · mapa.js · navegacao.js · trilha.js · assistente.js · prefeitura.js
   hooks/       custom hooks: juntam serviços, regras e estado
   components/  peças visuais reutilizáveis
   pages/       as telas
-  data/        dados fixos (trechos, rotas, locais)
+  data/        dados fixos (trechos, rotas, locais, trilha, prefeitura, sobre)
   styles/      tokens de cor claro/escuro, componentes e estilos do mapa
 ```
 
@@ -139,9 +152,8 @@ src/
 | `useTrechos` | Junta os trechos com o poste ao vivo e calcula a faixa de cada um |
 | `useRotas` | Ordena as rotas da mais segura para a menos segura e guarda o caminho de sempre |
 | `useLimiteCalor` | Temperatura do alerta de calor, escolhida no Perfil e salva no navegador |
-| `useAnaliseFoto` | Envia a foto para a IA e cuida do plano B |
 | `useTema` | Modo claro/escuro, salvo no navegador |
-| `usePreferencia` | Preferência liga/desliga salva no navegador (modo chuva) |
+| `usePreferencia` | Preferência liga/desliga salva no navegador (ex.: mapa em modo satélite) |
 | `useAviso` | Mensagem rápida no rodapé que some sozinha |
 | `useBuscaLugar` | Busca de bairro, rua ou lugar para levar o mapa até lá |
 | `useLocalizacao` | Pede o GPS do celular para o botão "Meu local" |
@@ -154,6 +166,7 @@ src/
 | `useConsultaDeTela` | Responde se a tela é larga (mesma sintaxe das media queries) |
 | `useTituloDaPagina` | Troca o título da aba conforme a tela |
 | `useFocoNoTitulo` | Leva o foco ao título ao trocar de tela (leitor de tela) |
+| `useAssistente` | Conversa do Assistente: monta o contexto (trechos e locais), chama a API e transforma os ids citados em links; a tela só desenha |
 | `useChamadaApi` | Qualquer chamada à API da equipe: guarda carregando e erro, tenta de novo quando o Gemini falha e marca quando a API está fora do ar (plano B) |
 | `useFotoReporte` | Foto do reporte do cidadão: mostra a foto e gera a miniatura que vai para a MockAPI |
 | `useCameraPoste` | Câmera simulada do poste: passa pelas fotos, manda cada uma para a IA de visão e, com buraco, pede o reporte ao Gemini e envia sozinho |
@@ -184,6 +197,27 @@ src/
 19. **Câmera do poste**: ligar, pausar e continuar a ronda; os reportes chegam na caixa de entrada
 20. **Abas da Prefeitura** (também pelas setas do teclado) e **filtros** por origem e por nível de calor
 21. **Perguntas frequentes** do Sobre, que abrem e fecham
+
+#### Onde estão os conceitos de JavaScript pedidos
+
+| Conceito | Exemplo no código |
+|---|---|
+| **Funções** | `src/domain/poste.js`: `minutosDesde`, `leituraRecente` (regra dos 10 min), `faixaDoCalor` |
+| **Condicionais** | `faixaDoCalor` (`if` por nível de calor) e `textoAtualizado` (`if` por minutos) em `src/domain/poste.js` |
+| **Operadores** | comparação (`>=`, `===`), lógicos (`&&`, `\|\|`) e ternário em `src/hooks/useTema.js` (`tema === 'escuro' ? 'claro' : 'escuro'`) |
+| **DOM** | `useTema` coloca `data-tema` no `<html>`; `useAcessibilidade` muda `data-texto`/`data-movimento`; `useTituloDaPagina` troca `document.title`; `useFocoNoTitulo` leva o foco ao `<h1>` |
+| **Eventos** | `onClick`, `onSubmit` e `onChange` nos filtros, no formulário de reporte e no Assistente |
+| **Modo claro/escuro** | botão no Perfil → `useTema` → `data-tema` no `<html>` → tokens de cor em `src/styles/tokens.css`. Abre no tema do sistema e guarda a escolha no navegador |
+
+### Requisitos de Front-end Design
+
+| Requisito | Onde está |
+|---|---|
+| React + Hooks | `useState`, `useEffect`, `useRef`, `useMemo` nas telas e hooks |
+| Custom Hooks | 26 hooks em `src/hooks/` (tabela acima) |
+| CRUD com API externa | MockAPI `/reportes`: `src/services/reportesApi.js` → `useReportes` → tela Reportar (criar, listar, editar, excluir) |
+| Separação de camadas | `services/` (dados) · `domain/` (regras) · `hooks/` (estado) · `pages/` e `components/` (apresentação). Nenhuma tela chama `fetch` |
+| Componentização | `src/components/` (cards, badges, mapa, barra de navegação, estados de carregando e erro) |
 
 ---
 
