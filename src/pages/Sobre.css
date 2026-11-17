@@ -1,0 +1,345 @@
+/* Página Sobre: seções empilhadas, com respiro maior entre elas */
+.sobre {
+  gap: 28px;
+}
+
+.sobre__secao {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.sobre__titulo {
+  font-size: var(--titulo-m);
+  text-align: center; /* título de cada seção centralizado, acima dos cards */
+}
+
+.sobre__subtitulo {
+  font-size: var(--texto-g);
+  line-height: 1.25;
+}
+
+.sobre__subtitulo--icone {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.sobre__subtitulo--icone svg {
+  flex: none;
+}
+
+/* ---------- Apresentação: símbolo em cima, nome e textos embaixo, tudo no centro ---------- */
+.sobre__apresentacao {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  text-align: center;
+}
+
+.sobre__apresentacao > svg {
+  flex: none;
+}
+
+.sobre__textos {
+  max-width: 62ch;
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  font-size: var(--texto-m);
+}
+
+.sobre__nome {
+  font-size: var(--titulo-g);
+  letter-spacing: 0.01em;
+}
+
+.sobre__lema {
+  margin-top: -6px;
+  font-size: var(--texto-g);
+  font-weight: 500;
+  color: var(--link);
+}
+
+.sobre__problema {
+  font-size: var(--texto-g);
+  font-weight: 500;
+}
+
+@media (min-width: 768px) {
+  .sobre__apresentacao {
+    padding: 32px 28px;
+    gap: 20px;
+  }
+}
+
+/* ---------- Ficha rápida: 1 coluna no celular, 3 quando cabe ---------- */
+.sobre__ficha {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 14px;
+}
+
+.sobre__ficha-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.sobre__ficha dt {
+  font-size: var(--texto-p);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.sobre__ficha dd {
+  margin: 0;
+  font-size: var(--texto-m);
+  font-weight: 500;
+}
+
+/* ---------- Cards das partes e dos ODS ---------- */
+
+/*
+  Cards em linhas que quebram (flex-wrap), centralizadas: a última linha incompleta
+  (ex.: 2 cards embaixo de 3) fica no meio, e não encostada à esquerda.
+  Cada card tem até 22rem; os da mesma linha ficam com a mesma altura.
+*/
+.sobre .grade {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.sobre .grade > li {
+  flex: 0 1 22rem;
+}
+
+.sobre__parte {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--texto-m);
+  text-align: center;
+}
+
+/* Bolinha azul com contorno escuro (a mesma do símbolo), com um ícone ou um número dentro */
+.sobre__bolinha {
+  width: 48px;
+  height: 48px;
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+}
+
+.sobre__bolinha--numero {
+  font-size: var(--texto-g);
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* ---------- Resultado e dados: lado a lado em telas largas ---------- */
+.sobre__dupla {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+@media (min-width: 900px) {
+  .sobre__dupla {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1.4fr);
+    gap: 20px;
+  }
+}
+
+.sobre__lista {
+  margin: 0;
+  padding: 0;
+  list-style: none; /* lista centralizada: sem marcador, cada frase separada pelo espaço */
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/*
+  Passar o mouse nos cards do Sobre: o card sobe um pouco, a borda acende no azul do símbolo
+  e a bolinha cresce e gira de leve. Só em aparelhos com mouse (hover: hover), para o toque
+  no celular não deixar o card "preso" levantado. "Menos animações" desliga tudo (base.css).
+*/
+@media (hover: hover) {
+  .sobre__parte,
+  .sobre__ficha-item {
+    transition:
+      transform var(--medio) var(--suave),
+      box-shadow var(--medio) var(--suave),
+      border-color var(--medio) var(--suave);
+  }
+
+  .sobre__parte:hover,
+  .sobre__ficha-item:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-flutuante);
+    border-color: var(--primary);
+  }
+
+  .sobre__bolinha {
+    transition: transform var(--medio) var(--suave);
+  }
+
+  .sobre__parte:hover .sobre__bolinha {
+    transform: scale(1.12) rotate(-8deg);
+  }
+}
+
+/* ---------- O problema em números ---------- */
+.sobre__intro-secao {
+  max-width: 60ch;
+  margin: -4px auto 0;
+  text-align: center;
+  color: var(--muted);
+}
+
+/* Cards de número: 1 coluna no celular, quantas couberem nas telas largas */
+.sobre__numeros {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 15rem), 1fr));
+  gap: 14px;
+}
+
+/* Número grande à esquerda, texto e fonte embaixo: leitura de cima para baixo, sem centralizar */
+.sobre__numero {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  font-size: var(--texto-m);
+  border-top: 3px solid var(--primary);
+}
+
+.sobre__numero-valor {
+  font-size: var(--titulo-m);
+  font-weight: 600;
+  line-height: 1.1;
+  letter-spacing: -0.01em;
+  color: var(--ink);
+}
+
+.sobre__fonte {
+  margin-top: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: var(--texto-p);
+  color: var(--link);
+}
+
+.sobre__fecho {
+  max-width: 62ch;
+  margin: 0 auto;
+  font-size: var(--texto-g);
+  font-weight: 500;
+  text-align: center;
+  text-wrap: balance;
+}
+
+/* ---------- Perguntas frequentes ---------- */
+.sobre__faq {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-width: 52rem;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.sobre__pergunta {
+  padding: 0;
+}
+
+/* A pergunta é a área de toque inteira (48 px no mínimo), com a seta à direita */
+.sobre__pergunta summary {
+  min-height: var(--toque);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: var(--texto-g);
+  font-weight: 600;
+  cursor: pointer;
+  list-style: none;
+  border-radius: var(--raio);
+}
+
+.sobre__pergunta summary::-webkit-details-marker {
+  display: none;
+}
+
+.sobre__pergunta summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}
+
+.sobre__pergunta-seta {
+  flex: none;
+  transition: transform var(--medio) var(--suave);
+}
+
+.sobre__pergunta[open] .sobre__pergunta-seta {
+  transform: rotate(180deg);
+}
+
+.sobre__pergunta p {
+  padding: 0 16px 16px;
+  max-width: 65ch;
+  font-size: var(--texto-m);
+  line-height: 1.55;
+}
+
+@media (hover: hover) {
+  .sobre__numero {
+    transition:
+      transform var(--medio) var(--suave),
+      box-shadow var(--medio) var(--suave);
+  }
+
+  .sobre__numero:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--sombra-flutuante);
+  }
+
+  .sobre__pergunta summary:hover {
+    color: var(--link);
+  }
+}
+
+/* Computador: 5 números em duas linhas cheias (3 em cima, 2 embaixo), sem card sobrando sozinho */
+@media (min-width: 1024px) {
+  .sobre__numeros {
+    grid-template-columns: repeat(6, minmax(0, 1fr));
+  }
+
+  .sobre__numero {
+    grid-column: span 2;
+  }
+
+  .sobre__numero:nth-child(n + 4) {
+    grid-column: span 3;
+  }
+}

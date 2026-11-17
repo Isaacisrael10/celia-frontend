@@ -69,3 +69,11 @@ export function linhaDoPoste(poste, limiteCalor) {
 
 // Opções do alerta de calor no Perfil (0 = desligado)
 export const LIMITES_CALOR = [0, 30, 32, 35]
+
+// Quem nunca escolheu é avisado a partir de 32 °C
+export const LIMITE_CALOR_PADRAO = 32
+
+// Texto de cada opção do alerta de calor. Ex.: 0 → "Desligado" · 32 → "32 °C"
+export function textoDoLimite(graus) {
+  return graus === 0 ? 'Desligado' : graus + ' °C'
+}

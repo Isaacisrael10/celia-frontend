@@ -5,32 +5,5 @@
 /* Foco do input escondido aparece no botão */
 .etapa-foto__botao:focus-within {
   outline: 3px solid var(--focus);
-  outline-offset: 2px;
-}
-
-.etapa-foto__status {
-  font-size: 16px;
-  font-weight: 600;
-}
-
-.etapa-foto__resultado {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 16px;
-  font-weight: 600;
-}
-
-/* Plano B: caixa tracejada, sem cor de alerta */
-.etapa-foto__plano-b {
-  padding: 12px;
-  display: flex;
-  gap: 10px;
-  border: 1.5px dashed var(--borda-campo);
-  border-radius: var(--raio);
-  font-size: 16px;
-}
-
-.etapa-foto__plano-b svg {
-  flex: none;
+  outline-offset: 3px;
 }

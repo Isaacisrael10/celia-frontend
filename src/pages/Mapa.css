@@ -1,39 +1,51 @@
 /*
   Tela do Mapa de ponta a ponta.
-  O app ocupa exatamente a altura da tela: não existe rolagem na página,
+  A tela ocupa exatamente a altura da janela: não existe rolagem na página,
   então arrastar com o dedo sempre mexe no mapa.
+  O mapa fica atrás (inclusive atrás da navegação de vidro) e as peças flutuam por cima.
 */
-.app:has(.tela-mapa) {
+.app__tela:has(.tela-mapa) {
   height: 100dvh;
+  padding: 0;
 }
 
 .tela-mapa {
   position: relative;
   flex: 1;
   min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
-  overflow: hidden;
+  gap: 8px;
+  /* as bordas deixam livre o espaço da navegação (embaixo no celular, na lateral em telas largas) */
+  padding: max(10px, env(safe-area-inset-top)) 10px calc(var(--nav-baixo) + 2px) calc(var(--nav-lado) + 10px);
 }
 
-/* As camadas por cima do mapa deixam o toque passar, menos nos próprios botões */
+/* As camadas por cima do mapa deixam o toque passar, menos nas próprias peças */
 .tela-mapa__topo,
+.tela-mapa__boletim,
 .tela-mapa__meio,
-.tela-mapa__base {
+.tela-mapa__ferramentas {
   position: relative;
   z-index: 2;
   pointer-events: none;
 }
 
 .tela-mapa__topo > *,
-.tela-mapa__base > *,
-.tela-mapa__lista {
+.tela-mapa__boletim > *,
+.tela-mapa__meio > *,
+.tela-mapa__ferramentas > * {
   pointer-events: auto;
 }
 
-/* Em cima: busca flutuante + espaço da logo, numa linha só */
+/*
+  Ordem no celular (de cima para baixo): busca, lista, botões, boletim.
+  No código o boletim vem logo depois da busca (é a informação mais importante
+  para o leitor de tela); "order" só muda a posição na tela.
+*/
 .tela-mapa__topo {
-  padding: 12px 12px 0;
+  order: 0;
+  z-index: 3; /* os resultados da busca abrem por cima das outras peças */
   display: flex;
   align-items: flex-start;
   gap: 8px;
@@ -44,111 +56,101 @@
   min-width: 0;
 }
 
-.tela-mapa__topo .busca-lugar__entrada {
-  border-color: transparent;
-  box-shadow: var(--sombra-flutuante);
-}
-
-.tela-mapa__topo .busca-lugar__botao {
-  background: var(--primary);
-  color: var(--on-primary);
-  border: 0;
-  box-shadow: var(--sombra-flutuante);
-}
-
-.tela-mapa__topo .busca-lugar__info {
-  padding: 4px 12px;
-  background: var(--card);
-  border-radius: var(--raio);
-}
-
-/* Espaço reservado da logo (a logo ainda não existe) */
-.tela-mapa__logo {
-  width: 44px;
-  height: 44px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--card);
-  border: 1.5px dashed var(--line-strong);
-  border-radius: 12px;
-  color: var(--muted);
-  font-size: 13px;
-  font-weight: 500;
-}
-
-.tela-mapa__base {
-  display: flex;
-  flex-direction: column;
-}
-
 .tela-mapa__meio {
+  order: 1;
   flex: 1;
   min-height: 0;
 }
 
-/* Visão em lista: fundo do app e só a lista rola */
-.tela-mapa--lista {
-  background: var(--bg);
-}
-
-.tela-mapa__lista {
-  height: 100%;
-  padding: 12px 16px;
-  overflow-y: auto;
-}
-
-/* Fileira de botões logo acima da gaveta: Legenda e Lista à esquerda, Meu local à direita */
-.tela-mapa__botoes {
-  padding: 0 12px 8px;
+.tela-mapa__ferramentas {
+  order: 2;
   display: flex;
+  flex-wrap: wrap;
   align-items: flex-end;
   gap: 8px;
 }
 
-.tela-mapa__pilula {
-  min-height: 44px;
-  padding: 0 16px;
-  display: inline-flex;
-  align-items: center;
-  gap: 6px;
-  background: var(--card);
-  color: var(--ink);
-  border: 0;
-  border-radius: 999px;
-  box-shadow: var(--sombra-flutuante);
-  font-size: 15px;
-  font-weight: 500;
+.tela-mapa__boletim {
+  order: 3;
+  width: 100%;
+  max-width: 32rem;
 }
 
-.tela-mapa__meu-local {
-  width: 48px;
-  height: 48px;
+/* Lista de trechos: painel de vidro que rola por dentro */
+.tela-mapa__lista {
+  height: 100%;
+  padding: 4px 16px;
+  overflow-y: auto;
+  border-radius: var(--raio-g);
+  animation: brotar var(--medio) var(--suave);
+}
+
+/*
+  Canto de baixo, à direita: "Meu local" em cima e a troca mapa/satélite embaixo (bem no canto).
+  Os dois ficam empilhados para não tomar a largura dos outros botões no celular.
+*/
+.tela-mapa__canto {
+  order: 1;
   margin-left: auto;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  background: var(--card);
-  color: var(--ink);
-  border: 0;
-  border-radius: var(--raio);
-  box-shadow: var(--sombra-flutuante);
+  flex-direction: column;
+  gap: 8px;
 }
 
-/* Crédito obrigatório do mapa, logo acima da gaveta */
+/* Crédito obrigatório do mapa: no celular cai para a linha de baixo, encostado à direita */
 .tela-mapa__credito {
-  align-self: flex-end;
-  margin: 0 12px 4px auto;
-  width: max-content;
-  padding: 1px 6px;
-  background: color-mix(in srgb, var(--card) 85%, transparent);
-  border-radius: 6px;
+  order: 2;
+  max-width: 15rem;
+  margin-left: auto;
+  padding: 2px 8px;
+  text-align: right;
+  text-wrap: balance;
+  background: var(--vidro-forte);
+  border-radius: 8px;
   color: var(--ink);
-  font-size: 13px;
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
 }
 
-/* Na lista, os botões ficam no fundo do app (não tem mapa atrás) */
-.tela-mapa--lista .tela-mapa__botoes {
-  padding-top: 8px;
+/* A partir do tablet cabe tudo numa linha: Legenda e Lista à esquerda, crédito e os botões do canto à direita */
+@media (min-width: 600px) {
+  .tela-mapa__credito {
+    order: 1;
+    /* o crédito do satélite é mais comprido: quebra em duas linhas em vez de empurrar os botões */
+    max-width: 30rem;
+  }
+
+  .tela-mapa__canto {
+    order: 2;
+    margin-left: 0;
+  }
+}
+
+/* ---------- Computador: coluna de vidro à esquerda, mapa livre ao lado ---------- */
+@media (min-width: 960px) {
+  .tela-mapa {
+    display: grid;
+    grid-template-columns: minmax(20rem, 25rem) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr) auto;
+    gap: 10px 12px;
+    padding: 12px 12px 12px calc(var(--nav-lado) + 12px); /* respiro entre o trilho e a coluna */
+  }
+
+  .tela-mapa__topo {
+    grid-area: 1 / 1;
+  }
+
+  .tela-mapa__boletim {
+    grid-area: 2 / 1;
+  }
+
+  .tela-mapa__meio {
+    grid-area: 3 / 1;
+  }
+
+  .tela-mapa__ferramentas {
+    grid-area: 4 / 1 / 5 / 3;
+    flex-wrap: nowrap;
+  }
 }

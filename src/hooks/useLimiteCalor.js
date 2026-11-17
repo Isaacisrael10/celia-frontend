@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react'
+import { lerSalvo, salvar } from '../services/armazenamento'
+import { LIMITE_CALOR_PADRAO } from '../domain/boletim'
 
 const CHAVE = 'celia-limite-calor'
-// Padrão: avisar a partir de 32 °C
-const PADRAO = 32
 
 /*
   Custom hook do alerta de calor (escolhido no Perfil e usado no boletim do Mapa).
@@ -11,20 +11,12 @@ const PADRAO = 32
 */
 export function useLimiteCalor() {
   const [limite, setLimite] = useState(() => {
-    try {
-      const salvo = localStorage.getItem(CHAVE)
-      return salvo === null ? PADRAO : Number(salvo)
-    } catch {
-      return PADRAO
-    }
+    const salvo = lerSalvo(CHAVE)
+    return salvo === null ? LIMITE_CALOR_PADRAO : Number(salvo)
   })
 
   useEffect(() => {
-    try {
-      localStorage.setItem(CHAVE, String(limite))
-    } catch {
-      // sem localStorage: vale só até fechar a página
-    }
+    salvar(CHAVE, String(limite))
   }, [limite])
 
   return [limite, setLimite]

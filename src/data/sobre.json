@@ -1,0 +1,174 @@
+{
+  "lema": "Caminhos em Liberdade, Inclusão e Acessibilidade",
+  "problema": "Quem tem deficiência física ou mobilidade reduzida sai de casa sem saber se a calçada e a rampa do ponto de ônibus estão livres, nem se o calor no ponto está suportável. Um buraco novo pode aparecer e ninguém avisa.",
+  "solucao": "A C.E.L.I.A. mostra isso antes de a pessoa sair: como está cada trecho, qual é a rota mais segura e onde dá para parar no caminho. Os postes nos pontos de ônibus vigiam a calçada sozinhos, e a Prefeitura recebe os problemas já descritos, para saber o que consertar primeiro.",
+  "homenagem": "O nome é uma homenagem à Célia, avó de uma integrante da equipe. Foi ela quem contou para a gente as dificuldades que encontra nas calçadas.",
+  "ficha": [
+    {
+      "rotulo": "Onde",
+      "texto": "Rio de Janeiro. Os testes são no bairro do Grajaú."
+    },
+    {
+      "rotulo": "Para quem",
+      "texto": "Pessoas com deficiência física ou mobilidade reduzida que vão ao trabalho a pé e de ônibus. E a Prefeitura, que recebe os reportes e acompanha os postes."
+    },
+    {
+      "rotulo": "Desafio",
+      "texto": "Global Solution 2026.2 (CitizenTech) da FIAP, Engenharia de Software, 1º ano."
+    }
+  ],
+  "jornada": [
+    {
+      "titulo": "Antes de sair",
+      "texto": "Veja a rota mais acessível, como está cada trecho e o calor no ponto de ônibus. O assistente de IA ajuda a planejar."
+    },
+    {
+      "titulo": "No caminho",
+      "texto": "Receba um aviso se um trecho do seu caminho piorar e ache um banheiro acessível ou um lugar para descansar."
+    },
+    {
+      "titulo": "Achou um problema",
+      "texto": "Tire uma foto e escolha o tipo do problema. A IA sugere a descrição, você revisa e o reporte vai para a Prefeitura e aparece no mapa."
+    },
+    {
+      "titulo": "Enquanto ninguém reporta",
+      "texto": "A câmera do poste fotografa a calçada a cada 20 segundos. Se a IA acha um buraco, o trecho vira \"Evite\" e o reporte chega sozinho à Prefeitura."
+    },
+    {
+      "titulo": "No trabalho",
+      "texto": "A trilha de IA ensina, em lições curtas e acessíveis, a usar inteligência artificial no dia a dia do emprego."
+    },
+    {
+      "titulo": "Depois",
+      "texto": "A Prefeitura acompanha câmeras, reportes e alertas de calor na sua área do app e decide onde consertar, dar sombra ou cobrir o ponto."
+    }
+  ],
+  "partes": [
+    {
+      "id": "poste",
+      "titulo": "Poste com sensores",
+      "texto": "Um ESP32 no ponto de ônibus mede o espaço livre na calçada e o calor. Mostra a situação num visor e numa luz e envia as leituras para a internet (ThingSpeak)."
+    },
+    {
+      "id": "visao",
+      "titulo": "IA que vê buracos",
+      "texto": "A câmera do poste fotografa a calçada a cada 20 segundos e um modelo treinado pela equipe, no servidor, procura buracos sozinho. Quando acha um, o reporte é escrito por IA e enviado à prefeitura automaticamente. No protótipo, fotos já baixadas fazem o papel da câmera (veja a área da Prefeitura)."
+    },
+    {
+      "id": "python",
+      "titulo": "Programa em Python",
+      "texto": "Lê as medições do poste, calcula um índice de risco e percebe quando a situação está piorando."
+    },
+    {
+      "id": "app",
+      "titulo": "Este aplicativo",
+      "texto": "Junta tudo num lugar só: mapa com a situação dos trechos, rotas, reportes, locais de apoio, trilha de IA e ajustes de acessibilidade."
+    },
+    {
+      "id": "assistente",
+      "titulo": "Assistente de IA",
+      "texto": "O Gemini responde perguntas sobre o caminho usando só os dados do app, sem inventar lugares. Também sugere a descrição do reporte, que a pessoa revisa antes de enviar."
+    },
+    {
+      "id": "prefeitura",
+      "titulo": "Área da Prefeitura",
+      "texto": "A Prefeitura entra pelo seu próprio acesso e vê a última foto de cada câmera com os buracos marcados, a caixa de reportes (dos postes e dos cidadãos) e os alertas de calor dos pontos."
+    },
+    {
+      "id": "trilha",
+      "titulo": "Trilha de IA",
+      "texto": "Lições curtas e acessíveis para usar inteligência artificial no trabalho. Chegar ao emprego é a primeira parte; continuar nele pede essa habilidade nova."
+    }
+  ],
+  "ods": [
+    {
+      "numero": 10,
+      "titulo": "Redução das desigualdades",
+      "texto": "A pessoa com deficiência passa a ter a informação de que precisa para escolher o caminho, como qualquer outra pessoa."
+    },
+    {
+      "numero": 11,
+      "titulo": "Cidades e comunidades sustentáveis",
+      "texto": "Mostra onde a calçada falha e ajuda a cidade a decidir o que consertar primeiro."
+    },
+    {
+      "numero": 8,
+      "titulo": "Trabalho decente e crescimento econômico",
+      "texto": "Tira uma barreira do caminho até o emprego e apoia a capacitação em IA para seguir trabalhando."
+    }
+  ],
+  "impacto": "Quantas vezes o trajeto ficou inacessível no horário de ida ao trabalho, medido no histórico do poste. É o indicador proposto pela equipe.",
+  "dados": [
+    "O app não tem cadastro e não pede dados pessoais. O tema, o caminho de sempre e os ajustes ficam só no seu aparelho.",
+    "As fotos das câmeras dos postes (só da calçada) ficam guardadas no servidor para a Prefeitura consultar. A foto do cidadão não passa pela IA, e o reporte guarda só uma miniatura, para mostrar o problema.",
+    "Só o poste do ponto de ônibus é lido ao vivo. O resto dos trechos, as rotas e os locais são exemplos simulados, e a tela avisa isso."
+  ],
+  "numeros_intro": "Dados públicos que mostram por que o caminho até o trabalho é o lugar certo para começar.",
+  "numeros": [
+    {
+      "valor": "14,4 milhões",
+      "texto": "de pessoas com deficiência no Brasil, 7,3% da população com 2 anos ou mais.",
+      "fonte": "IBGE, Censo 2022 (divulgado em maio de 2025)",
+      "url": "https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/43463-censo-2022-brasil-tem-14-4-milhoes-de-pessoas-com-deficiencia"
+    },
+    {
+      "valor": "26,6%",
+      "texto": "das pessoas com deficiência em idade de trabalhar estão ocupadas. Entre quem não tem deficiência, são 60,7%.",
+      "fonte": "IBGE, PNAD Contínua 2022",
+      "url": "https://agenciadenoticias.ibge.gov.br/pt/agencia-noticias/37317-pessoas-com-deficiencia-tem-menor-acesso-a-educacao-ao-trabalho-e-a-renda.html"
+    },
+    {
+      "valor": "R$ 1.860",
+      "texto": "é o rendimento médio de quem trabalha e tem deficiência, contra R$ 2.690 de quem não tem.",
+      "fonte": "IBGE, PNAD Contínua 2022",
+      "url": "https://agenciadenoticias.ibge.gov.br/pt/agencia-noticias/37317-pessoas-com-deficiencia-tem-menor-acesso-a-educacao-ao-trabalho-e-a-renda.html"
+    },
+    {
+      "valor": "Nota abaixo de 7",
+      "texto": "foi a melhor média de calçada entre as 27 capitais. Nenhuma chegou à nota mínima aceitável, 8, em cerca de 900 locais avaliados.",
+      "fonte": "Mobilize Brasil, Campanha Calçadas do Brasil 2019",
+      "url": "https://www.mobilize.org.br/Midias/Campanhas/Calcadas-2019/relatorio-final.pdf"
+    },
+    {
+      "valor": "62,3 °C",
+      "texto": "de sensação térmica em Guaratiba, Zona Oeste do Rio, em 17 de março de 2024. É o recorde da série, medida desde 2014.",
+      "fonte": "Sistema Alerta Rio, Prefeitura do Rio",
+      "url": "https://www.cnnbrasil.com.br/nacional/calor-sufocante-com-623oc-rio-renova-recorde-de-sensacao-termica/"
+    }
+  ],
+  "numeros_fecho": "Menos da metade trabalha, quem trabalha ganha menos, a calçada falha no país inteiro e o calor no ponto de ônibus do Rio já passou de 60 °C. A C.E.L.I.A. ataca a parte que dá para medir todo dia: o trajeto.",
+  "faq": [
+    {
+      "pergunta": "Preciso criar conta ou informar meus dados?",
+      "resposta": "Não. O app não tem cadastro e não pede dados pessoais. O tema, o caminho de sempre e os ajustes de acessibilidade ficam guardados só no seu aparelho."
+    },
+    {
+      "pergunta": "As informações do mapa são reais?",
+      "resposta": "Em parte, e a tela sempre avisa. O poste do ponto de ônibus é lido ao vivo do ThingSpeak, a cada 20 segundos. Os outros trechos mostram uma faixa de exemplo simulada, porque ainda existe um poste só. Os reportes do mapa são os enviados pelo app."
+    },
+    {
+      "pergunta": "Como a IA encontra buracos na calçada?",
+      "resposta": "A câmera do poste fotografa a calçada e manda a foto para o servidor da C.E.L.I.A. Lá, um modelo de visão computacional (YOLO) treinado pela equipe com fotos públicas de buracos e de calçadas do Rio marca cada buraco que encontra. O modelo ainda está em testes e a equipe segue melhorando a precisão."
+    },
+    {
+      "pergunta": "E se a IA errar?",
+      "resposta": "No seu reporte, a IA só sugere o texto: você lê, corrige e decide se envia. No reporte automático do poste, a foto vai junto com as marcações, para a Prefeitura conferir antes de mandar uma equipe."
+    },
+    {
+      "pergunta": "O reporte chega mesmo à Prefeitura?",
+      "resposta": "Neste protótipo, a Prefeitura é representada pela área dela dentro do próprio app, que recebe os reportes dos cidadãos e dos postes. Numa versão real, essa área seria usada pelo órgão responsável pelas calçadas."
+    },
+    {
+      "pergunta": "Dá para usar com leitor de tela ou sem enxergar bem?",
+      "resposta": "Sim. Todos os botões têm nome para o leitor de tela, o mapa tem uma lista que diz o mesmo em texto, o app funciona só com o teclado e o Perfil deixa aumentar o texto, aumentar o contraste e reduzir as animações."
+    },
+    {
+      "pergunta": "Por que o bairro do Grajaú?",
+      "resposta": "É onde a equipe faz os testes, na Zona Norte do Rio. O mapa abre lá, mas a busca de lugar, o botão Meu local e os reportes funcionam em qualquer região."
+    },
+    {
+      "pergunta": "De onde vêm os dados de banheiros e lugares de descanso?",
+      "resposta": "São exemplos montados pela equipe para o protótipo, com a fonte indicada na tela. Nenhum dado pessoal real foi usado no projeto."
+    }
+  ]
+}

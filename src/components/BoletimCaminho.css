@@ -1,33 +1,23 @@
-/* Gaveta do boletim: cartão branco preso embaixo da tela do Mapa */
+/* Boletim: cartão de vidro que flutua em cima do mapa */
 .boletim {
   position: relative;
-  padding: 10px 14px 12px;
+  padding: 14px 16px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  background: var(--card);
-  border-radius: 20px 20px 0 0;
-  box-shadow: var(--sombra-gaveta);
-}
-
-.boletim__barrinha {
-  align-self: center;
-  margin: -2px 0 2px;
-  width: 36px;
-  height: 4px;
-  border-radius: 4px;
-  background: var(--line-strong);
+  gap: 10px;
+  border-radius: var(--raio-g);
 }
 
 .boletim__topo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 }
 
+/* Bolinha azul com contorno escuro, como as do símbolo */
 .boletim__icone {
-  width: 32px;
-  height: 32px;
+  width: 40px;
+  height: 40px;
   flex: none;
   display: flex;
   align-items: center;
@@ -35,6 +25,14 @@
   border-radius: 50%;
   background: var(--primary);
   color: var(--on-primary);
+  border: 2px solid var(--ink);
+}
+
+/* Em celular estreito a bolinha de enfeite sai, para o título caber em duas linhas */
+@media (max-width: 420px) {
+  .boletim__icone {
+    display: none;
+  }
 }
 
 .boletim__textos {
@@ -43,14 +41,15 @@
 }
 
 .boletim__titulo {
-  font-size: 17px;
+  font-size: var(--texto-g);
   font-weight: 600;
   line-height: 1.2;
 }
 
 .boletim__apoio {
-  font-size: 14px;
-  line-height: 1.3;
+  margin-top: 2px;
+  font-size: var(--texto-p);
+  line-height: 1.35;
   color: var(--muted);
 }
 
@@ -64,48 +63,76 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-wrap: wrap;
   gap: 8px;
 }
 
-.boletim__detalhes-botao {
-  min-height: 44px;
+.boletim__seta {
+  transition: transform var(--medio) var(--suave);
+}
+
+.boletim__seta--aberta {
+  transform: rotate(180deg);
 }
 
 /* Alerta de calor: texto escuro com ícone, sem cor de semáforo */
 .boletim__calor {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 10px;
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--primary) 16%, transparent);
-  font-size: 14px;
+  gap: 8px;
+  padding: 8px 12px;
+  border-radius: var(--raio-p);
+  background: color-mix(in srgb, var(--primary) 18%, transparent);
+  font-size: var(--texto-p);
   font-weight: 500;
 }
 
+/*
+  Abrir e fechar com movimento: a linha da grade vai de 0fr (altura zero) até 1fr (altura do conteúdo).
+  É o jeito de animar a altura sem precisar saber quantos pixels o conteúdo tem.
+*/
+.boletim__dobra {
+  display: grid;
+  grid-template-rows: 0fr;
+  margin-top: -10px; /* fechada, não deixa um espaço sobrando no fim do cartão */
+  transition:
+    grid-template-rows var(--medio) var(--suave),
+    margin-top var(--medio) var(--suave);
+}
+
+.boletim__dobra--aberta {
+  grid-template-rows: 1fr;
+  margin-top: 0;
+}
+
 .boletim__detalhes {
-  padding-top: 8px;
+  min-height: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   gap: 8px;
-  border-top: 1px solid var(--line-soft);
+}
+
+.boletim__dobra--aberta .boletim__detalhes {
+  padding-top: 10px;
+  border-top: 1px solid var(--linha);
 }
 
 .boletim__percurso {
-  font-size: 16px;
+  font-size: var(--texto-m);
   font-weight: 600;
 }
 
 .boletim__rotulo {
   display: block;
-  font-size: 13px;
+  font-size: var(--texto-p);
   font-weight: 400;
   color: var(--muted);
 }
 
 .boletim__poste,
 .boletim__simulado {
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
 }
 

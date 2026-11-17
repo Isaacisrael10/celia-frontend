@@ -1,130 +1,83 @@
-/* Mini trilha de IA: lista de lições e a lição aberta */
+/* A trilha é texto para ler: fica numa coluna de leitura confortável */
+.trilha {
+  max-width: 48rem;
+}
 
-.trilha__abertura {
+.trilha__topo {
   display: flex;
   flex-direction: column;
-  gap: 6px;
+  align-items: center; /* título da trilha centralizado, acima das lições */
+  text-align: center;
+  gap: 2px;
 }
 
 .trilha__titulo {
-  font-size: 22px;
+  font-size: var(--titulo-p);
 }
 
-.trilha__observacao,
-.trilha__nota {
-  font-size: 15px;
-  color: var(--muted);
-}
-
-.trilha__lista {
+.trilha__licoes {
+  list-style: none;
   margin: 0;
   padding: 0;
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.trilha__licao {
-  min-height: 64px;
-  padding: 12px 14px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  background: var(--card);
-  box-shadow: var(--sombra);
-  border-radius: var(--raio);
-  color: var(--ink);
-  text-decoration: none;
-}
-
-.trilha__licao svg {
-  flex: none;
-  color: var(--link);
-}
-
-/* Número da lição num círculo vazado, como as paradas de uma linha */
-.trilha__numero {
-  width: 36px;
-  height: 36px;
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 2px solid var(--link);
-  border-radius: 50%;
-  color: var(--link);
-  font-weight: 700;
-}
-
-.trilha__textos {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.trilha__nome {
-  font-size: 17px;
-  font-weight: 600;
-  line-height: 1.3;
-}
-
-.trilha__duracao {
-  font-size: 14px;
-  color: var(--muted);
-}
-
-/* ---------- Lição ---------- */
-.licao {
   display: flex;
   flex-direction: column;
   gap: 14px;
 }
 
-.licao__titulo {
-  font-size: 24px;
-  line-height: 1.25;
-}
-
-.licao__duracao {
-  margin-top: 4px;
-  font-size: 14px;
-  color: var(--muted);
-}
-
-.licao__paragrafo {
-  font-size: 17px;
+/*
+  "Por que uma trilha de IA num app de calçadas?": texto de leitura, alinhado à esquerda,
+  com um fio azul do lado (o mesmo traço das ligações do grafo).
+*/
+.trilha__porque {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  padding: 4px 0 4px 18px;
+  border-left: 3px solid var(--primary);
+  font-size: var(--texto-g);
   line-height: 1.55;
 }
 
-.licao__bloco {
-  padding: 14px;
+.trilha__porque p {
+  max-width: 62ch;
+}
+
+.trilha__porque-titulo {
+  font-size: var(--titulo-m);
+  line-height: 1.2;
+  text-wrap: balance;
+}
+
+.trilha__ligacoes-titulo {
+  margin-top: 8px;
+  font-size: var(--texto-g);
+}
+
+.trilha__ligacoes {
+  list-style: none;
+  margin: 0;
+  padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 6px;
-  background: var(--card);
-  box-shadow: var(--sombra);
-  border-radius: var(--raio);
-  font-size: 16px;
-  line-height: 1.5;
+  gap: 10px;
+  font-size: var(--texto-m);
 }
 
-.licao__subtitulo {
+/* Cada ligação: a bolinha do grafo com o ícone, e o texto ao lado */
+.trilha__ligacao {
   display: flex;
-  align-items: center;
-  gap: 8px;
-  font-size: 18px;
+  align-items: flex-start;
+  gap: 12px;
 }
 
-.licao__subtitulo svg {
-  color: var(--link);
-}
-
-/* O título da próxima lição pode ser longo: deixa quebrar a linha */
-.licao .botao {
-  white-space: normal;
-  text-align: center;
-  padding-top: 10px;
-  padding-bottom: 10px;
+.trilha__ligacao-icone {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2px solid var(--ink);
+  border-radius: 50%;
 }

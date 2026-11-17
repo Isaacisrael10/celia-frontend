@@ -1,0 +1,22 @@
+{
+  "observacao": "Textos da tela da Trilha de IA, todos num lugar só. As lições ficam em trilha.json (a mesma cópia que a API serve em GET /trilha) [HU-19, RF18, RNF08].",
+  "intro": "Lições curtas para usar inteligência artificial no trabalho. Leia no seu ritmo, na ordem que quiser.",
+  "porque": {
+    "titulo": "Por que uma trilha de IA num app de calçadas?",
+    "paragrafos": [
+      "A C.E.L.I.A. começou por uma barreira concreta: a calçada esburacada no caminho até o trabalho. Chegar ao trabalho é a primeira parte. A segunda é continuar nele, num mercado que passou a pedir o uso de inteligência artificial no dia a dia.",
+      "Cursos e treinamentos de IA costumam ser feitos sem pensar em acessibilidade: vídeos sem legenda, páginas que o leitor de tela não consegue ler, aulas em prédios sem rampa. Quem tem deficiência acaba ficando para trás justamente na habilidade que o mercado mais cobra agora.",
+      "Por isso a trilha fica dentro do app: lições curtas, em linguagem simples, que funcionam com leitor de tela, teclado e texto grande. Dá para aprender no ponto de ônibus, no seu ritmo."
+    ],
+    "ligacoes_titulo": "A IA já trabalha dentro da C.E.L.I.A.",
+    "ligacoes": [
+      "A câmera do poste usa uma IA de imagem treinada pela equipe para achar buracos na calçada. A lição 1 explica como ela aprende.",
+      "O assistente do app usa uma IA de texto para responder sobre o seu caminho. A lição 2 ensina a fazer bons pedidos a esse tipo de IA.",
+      "A descrição do seu reporte pode ser escrita com ajuda de IA, e você revisa antes de enviar. É o que a lição 3 mostra para os textos do trabalho."
+    ]
+  },
+  "origem": {
+    "api": "Lições servidas pela API da C.E.L.I.A.",
+    "copia": "Lições guardadas no app. A API da equipe, que serve a trilha, roda na demonstração local."
+  }
+}

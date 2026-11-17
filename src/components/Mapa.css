@@ -2,27 +2,62 @@
 .mapa {
   position: absolute;
   inset: 0;
+  animation: mapa-aparecer var(--lento) var(--suave);
 }
 
-/* Botões + e −: 44 px (área de toque mínima), logo abaixo da busca */
+@keyframes mapa-aparecer {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Botões + e −: 48 px (área de toque), de vidro, logo abaixo da busca no celular */
 .mapa .maplibregl-ctrl-top-right {
-  top: 64px;
+  top: calc(max(10px, env(safe-area-inset-top)) + 60px);
+  right: 0;
+}
+
+.mapa .maplibregl-ctrl-top-right .maplibregl-ctrl {
+  margin: 0 10px 0 0;
 }
 
 .mapa .maplibregl-ctrl-group {
-  border-radius: var(--raio);
+  overflow: hidden;
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
+  border: 1px solid var(--vidro-borda);
+  border-radius: 18px;
   box-shadow: var(--sombra-flutuante);
-  background: var(--card);
 }
 
 .mapa .maplibregl-ctrl-group button {
-  width: 44px;
-  height: 44px;
+  width: var(--toque);
+  height: var(--toque);
+  background-color: transparent;
+}
+
+.mapa .maplibregl-ctrl-group button + button {
+  border-top: 1px solid var(--linha);
 }
 
 /* No escuro, o desenho do + e do − fica claro */
 [data-tema='escuro'] .mapa .maplibregl-ctrl-icon {
   filter: invert(1);
+}
+
+/* Computador: a busca fica na coluna da esquerda, então os botões sobem para o canto */
+@media (min-width: 960px) {
+  .mapa .maplibregl-ctrl-top-right {
+    top: 12px;
+  }
+
+  .mapa .maplibregl-ctrl-top-right .maplibregl-ctrl {
+    margin-right: 12px;
+  }
 }
 
 /* Selo no meio do trecho: círculo com o ícone e anel na cor do card */
@@ -37,41 +72,79 @@
   border: 2.5px solid var(--card);
   border-radius: 50%;
   color: var(--faixa-icone);
-  font-size: 15px;
+  font-size: 0.9375rem;
   font-weight: 600;
   line-height: 1;
+  box-shadow: 0 2px 8px rgba(15, 27, 61, 0.25);
+  transition: transform var(--rapido) var(--suave);
 }
 
-/* Área de toque maior que o desenho (mínimo 44 px) */
+.mapa__selo:hover {
+  transform: scale(1.15);
+}
+
+/* Área de toque maior que o desenho (48 px) */
 .mapa__selo::before {
   content: '';
   position: absolute;
   inset: -9px;
 }
 
-/* Reporte: balão no card com contorno */
+/* Reporte: balão de vidro */
 .mapa__reporte {
-  width: 34px;
-  height: 34px;
+  position: relative;
+  width: 36px;
+  height: 36px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: var(--card);
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
   color: var(--link);
-  border: 0;
-  border-radius: var(--raio);
+  border: 1px solid var(--vidro-borda);
+  border-radius: 14px;
   box-shadow: var(--sombra-flutuante);
 }
 
-/* "Você": ponto azul com halo */
+.mapa__reporte::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+}
+
+/*
+  "Você": o símbolo com um halo azul. O halo pulsa só 3 vezes ao abrir o mapa (menos de 5 s),
+  para chamar o olhar sem ficar piscando para sempre.
+*/
 .mapa__voce {
+  position: relative;
   width: 42px;
   height: 42px;
   display: flex;
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  /* Halo azul em volta da figura: mostra que é a posição da pessoa */
-  background: color-mix(in srgb, var(--primary) 20%, transparent);
+  background: color-mix(in srgb, var(--primary) 24%, transparent);
+}
+
+.mapa__voce::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  border: 2px solid var(--primary);
+  animation: pulsar 1.6s var(--suave) 3 both;
+}
+
+@keyframes pulsar {
+  from {
+    opacity: 0.9;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.9);
+  }
 }

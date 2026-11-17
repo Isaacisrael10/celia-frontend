@@ -8,11 +8,14 @@ import {
   IconAccessible,
   IconClock,
   IconArrowRight,
+  IconTrees,
+  IconDisabled,
+  IconRoad,
 } from '@tabler/icons-react'
 import { TIPOS_LOCAL, RECURSOS, linkComoChegar } from '../domain/locais'
 import './CardLocal.css'
 
-const ICONES_TIPO = { banheiro: IconToiletPaper, descanso: IconArmchair }
+const ICONES_TIPO = { banheiro: IconToiletPaper, descanso: IconArmchair, lazer: IconTrees }
 
 // Ícone de cada recurso de acessibilidade
 const ICONES_RECURSO = {
@@ -22,6 +25,9 @@ const ICONES_RECURSO = {
   banco: IconArmchair,
   bebedouro: IconDroplet,
   cobertura: IconUmbrella,
+  rampa: IconDisabled,
+  'piso-tatil': IconRoad,
+  'banheiro-acessivel': IconToiletPaper,
 }
 
 /*
@@ -32,14 +38,14 @@ export default function CardLocal({ local }) {
   const IconeTipo = ICONES_TIPO[local.tipo]
 
   return (
-    <li className="card-local">
+    <li className="card-local cartao">
       <div className="card-local__topo">
         <span className="card-local__icone" aria-hidden="true">
           <IconeTipo size={24} />
         </span>
         <div className="card-local__textos">
           <p className="card-local__tipo">{TIPOS_LOCAL[local.tipo]}</p>
-          <h3 className="card-local__nome">{local.nome}</h3>
+          <h2 className="card-local__nome">{local.nome}</h2>
           <p className="card-local__endereco">{local.endereco}</p>
         </div>
         <p className="card-local__distancia">

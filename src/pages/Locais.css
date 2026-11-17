@@ -1,29 +1,12 @@
-.locais__intro {
-  font-size: 16px;
-  color: var(--muted);
+/* Filtros (Todos, Banheiros, Descanso) centralizados */
+.locais-tela .filtros {
+  justify-content: center;
 }
 
-/* Filtros em pílula: o selecionado fica com fundo azul do símbolo */
-.locais__filtros {
-  display: flex;
-  gap: 8px;
-}
-
-.locais__filtro {
-  min-height: 40px;
-  padding: 0 16px;
-  background: var(--card);
-  color: var(--ink);
-  border: 1px solid var(--linha);
-  border-radius: 999px;
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.locais__filtro[aria-pressed='true'] {
-  background: var(--primary);
-  color: var(--on-primary);
-  border-color: var(--primary);
+.locais__colunas {
+  display: grid;
+  gap: 16px;
+  align-items: start;
 }
 
 .locais {
@@ -32,17 +15,22 @@
   padding: 0;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 12px;
 }
 
-.locais__fonte {
-  font-size: 13px;
-  color: var(--muted);
-}
+/*
+  Computador: mapa e lista lado a lado, com a MESMA altura.
+  O mapa estica do primeiro ao último card (stretch), em vez de ficar com altura fixa.
+*/
+@media (min-width: 960px) {
+  .locais__colunas {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    align-items: stretch;
+    gap: 20px;
+  }
 
-/* Mini mapa + lista (no computador ficam lado a lado, ver responsivo.css) */
-.locais__corpo {
-  display: flex;
-  flex-direction: column;
-  gap: 14px;
+  .locais__colunas .mini-mapa {
+    height: auto;
+    min-height: 20rem;
+  }
 }

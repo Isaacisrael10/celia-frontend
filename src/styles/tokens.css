@@ -1,17 +1,48 @@
 /*
-  Tokens de cor da C.E.L.I.A. (identidade azul).
+  Tokens da C.E.L.I.A. (identidade azul).
   O azul principal (#49C8F5) é o mesmo do símbolo internacional de acessibilidade.
   No modo claro ele é usado como FUNDO (com texto azul-escuro em cima);
   para texto azul usamos --link, um tom mais escuro do mesmo azul (contraste AA).
   O tema é trocado pelo atributo data-tema no <html> ("claro" ou "escuro").
   Contraste AA conferido nos dois modos (texto 4,5:1, bordas de campo 3:1).
+
+  As CORES são as mesmas de antes. O que entrou no redesenho em grafo:
+  tamanhos de texto em rem, cantos, movimento e o "vidro" (fundo translúcido com desfoque).
 */
 
 :root {
   /* Fonte: Lexend foi criada para facilitar a leitura */
   --fonte: 'Lexend', system-ui, sans-serif;
-  --raio: 14px; /* cantos de cards e campos */
+
+  /*
+    Tamanhos de texto em rem: 1rem é o tamanho de fonte que a pessoa escolheu
+    no navegador (ou no Perfil). Se ela aumentar a fonte, o app inteiro acompanha.
+  */
+  --texto-p: 0.875rem; /* 14 px: o menor texto do app */
+  --texto-m: 1rem; /* 16 px: texto corrido */
+  --texto-g: 1.125rem; /* 18 px */
+  --titulo-p: 1.25rem; /* 20 px */
+  --titulo-m: 1.5rem; /* 24 px */
+  --titulo-g: clamp(1.625rem, 1.3rem + 1.5vw, 2.375rem); /* título da tela: cresce com a largura */
+
+  /* Cantos: quanto maior a peça, maior o raio */
+  --raio-p: 12px; /* selos e peças pequenas */
+  --raio: 20px; /* cards e campos */
+  --raio-g: 28px; /* painéis, gaveta e navegação */
   --raio-botao: 999px; /* botões em pílula */
+
+  /* Área mínima de toque (dedo, punho, ponteira) */
+  --toque: 48px;
+
+  /* Movimento: curva que desacelera no fim (sem "quicar") e três durações */
+  --suave: cubic-bezier(0.22, 1, 0.36, 1);
+  --rapido: 160ms;
+  --medio: 280ms;
+  --lento: 520ms;
+
+  /* Espaço que a navegação ocupa: embaixo no celular, na lateral em telas maiores (ver base.css) */
+  --nav-baixo: calc(92px + env(safe-area-inset-bottom));
+  --nav-lado: 0px;
 }
 
 :root,
@@ -34,10 +65,47 @@
   /* Símbolo de acessibilidade: igual ao original (fundo branco, traço preto) */
   --simbolo-fundo: #ffffff;
   --simbolo-traco: #000000;
-  /* Sombras: os cards ficam sem borda, só com sombra suave */
-  --sombra: 0 1px 2px rgba(15, 27, 61, 0.06), 0 6px 18px rgba(15, 27, 61, 0.07);
-  --sombra-flutuante: 0 2px 10px rgba(15, 27, 61, 0.16);
+  /* Sombras */
+  --sombra: 0 1px 2px rgba(15, 27, 61, 0.05), 0 8px 24px rgba(15, 27, 61, 0.07);
+  --sombra-flutuante: 0 2px 6px rgba(15, 27, 61, 0.08), 0 14px 34px rgba(15, 27, 61, 0.14);
   --sombra-gaveta: 0 -4px 20px rgba(15, 27, 61, 0.12);
+
+  /*
+    Vidro: a cor do card com transparência + desfoque do que está atrás.
+    --vidro        peças pequenas (botões flutuantes)
+    --vidro-forte  painéis com texto (88% de cor: o texto mantém contraste AA até em cima do mapa)
+    --cartao       cards de lista (translúcidos, mas SEM desfoque, para o celular não pesar)
+  */
+  --vidro: color-mix(in srgb, var(--card) 70%, transparent);
+  --vidro-forte: color-mix(in srgb, var(--card) 88%, transparent);
+  --cartao: color-mix(in srgb, var(--card) 80%, transparent);
+  --vidro-borda: rgba(255, 255, 255, 0.8);
+  --veu: color-mix(in srgb, var(--bg) 76%, transparent); /* véu do menu em tela cheia */
+  --desfoque: blur(22px) saturate(170%);
+  --fundo-brilho: 0.42; /* força das bolinhas do símbolo no fundo */
+
+  /*
+    Vidro da navegação (glassmorfismo): bem mais transparente que os painéis de texto.
+    --nav-vidro-topo / --nav-vidro-base  o fundo vai de mais transparente a mais cheio.
+                                         A parte cheia fica atrás dos nomes das telas:
+                                         garante contraste AA mesmo com uma foto escura passando por trás.
+    --nav-vidro-trilho  o vidro do trilho lateral (atrás dele só passam o mapa e o fundo, que são claros,
+                        então pode ser mais transparente que a barra do celular)
+    --nav-bolinha   bolinhas foscas (deixam ver a bolinha azul passando por baixo)
+    --nav-borda     fio claro na borda, como a quina de um vidro
+    --nav-brilho    reflexo de luz no canto de cima
+    --nav-traco     contorno das bolinhas e linha que liga uma à outra
+  */
+  --nav-vidro-topo: color-mix(in srgb, var(--card) 34%, transparent);
+  --nav-vidro-base: color-mix(in srgb, var(--card) 58%, transparent);
+  --nav-vidro-trilho: color-mix(in srgb, var(--card) 44%, transparent);
+  --nav-bolinha: color-mix(in srgb, var(--card) 55%, transparent);
+  --nav-borda: rgba(255, 255, 255, 0.9);
+  --nav-brilho: rgba(255, 255, 255, 0.55);
+  --nav-traco: color-mix(in srgb, var(--ink) 26%, transparent);
+  --nav-realce: color-mix(in srgb, var(--primary) 22%, transparent); /* faixa atrás da tela atual, no trilho largo */
+  --nav-desfoque: blur(26px) saturate(160%);
+  --fundo-traco: 0.07; /* força das linhas do símbolo no fundo */
 
   /* Semáforo: SÓ nos marcadores de faixa (badges, linhas do mapa) */
   --faixa-normal: #1e8e3e;
@@ -68,10 +136,31 @@
   /* Símbolo no escuro: fundo azul-noite e traço claro (bolinhas continuam no azul do símbolo) */
   --simbolo-fundo: #13204a;
   --simbolo-traco: #e8eefc;
-  /* No escuro a sombra quase não aparece: o card se separa do fundo pela cor */
-  --sombra: 0 0 0 1px rgba(255, 255, 255, 0.04);
-  --sombra-flutuante: 0 2px 12px rgba(0, 0, 0, 0.5);
+  /* No escuro a sombra quase não aparece: a peça se separa do fundo pela cor e pela borda */
+  --sombra: 0 8px 24px rgba(0, 0, 0, 0.25);
+  --sombra-flutuante: 0 14px 34px rgba(0, 0, 0, 0.5);
   --sombra-gaveta: 0 -4px 20px rgba(0, 0, 0, 0.45);
+
+  --vidro: color-mix(in srgb, var(--card) 66%, transparent);
+  --vidro-forte: color-mix(in srgb, var(--card) 88%, transparent);
+  --cartao: color-mix(in srgb, var(--card) 76%, transparent);
+  --vidro-borda: rgba(255, 255, 255, 0.11);
+  --veu: color-mix(in srgb, var(--bg) 76%, transparent);
+  --fundo-brilho: 0.3;
+  --fundo-traco: 0.1;
+
+  /*
+    No escuro o vidro é mais cheio: o nome é claro e precisa de fundo escuro atrás.
+    Valores acertados no teste de estresse (foto branca ou linha viva do mapa passando por trás).
+  */
+  --nav-vidro-topo: color-mix(in srgb, var(--card) 46%, transparent);
+  --nav-vidro-base: color-mix(in srgb, var(--card) 76%, transparent);
+  --nav-vidro-trilho: color-mix(in srgb, var(--card) 74%, transparent);
+  --nav-bolinha: color-mix(in srgb, var(--card) 55%, transparent);
+  --nav-borda: rgba(255, 255, 255, 0.2);
+  --nav-brilho: rgba(255, 255, 255, 0.1);
+  --nav-traco: color-mix(in srgb, var(--ink) 32%, transparent);
+  --nav-realce: color-mix(in srgb, var(--primary) 14%, transparent);
 
   --faixa-normal: #5bd08a;
   --faixa-atencao: #f2b84b;
@@ -80,4 +169,117 @@
   --faixa-icone: #0b1530;
 
   color-scheme: dark;
+}
+
+/*
+  Mais contraste: sem transparência, sem desfoque e com bordas mais fortes.
+  Vale quando a pessoa liga "Mais contraste" no Perfil (data-contraste="alto")
+  ou quando o sistema dela já pede isso.
+*/
+[data-contraste='alto'] {
+  --vidro: var(--card);
+  --vidro-forte: var(--card);
+  --cartao: var(--card);
+  --vidro-borda: var(--borda-campo);
+  --veu: var(--bg);
+  --linha: var(--borda-campo);
+  --line-soft: var(--line-strong);
+  --desfoque: none;
+  --fundo-brilho: 0;
+  --fundo-traco: 0;
+  /* navegação sem vidro: fundo cheio e traços fortes */
+  --nav-vidro-topo: var(--card);
+  --nav-vidro-base: var(--card);
+  --nav-vidro-trilho: var(--card);
+  --nav-bolinha: var(--card);
+  --nav-borda: var(--borda-campo);
+  --nav-brilho: transparent;
+  --nav-traco: var(--borda-campo);
+  --nav-desfoque: none;
+}
+
+[data-contraste='alto'][data-tema='claro'],
+[data-contraste='alto']:not([data-tema='escuro']) {
+  --muted: #2f3b57; /* texto secundário mais escuro (10:1) */
+}
+
+[data-contraste='alto'][data-tema='escuro'] {
+  --muted: #d3dcf2;
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  :root {
+    --vidro: var(--card);
+    --vidro-forte: var(--card);
+    --cartao: var(--card);
+    --vidro-borda: var(--borda-campo);
+    --veu: var(--bg);
+    --linha: var(--borda-campo);
+    --desfoque: none;
+    --fundo-brilho: 0;
+    --fundo-traco: 0;
+    --nav-vidro-topo: var(--card);
+    --nav-vidro-base: var(--card);
+    --nav-vidro-trilho: var(--card);
+    --nav-bolinha: var(--card);
+    --nav-borda: var(--borda-campo);
+    --nav-brilho: transparent;
+    --nav-traco: var(--borda-campo);
+    --nav-desfoque: none;
+  }
+}
+
+/*
+  --nav-lado é registrada como medida (@property) para o navegador conseguir ANIMAR a troca de valor.
+  Sem isso, a variável pularia de um valor para o outro, sem transição.
+*/
+@property --nav-lado {
+  syntax: '<length>';
+  inherits: true;
+  initial-value: 0px;
+}
+
+/*
+  A navegação sai de baixo e vai para a lateral em telas largas ou em celular deitado.
+  --nav-largura: a largura do trilho aberto
+  --nav-lado:    o espaço que as telas reservam para ele AGORA (muda quando o trilho abre e fecha)
+*/
+@media (min-width: 768px), (orientation: landscape) and (max-height: 540px) {
+  :root {
+    --nav-baixo: 0px;
+    --nav-largura: 108px;
+    --nav-lado: 108px;
+    --nav-recolhida: 12px; /* o pedacinho do trilho que fica à mostra quando ele está escondido */
+  }
+}
+
+@media (min-width: 1200px) and (min-height: 541px) {
+  :root {
+    --nav-largura: 276px;
+    --nav-lado: 276px;
+  }
+}
+
+/*
+  Trilho escondido: só com mouse (hover: hover). Em tablet de toque não existe "passar o mouse",
+  então lá o trilho continua sempre aberto.
+  Ao passar o mouse (ou chegar nele pelo teclado, :focus-within), --nav-lado cresce até a largura do trilho.
+  O trilho e TODAS as telas usam --nav-lado, então tudo desliza junto, na mesma velocidade.
+*/
+@media (hover: hover) and ((min-width: 768px) or ((orientation: landscape) and (max-height: 540px))) {
+  :root {
+    --nav-lado: var(--nav-recolhida);
+    transition: --nav-lado 480ms var(--suave);
+  }
+
+  :root:has(.nav-grafo:hover, .nav-grafo:focus-within) {
+    --nav-lado: var(--nav-largura);
+  }
+}
+
+/* Quem pediu menos movimento: abre e fecha na hora, sem deslizar */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    transition: none;
+  }
 }

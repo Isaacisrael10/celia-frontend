@@ -1,0 +1,83 @@
+/* Preso atrás de tudo, sem receber toque. A cor de base acompanha o tema (claro ou escuro). */
+.fundo-celia {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+  background: var(--bg);
+}
+
+/* Mancha de luz: um círculo com degradê, muito desfocado */
+.fundo-celia__mancha {
+  position: absolute;
+  border-radius: 50%;
+}
+
+/* Em cima, à direita */
+.fundo-celia__mancha--topo {
+  top: -8rem;
+  right: -6rem;
+  width: 620px;
+  height: 520px;
+  opacity: 0.25;
+  filter: blur(110px);
+  background: radial-gradient(circle, #49c8f5 0%, #0a72a8 70%, transparent 100%);
+  animation: fundo-flutuar 18s ease-in-out infinite;
+}
+
+/* Embaixo, à esquerda */
+.fundo-celia__mancha--base {
+  bottom: -10rem;
+  left: -6rem;
+  width: 600px;
+  height: 500px;
+  opacity: 0.2;
+  filter: blur(120px);
+  background: radial-gradient(circle, #49c8f5 0%, #4a5878 75%, transparent 100%);
+  animation: fundo-flutuar-inverso 22s ease-in-out infinite;
+}
+
+/* Flutuar: sobe para a direita e cresce um pouco, depois volta */
+@keyframes fundo-flutuar {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(30px, -20px) scale(1.05);
+  }
+}
+
+/* O mesmo movimento, no sentido contrário (desce para a esquerda) */
+@keyframes fundo-flutuar-inverso {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-25px, 25px) scale(1.04);
+  }
+}
+
+/* Menos movimento (no sistema ou no Perfil): as manchas ficam paradas */
+@media (prefers-reduced-motion: reduce) {
+  .fundo-celia__mancha {
+    animation: none;
+  }
+}
+
+[data-movimento='reduzido'] .fundo-celia__mancha {
+  animation: none;
+}
+
+/* Mais contraste (no Perfil ou no sistema): só a cor lisa do fundo */
+[data-contraste='alto'] .fundo-celia__mancha {
+  display: none;
+}
+
+@media (prefers-reduced-transparency: reduce), (prefers-contrast: more) {
+  .fundo-celia__mancha {
+    display: none;
+  }
+}

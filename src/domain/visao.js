@@ -1,27 +1,24 @@
 /*
-  Regras da análise de foto (sem React).
+  Regras da IA de visão (sem React).
+  A IA de visão (YOLO) é dos postes: hoje só a câmera do poste, na tela Prefeitura, usa estas regras.
 */
 
-// O que a IA pode responder e o texto que aparece na tela
-// (a IA hoje só responde livre ou buraco; "obstaculo" continua valendo para quem reporta sem foto analisada)
-export const RESULTADOS = {
-  livre: 'Calçada livre',
-  obstaculo: 'Obstáculo na calçada',
-  buraco: 'Buraco na calçada',
-}
-
-// Texto do plano B, quando a API de visão não está rodando
-export const TEXTO_PLANO_B = 'A análise por IA roda na demonstração local. Veja o vídeo no README.'
-
-// Converte o resultado da IA no tipo do reporte. Qualquer coisa estranha vira "nao_analisada".
-export function tipoDoResultado(resultado) {
-  return RESULTADOS[resultado] ? resultado : 'nao_analisada'
+/*
+  Tira da resposta da API a lista de caixas para desenhar sobre a foto.
+  A API só detecta buracos e manda as caixas em "caixas_buracos" (sem o nome da classe),
+  então colocamos a classe "buraco" em cada uma. "caixas" é o nome antigo, aceito por garantia.
+*/
+export function caixasDaResposta(resposta) {
+  const lista = resposta.caixas_buracos || resposta.caixas
+  if (!Array.isArray(lista)) return []
+  return lista.map((caixa) => ({ classe: 'buraco', ...caixa }))
 }
 
 /*
   Converte uma caixa da IA em porcentagens da foto, para desenhar por cima dela.
-  O serviço (visaoApi.js) já entrega as caixas de 0 a 1 (fração da foto).
-  Por segurança, se vierem em pixels (ex.: x1 = 120), usamos o tamanho da foto.
+  Funciona com as duas possibilidades:
+  - coordenadas em pixels (ex.: x1 = 120), que é como a API manda hoje
+  - coordenadas normalizadas, de 0 a 1 (ex.: x1 = 0.25)
 */
 export function caixaEmPorcentagem(caixa, largura, altura) {
   const normalizada = [caixa.x1, caixa.y1, caixa.x2, caixa.y2].every((v) => v >= 0 && v <= 1)

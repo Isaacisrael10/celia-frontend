@@ -1,67 +1,40 @@
-import { useState } from "react";
-import Cabecalho from "../components/Cabecalho";
-import MiniMapa from "../components/MiniMapa";
-import CardLocal from "../components/CardLocal";
-import { Vazio } from "../components/Estados";
-import { useTema } from "../hooks/useTema";
-import dados from "../data/locais.json";
-import "./Locais.css";
+import Cabecalho from '../components/Cabecalho'
+import MiniMapa from '../components/MiniMapa'
+import CardLocal from '../components/CardLocal'
+import Filtros from '../components/Filtros'
+import { Vazio } from '../components/Estados'
+import { useTema } from '../hooks/useTema'
+import { useLocais } from '../hooks/useLocais'
+import { FILTROS_LOCAL, textoQuantidade } from '../domain/locais'
+import { VOCE_PADRAO } from '../domain/mapa'
+import './Locais.css'
 
-const FILTROS = { todos: "Todos", banheiro: "Banheiros", descanso: "Descanso" };
-
-// Posição de reserva da pessoa (a mesma do mapa: Rua Barão do Bom Retiro, Grajaú)
-const VOCE = { lat: -22.9223585, lng: -43.2586232 };
-
+/*
+  Tela Locais acessíveis perto de mim: banheiros acessíveis, pontos de descanso e lazer acessível perto do caminho [HU-12, HU-14].
+  A lista e o filtro vêm do hook useLocais; aqui fica só o desenho da tela.
+*/
 export default function Locais() {
-  const { escuro } = useTema();
-  // Interação Web Dev: filtrar por tipo de local
-  const [filtro, setFiltro] = useState("todos");
-
-  // Mais perto primeiro
-  const visiveis = dados.locais
-    .filter((local) => filtro === "todos" || local.tipo === filtro)
-    .sort((a, b) => a.metros - b.metros);
+  const { escuro } = useTema()
+  const { filtro, mudarFiltro, visiveis, fonte } = useLocais()
 
   return (
     <>
-      <Cabecalho titulo="Locais" />
-      <main className="app__conteudo app__conteudo--largo">
-        <p className="locais__intro">
-          Banheiros acessíveis e lugares para descansar perto do caminho.
+      <Cabecalho titulo="Locais acessíveis perto de mim" />
+      <main id="conteudo" tabIndex={-1} className="app__conteudo locais-tela">
+        <p className="intro">Banheiros acessíveis, lugares para descansar e opções de lazer acessível perto do caminho.</p>
+
+        <Filtros rotulo="Filtrar locais" opcoes={FILTROS_LOCAL} valor={filtro} aoMudar={mudarFiltro} />
+
+        {/* Só para o leitor de tela: avisa quantos locais sobraram depois do filtro */}
+        <p className="so-leitor" aria-live="polite">
+          {textoQuantidade(visiveis.length)}
         </p>
 
-        {/* Filtro em pílulas */}
-        <div
-          className="locais__filtros"
-          role="group"
-          aria-label="Filtrar locais"
-        >
-          {Object.entries(FILTROS).map(([valor, nome]) => (
-            <button
-              key={valor}
-              className="locais__filtro"
-              aria-pressed={filtro === valor}
-              onClick={() => setFiltro(valor)}
-            >
-              {nome}
-            </button>
-          ))}
-        </div>
+        {visiveis.length === 0 && <Vazio titulo="Nenhum local deste tipo por perto" />}
 
-        {/* No computador: mini mapa à esquerda e a lista à direita */}
-        <div className="locais__corpo">
-          {visiveis.length > 0 && (
-            <MiniMapa locais={visiveis} voce={VOCE} escuro={escuro} />
-          )}
-
-          <p className="so-leitor" aria-live="polite">
-            {visiveis.length === 1 ? "1 local" : visiveis.length + " locais"}
-          </p>
-
-          {visiveis.length === 0 && (
-            <Vazio titulo="Nenhum local deste tipo por perto" />
-          )}
-
+        {/* Celular: mini mapa em cima e a lista embaixo. Computador: mapa e lista lado a lado. */}
+        <div className="locais__colunas">
+          {visiveis.length > 0 && <MiniMapa locais={visiveis} voce={VOCE_PADRAO} escuro={escuro} />}
           <ul className="locais">
             {visiveis.map((local) => (
               <CardLocal key={local.id} local={local} />
@@ -69,8 +42,8 @@ export default function Locais() {
           </ul>
         </div>
 
-        <p className="locais__fonte">{dados.fonte}</p>
+        <p className="apoio">{fonte}</p>
       </main>
     </>
-  );
+  )
 }

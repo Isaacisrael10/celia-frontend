@@ -1,0 +1,565 @@
+/*
+  Navegação em grafo, com fundo em glassmorfismo.
+  Três formatos, do menor para o maior:
+  1. celular ............ barra flutuante embaixo, bolinhas lado a lado
+  2. tablet ............. trilho estreito na lateral, bolinhas empilhadas
+  3. computador ......... trilho largo na lateral, com o nome ao lado da bolinha
+
+  No trilho (2 e 3) as bolinhas se ESPALHAM pela altura toda: o espaço é dividido
+  em partes iguais (uma por tela) e o "Sobre o projeto" fica preso embaixo.
+  Assim o trilho nunca fica com um bloco vazio sobrando.
+
+  O vidro é feito de 4 coisas (as cores vêm de tokens.css, variáveis --nav-*):
+  - fundo translúcido ........ deixa ver o que está atrás
+  - backdrop-filter .......... desfoca e aviva o que está atrás
+  - borda clara + reflexo .... a quina e o brilho de um vidro de verdade
+  - sombra suave ............. descola a peça do fundo
+
+  Do React chegam duas variáveis (ver NavGrafo.jsx):
+  --total  quantas telas existem · --ativo  a posição da tela atual (0, 1, 2...)
+*/
+
+/* ---------- 1. Celular: barra de vidro embaixo ---------- */
+.nav-grafo {
+  /* a bolinha encolhe um pouco em celular estreito, para caberem todas na largura */
+  --bolinha: clamp(36px, 10.5vw, 42px);
+  --folga: 4px; /* espaço entre a bolinha e a linha que sai dela */
+
+  position: fixed;
+  z-index: 30;
+  left: 50%;
+  bottom: calc(10px + env(safe-area-inset-bottom));
+  width: min(calc(100% - 20px), 30rem);
+  transform: translateX(-50%);
+  padding: 8px 4px 6px;
+  border-radius: var(--raio-g);
+
+  /*
+    Duas camadas de fundo, uma em cima da outra:
+    1ª o reflexo de luz no canto de cima (some até 42% da diagonal);
+    2ª o vidro, mais transparente em cima (atrás das bolinhas) e mais cheio embaixo (atrás dos nomes).
+  */
+  background:
+    linear-gradient(135deg, var(--nav-brilho) 0%, transparent 42%),
+    linear-gradient(to bottom, var(--nav-vidro-topo) 0%, var(--nav-vidro-base) 58%);
+  -webkit-backdrop-filter: var(--nav-desfoque);
+  backdrop-filter: var(--nav-desfoque);
+  border: 1px solid var(--nav-borda);
+  box-shadow:
+    inset 0 1px 0 var(--nav-brilho),
+    var(--sombra-flutuante);
+}
+
+/* Navegador sem desfoque: o vidro vira um fundo quase cheio, para o texto continuar legível */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .nav-grafo {
+    background: var(--vidro-forte);
+  }
+}
+
+/* O símbolo, a frase de apoio e o "Sobre" só existem no trilho lateral */
+.nav-grafo__marca,
+.nav-grafo__apoio,
+.nav-grafo__sobre {
+  display: none;
+}
+
+.nav-grafo__trilha {
+  position: relative;
+}
+
+.nav-grafo__nos {
+  position: relative;
+  z-index: 2;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  /* uma coluna de mesma largura para cada tela */
+  grid-template-columns: repeat(var(--total), minmax(0, 1fr));
+}
+
+/* O item estica o link para ele ocupar a casa inteira (área de toque grande) */
+.nav-grafo__nos li {
+  min-width: 0;
+  display: flex;
+}
+
+/* Todos os nomes usam a cor principal do texto: em cima de vidro, o cinza perderia contraste */
+.nav-grafo__no {
+  position: relative;
+  flex: 1;
+  min-width: 0;
+  min-height: 64px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--ink);
+  text-decoration: none;
+  /* Único texto com teto de tamanho: são vários nomes dividindo a largura do celular */
+  font-size: min(0.8125rem, 14px);
+  font-weight: 500;
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  border-radius: 18px;
+  outline-offset: -3px;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.nav-grafo__textos {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  text-align: center;
+}
+
+/* O nome nunca quebra em duas linhas ("Trilha IA" fica inteiro) */
+.nav-grafo__rotulo {
+  white-space: nowrap;
+}
+
+/* Bolinha fosca: vidro mais claro, com um contorno fino */
+.nav-grafo__bolinha {
+  width: var(--bolinha);
+  height: var(--bolinha);
+  flex: none;
+  display: grid;
+  place-items: center;
+  background: var(--nav-bolinha);
+  color: var(--ink);
+  border: 1.5px solid var(--nav-traco);
+  border-radius: 50%;
+  transition:
+    background-color var(--medio) var(--suave),
+    border-color var(--medio) var(--suave),
+    color var(--medio) var(--suave),
+    transform var(--rapido) var(--suave);
+}
+
+.nav-grafo__no:hover .nav-grafo__bolinha {
+  background: var(--card);
+  border-color: var(--link);
+}
+
+.nav-grafo__no:active .nav-grafo__bolinha {
+  transform: scale(0.92);
+}
+
+/*
+  Tela atual: a bolinha fica transparente e deixa aparecer o viajante azul que está atrás.
+  O nome fica mais grosso (não depende só da cor).
+*/
+.nav-grafo__no[aria-current='page'] {
+  font-weight: 600;
+}
+
+.nav-grafo__no[aria-current='page'] .nav-grafo__bolinha,
+.nav-grafo__no[aria-current='page']:hover .nav-grafo__bolinha {
+  background: transparent;
+  border-color: transparent;
+  color: var(--on-primary);
+}
+
+/*
+  A ligação entre uma bolinha e a seguinte: um traço que sai da borda de uma
+  e chega na borda da outra (não passa por trás das bolinhas, que são foscas).
+  A largura de 100% é a de uma coluna; tirando a bolinha e as folgas, sobra o vão.
+*/
+.nav-grafo__no::after {
+  content: '';
+  position: absolute;
+  top: calc(var(--bolinha) / 2 - 1px);
+  left: calc(50% + var(--bolinha) / 2 + var(--folga));
+  width: calc(100% - var(--bolinha) - var(--folga) * 2);
+  height: 2px;
+  border-radius: 2px;
+  background: var(--nav-traco);
+}
+
+/* A última bolinha não liga em ninguém */
+.nav-grafo__nos li:last-child .nav-grafo__no::after {
+  display: none;
+}
+
+/* O traço que sobe até o símbolo só existe no trilho lateral */
+.nav-grafo__linha {
+  display: none;
+}
+
+/*
+  O viajante: uma "casa" do tamanho de uma coluna que desliza até a tela atual.
+  Cada passo vale 100% da própria largura, então --ativo passos levam até a coluna certa.
+*/
+.nav-grafo__viajante {
+  position: absolute;
+  z-index: 1;
+  top: 0;
+  left: 0;
+  width: calc(100% / var(--total));
+  height: var(--bolinha);
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  transform: translateX(calc(var(--ativo) * 100%));
+  transition: transform var(--lento) var(--suave);
+}
+
+/* A bolinha azul com contorno escuro: igual às bolinhas do símbolo */
+.nav-grafo__viajante::before {
+  content: '';
+  width: var(--bolinha);
+  height: var(--bolinha);
+  flex: none;
+  border-radius: 50%;
+  background: var(--primary);
+  border: 2.5px solid var(--ink);
+  box-shadow: 0 0 0 5px color-mix(in srgb, var(--primary) 30%, transparent);
+}
+
+/* ---------- 2. Tablet (ou celular deitado): trilho estreito na lateral ---------- */
+@media (min-width: 768px), (orientation: landscape) and (max-height: 540px) {
+  .nav-grafo {
+    --bolinha: 42px;
+    --folga: 6px;
+    --casa-minima: 70px; /* menor altura de cada casa: bolinha + nome */
+
+    /*
+      Trilho de ponta a ponta: do topo ao pé da página e colado na borda esquerda.
+      Colado na borda (left: 0) também evita o "tremor": antes havia um vão de 12 px à esquerda.
+      Com o mouse nesse vão, o trilho abria, saía de baixo do mouse, fechava, voltava... sem parar.
+    */
+    left: 0;
+    top: 0;
+    bottom: 0;
+    border-width: 0 1px 0 0;
+    border-radius: 0 14px 14px 0; /* cantos discretos: o trilho vai do topo ao pé da página */
+    /* Largura fixa (trilho aberto). Quando --nav-lado encolhe, o trilho desliza para a esquerda
+       e fica só uma beirada à mostra; ao passar o mouse, ele volta da esquerda para a direita. */
+    width: var(--nav-largura);
+    transform: translateX(calc(var(--nav-lado) - var(--nav-largura)));
+    padding: 12px 8px;
+    /* coluna: símbolo em cima, bolinhas no meio (ocupam o que sobra) e Sobre embaixo */
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    overflow-y: auto;
+    /* No trilho os nomes ficam espalhados na altura toda: o vidro tem a mesma força de cima a baixo */
+    background:
+      linear-gradient(160deg, var(--nav-brilho) 0%, transparent 34%),
+      var(--nav-vidro-trilho);
+  }
+
+  /* O símbolo no topo do trilho: marca e botão do menu */
+  .nav-grafo__marca {
+    min-height: 64px;
+    flex: none;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    background: none;
+    border: 0;
+    border-radius: 20px;
+    color: var(--ink);
+    text-align: left;
+    outline-offset: -3px;
+    transition: transform var(--rapido) var(--suave);
+  }
+
+  .nav-grafo__marca:active {
+    transform: scale(0.96);
+  }
+
+  .nav-grafo__marca svg {
+    flex: none;
+  }
+
+  /* No trilho estreito o texto da marca fica só para o leitor de tela */
+  .nav-grafo__marca-textos {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  /*
+    A trilha cresce (flex: 1) e ocupa toda a altura que sobra entre o símbolo e o Sobre.
+    Se a janela for baixa demais, ela para na altura mínima e o trilho ganha rolagem.
+  */
+  .nav-grafo__trilha {
+    flex: 1;
+    min-height: calc(var(--total) * var(--casa-minima));
+    margin-top: 10px;
+    display: flex;
+  }
+
+  /* As casas dividem a altura em partes iguais: é isso que espalha as bolinhas */
+  .nav-grafo__nos {
+    flex: 1;
+    grid-template-columns: none;
+    grid-template-rows: repeat(var(--total), minmax(0, 1fr));
+  }
+
+  .nav-grafo__no {
+    min-height: 0;
+    font-size: var(--texto-p);
+  }
+
+  /*
+    A ligação fica em pé: é o último item da coluna (bolinha, nome, traço)
+    e estica até encher o que sobra da casa, sem passar por cima do nome.
+    Quanto mais alta a tela, mais comprida a ligação.
+  */
+  .nav-grafo__no::after {
+    position: static;
+    flex: 1;
+    width: 2px;
+    height: auto;
+    margin-bottom: 2px;
+  }
+
+  /* O traço que liga o símbolo à primeira bolinha */
+  .nav-grafo__linha {
+    display: block;
+    position: absolute;
+    top: -14px;
+    left: calc(50% - 1px);
+    width: 2px;
+    height: 10px;
+    border-radius: 2px;
+    background: var(--nav-traco);
+  }
+
+  /* O viajante passa a andar para baixo: cada casa vale uma parte da altura */
+  .nav-grafo__viajante {
+    width: 100%;
+    height: calc(100% / var(--total));
+    transform: translateY(calc(var(--ativo) * 100%));
+  }
+
+  /* Sobre o projeto: preso embaixo, separado das bolinhas por um fio */
+  .nav-grafo__sobre {
+    flex: none;
+    padding: 12px 4px 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    border-top: 1px solid var(--nav-traco);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: var(--texto-p);
+    font-weight: 500;
+    line-height: 1.15;
+    letter-spacing: -0.01em;
+    border-radius: 0 0 18px 18px;
+    outline-offset: -3px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  /* Contorno tracejado: mostra que o Sobre não é um ponto do símbolo */
+  .nav-grafo__sobre-icone {
+    width: var(--bolinha);
+    height: var(--bolinha);
+    flex: none;
+    display: grid;
+    place-items: center;
+    background: var(--nav-bolinha);
+    border: 1.5px dashed var(--borda-campo);
+    border-radius: 50%;
+    transition:
+      background-color var(--medio) var(--suave),
+      border-color var(--medio) var(--suave),
+      transform var(--rapido) var(--suave);
+  }
+
+  .nav-grafo__sobre:hover .nav-grafo__sobre-icone {
+    background: var(--card);
+    border-color: var(--link);
+  }
+
+  .nav-grafo__sobre:active .nav-grafo__sobre-icone {
+    transform: scale(0.92);
+  }
+
+  /* Na página Sobre: bolinha azul com contorno escuro e nome mais grosso */
+  .nav-grafo__sobre[aria-current='page'] {
+    font-weight: 600;
+  }
+
+  .nav-grafo__sobre[aria-current='page'] .nav-grafo__sobre-icone {
+    background: var(--primary);
+    border: 2.5px solid var(--ink);
+    color: var(--on-primary);
+  }
+}
+
+/* Celular deitado: pouca altura, então as bolinhas ficam sem nome escrito (o leitor de tela continua lendo) */
+@media (orientation: landscape) and (max-height: 540px) {
+  .nav-grafo {
+    --bolinha: 40px;
+    --casa-minima: 44px;
+
+    padding: 6px 8px;
+    gap: 4px;
+  }
+
+  .nav-grafo__marca {
+    min-height: 48px;
+    padding: 2px;
+  }
+
+  .nav-grafo__marca svg {
+    width: 40px;
+    height: 40px;
+  }
+
+  .nav-grafo__trilha {
+    margin-top: 6px;
+  }
+
+  .nav-grafo__textos {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip: rect(0 0 0 0);
+    white-space: nowrap;
+  }
+
+  .nav-grafo__linha {
+    top: -8px;
+    height: 6px;
+  }
+
+  /* Sem altura para mais um item: o Sobre continua no menu e no Perfil */
+  .nav-grafo__sobre {
+    display: none;
+  }
+}
+
+/* ---------- 3. Computador: trilho largo, nome ao lado da bolinha ---------- */
+@media (min-width: 1200px) and (min-height: 541px) {
+  .nav-grafo {
+    --bolinha: 48px;
+    --folga: 4px;
+    --casa-minima: 66px;
+    --recuo: 12px; /* distância da bolinha até a borda do trilho */
+    --realce: 68px; /* altura da faixa suave atrás da tela atual */
+
+    padding: 16px 12px;
+  }
+
+  .nav-grafo__marca {
+    padding: 8px 10px;
+    flex-direction: row;
+    justify-content: flex-start;
+  }
+
+  .nav-grafo__marca-textos {
+    position: static;
+    width: auto;
+    height: auto;
+    overflow: visible;
+    clip: auto;
+    white-space: normal;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .nav-grafo__marca-nome {
+    font-size: var(--titulo-p);
+    font-weight: 600;
+    line-height: 1.1;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-grafo__marca-apoio {
+    font-size: var(--texto-p);
+    color: var(--ink);
+  }
+
+  .nav-grafo__trilha {
+    margin-top: 14px;
+  }
+
+  /* Bolinha à esquerda, nome à direita, os dois no meio da casa */
+  .nav-grafo__no,
+  .nav-grafo__sobre {
+    padding: 0 12px 0 var(--recuo);
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    font-size: 1.0625rem;
+    border-radius: var(--raio);
+  }
+
+  .nav-grafo__textos {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* A ligação volta a ser posicionada: sai de baixo de uma bolinha e chega em cima da outra */
+  .nav-grafo__no::after {
+    position: absolute;
+    flex: none;
+    top: calc(50% + var(--bolinha) / 2 + var(--folga));
+    left: calc(var(--recuo) + var(--bolinha) / 2 - 1px);
+    width: 2px;
+    /* 100% é a altura de uma casa: tirando a bolinha e as folgas, sobra o vão até a próxima */
+    height: calc(100% - var(--bolinha) - var(--folga) * 2);
+    margin-bottom: 0;
+  }
+
+  /* O traço do símbolo até a primeira bolinha (que agora fica no meio da casa) */
+  .nav-grafo__linha {
+    top: -16px;
+    left: calc(var(--recuo) + var(--bolinha) / 2 - 1px);
+    height: calc(16px + (100% / var(--total) - var(--bolinha)) / 2 - var(--folga));
+  }
+
+  /*
+    O viajante vira uma faixa suave com a bolinha azul na ponta.
+    A faixa tem altura fixa e fica no MEIO da casa da tela atual:
+    (altura de uma casa) × (posição + meia casa) − metade da faixa.
+  */
+  .nav-grafo__viajante {
+    height: var(--realce);
+    top: calc(100% / var(--total) * (var(--ativo) + 0.5) - var(--realce) / 2);
+    transform: none;
+    padding-left: var(--recuo);
+    justify-content: flex-start;
+    align-items: center;
+    border-radius: var(--raio);
+    background: var(--nav-realce);
+    transition: top var(--lento) var(--suave);
+  }
+
+  .nav-grafo__viajante::before {
+    box-shadow: none;
+  }
+
+  .nav-grafo__sobre {
+    padding-top: 14px;
+    padding-bottom: 6px;
+    border-radius: 0 0 var(--raio) var(--raio);
+  }
+}
+
+/* Computador com altura sobrando: cada tela ganha uma frase curta de apoio embaixo do nome */
+@media (min-width: 1200px) and (min-height: 660px) {
+  .nav-grafo__apoio {
+    display: block;
+    font-size: var(--texto-p);
+    font-weight: 400;
+    line-height: 1.3;
+    letter-spacing: 0;
+  }
+}

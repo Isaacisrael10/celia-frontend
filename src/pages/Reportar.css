@@ -1,0 +1,36 @@
+/* Botão principal centralizado; em telas largas ele não ocupa a largura toda */
+.reportar__novo {
+  align-self: center;
+}
+
+@media (min-width: 768px) {
+  .reportar__novo {
+    min-width: 20rem;
+  }
+}
+
+/* Filtros (Todos, Abertos, Enviados, Resolvidos) centralizados */
+.reportar .filtros {
+  justify-content: center;
+}
+
+/*
+  Cards centralizados em linhas que quebram (flex-wrap): cabem 3 por linha no computador
+  e a última linha incompleta fica no meio, não encostada à esquerda.
+  Os cards da mesma linha ficam com a mesma altura (align-items: stretch).
+*/
+.reportar__lista {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+}
+
+.reportar__lista > li {
+  flex: 0 1 22rem;
+}
+
+/* Cards da mesma altura: o texto ocupa o que sobra e a situação e os botões ficam no pé */
+.reportar__lista .card-reporte__topo {
+  flex: 1;
+}

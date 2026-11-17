@@ -57,6 +57,7 @@
 }
 
 .assistente__pensando,
+.assistente__sem-resposta,
 .assistente__aviso {
   font-size: 15px;
   color: var(--muted);

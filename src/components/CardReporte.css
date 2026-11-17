@@ -1,9 +1,7 @@
 .card-reporte {
-  padding: 12px 0;
   display: flex;
   flex-direction: column;
-  gap: 8px;
-  border-bottom: 1px solid var(--line-soft);
+  gap: 10px;
 }
 
 .card-reporte__topo {
@@ -14,21 +12,24 @@
 
 .card-reporte__icone,
 .card-reporte__foto {
-  width: 40px;
-  height: 40px;
+  width: 52px;
+  height: 52px;
   flex: none;
-  border: 1px solid var(--linha);
-  border-radius: 8px;
+  border-radius: 16px;
 }
 
+/* Sem foto: ícone do tipo num quadrado azul bem claro */
 .card-reporte__icone {
   display: flex;
   align-items: center;
   justify-content: center;
+  background: color-mix(in srgb, var(--primary) 18%, var(--card));
+  color: var(--link);
 }
 
 .card-reporte__foto {
   object-fit: cover;
+  border: 1px solid var(--linha);
 }
 
 .card-reporte__textos {
@@ -37,12 +38,14 @@
   display: flex;
   flex-direction: column;
   gap: 2px;
-  font-size: 16px;
+  font-size: var(--texto-m);
+  overflow-wrap: anywhere;
 }
 
 .card-reporte__tipo {
-  font-size: 17px;
+  font-size: var(--texto-g);
   font-weight: 600;
+  line-height: 1.25;
 }
 
 .card-reporte__descricao {
@@ -50,38 +53,62 @@
 }
 
 .card-reporte__data {
-  font-size: 14px;
+  font-size: var(--texto-p);
   color: var(--muted);
-}
-
-/* Tudo abaixo do topo alinha com o texto (40 px do ícone + 12 px de espaço) */
-.card-reporte__situacao,
-.card-reporte__acoes,
-.card-reporte__confirmar {
-  margin-left: 52px;
 }
 
 .card-reporte__situacao {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 15px;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--line-soft);
+  font-size: var(--texto-p);
   font-weight: 600;
 }
 
-/* Quadradinho da situação: só grafite e azul, nunca semáforo */
-.situacao {
+/*
+  Situação como caminho de 3 bolinhas: Aberto → Enviado → Resolvido.
+  Só grafite e azul, nunca semáforo (o semáforo é reservado às faixas).
+*/
+.card-reporte__passos {
+  display: inline-flex;
+  align-items: center;
+}
+
+.card-reporte__passo {
   width: 14px;
   height: 14px;
   flex: none;
+  border: 2.5px solid var(--borda-campo);
+  border-radius: 50%;
+  background: var(--card);
 }
-.situacao--aberto {
-  border: 1px solid var(--linha);
+
+/* A ligação entre um passo e o seguinte */
+.card-reporte__passo + .card-reporte__passo {
+  position: relative;
+  margin-left: 14px;
 }
-.situacao--enviado {
+
+.card-reporte__passo + .card-reporte__passo::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: calc(100% + 2.5px);
+  width: 14px;
+  height: 2.5px;
+  margin-top: -1.25px;
+  background: var(--borda-campo);
+}
+
+.card-reporte__passo--feito {
   background: var(--link);
+  border-color: var(--ink);
 }
-.situacao--resolvido {
+
+.card-reporte__passo--feito::before {
   background: var(--ink);
 }
 
@@ -91,22 +118,24 @@
 }
 
 .card-reporte__confirmar {
-  padding: 12px;
+  padding: 14px;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  border: 1px solid var(--linha);
-  border-radius: var(--raio);
-  animation: celiaIn 0.2s ease-out;
+  background: var(--card);
+  border: 1.5px solid var(--borda-campo);
+  border-radius: 16px;
+  animation: brotar var(--medio) var(--suave);
 }
 
 .card-reporte__pergunta {
-  font-size: 16px;
+  font-size: var(--texto-m);
   font-weight: 600;
 }
 
 .card-reporte__botoes {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
 }
 

@@ -1,38 +1,59 @@
+/*
+  Grade de 3 colunas: ícone · nome e estado (um embaixo do outro) · trilho.
+  Assim o nome nunca é espremido, nem no celular com letra grande.
+*/
 .interruptor {
   width: 100%;
-  min-height: 56px;
-  padding: 0;
-  display: flex;
+  min-height: 60px;
+  padding: 8px 0;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  grid-template-areas:
+    'icone rotulo trilho'
+    'icone estado trilho';
   align-items: center;
-  gap: 12px;
+  column-gap: 12px;
   text-align: left;
   background: transparent;
   border: 0;
   border-bottom: 1px solid var(--line-soft);
+  border-radius: 4px;
   color: var(--ink);
 }
 
-.interruptor__rotulo {
-  flex: 1;
-  font-size: 16px;
-  font-weight: 600;
+.interruptor > svg {
+  grid-area: icone;
 }
 
-.interruptor__estado {
-  font-size: 14px;
+.interruptor__rotulo {
+  grid-area: rotulo;
+  align-self: end;
+  font-size: var(--texto-m);
   font-weight: 600;
+  line-height: 1.3;
+}
+
+/* "Ligado/Desligado" escrito: não depende só da posição nem da cor do botão */
+.interruptor__estado {
+  grid-area: estado;
+  align-self: start;
+  font-size: var(--texto-p);
+  font-weight: 500;
   color: var(--muted);
 }
 
-/* Trilho retangular de 56×32 com botão quadrado de 22 px */
+/* Trilho em pílula de 56×32 com uma bolinha de 22 px que desliza */
 .interruptor__trilho {
+  grid-area: trilho;
   position: relative;
   width: 56px;
   height: 32px;
-  flex: none;
-  border: 1.5px solid var(--borda-campo);
-  border-radius: 8px;
-  background: transparent;
+  border: 2px solid var(--borda-campo);
+  border-radius: var(--raio-botao);
+  background: var(--card);
+  transition:
+    background-color var(--medio) var(--suave),
+    border-color var(--medio) var(--suave);
 }
 
 .interruptor__botao {
@@ -41,16 +62,20 @@
   left: 3px;
   width: 22px;
   height: 22px;
-  border-radius: 5px;
+  border-radius: 50%;
   background: var(--muted);
-  transition: left 0.2s;
+  transition:
+    transform var(--medio) var(--suave),
+    background-color var(--medio) var(--suave);
 }
 
+/* Ligado: trilho azul com contorno escuro, bolinha escura do outro lado */
 .interruptor__trilho--ligado {
   background: var(--primary);
+  border-color: var(--ink);
 }
 
 .interruptor__trilho--ligado .interruptor__botao {
-  left: 27px;
+  transform: translateX(24px);
   background: var(--on-primary);
 }

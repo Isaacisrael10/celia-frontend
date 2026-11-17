@@ -1,35 +1,53 @@
 .historico__titulo {
-  margin-bottom: 6px;
-  font-size: 20px;
+  margin-bottom: 10px;
+  font-size: var(--titulo-p);
 }
 
+/*
+  Linha do tempo: as leituras são bolinhas presas numa linha em pé
+  (da mais nova, em cima, para a mais antiga).
+*/
 .historico {
+  position: relative;
   list-style: none;
   margin: 0;
   padding: 0;
-  border-top: 1px solid var(--linha);
 }
 
 .historico__item {
+  position: relative;
   min-height: 52px;
   display: flex;
   align-items: center;
-  gap: 10px;
-  border-bottom: 1px solid var(--line-soft);
-  font-size: 16px;
+  flex-wrap: wrap;
+  gap: 4px 10px;
+  font-size: var(--texto-m);
+}
+
+/* A ligação entre uma leitura e a seguinte: passa por trás do marcador (56 px da hora + 14 px = meio do marcador) */
+.historico__item + .historico__item::before {
+  content: '';
+  position: absolute;
+  left: calc(3.5rem + 10px + 13px);
+  bottom: calc(50% + 14px);
+  width: 2px;
+  height: calc(100% - 28px);
+  background: var(--line-strong);
 }
 
 .historico__hora {
-  width: 48px;
+  width: 3.5rem;
+  flex: none;
   font-weight: 600;
 }
 
 .historico__faixa {
   flex: 1;
+  min-width: 8rem;
 }
 
 .historico__valores {
-  font-size: 15px;
+  font-size: var(--texto-p);
   color: var(--muted);
   white-space: nowrap;
 }

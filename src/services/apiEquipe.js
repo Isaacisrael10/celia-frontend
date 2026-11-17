@@ -6,10 +6,11 @@
   - ApiIndisponivel: a API não respondeu (versão publicada, sem o computador da demonstração)
   - Error comum: a API respondeu com erro. A mensagem vem pronta, em português, no campo "detail"
 */
-import { URL_API } from './config'
+import { API_URL, apiAoAlcance } from './config'
 
-// O assistente pode levar uns 20 s para responder (INTEGRACAO.md, passo 7)
-const TEMPO_MAXIMO_MS = 30000
+// O assistente pode levar uns 20 s por modelo, e a API tenta até 3 modelos do Gemini
+// (principal, reserva e Flash-Lite): por isso esperamos até 65 s
+const TEMPO_MAXIMO_MS = 65000
 
 export const TEXTO_API_LOCAL = 'A IA da equipe roda na demonstração local. Veja o vídeo no README.'
 
@@ -33,13 +34,18 @@ function mensagemDoCodigo(codigo) {
   Ex.: await chamarApi('/trilha')
 */
 export async function chamarApi(caminho, opcoes = {}) {
+  // App publicado e API em "localhost": nem tenta, vai direto para o plano B
+  if (!apiAoAlcance(API_URL)) {
+    throw new ApiIndisponivel()
+  }
+
   // AbortController cancela a chamada se passar do tempo máximo
   const controle = new AbortController()
   const timer = setTimeout(() => controle.abort(), TEMPO_MAXIMO_MS)
 
   let resposta
   try {
-    resposta = await fetch(URL_API + caminho, { ...opcoes, signal: controle.signal })
+    resposta = await fetch(API_URL + caminho, { ...opcoes, signal: controle.signal })
   } catch {
     // Sem resposta nenhuma: a API não está no ar (ou bloqueou por CORS)
     throw new ApiIndisponivel()
@@ -56,7 +62,9 @@ export async function chamarApi(caminho, opcoes = {}) {
 
   if (!resposta.ok) {
     const temDetalhe = dados && typeof dados.detail === 'string'
-    throw new Error(temDetalhe ? dados.detail : mensagemDoCodigo(resposta.status))
+    const erro = new Error(temDetalhe ? dados.detail : mensagemDoCodigo(resposta.status))
+    erro.codigo = resposta.status // ex.: 503 → o useChamadaApi tenta de novo sozinho
+    throw erro
   }
   return dados
 }

@@ -1,0 +1,255 @@
+.camera {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Título, local e selo "Simulação" centralizados, acima da tela da câmera */
+.camera__topo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.camera__titulo {
+  font-size: var(--titulo-p);
+  line-height: 1.25;
+}
+
+/* Selo que deixa claro que é demonstração (grafite, nunca semáforo) */
+.camera__selo-simulacao {
+  flex: none;
+  padding: 4px 12px;
+  border: 1.5px solid var(--borda-campo);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-p);
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* Explicação "Na rua / Nesta demonstração": fio à esquerda, sem cor de semáforo */
+.camera__explica {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 2px 0 2px 14px;
+  border-left: 3px solid var(--borda-campo);
+  font-size: var(--texto-m);
+  line-height: 1.5;
+}
+
+.camera__explica p {
+  margin: 0;
+}
+
+/*
+  A "tela" da câmera: sempre 4:3 e escura, como um monitor de câmera de segurança.
+  Os textos por cima são brancos sobre fundo preto translúcido (contraste AA em qualquer foto).
+*/
+.camera__tela {
+  position: relative;
+  aspect-ratio: 4 / 3;
+  border-radius: var(--raio);
+  overflow: hidden;
+  background: #05070d;
+  border: 1px solid var(--linha);
+  color: #ffffff;
+}
+
+/* Imagem + caixas na mesma moldura: as caixas ficam em cima do buraco. A imagem é estática. */
+.camera__imagem {
+  position: absolute;
+  inset: 0;
+}
+
+.camera__imagem img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.85) contrast(1.05);
+}
+
+/* Caixa do YOLO: mesmo azul das caixas do app, com contorno branco */
+.camera__caixa {
+  position: absolute;
+  border: 3px solid #2257d6;
+  outline: 2px solid #ffffff;
+  border-radius: 6px;
+  animation: brotar var(--medio) var(--suave);
+}
+
+.camera__caixa-rotulo {
+  position: absolute;
+  left: 0;
+  top: 0;
+  padding: 2px 8px;
+  background: #2257d6;
+  color: #ffffff;
+  border-radius: 0 0 8px 0;
+  font-size: var(--texto-p);
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* Linhas finas de vídeo por cima da imagem */
+.camera__linhas {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: repeating-linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 0 1px, transparent 1px 4px);
+}
+
+/* Varredura: uma faixa de luz desce pela imagem enquanto a IA analisa */
+.camera__varredura {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  height: 22%;
+  pointer-events: none;
+  background: linear-gradient(to bottom, transparent, rgba(73, 200, 245, 0.35), transparent);
+  border-bottom: 2px solid rgba(73, 200, 245, 0.9);
+  animation: camera-varrer 1.4s linear infinite;
+}
+
+/* Barra de cima: AO VIVO à esquerda, câmera e relógio à direita */
+.camera__hud {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  top: 10px;
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: var(--texto-p);
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+}
+
+.camera__aovivo,
+.camera__id,
+.camera__contador {
+  padding: 3px 10px;
+  border-radius: var(--raio-botao);
+  background: rgba(0, 0, 0, 0.62);
+}
+
+.camera__aovivo {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  letter-spacing: 0.04em;
+}
+
+.camera__ponto {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #9aa3b5;
+}
+
+/* Ponto vermelho piscando = gravando (a cor vem junto do texto "AO VIVO") */
+.camera__aovivo--ligada .camera__ponto {
+  background: #ff4d4d;
+  animation: camera-piscar 1.2s ease-in-out infinite;
+}
+
+.camera__contador {
+  position: absolute;
+  right: 10px;
+  bottom: 56px;
+  font-size: var(--texto-p);
+}
+
+/* Faixa de status, embaixo da imagem */
+.camera__status {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  min-height: 46px;
+  margin: 0;
+  padding: 10px 14px;
+  display: flex;
+  align-items: center;
+  background: rgba(0, 0, 0, 0.72);
+  font-size: var(--texto-m);
+  font-weight: 600;
+}
+
+.camera__status:empty {
+  display: none;
+}
+
+/* Buraco achado e reporte enviado: faixa azul da marca (o vermelho fica só no LED do poste) */
+.camera__status--escrevendo,
+.camera__status--enviado {
+  background: rgba(34, 87, 214, 0.92);
+}
+
+/* Capa por cima da imagem: antes de ligar, no fim da ronda e no plano B */
+.camera__capa {
+  position: absolute;
+  inset: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-align: center;
+  background: rgba(5, 7, 13, 0.62);
+  backdrop-filter: blur(3px);
+}
+
+.camera__capa-texto {
+  max-width: 32ch;
+  font-size: var(--texto-g);
+  font-weight: 600;
+}
+
+.camera__controles {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+}
+
+.camera__credito {
+  flex: 1;
+  min-width: 12rem;
+  font-size: var(--texto-p);
+  color: var(--muted);
+}
+
+@keyframes camera-varrer {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(460%);
+  }
+}
+
+@keyframes camera-piscar {
+  50% {
+    opacity: 0.25;
+  }
+}
+
+/* Quem pediu menos movimento no sistema vê a câmera parada */
+@media (prefers-reduced-motion: reduce) {
+  .camera__varredura,
+  .camera__aovivo--ligada .camera__ponto {
+    animation: none;
+  }
+}
+
+/* Câmera real: o selo ganha o azul da marca (o "Simulação" fica grafite) */
+.camera__selo-real {
+  border-color: var(--link);
+  color: var(--link);
+}

@@ -1,0 +1,208 @@
+/* Resumo: três números lado a lado */
+.prefeitura__resumo {
+  margin: 0;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.prefeitura__resumo div {
+  padding: 12px 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.prefeitura__resumo dt {
+  font-size: var(--texto-p);
+  color: var(--muted);
+}
+
+.prefeitura__resumo dd {
+  margin: 0;
+  font-size: var(--titulo-m);
+  font-weight: 600;
+  line-height: 1.1;
+  font-variant-numeric: tabular-nums;
+}
+
+
+/* Barra de navegação do módulo: pílula de vidro com as abas, da largura dos cards de baixo */
+.prefeitura__abas {
+  display: flex;
+  gap: 6px;
+  padding: 6px;
+  border-radius: var(--raio-botao);
+}
+
+.prefeitura__aba {
+  flex: 1;
+  min-height: var(--toque);
+  padding: 0 16px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: 0;
+  border-radius: var(--raio-botao);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-weight: 600;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background var(--rapido) var(--suave);
+}
+
+.prefeitura__aba:hover {
+  background: color-mix(in srgb, var(--primary) 14%, transparent);
+}
+
+.prefeitura__aba[aria-selected='true'] {
+  background: var(--primary);
+  color: var(--on-primary);
+}
+
+/* Bolinha com o número de reportes novos */
+.prefeitura__contador {
+  min-width: 24px;
+  height: 24px;
+  padding: 0 6px;
+  display: inline-grid;
+  place-items: center;
+  border-radius: var(--raio-botao);
+  background: var(--ink);
+  color: var(--bg);
+  font-size: var(--texto-p);
+}
+
+/* Ponto vermelho piscando: a câmera está ligada (mesmo sinal do "AO VIVO") */
+.prefeitura__gravando {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #e53935;
+  animation: camera-piscar 1.2s ease-in-out infinite;
+}
+
+/*
+  Câmera e etapas: uma embaixo da outra no celular; em telas largas, lado a lado,
+  com a MESMA largura e a MESMA altura (stretch). A linha do tempo "Como é na versão real" ocupa a linha de baixo inteira.
+*/
+.prefeitura__camera {
+  display: grid;
+  gap: 16px;
+  align-items: stretch;
+}
+
+@media (min-width: 1000px) {
+  .prefeitura__camera {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .prefeitura__camera .historia {
+    grid-column: 1 / -1;
+  }
+}
+
+.prefeitura__reportes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Filtros dos reportes centralizados, acompanhando a contagem embaixo deles */
+.prefeitura__reportes .filtros {
+  justify-content: center;
+}
+
+.prefeitura__quantidade {
+  text-align: center;
+}
+
+.prefeitura__nota {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: var(--texto-p);
+  color: var(--muted);
+}
+
+.prefeitura__nota svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+/* Celular: com 3 abas, o ícone vai para cima do nome para tudo caber na largura */
+@media (max-width: 640px) {
+  .prefeitura__abas {
+    border-radius: var(--raio);
+  }
+
+  .prefeitura__aba {
+    min-height: 60px;
+    padding: 6px 4px;
+    flex-direction: column;
+    gap: 2px;
+    border-radius: 14px;
+    font-size: var(--texto-p);
+    white-space: normal;
+    line-height: 1.15;
+    text-align: center;
+  }
+}
+
+/*
+  Passar o mouse: cards e botões "saltam" um pouco para fora (sobem 3 px e a sombra cresce).
+  Só em aparelhos com mouse (hover: hover), para o toque no celular não deixar o card preso no alto.
+*/
+.prefeitura .cartao,
+.prefeitura .botao,
+.prefeitura .pilula,
+.prefeitura .prefeitura__aba {
+  transition:
+    transform var(--medio) var(--suave),
+    box-shadow var(--medio) var(--suave),
+    background-color var(--medio) var(--suave);
+}
+
+@media (hover: hover) {
+  .prefeitura .cartao:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-flutuante);
+  }
+
+  .prefeitura .botao:hover,
+  .prefeitura .pilula:hover,
+  .prefeitura .prefeitura__aba:hover {
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--sombra-flutuante);
+  }
+
+  /* Ao clicar, volta ao lugar (dá a sensação de apertar) */
+  .prefeitura .botao:active,
+  .prefeitura .pilula:active,
+  .prefeitura .prefeitura__aba:active {
+    transform: translateY(0) scale(0.98);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .prefeitura__gravando {
+    animation: none;
+  }
+
+  .prefeitura .cartao:hover,
+  .prefeitura .botao:hover,
+  .prefeitura .pilula:hover,
+  .prefeitura .prefeitura__aba:hover {
+    transform: none;
+  }
+}
+
+/* Aviso de "câmera real sem foto": ocupa a linha inteira, embaixo da câmera e das etapas */
+.prefeitura__nota--camera {
+  grid-column: 1 / -1;
+}

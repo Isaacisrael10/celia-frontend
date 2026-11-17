@@ -1,0 +1,287 @@
+/*
+  Linha do tempo "Como é na versão real" (scroll storytelling).
+  Celular: a linha fica à esquerda e os cards à direita dela.
+  Telas largas: a linha fica no meio e os cards alternam de lado.
+  Cada etapa começa fechada e abre quando entra na tela (classe historia__etapa--aberta).
+*/
+.historia {
+  --no: 48px; /* tamanho da bolinha de cada etapa */
+  --abrir: 750ms; /* duração da abertura do card */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-top: 12px;
+}
+
+.historia__topo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  text-align: center;
+}
+
+.historia__cabeca {
+  font-size: var(--titulo-m);
+  line-height: 1.2;
+}
+
+.historia__linha {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+/* ---------- Uma etapa (celular) ---------- */
+.historia__etapa {
+  position: relative;
+  display: grid;
+  grid-template-columns: var(--no) minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+/* O pedaço da linha que liga esta etapa à próxima: "desenha" de cima para baixo ao abrir */
+.historia__etapa:not(:last-child)::after {
+  content: '';
+  position: absolute;
+  left: calc(var(--no) / 2 - 1.5px);
+  top: var(--no);
+  bottom: -28px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--link);
+  transform: scaleY(0);
+  transform-origin: top;
+  transition: transform 900ms var(--suave) 250ms;
+}
+
+/* Trilho apagado por baixo da linha (mostra para onde a história vai) */
+.historia__etapa:not(:last-child)::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--no) / 2 - 1px);
+  top: var(--no);
+  bottom: -28px;
+  width: 2px;
+  background: var(--line-strong);
+}
+
+/* O nó: bolinha azul com contorno escuro, como as do símbolo */
+.historia__no {
+  position: relative;
+  z-index: 1;
+  width: var(--no);
+  height: var(--no);
+  display: grid;
+  place-items: center;
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  background: var(--primary);
+  color: var(--on-primary);
+  scale: 0.4;
+  opacity: 0;
+  /* curva que passa um pouco do tamanho e volta: o nó "salta" ao aparecer */
+  transition:
+    scale 600ms cubic-bezier(0.34, 1.56, 0.64, 1),
+    opacity 300ms ease;
+}
+
+/* Card fechado: invisível, deslocado para o lado e "recortado" de cima para baixo */
+.historia .historia__etapa .historia__card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  opacity: 0;
+  translate: 32px 24px;
+  scale: 0.94;
+  clip-path: inset(0 0 100% 0 round var(--raio));
+  transition:
+    opacity 500ms ease 120ms,
+    translate var(--abrir) var(--suave) 120ms,
+    scale var(--abrir) var(--suave) 120ms,
+    clip-path var(--abrir) var(--suave) 120ms,
+    transform var(--medio) var(--suave),
+    box-shadow var(--medio) var(--suave);
+}
+
+/* Partes de dentro do card: sobem uma depois da outra, depois que o card abre */
+.historia__card > * {
+  opacity: 0;
+  translate: 0 10px;
+  transition:
+    opacity 450ms ease,
+    translate 450ms var(--suave);
+}
+
+.historia__passo {
+  font-size: var(--texto-p);
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--link);
+}
+
+.historia__titulo {
+  font-size: var(--titulo-p);
+  line-height: 1.25;
+}
+
+.historia__texto {
+  font-size: var(--texto-m);
+}
+
+/* "Nesta demonstração": faixa azul clara, separada do texto da versão real */
+.historia__demo {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 10px 12px;
+  border-radius: var(--raio-p);
+  background: color-mix(in srgb, var(--primary) 14%, var(--card));
+  font-size: var(--texto-p);
+}
+
+.historia__demo svg {
+  flex: none;
+  margin-top: 2px;
+  color: var(--link);
+}
+
+/* ---------- Etapa aberta (entrou na tela) ---------- */
+.historia__etapa--aberta .historia__no {
+  scale: 1;
+  opacity: 1;
+  animation: historia-anel 1s ease-out 300ms;
+}
+
+.historia__etapa--aberta:not(:last-child)::after {
+  transform: scaleY(1);
+}
+
+.historia .historia__etapa--aberta .historia__card {
+  opacity: 1;
+  translate: 0 0;
+  scale: 1;
+  clip-path: inset(-20px -20px -20px -20px round var(--raio));
+}
+
+.historia__etapa--aberta .historia__card > * {
+  opacity: 1;
+  translate: 0 0;
+}
+
+.historia__etapa--aberta .historia__card > :nth-child(1) {
+  transition-delay: 450ms;
+}
+.historia__etapa--aberta .historia__card > :nth-child(2) {
+  transition-delay: 540ms;
+}
+.historia__etapa--aberta .historia__card > :nth-child(3) {
+  transition-delay: 630ms;
+}
+.historia__etapa--aberta .historia__card > :nth-child(4) {
+  transition-delay: 720ms;
+}
+
+/* Onda que sai do nó quando ele aparece */
+@keyframes historia-anel {
+  from {
+    box-shadow: 0 0 0 0 color-mix(in srgb, var(--primary) 60%, transparent);
+  }
+  to {
+    box-shadow: 0 0 0 16px transparent;
+  }
+}
+
+/* ---------- Telas largas: linha no meio, cards alternando de lado ---------- */
+@media (min-width: 900px) {
+  .historia__linha {
+    gap: 8px;
+  }
+
+  .historia__etapa {
+    grid-template-columns: minmax(0, 1fr) var(--no) minmax(0, 1fr);
+    gap: 28px;
+  }
+
+  .historia__no {
+    grid-column: 2;
+    grid-row: 1;
+  }
+
+  .historia__etapa--esquerda .historia__card {
+    grid-column: 1;
+    grid-row: 1;
+  }
+
+  .historia__etapa--direita .historia__card {
+    grid-column: 3;
+    grid-row: 1;
+  }
+
+  /* A linha passa pelo meio */
+  .historia__etapa:not(:last-child)::after,
+  .historia__etapa:not(:last-child)::before {
+    left: 50%;
+    bottom: -8px;
+  }
+
+  .historia__etapa:not(:last-child)::after {
+    margin-left: -1.5px;
+  }
+
+  .historia__etapa:not(:last-child)::before {
+    margin-left: -1px;
+  }
+
+  /* Card da esquerda vem da esquerda; o da direita, da direita */
+  .historia .historia__etapa--esquerda .historia__card {
+    translate: -40px 24px;
+  }
+
+  .historia .historia__etapa--direita .historia__card {
+    translate: 40px 24px;
+  }
+
+  .historia .historia__etapa--aberta .historia__card {
+    translate: 0 0;
+  }
+}
+
+/* Quem pediu menos movimento vê tudo aberto, sem animação */
+@media (prefers-reduced-motion: reduce) {
+  .historia__no,
+  .historia .historia__etapa .historia__card,
+  .historia__card > * {
+    opacity: 1;
+    scale: 1;
+    translate: 0 0;
+    clip-path: none;
+    transition: none;
+    animation: none;
+  }
+
+  .historia__etapa:not(:last-child)::after {
+    transform: scaleY(1);
+    transition: none;
+  }
+}
+
+/* O link "Ver o caminho completo" (câmera do poste) pula até aqui: sobra espaço para o cabeçalho de vidro */
+.historia__cabeca {
+  scroll-margin-top: 96px;
+}
+
+/*
+  Celular: o card fechado esperava 32 px à direita e empurrava a página para o lado
+  (rolagem horizontal na Prefeitura). Aqui ele entra só de baixo para cima.
+*/
+@media (max-width: 767px) {
+  .historia .historia__etapa:not(.historia__etapa--aberta) .historia__card {
+    translate: 0 24px;
+  }
+}

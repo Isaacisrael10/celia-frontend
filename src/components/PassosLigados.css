@@ -1,0 +1,135 @@
+/* Celular: os passos ficam um embaixo do outro, com a linha em pé ligando as bolinhas */
+.passos {
+  --numero: 40px; /* tamanho da bolinha */
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.passos__item {
+  position: relative;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 14px;
+  align-items: start;
+}
+
+/* Bolinha azul com contorno escuro, como as do símbolo */
+.passos__numero {
+  position: relative;
+  z-index: 1;
+  width: var(--numero);
+  height: var(--numero);
+  display: grid;
+  place-items: center;
+  background: var(--primary);
+  color: var(--on-primary);
+  border: 2.5px solid var(--ink);
+  border-radius: 50%;
+  font-weight: 600;
+  line-height: 1;
+}
+
+/* A ligação: sai de baixo de uma bolinha e vai até a de baixo */
+.passos__item::before {
+  content: '';
+  position: absolute;
+  left: calc(var(--numero) / 2 - 1px);
+  top: calc(var(--numero) + 4px);
+  bottom: -16px;
+  width: 2px;
+  border-radius: 2px;
+  background: var(--borda-campo);
+}
+
+/* O último passo não liga em ninguém */
+.passos__item:last-child::before {
+  display: none;
+}
+
+.passos__textos {
+  padding-top: 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: var(--texto-m);
+}
+
+.passos__titulo {
+  font-size: var(--texto-g);
+}
+
+/*
+  Telas largas: os passos ficam lado a lado, cada um com a mesma largura.
+  A bolinha fica no meio, em cima do texto (também centralizado), e a ligação deita:
+  sai da direita de uma bolinha e chega na esquerda da próxima.
+*/
+@media (min-width: 900px) {
+  .passos {
+    --vao: 24px; /* espaço entre um passo e o outro */
+    flex-direction: row;
+    gap: var(--vao);
+  }
+
+  .passos__item {
+    flex: 1;
+    min-width: 0;
+    grid-template-columns: minmax(0, 1fr);
+    justify-items: center;
+    align-content: start; /* passo com texto curto não "desce": todos os títulos na mesma linha */
+    gap: 12px;
+    text-align: center;
+  }
+
+  /* Da borda direita desta bolinha (meio + raio) até a borda esquerda da próxima */
+  .passos__item::before {
+    left: calc(50% + var(--numero) / 2 + 6px);
+    right: calc(-50% - var(--vao) + var(--numero) / 2 + 6px);
+    top: calc(var(--numero) / 2 - 1px);
+    bottom: auto;
+    width: auto;
+    height: 2px;
+  }
+
+  .passos__textos {
+    padding-top: 0;
+    align-items: center;
+  }
+}
+
+/*
+  Passar o mouse num passo da linha do tempo: a bolinha cresce com um halo azul,
+  a ligação até o próximo passo acende e o título ganha a cor de link.
+  Só com mouse (hover: hover); "Menos animações" desliga a transição (base.css).
+*/
+@media (hover: hover) {
+  .passos__numero {
+    transition:
+      transform var(--medio) var(--suave),
+      box-shadow var(--medio) var(--suave);
+  }
+
+  .passos__item::before {
+    transition: background var(--medio) var(--suave);
+  }
+
+  .passos__titulo {
+    transition: color var(--medio) var(--suave);
+  }
+
+  .passos__item:hover .passos__numero {
+    transform: scale(1.15);
+    box-shadow: 0 0 0 6px color-mix(in srgb, var(--primary) 30%, transparent);
+  }
+
+  .passos__item:hover::before {
+    background: var(--primary);
+  }
+
+  .passos__item:hover .passos__titulo {
+    color: var(--link);
+  }
+}

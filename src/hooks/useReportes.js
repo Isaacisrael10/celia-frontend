@@ -1,13 +1,14 @@
 import { useEffect, useState } from 'react'
 import { listarReportes, criarReporte, editarReporte, excluirReporte } from '../services/reportesApi'
 import { coordenadasDoEndereco } from '../services/geocodificacao'
+import { ordenarPorData } from '../domain/reportes'
 
 /*
-  Custom hook do CRUD de reportes.
+  Custom hook do CRUD de reportes (a API externa é a MockAPI).
   Junta o acesso à API (services) com o estado da tela:
   - reportes: a lista
   - carregando / erro: para mostrar os estados da tela
-  - criar, editar, excluir: atualizam a API e a lista
+  - criar, editar, excluir: atualizam a API e, se der certo, a lista
 */
 export function useReportes() {
   const [reportes, setReportes] = useState([])
@@ -17,16 +18,14 @@ export function useReportes() {
   // Cada vez que este número muda, a lista é buscada de novo
   const [tentativa, setTentativa] = useState(0)
 
-  // Busca a lista quando a tela abre e a cada "Tentar de novo"
+  // READ: busca a lista quando a tela abre e a cada "Tentar de novo"
   useEffect(() => {
     let ativo = true // se a pessoa sair da tela antes da resposta, ignoramos o resultado
 
     listarReportes()
       .then((lista) => {
         if (!ativo) return
-        // Mais recentes primeiro
-        lista.sort((a, b) => (b.criadoEm || '').localeCompare(a.criadoEm || ''))
-        setReportes(lista)
+        setReportes(ordenarPorData(lista))
         setErro('')
       })
       .catch((e) => {
@@ -47,6 +46,7 @@ export function useReportes() {
     setTentativa(tentativa + 1)
   }
 
+  // CREATE
   async function criar(dados) {
     // Sem localização? Procuramos as coordenadas do endereço para o reporte aparecer no mapa
     let local = { lat: dados.lat, lng: dados.lng }
@@ -58,12 +58,14 @@ export function useReportes() {
     return novo
   }
 
+  // UPDATE
   async function editar(id, dados) {
     const atualizado = await editarReporte(id, dados)
     setReportes((atual) => atual.map((r) => (r.id === id ? atualizado : r)))
     return atualizado
   }
 
+  // DELETE
   async function excluir(id) {
     await excluirReporte(id)
     setReportes((atual) => atual.filter((r) => r.id !== id))

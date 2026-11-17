@@ -180,3 +180,80 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - o menu lateral herdou o `box-sizing` da barra do celular e ficou mais largo e mais alto que a tela;
   - no Perfil, a linha do fieldset atravessava o título "Alerta de calor no ponto" (também no celular); corrigido com `float` no legend.
 - **Revisão da equipe:** (preencher)
+
+## 12. Redesenho em grafo (Claude Code · 14/11/2026 · PROPOSTA, experimento local do João)
+
+> Ainda não aprovado pelo Isaac. Feito num clone local para testar a ideia, sem PR e sem merge.
+
+- **Prompt (resumo):** "Não gostei do design, não está responsivo nem muito acessível. Busque ideias de conexão como se fosse um grafo: cada função seria uma bolinha do símbolo de acessibilidade da ONU. Mantenha as cores. Quero acessível, responsivo, atual, com vidro desfocado e animações suaves. Teste até ficar bom."
+- **Ideia:** o símbolo de acessibilidade tem 5 bolinhas (cabeça, duas mãos e dois pés) e o app tem 5 partes. Cada parte virou uma bolinha: Mapa (cabeça), Rotas e Reportar (mãos), Locais e Perfil (pés). A lista fica em `src/domain/navegacao.js`.
+- **Como a IA ajudou:**
+  - **Navegação em grafo** (`NavGrafo`, no lugar da `BarraInferior`): barra de vidro embaixo no celular e trilho lateral em telas largas, com uma linha ligando as bolinhas e uma bolinha azul que desliza até a tela atual;
+  - **Menu em forma do símbolo** (`MenuGrafo`): o símbolo desenhado grande, com cada bolinha como link. Usa a tag `<dialog>`, que já prende o foco e fecha com Esc;
+  - **Responsivo de verdade:** antes o app era uma coluna de 480 px no meio da tela. Agora o mapa ocupa a tela toda, as rotas ficam em 3 colunas e os formulários em 2 no computador. Testado de 320 px a 1440 px e com o celular deitado;
+  - **Vidro e fundo** (`FundoGrafo`): peças translúcidas com desfoque e, atrás, o próprio símbolo bem grande e suave. As cores dos tokens não mudaram;
+  - **Acessibilidade:** textos em `rem` (respeitam a fonte do navegador), link "Pular para o conteúdo", foco no título ao trocar de tela, título da aba por tela, alvos de toque de 44 px ou mais, e a seção nova **Acessibilidade** no Perfil (tamanho do texto, menos animações e mais contraste), com o hook `useAcessibilidade`;
+  - novos custom hooks: `useConsultaDeTela`, `useTituloDaPagina` e `useAcessibilidade`.
+- **Testes:** script com Playwright e axe-core fora do repositório. Sem estouro horizontal em 6 larguras, nenhum alvo de toque abaixo de 44 px, nenhuma violação do axe nos dois temas, e contraste medido pixel a pixel em cerca de 1.200 textos (pior caso 4,68:1, acima do mínimo AA de 4,5:1).
+- **Problemas encontrados e decisões:**
+  - o axe não consegue medir contraste em cima de vidro, então a medição foi feita pela foto da tela;
+  - no celular deitado o mapa abria afastado demais, porque as folgas do enquadramento não cabiam na altura; a folga passou a depender da altura da tela;
+  - muitas peças com desfoque pesam no celular: só as peças que flutuam usam desfoque, os cards de lista são translúcidos sem desfoque;
+  - **navegação em glassmorfismo** (pedido seguinte: "deixe a nav bar em aspecto glassmorphism, mantendo o design"): fundo bem mais transparente, desfoque forte, borda clara, reflexo de luz e bolinhas foscas (variáveis `--nav-*` em `tokens.css`). Um teste de estresse com o pior fundo possível atrás da barra (foto branca no tema escuro, preto no claro) mostrou os nomes caindo para 3,9:1 no escuro; o vidro escuro ficou mais cheio e o pior caso passou a 5,56:1.
+- **Revisão da equipe:** (preencher)
+
+## 13. Ajustes de design, Trilha IA, Sobre, satélite e refatoração (Claude Code · 14/11/2026 · PROPOSTA do João)
+
+> Continuação do item 8. Ainda precisa da revisão do Isaac (dono do front). Vai como PR, sem merge.
+
+- **Prompt (resumo):** "Centralizar o título do menu e levar o X para o canto. Na nav bar lateral, 80% está em branco: distribuir os ícones com proporção. Colocar um SOBRE o projeto embaixo. Organizar os cards do Perfil. Modo satélite com botão de troca no canto inferior direito. Acrescentar a aba Trilha IA. Depois, refatorar o código conforme os requisitos de Front-end Design e Web Development, mantendo as regras de negócio."
+- **Como a IA ajudou:**
+  - **Menu:** título e apoio centralizados; botão de fechar preso no canto da tela (não rola junto); link "Sobre o projeto" no fim;
+  - **Nav bar:** no trilho lateral as casas dividem a altura em partes iguais (CSS grid com `--total`), então os ícones se espalham na altura toda; "Sobre" preso embaixo; frase de apoio sob cada nome quando há altura;
+  - **Trilha IA** [HU-19, RF18]: novo ponto do símbolo (meio do corpo), tela `Trilha`, `CardLicao`, `useTrilha`, `services/trilhaApi.js` e `domain/trilha.js`. Lições da API (`GET /trilha`) com cópia local como plano B;
+  - **Sobre o projeto:** página com problema, jornada, partes, ODS, indicador e LGPD (textos em `src/data/sobre.json`);
+  - **Satélite:** `styles/mapa/estilos.js` monta um estilo com as imagens Esri e só as camadas de texto por cima; `BotaoVisaoMapa` troca e `usePreferencia('celia-satelite')` lembra a escolha;
+  - **Perfil:** grade com áreas nomeadas (duas colunas de mesma altura e o Sobre de ponta a ponta);
+  - **Refatoração (separação lógica, dados e apresentação):** `localStorage` só em `services/armazenamento.js`; regras que estavam em componentes foram para `domain/` (filtros, ordenações, GeoJSON dos trechos, textos de quantidade, área da rota); novos hooks `useFormReporte`, `useLocais`, `useSelosDoMapa`, `useFocoNoTitulo`; componentes reutilizáveis `Filtros`, `Opcoes`, `Medida`, `ErroCampo`, `CamadasTrechos`, `PassosLigados`;
+  - **Integração:** canal ThingSpeak `3577155` como padrão e API de visão no contrato atual (FastAPI, `caixas_buracos`, só buraco).
+- **Testes:** `npm run lint` sem avisos em `src/` e `npm run build` ok. A conferência visual no navegador ficou pendente (extensão desconectada nesta sessão).
+- **Revisão da equipe:** (preencher)
+
+## 14. Assistente, descrição para a Prefeitura e espera da IA na versão em grafo (Claude Code · 14/11/2026 · pedido do João)
+
+- **Contexto:** esta branch saiu antes de o assistente entrar na main. Em vez de juntar as duas (27 conflitos), foi portado só o que faltava, mantendo o visual em grafo.
+- **Prompt (resumo):** "Aplique no front certo as mudanças de integração. Além das caixas na foto, mostre um card com a descrição gerada pela IA depois da análise do YOLO, com animação de loading e o texto Gerando sua descrição para a Prefeitura."
+- **Como a IA ajudou:**
+  - **assistente** (HU-21, RF20, RN06): tela `/assistente` trazida da main; na navegação ele fica fora do símbolo, junto do Sobre (trilho lateral e menu), porque os 6 pontos já são as partes do corpo;
+  - **descrição para a Prefeitura** (HU-22, RF21, RN05, RN07): quando o YOLO termina, o `useFormReporte` já pede o texto ao Gemini. O `CardDescricaoIa` mostra "Gerando sua descrição para a Prefeitura…" (bolinhas ligadas + linhas de texto se formando) e depois o texto, com "Usar esta descrição" e "Gerar outra". O texto só vai para o reporte quando a pessoa escolhe usar, e ela ainda pode corrigir;
+  - **espera da IA** (HU-05, RF08): `CardCarregando` com as bolinhas do grafo; "Preparando a IA…" enquanto a API aquece o modelo (`GET /`, `modelo_pronto`) e "Analisando a foto…";
+  - **novas tentativas:** `useChamadaApi` tenta de novo sozinho até 3 vezes quando a API responde 5xx (3, 6 e 12 s), mostrando o motivo; depois aparece "Tentar de novo".
+- **Problema encontrado:** a sugestão de descrição dava erro 422, porque o app manda `obstaculo` e `nao_analisada` e a API só aceitava `livre` e `buraco`. Corrigido na API.
+- **Como foi testado:** API real local (descrição com os 4 tipos), `oxlint` e `npm run build`. Falta o teste clicando nas telas.
+- **Revisão da equipe:** (preencher)
+
+## 15. Módulo Prefeitura: câmera do poste com IA de visão e caixa de reportes (Claude Code · 15/11/2026 · PROPOSTA do João, em teste local)
+
+- **Contexto:** o João corrigiu o escopo. A IA de visão (YOLO) roda só no poste (ESP32 com câmera, em ponto liberado pela Prefeitura). Quando acha um buraco, o poste escreve o reporte com o Gemini e envia sozinho à Prefeitura. O cidadão só envia a foto, e a IA ajuda a escrever o texto, que ele revisa (RN07). Sem ESP32-CAM, fotos já baixadas fazem o papel da câmera.
+- **Prompt (resumo):** "O YOLO é o módulo da Prefeitura no front. Existe o reporte do cidadão (ele revisa) e o reporte do poste (enviado automaticamente). Crie um módulo separado para a Prefeitura com um vídeo falso ao vivo do YOLO rodando, uma barra de navegação e uma seção que lista reportes de exemplo com localização e data."
+- **Como a IA ajudou:**
+  - **tela `/prefeitura`** (HU-06, HU-07, HU-16, RF09, RF10, RF13): fica fora do símbolo, junto do Assistente e do Sobre. Tem um resumo (total, dos postes, dos cidadãos) e uma barra de abas acessível (setas do teclado): "Câmera do poste" e "Reportes recebidos";
+  - **câmera ao vivo SIMULADA** (`CameraPoste`, `useCameraPoste`): selo AO VIVO, relógio, linhas de vídeo, varredura enquanto a IA analisa e as caixas do YOLO por cima. Uma "ronda" passa por 6 fotos (2 calçadas livres e 4 com buraco). Cada foto vai para o `POST /analisar` real, que também avisa o poste no Wokwi por MQTT. Se for buraco, o `POST /assistente/descricao` escreve o reporte e ele entra sozinho na caixa de entrada. A tela diz que é uma simulação e explica como é na versão real;
+  - **etapas** (`EtapasPoste`): Câmera captura → IA de visão → LED vermelho (MQTT) → Gemini escreve → Enviado à Prefeitura, acendendo uma depois da outra;
+  - **caixa de entrada** (`CardReportePrefeitura`, `useReportesPrefeitura`): reportes de exemplo (dados simulados, ruas do Grajaú) com origem (poste ou cidadão), local, data e hora, situação e "Ver no mapa". Filtro por origem;
+  - **reporte do cidadão sem YOLO** (HU-05, HU-22, RF08, RF21, RN07): `useAnaliseFoto` virou `useFotoReporte` (só prévia e miniatura). O cidadão escolhe buraco ou obstáculo, e a descrição do Gemini é pedida assim que a foto fica pronta.
+  - **ajustes de 15/11 (pedido do João):** abas sem rolar junto e na largura dos cards; câmera e etapas com a mesma largura e altura; imagens estáticas; título centralizado (`Cabecalho centro`); cards e botões "saltam" ao passar o mouse (só com mouse e respeitando "menos movimento");
+  - **"Como é na versão real" em scroll storytelling** (`VersaoReal`, `useAparecerAoRolar`): linha do tempo com 7 nós (poste, câmera, IA no poste, trecho "Evite", mapa, reporte automático, LGPD). Ao rolar, o `IntersectionObserver` abre cada card (recorte de cima para baixo, deslize lateral e textos subindo em sequência) e a linha se desenha até o próximo nó. Cada card tem a versão real e, embaixo, "Nesta demonstração";
+  - **trilho lateral escondido (todas as telas):** fica uma beirada à mostra; ao passar o mouse ele desliza da esquerda para a direita e as telas acompanham, porque o trilho e as telas usam a mesma variável `--nav-lado`, registrada com `@property` para poder ser animada. Só com mouse (em tablet de toque ele fica aberto). O trilho vai do topo ao pé da página, colado na borda: isso corrigiu um tremor (com o mouse no vão de 12 px, ele abria e fechava sem parar);
+  - **textos centralizados:** título do cabeçalho, texto de abertura, notas do pé da tela e títulos que apresentam cards e botões, em todas as telas. O texto dentro dos cards continua à esquerda;
+  - **revisão tela por tela (pedido do João, conferida com capturas do Edge headless):** trilho com cantos de 14 px; Reportes com botão, filtros e cards centralizados e cards da mesma altura; Locais com filtros no centro e o mini mapa esticando do primeiro ao último card; Sobre com o card da C.E.L.I.A. em coluna (símbolo em cima), todos os textos dos cards centralizados, linha incompleta de cards no meio (flex-wrap) e a linha do tempo "Como ajuda no dia a dia" com bolinhas e textos centralizados e a ligação de uma bolinha à outra;
+  - **modo chuva retirado do Perfil** (HU-15 e RF05 descartados do backlog pelo João em 15/11);
+  - **aba "Alertas de calor"** (HU-13, RF04, RN01, dados de exemplo): explicação do alerta de calor no ponto e por que ele importa para quem tem mobilidade reduzida, legenda com a quantidade por nível, filtro e 6 cards pequenos com índice de calor, temperatura, umidade, poste, local, hora e orientação. Cores: verde a partir de 30 °C, amarelo a partir de 32 °C, vermelho a partir de 35 °C (PROPOSTA, as mesmas opções do Perfil; o ESP32 usa 32 e 41 °C). A aba também abre pelo endereço `/prefeitura?aba=calor`;
+  - **novo fundo** (exemplo de código passado pelo João, em Tailwind, convertido para CSS puro): duas manchas de luz azul desfocadas que flutuam devagar (18 s e 22 s), em cima à direita e embaixo à esquerda, no `FundoGrafo` do layout comum. Param com "menos movimento" e somem com "mais contraste". A arte em imagem testada antes foi descartada. Reportes em 3 colunas, com a última linha centralizada;
+  - **Menu como página** (`/menu`, pedido do João): o menu deixou de ser uma caixa de diálogo e virou uma página fora da moldura, com o fundo animado. Fica o grafo de acessibilidade à esquerda e o painel de acesso à direita (título, descrição, "Acesso Prefeitura" e "Acesso Cidadão"). No celular, o painel vem primeiro. `/` e `/home` levam para `/menu`. O símbolo da barra abre `/menu` levando a tela de origem: o grafo mostra "Você está aqui" nela e o X volta para ela. Os links de Assistente, Prefeitura e Sobre saíram do menu. O grafo virou o componente `GrafoAcessibilidade` com a mesma estrutura, e o CSS dele saiu do `MenuGrafo.css` sem as partes do diálogo (`GrafoAcessibilidade.css`). O Mapa mudou de `/` para `/mapa`;
+  - **ajustes do Menu:** sem o botão X (sai-se pelo grafo ou pelos botões). A Prefeitura saiu da barra de navegação do cidadão e agora só abre pelo botão "Acesso Prefeitura" do Menu;
+  - **título do Menu acima do painel:** "Para onde vamos?" e a frase de apoio, maiores (título grande e texto de 18 px), centralizados em cima do painel de acesso na coluna da direita. O grafo ficou sozinho na coluna da esquerda, centralizado na horizontal e na vertical;
+  - **câmera real do poste (ESP32-CAM) na área da Prefeitura** (HU-25, RF24): `services/posteApi.js` e o custom hook `useCameraReal` leem a API (`GET /poste/capturas` e `/poste/reportes`, INTEGRACAO.md seção 8.2) a cada 5 s. Se a câmera mandou foto há menos de 2 min (PROPOSTA), a aba mostra a foto real com as caixas do YOLO, o selo "Ao vivo · ESP32-CAM" e as etapas; senão, a câmera simulada com um aviso (RNF10). Os reports reais entram no topo da caixa de entrada e mostram um aviso quando chegam. Testado com uma cópia da API e do site apontando para ela;
+- **Fontes das imagens (RNF04):** Pothole Dataset (KugaN, Roboflow Universe, CC BY 4.0, conjunto de teste) e Wikimedia Commons (domínio público). Cortadas em 800×600; o modelo v2 com confiança 0,40 acertou as 6.
+- **Como foi testado:** `oxlint` sem avisos e `npm run build` ok. Falta o teste no navegador com a API ligada.
+- **Revisão da equipe:** (preencher)

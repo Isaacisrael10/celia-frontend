@@ -1,0 +1,44 @@
+/* Opções em pílula (o rádio de verdade fica escondido, mas funciona no teclado) */
+.opcoes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.opcao {
+  position: relative;
+}
+
+.opcao input {
+  position: absolute;
+  opacity: 0;
+}
+
+.opcao span {
+  min-height: var(--toque);
+  padding: 8px 18px;
+  display: inline-flex;
+  align-items: center;
+  background: var(--card);
+  border: 1.5px solid var(--borda-campo);
+  border-radius: var(--raio-botao);
+  font-size: var(--texto-m);
+  font-weight: 500;
+  cursor: pointer;
+  transition:
+    background-color var(--medio) var(--suave),
+    border-color var(--medio) var(--suave);
+}
+
+/* Escolhida: azul do símbolo com contorno escuro e letra mais grossa (não depende só da cor) */
+.opcao input:checked + span {
+  background: var(--primary);
+  border: 2px solid var(--ink);
+  color: var(--on-primary);
+  font-weight: 600;
+}
+
+.opcao input:focus-visible + span {
+  outline: 3px solid var(--focus);
+  outline-offset: 3px;
+}

@@ -4,19 +4,23 @@
   gap: 10px;
 }
 
+/*
+  Marcador de faixa: agora é uma BOLINHA (um nó do grafo), igual aos selos do mapa.
+  A cor nunca vem sozinha: o ícone (✓ ! ✕ ?) e o nome escrito dizem a mesma coisa.
+*/
 .badge-faixa__marcador {
   flex: none;
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 6px;
+  border-radius: 50%;
   background: var(--cor-faixa);
   color: var(--faixa-icone);
   font-weight: 600;
   line-height: 1;
 }
 
-/* "Sem dados" não tem fill: só contorno tracejado */
+/* "Sem dados" não tem preenchimento: só contorno tracejado */
 .badge-faixa__marcador--sem-dados {
   background: transparent;
   color: var(--cor-faixa);
@@ -24,6 +28,6 @@
 }
 
 .badge-faixa__nome {
-  font-size: 18px;
+  font-size: var(--texto-g);
   font-weight: 600;
 }

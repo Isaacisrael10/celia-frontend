@@ -1,67 +1,52 @@
 import { useEffect, useState } from 'react'
-import { buscarTrilha, buscarLicao } from '../services/trilhaApi'
-import copiaLocal from '../data/trilha.json'
+import { buscarTrilha } from '../services/trilhaApi'
+import { trilhaValida } from '../domain/trilha'
+import copiaDaTrilha from '../data/trilha.json'
 
 /*
-  Custom hooks da mini trilha de IA.
-  Primeiro tenta a API da equipe. Se ela não estiver no ar (versão publicada),
-  usa a cópia salva no app (src/data/trilha.json): o plano B da trilha.
+  Custom hook da mini trilha de IA [HU-19, RF18].
+  1. Ao abrir a tela, pede as lições para a API da equipe.
+  2. Deu certo → usa as lições da API (origem "api").
+  3. API fora do ar ou resposta fora do formato → PLANO B: usa a cópia das lições
+     que vem junto com o app (origem "copia"). A pessoa nunca vê um erro cru.
 
-  origem: 'api' | 'copia'
+  - trilha: { titulo, licoes }
+  - origem: 'api' ou 'copia'
+  - carregando: true enquanto a API não respondeu
+  - aberta: id da lição aberta (null = todas fechadas)
+  - alternarLicao(id): abre a lição; se ela já estava aberta, fecha
 */
 export function useTrilha() {
-  const [trilha, setTrilha] = useState(null)
-  const [origem, setOrigem] = useState('')
+  const [trilha, setTrilha] = useState(copiaDaTrilha)
+  const [origem, setOrigem] = useState('copia')
+  const [carregando, setCarregando] = useState(true)
+  // Interação: qual lição está aberta
+  const [aberta, setAberta] = useState(null)
 
   useEffect(() => {
-    let ativo = true // se a tela fechar antes da resposta, não mexe no estado
+    let ativo = true // se a pessoa sair da tela antes da resposta, ignoramos o resultado
+
     buscarTrilha()
       .then((dados) => {
-        if (!ativo) return
+        if (!ativo || !trilhaValida(dados)) return
         setTrilha(dados)
         setOrigem('api')
       })
       .catch(() => {
-        if (!ativo) return
-        setTrilha(copiaLocal)
-        setOrigem('copia')
+        // Plano B: a tela segue com a cópia local, sem mensagem de erro
       })
+      .finally(() => {
+        if (ativo) setCarregando(false)
+      })
+
     return () => {
       ativo = false
     }
   }, [])
 
-  return { trilha, origem, carregando: trilha === null }
-}
+  function alternarLicao(id) {
+    setAberta(aberta === id ? null : id)
+  }
 
-/*
-  Uma lição da trilha.
-  estado: 'carregando' | 'pronta' | 'naoExiste'
-*/
-export function useLicao(id) {
-  const [licao, setLicao] = useState(null)
-  const [estado, setEstado] = useState('carregando')
-
-  useEffect(() => {
-    let ativo = true
-    setEstado('carregando')
-    buscarLicao(id)
-      .then((dados) => {
-        if (!ativo) return
-        setLicao(dados)
-        setEstado('pronta')
-      })
-      .catch(() => {
-        if (!ativo) return
-        // API fora do ar ou lição que não existe: procura na cópia do app
-        const daCopia = copiaLocal.licoes.find((l) => String(l.id) === String(id))
-        setLicao(daCopia || null)
-        setEstado(daCopia ? 'pronta' : 'naoExiste')
-      })
-    return () => {
-      ativo = false
-    }
-  }, [id])
-
-  return { licao, estado }
+  return { trilha, origem, carregando, aberta, alternarLicao }
 }
