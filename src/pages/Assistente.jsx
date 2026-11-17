@@ -10,6 +10,7 @@ import { montarContexto, idsParaOAssistente, PERGUNTAS_PRONTAS } from '../domain
 import { nomeDoTrecho } from '../domain/trechos'
 import dadosLocais from '../data/locais.json'
 import './Assistente.css'
+import { comNomeCelia } from '../components/comNomeCelia'
 
 /*
   Assistente do trajeto (HU-21).
@@ -87,7 +88,7 @@ export default function Assistente() {
                 <div className="assistente__resposta">
                   <p>
                     <span className="so-leitor">Resposta: </span>
-                    {item.resposta}
+                    {comNomeCelia(item.resposta)}
                   </p>
                   {(item.trechos.length > 0 || item.locais.length > 0) && (
                     <ul className="assistente__citados" aria-label="Citados na resposta">

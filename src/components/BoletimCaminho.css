@@ -49,6 +49,18 @@
   line-height: 1.2;
 }
 
+/*
+  No card o texto quebra só entre palavras, sem hífen no meio ("cami-nho"):
+  as palavras são curtas e cabem inteiras na linha de baixo.
+  break-word (e não anywhere) evita que a caixa encolha a ponto de partir palavra.
+*/
+.boletim__titulo,
+.boletim__apoio,
+.boletim__detalhes {
+  hyphens: manual;
+  overflow-wrap: break-word;
+}
+
 .boletim__apoio {
   margin-top: 2px;
   font-size: var(--texto-p);
@@ -143,4 +155,26 @@
   display: flex;
   flex-wrap: wrap;
   gap: 4px 20px;
+}
+
+/*
+  Convite "Qual é o seu caminho de sempre?": versão mais compacta do card,
+  para sobrar mais mapa. O texto continua no mínimo de 14 px (RNF05).
+*/
+.boletim--convite {
+  padding: 10px 14px;
+  gap: 6px;
+}
+
+.boletim--convite .boletim__topo {
+  gap: 10px;
+}
+
+.boletim--convite .boletim__icone {
+  width: 32px;
+  height: 32px;
+}
+
+.boletim--convite .boletim__titulo {
+  font-size: var(--texto-m);
 }

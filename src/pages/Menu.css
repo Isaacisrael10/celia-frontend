@@ -90,6 +90,10 @@
 }
 
 .menu-pagina__marca {
+  /* Logo à esquerda do nome, os dois alinhados pelo meio */
+  display: flex;
+  align-items: center;
+  gap: 10px;
   font-size: var(--texto-g);
   font-weight: 600;
   letter-spacing: 0.08em;

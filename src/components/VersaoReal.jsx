@@ -10,6 +10,7 @@ import {
 } from '@tabler/icons-react'
 import { useAparecerAoRolar } from '../hooks/useAparecerAoRolar'
 import './VersaoReal.css'
+import { comNomeCelia } from './comNomeCelia'
 
 /*
   "Como é na versão real" contado como uma história, em linha do tempo (scroll storytelling).
@@ -92,7 +93,7 @@ function EtapaDaHistoria({ etapa, posicao }) {
       <article className="historia__card cartao">
         <span className="historia__passo">Etapa {posicao + 1}</span>
         <h3 className="historia__titulo">{etapa.titulo}</h3>
-        <p className="historia__texto">{etapa.texto}</p>
+        <p className="historia__texto">{comNomeCelia(etapa.texto)}</p>
         <p className="historia__demo">
           <IconFlask size={18} aria-hidden="true" />
           <span>

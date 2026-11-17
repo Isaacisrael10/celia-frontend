@@ -263,3 +263,12 @@ h1:focus {
     border: 1px solid CanvasText;
   }
 }
+
+/* Nome C.E.L.I.A.: "I.A." sempre no azul da marca; "C.E.L." herda a cor do texto em volta */
+.nome-celia {
+  white-space: nowrap;
+}
+
+.nome-celia__ia {
+  color: var(--cor-ia);
+}

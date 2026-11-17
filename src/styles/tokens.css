@@ -65,6 +65,11 @@
   /* Símbolo de acessibilidade: igual ao original (fundo branco, traço preto) */
   --simbolo-fundo: #ffffff;
   --simbolo-traco: #000000;
+  /* Logo da C.E.L.I.A.: o "C" azul-marinho e a pessoa azul (cores da imagem original) */
+  --logo-escuro: #0e2b57;
+  --logo-azul: #4aaae6;
+  /* "I.A." do nome C.E.L.I.A. sempre neste azul */
+  --cor-ia: #49c8f5;
   /* Sombras */
   --sombra: 0 1px 2px rgba(15, 27, 61, 0.05), 0 8px 24px rgba(15, 27, 61, 0.07);
   --sombra-flutuante: 0 2px 6px rgba(15, 27, 61, 0.08), 0 14px 34px rgba(15, 27, 61, 0.14);
@@ -136,6 +141,8 @@
   /* Símbolo no escuro: fundo azul-noite e traço claro (bolinhas continuam no azul do símbolo) */
   --simbolo-fundo: #13204a;
   --simbolo-traco: #e8eefc;
+  /* No escuro o "C" da logo fica claro, para não sumir no fundo azul-noite */
+  --logo-escuro: #e8eefc;
   /* No escuro a sombra quase não aparece: a peça se separa do fundo pela cor e pela borda */
   --sombra: 0 8px 24px rgba(0, 0, 0, 0.25);
   --sombra-flutuante: 0 14px 34px rgba(0, 0, 0, 0.5);

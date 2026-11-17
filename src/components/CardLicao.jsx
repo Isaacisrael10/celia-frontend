@@ -1,5 +1,6 @@
 import { IconChevronDown, IconBriefcase, IconPencil } from '@tabler/icons-react'
 import './CardLicao.css'
+import { comNomeCelia } from './comNomeCelia'
 
 /*
   Uma lição da mini trilha de IA [HU-19, RF18].
@@ -47,7 +48,7 @@ export default function CardLicao({ numero, licao, aberta, aoAlternar }) {
                 <IconBriefcase size={20} aria-hidden="true" />
                 No trabalho
               </h4>
-              <p>{licao.exemplo_no_trabalho}</p>
+              <p>{comNomeCelia(licao.exemplo_no_trabalho)}</p>
             </div>
           )}
 

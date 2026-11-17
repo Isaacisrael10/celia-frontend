@@ -21,7 +21,7 @@ export default function BoletimCaminho({ rota, poste, limiteCalor, aoVerNoMapa }
   // Primeira vez: a pessoa ainda não escolheu o caminho de sempre
   if (!rota) {
     return (
-      <section className="boletim vidro vidro--forte" aria-labelledby="boletim-titulo">
+      <section className="boletim boletim--convite vidro vidro--forte" aria-labelledby="boletim-titulo">
         <div className="boletim__topo">
           <span className="boletim__icone" aria-hidden="true">
             <IconRoute size={20} />

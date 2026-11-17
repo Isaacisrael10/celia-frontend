@@ -78,7 +78,7 @@
     A tela do mapa não rola. Com texto grande o boletim pode ficar mais alto que o espaço:
     ele para em 55% da altura e rola por dentro, sem empurrar nada para fora da tela.
   */
-  max-height: 55%;
+  max-height: 55dvh;
   overflow-y: auto;
   border-radius: var(--raio-g);
 }
@@ -159,5 +159,20 @@
   .tela-mapa__ferramentas {
     grid-area: 4 / 1 / 5 / 3;
     flex-wrap: nowrap;
+  }
+
+  /*
+    Legenda e Lista ficam no rodapé e a lista de trechos desce até eles.
+    Os botões do canto (Meu local e satélite, empilhados) são mais altos:
+    saem do fluxo para não aumentar a altura da faixa de baixo.
+  */
+  .tela-mapa__canto {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+
+  .tela-mapa__credito {
+    margin-right: calc(var(--tam-canto, 48px) + 8px); /* não fica embaixo dos botões do canto */
   }
 }

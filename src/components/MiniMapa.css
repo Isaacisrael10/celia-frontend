@@ -36,10 +36,13 @@
   border: 1px solid var(--vidro-borda);
   color: var(--ink);
   font-size: var(--texto-p);
+  /* Cada um fica na sua metade: com texto Maior em tela estreita, o contador não cobre o crédito */
+  max-width: calc(50% - 15px);
 }
 
 .mini-mapa__contador {
   right: 10px;
+  text-align: right;
   padding: 4px 12px;
   border-radius: var(--raio-botao);
   font-weight: 500;
