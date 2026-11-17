@@ -2,7 +2,8 @@
 .prefeitura__resumo {
   margin: 0;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  /* Três lado a lado quando cabem; com texto grande ou tela estreita, descem para a linha de baixo */
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 6.5rem), 1fr));
   gap: 10px;
 }
 
@@ -15,6 +16,7 @@
 
 .prefeitura__resumo dt {
   font-size: var(--texto-p);
+  overflow-wrap: break-word;
   color: var(--muted);
 }
 
@@ -30,13 +32,16 @@
 /* Barra de navegação do módulo: pílula de vidro com as abas, da largura dos cards de baixo */
 .prefeitura__abas {
   display: flex;
+  /* Com texto grande ou zoom, as abas descem para uma segunda linha em vez de sair da tela */
+  flex-wrap: wrap;
   gap: 6px;
   padding: 6px;
-  border-radius: var(--raio-botao);
+  /* 30 px arredonda como pílula numa linha só e continua bonito quando as abas quebram em duas */
+  border-radius: 30px;
 }
 
 .prefeitura__aba {
-  flex: 1;
+  flex: 1 1 auto;
   min-height: var(--toque);
   padding: 0 16px;
   display: inline-flex;
@@ -49,7 +54,7 @@
   color: var(--ink);
   font: inherit;
   font-weight: 600;
-  white-space: nowrap;
+  text-align: center;
   cursor: pointer;
   transition: background var(--rapido) var(--suave);
 }

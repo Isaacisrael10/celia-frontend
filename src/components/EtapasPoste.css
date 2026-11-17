@@ -2,6 +2,8 @@
   display: flex;
   flex-direction: column;
   gap: 14px;
+  /* As etapas se ajustam à largura do card (não da tela): ver o @container no fim do arquivo */
+  container-type: inline-size;
 }
 
 .etapas-poste__titulo {
@@ -11,7 +13,7 @@
 }
 
 .etapas-poste__lista {
-  --bolinha: 36px;
+  --bolinha: max(36px, 2.25rem); /* cresce junto com o texto, para o número caber */
   list-style: none;
   margin: 0;
   padding: 0;
@@ -24,7 +26,8 @@
 /* Cada etapa divide a altura igualmente; a linha até a próxima acompanha esse espaço */
 .etapas-poste__item {
   position: relative;
-  flex: 1;
+  /* Cresce para dividir a altura, mas nunca encolhe abaixo do texto (senão uma etapa invade a outra) */
+  flex: 1 0 auto;
   min-height: calc(var(--bolinha) + 14px);
   padding-bottom: 14px;
   display: grid;
@@ -126,6 +129,23 @@
   font-size: var(--texto-p);
   font-weight: 600;
   color: var(--link);
+}
+
+/*
+  Card estreito (celular, zoom alto ou texto grande): o estado ("Aguardando", "Feito"...)
+  desce para baixo do texto, em vez de espremer o nome da etapa numa coluna fina.
+  rem acompanha o tamanho de texto escolhido no Perfil.
+*/
+@container (max-width: 24rem) {
+  .etapas-poste__item {
+    grid-template-columns: auto minmax(0, 1fr);
+    row-gap: 0;
+  }
+
+  .etapas-poste__estado {
+    grid-column: 2;
+    padding-top: 2px;
+  }
 }
 
 @keyframes etapa-pulsar {

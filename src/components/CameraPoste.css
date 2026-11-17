@@ -220,7 +220,8 @@
 
 .camera__credito {
   flex: 1;
-  min-width: 12rem;
+  /* Nunca mais largo que a linha: com texto grande, 12rem passaria da largura do card */
+  min-width: min(12rem, 100%);
   font-size: var(--texto-p);
   color: var(--muted);
 }

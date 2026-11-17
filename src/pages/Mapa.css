@@ -74,6 +74,13 @@
   order: 3;
   width: 100%;
   max-width: 32rem;
+  /*
+    A tela do mapa não rola. Com texto grande o boletim pode ficar mais alto que o espaço:
+    ele para em 55% da altura e rola por dentro, sem empurrar nada para fora da tela.
+  */
+  max-height: 55%;
+  overflow-y: auto;
+  border-radius: var(--raio-g);
 }
 
 /* Lista de trechos: painel de vidro que rola por dentro */

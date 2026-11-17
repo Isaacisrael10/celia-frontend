@@ -10,6 +10,8 @@
 
 .boletim__topo {
   display: flex;
+  /* Sem espaço para texto e botão lado a lado (texto grande, zoom), o botão desce para baixo */
+  flex-wrap: wrap;
   align-items: center;
   gap: 12px;
 }
@@ -36,7 +38,8 @@
 }
 
 .boletim__textos {
-  flex: 1;
+  /* O texto pede pelo menos 12rem; se não sobrar isso ao lado do botão, o botão quebra a linha */
+  flex: 1 1 12rem;
   min-width: 0;
 }
 

@@ -121,6 +121,22 @@
   white-space: nowrap;
 }
 
+/*
+  Celular bem estreito (320 px, ou zoom alto): seis nomes não cabem lado a lado no tamanho normal.
+  A barra encosta mais nas bordas e os nomes ficam no menor tamanho permitido (13 px).
+*/
+@media (max-width: 359px) {
+  .nav-grafo {
+    width: calc(100% - 12px);
+    padding-inline: 2px;
+  }
+
+  .nav-grafo__no {
+    font-size: 13px;
+    letter-spacing: -0.02em;
+  }
+}
+
 /* Bolinha fosca: vidro mais claro, com um contorno fino */
 .nav-grafo__bolinha {
   width: var(--bolinha);
@@ -309,7 +325,14 @@
 
   .nav-grafo__no {
     min-height: 0;
-    font-size: var(--texto-p);
+    /* Teto de tamanho: o trilho tem largura fixa, então o nome não pode crescer sem limite */
+    font-size: min(var(--texto-p), 15px);
+  }
+
+  /* No trilho estreito o nome pode quebrar ("Trilha IA" vira duas linhas) em vez de vazar pela beirada */
+  .nav-grafo__rotulo {
+    max-width: 100%;
+    white-space: normal;
   }
 
   /*

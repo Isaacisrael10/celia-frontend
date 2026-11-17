@@ -3,7 +3,7 @@
   Uma linha liga a bolinha de uma lição à da próxima (a trilha é um grafo em linha).
 */
 .licao {
-  --numero: 40px; /* tamanho da bolinha */
+  --numero: max(40px, 2.5rem); /* tamanho da bolinha: cresce junto com o texto, para o número caber */
   --descida: 12px; /* quanto a bolinha desce para ficar na altura do título */
   position: relative;
   display: grid;

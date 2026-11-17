@@ -6,6 +6,8 @@
 
 .card-local__topo {
   display: flex;
+  /* Com texto grande, a distância desce para baixo do nome em vez de sair do card */
+  flex-wrap: wrap;
   align-items: flex-start;
   gap: 12px;
 }
@@ -24,7 +26,7 @@
 }
 
 .card-local__textos {
-  flex: 1;
+  flex: 1 1 9rem;
   min-width: 0;
 }
 

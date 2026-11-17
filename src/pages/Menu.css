@@ -32,6 +32,8 @@
 /* ---------- Grafo (esquerda no computador): centralizado na coluna, na horizontal e na vertical ---------- */
 .menu-pagina__grafo {
   grid-area: grafo;
+  /* A coluna do grafo é medida (container) para trocar o desenho por lista quando não houver espaço */
+  container: grafo / inline-size;
   align-self: center;
   display: flex;
   flex-direction: column;
@@ -134,8 +136,8 @@
   outline-offset: 4px;
 }
 
-/* ---------- Telas maiores ---------- */
-@media (min-width: 768px) {
+/* ---------- Telas maiores (em: com fonte maior no navegador, o layout largo só entra em telas mais largas) ---------- */
+@media (min-width: 48em) {
   .menu-pagina {
     padding: 48px 28px 40px;
   }
@@ -154,11 +156,11 @@
   O grafo mora em meia tela: a figura fica um pouco menor, deixando espaço
   para os nomes das mãos (Rotas e Reportar), que ficam para fora do círculo.
 */
-@media (min-width: 1100px) {
+@media (min-width: 68.75em) {
   .menu-pagina {
     grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     grid-template-areas: 'grafo lado';
-    gap: 72px; /* espaço para o texto da mão direita (Reportar) não encostar no painel */
+    gap: 4.5rem; /* espaço para o texto da mão direita (Reportar) não encostar no painel */
   }
 
   /* Computador: o painel desce um pouco, para a leitura começar no título do grafo e seguir para ele */
@@ -168,7 +170,65 @@
   }
 
   .menu-pagina__grafo .menu-grafo__figura {
-    width: min(100% - 240px, 26rem);
+    width: min(100% - 15rem, 26rem);
+  }
+}
+
+/*
+  Texto muito grande para a largura (ex.: celular de 320 px com a fonte do celular aumentada
+  e "Maior" no Perfil): os seis nomes não cabem em volta do símbolo sem encostar.
+  Aí o desenho sai e os mesmos links viram uma lista: bolinha à esquerda, nome e frase à direita.
+  rem acompanha o texto, então a lista entra mais cedo quanto maior for a letra.
+*/
+@container grafo (max-width: 14rem) {
+  .menu-pagina__grafo .menu-grafo__figura {
+    width: 100%;
+    aspect-ratio: auto;
+    margin: 8px 0 0;
+    container-type: normal;
+  }
+
+  .menu-pagina__grafo .menu-grafo__tracos {
+    display: none;
+  }
+
+  .menu-pagina__grafo .menu-grafo__nos {
+    position: static;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .menu-pagina__grafo .menu-grafo__no {
+    --tam: 52px;
+    position: static;
+    width: auto;
+    height: auto;
+  }
+
+  .menu-pagina__grafo .menu-grafo__no .menu-grafo__link {
+    position: static;
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    gap: 14px;
+    transform: none;
+  }
+
+  .menu-pagina__grafo .menu-grafo__no .menu-grafo__textos {
+    min-width: 0;
+    max-width: none;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .menu-pagina__grafo .menu-grafo__no .menu-grafo__nome--longo {
+    display: block;
+  }
+
+  .menu-pagina__grafo .menu-grafo__no .menu-grafo__nome--curto {
+    display: none;
   }
 }
 

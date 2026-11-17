@@ -134,8 +134,8 @@
 
 /* Bolinha azul com contorno escuro (a mesma do símbolo), com um ícone ou um número dentro */
 .sobre__bolinha {
-  width: 48px;
-  height: 48px;
+  width: max(48px, 3rem);
+  height: max(48px, 3rem);
   flex: none;
   display: grid;
   place-items: center;

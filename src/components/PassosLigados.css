@@ -1,6 +1,6 @@
 /* Celular: os passos ficam um embaixo do outro, com a linha em pé ligando as bolinhas */
 .passos {
-  --numero: 40px; /* tamanho da bolinha */
+  --numero: max(40px, 2.5rem); /* tamanho da bolinha: cresce junto com o texto, para o número caber */
   list-style: none;
   margin: 0;
   padding: 0;

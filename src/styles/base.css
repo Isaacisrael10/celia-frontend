@@ -23,6 +23,12 @@ html[data-texto='maior'] {
   font-size: 125%;
 }
 
+h1,
+h2,
+h3 {
+  hyphens: auto;
+}
+
 html,
 body {
   margin: 0;
@@ -34,6 +40,12 @@ body {
 
 body {
   font-size: var(--texto-m);
+  /*
+    Palavra comprida demais para a largura (zoom alto, texto grande) quebra em vez de vazar
+    para fora da tela. "anywhere" vale também dentro de caixas flexíveis, que encolhem até caber.
+    Os títulos ainda ganham hífen (pt-BR) quando o navegador sabe hifenizar.
+  */
+  overflow-wrap: anywhere;
   /* Nada de rolagem para os lados: o conteúdo sempre cabe na largura */
   overflow-x: hidden;
 }

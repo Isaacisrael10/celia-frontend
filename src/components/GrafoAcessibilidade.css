@@ -17,8 +17,14 @@
   --cabeca: 70px; /* a cabeça (Mapa) é maior, como no símbolo */
   --miolo: 48px; /* o meio do corpo (Trilha IA) é menor, para caber entre a cabeça e as pernas */
   position: relative;
-  width: min(100% - 76px, 26rem);
+  /*
+    A margem dos lados é em rem: cresce junto com o texto (zoom, fonte maior no navegador
+    ou "Maior" no Perfil). Assim o nome das mãos sempre cabe na tela.
+  */
+  width: min(100% - 5.5rem, 26rem);
   aspect-ratio: 1;
+  /* Os nomes dos pés medem a largura da figura (unidade cqw) para não encostarem um no outro */
+  container: figura / inline-size;
   margin: auto 0;
 }
 
@@ -178,7 +184,17 @@
   font-size: var(--texto-m);
   font-weight: 600;
   line-height: 1.3;
-  white-space: nowrap;
+  /* Com texto grande, o nome quebra em duas linhas em vez de passar por cima do vizinho */
+  overflow-wrap: break-word;
+}
+
+/*
+  Pés (Locais e Perfil): cada nome ocupa no máximo metade da distância entre os dois pés.
+  Os pés ficam a 52% da largura um do outro; 48cqw deixa um respiro no meio.
+*/
+.menu-grafo__no--locais .menu-grafo__textos,
+.menu-grafo__no--perfil .menu-grafo__textos {
+  max-width: 48cqw;
 }
 
 .menu-grafo__aqui {
@@ -202,13 +218,14 @@
 }
 
 /* Telas maiores: bolinhas maiores, frase de apoio visível, textos das mãos para fora do círculo */
-@media (min-width: 768px) and (min-height: 640px) {
+/* em na largura: com fonte maior no navegador, este formato só entra em telas mais largas */
+@media (min-width: 48em) and (min-height: 640px) {
   .menu-grafo__figura {
     --bolinha: 72px;
     --cabeca: 96px;
     --miolo: 60px;
-    /* sobram 190 px de cada lado para os textos das mãos */
-    width: min(100% - 380px, 26rem);
+    /* sobram 190 px (11.875rem) de cada lado para os textos das mãos; cresce junto com o texto */
+    width: min(100% - 23.75rem, 26rem);
   }
 
   .menu-grafo__descricao {
@@ -274,6 +291,57 @@
     max-width: 9rem;
     align-items: flex-start;
     text-align: left;
+  }
+}
+
+/* O nome curto ("Locais") só aparece quando a figura fica pequena (regra logo abaixo) */
+.menu-grafo__nome--curto {
+  display: none;
+}
+
+/*
+  Figura pequena para o tamanho do texto (celular estreito, zoom alto, texto "Maior"):
+  rem acompanha o texto, então esta regra entra mais cedo quanto maior for a letra.
+  - mãos (Rotas e Reportar): o nome sobe para cima da bolinha, longe do nome da Trilha IA;
+  - pés (Locais e Perfil): cada nome abre para o seu lado, para fora, e não encosta no outro;
+  - "Locais acessíveis" vira "Locais".
+*/
+@container figura (max-width: 14rem) {
+  .menu-grafo__nome--longo {
+    display: none;
+  }
+
+  .menu-grafo__nome--curto {
+    display: block;
+  }
+
+  .menu-grafo__no--rotas .menu-grafo__link,
+  .menu-grafo__no--reportar .menu-grafo__link {
+    flex-direction: column-reverse;
+    gap: 6px;
+    transform: translate(-50%, calc(-100% + var(--tam) / 2));
+  }
+
+  .menu-grafo__no--rotas .menu-grafo__textos,
+  .menu-grafo__no--reportar .menu-grafo__textos {
+    flex-direction: column-reverse;
+    align-items: center;
+    text-align: center;
+  }
+
+  .menu-grafo__no--locais .menu-grafo__link {
+    align-items: flex-end;
+    transform: translate(calc(-100% + var(--tam) / 2), calc(var(--tam) / -2));
+  }
+
+  .menu-grafo__no--perfil .menu-grafo__link {
+    align-items: flex-start;
+    transform: translate(calc(var(--tam) / -2), calc(var(--tam) / -2));
+  }
+
+  .menu-grafo__no--locais .menu-grafo__textos,
+  .menu-grafo__no--perfil .menu-grafo__textos {
+    max-width: none;
   }
 }
 
