@@ -105,6 +105,7 @@ function EtapaDaHistoria({ etapa, posicao }) {
   )
 }
 
+// A linha do tempo inteira (usada na tela Prefeitura): título, apoio e uma etapa por item de ETAPAS
 export default function VersaoReal() {
   return (
     <section className="historia" aria-labelledby="historia-titulo">

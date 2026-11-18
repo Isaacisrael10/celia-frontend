@@ -11,6 +11,7 @@ import { TRILHA_URL, apiAoAlcance } from './config'
 // Se a API demorar mais que isso, o app usa a cópia das lições que vem junto com ele
 const TEMPO_MAXIMO_MS = 6000
 
+// Busca as lições na API. Se falhar, dispara um erro e o useTrilha usa a cópia local (plano B).
 export async function buscarTrilha() {
   if (!apiAoAlcance(TRILHA_URL)) {
     throw new Error('A API da trilha só roda na demonstração local.')

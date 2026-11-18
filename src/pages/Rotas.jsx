@@ -6,6 +6,12 @@ import CardRota from '../components/CardRota'
 import { useRotas } from '../hooks/useRotas'
 import './Rotas.css'
 
+/*
+  Tela Rotas: compara os caminhos pré-definidos de casa até o trabalho.
+  O useRotas ordena da rota mais segura para a menos segura (faixas dos trechos).
+  A pessoa pode inverter ida e volta e escolher o "caminho de sempre",
+  que o boletim do Mapa passa a acompanhar.
+*/
 export default function Rotas() {
   const { rotas, recomendada, escolhida, escolher } = useRotas()
   const navigate = useNavigate()
