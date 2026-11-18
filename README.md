@@ -220,6 +220,7 @@ src/
 | CRUD com API externa | MockAPI `/reportes`: `src/services/reportesApi.js` → `useReportes` → tela Reportar (criar, listar, editar, excluir) |
 | Separação de camadas | `services/` (dados) · `domain/` (regras) · `hooks/` (estado) · `pages/` e `components/` (apresentação). Nenhuma tela chama `fetch` |
 | Componentização | `src/components/` (cards, badges, mapa, barra de navegação, estados de carregando e erro) |
+| Tratamento de erros | Sem rede, API fora ou resposta estranha viram mensagem em português (`services/` e `lerJson.js`) ou plano B; se uma tela quebrar, `ErroDaTela` mostra um aviso só nela e o resto do app continua |
 
 ---
 
