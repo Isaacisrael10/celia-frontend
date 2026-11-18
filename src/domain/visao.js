@@ -1,6 +1,7 @@
 /*
   Regras da IA de visão (sem React).
-  A IA de visão (YOLO) é dos postes: hoje só a câmera do poste, na tela Prefeitura, usa estas regras.
+  Usadas pela câmera do poste (tela Prefeitura) e, desde 18/11, pelo reporte do cidadão:
+  no tipo buraco, o YOLO confere a foto antes do Gemini escrever (useDescricaoIa).
 */
 
 /*

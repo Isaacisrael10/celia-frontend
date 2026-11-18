@@ -104,6 +104,7 @@
 }
 
 .estado--card-ia .estado__titulo {
+  width: 100%; /* deixa o cronômetro encostar na direita */
   gap: 14px;
 }
 
@@ -146,4 +147,16 @@
   .estado--card-ia .estado__bolinhas span {
     animation: none;
   }
+}
+
+/* Cronômetro da espera da IA ("12 s"): números de mesma largura, para o texto não pular */
+.estado__cronometro {
+  margin-left: auto;
+  padding: 2px 10px;
+  border-radius: var(--raio-botao);
+  background: var(--line-soft);
+  color: var(--ink);
+  font-size: var(--texto-p);
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }

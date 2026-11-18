@@ -41,6 +41,11 @@
   gap: 6px;
 }
 
+/* Aviso da IA (sem buraco na foto, obstáculo esperando o texto): faixa cinza em vez da azul */
+.descricao-ia--info {
+  border-left-color: var(--borda-campo);
+}
+
 .descricao-ia__plano-b {
   margin: 0;
   display: flex;

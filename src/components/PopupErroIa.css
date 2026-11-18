@@ -1,0 +1,83 @@
+/* Pop-up de erro da IA (PopupErroIa): card no meio da tela, com véu escuro atrás */
+.popup-ia {
+  width: min(28rem, calc(100% - 32px));
+  margin: auto; /* centraliza o <dialog> aberto com showModal() */
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  background: var(--card);
+  color: var(--ink);
+  border: 1px solid var(--linha);
+  /* Faixa lateral na cor de Atenção: mostra que é um aviso, sem parecer erro grave */
+  border-left: 4px solid var(--faixa-atencao);
+  border-radius: var(--raio);
+  box-shadow: var(--sombra-flutuante);
+  font-family: inherit;
+  animation: popupAparece var(--medio, 280ms) var(--suave, ease-out);
+}
+
+/* O <dialog> fechado continua no HTML: sem isto o "display: flex" mostraria ele */
+.popup-ia:not([open]) {
+  display: none;
+}
+
+.popup-ia::backdrop {
+  background: rgba(15, 27, 61, 0.45);
+}
+
+.popup-ia__titulo {
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: var(--texto-g);
+  font-weight: 600;
+}
+
+.popup-ia__titulo svg {
+  flex: none;
+  color: var(--faixa-atencao);
+}
+
+.popup-ia__motivo,
+.popup-ia__texto {
+  margin: 0;
+  line-height: 1.5;
+}
+
+.popup-ia__texto {
+  color: var(--muted);
+}
+
+.popup-ia__acoes {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.popup-ia__escrever {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  min-height: var(--toque);
+}
+
+@keyframes popupAparece {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .popup-ia {
+    animation: none;
+  }
+}

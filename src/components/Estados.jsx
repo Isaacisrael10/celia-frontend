@@ -23,9 +23,11 @@ export function Carregando({ texto = 'Carregando…' }) {
   Card de espera para chamadas demoradas à IA (foto, descrição e assistente).
   Usa as mesmas bolinhas ligadas do Carregando; o texto diz o que está acontecendo.
   - linhas: true desenha linhas de texto "se formando" (para quando a IA está escrevendo)
+  - segundos: (opcional) tempo de espera, mostrado como "12 s" para a pessoa ver que não travou
   role="status": o leitor de tela anuncia o texto sem interromper a pessoa (RNF08).
+  O contador fica fora da leitura (aria-hidden): senão o leitor de tela falaria a cada segundo.
 */
-export function CardCarregando({ titulo, texto, linhas = false }) {
+export function CardCarregando({ titulo, texto, linhas = false, segundos }) {
   return (
     <div className="estado cartao estado--card-ia" role="status">
       <span className="estado__titulo">
@@ -35,6 +37,11 @@ export function CardCarregando({ titulo, texto, linhas = false }) {
           <span />
         </span>
         {titulo}
+        {typeof segundos === 'number' && (
+          <span className="estado__cronometro" aria-hidden="true">
+            {segundos} s
+          </span>
+        )}
       </span>
       {texto && <span className="estado__texto">{texto}</span>}
       {linhas && (
