@@ -17,6 +17,7 @@ import { ApiIndisponivel } from '../services/apiEquipe'
   - esperas (opcional): quanto esperar antes de cada nova tentativa. Sem passar nada, vale o
     padrão (3 s, 6 s e 12 s). useChamadaApi([]) não tenta de novo sozinho: a descrição do
     reporte usa assim, porque a API já tentou os 3 modelos do Gemini antes de responder erro.
+  - limpar(): apaga o erro da última chamada (ex.: a pessoa trocou a foto e o erro antigo não vale mais)
 */
 const ESPERAS_MS = [3000, 6000, 12000]
 export const MAX_TENTATIVAS = ESPERAS_MS.length
@@ -60,5 +61,11 @@ export function useChamadaApi(esperas = ESPERAS_MS) {
     }
   }
 
-  return { executar, carregando, erro, indisponivel, tentativa, aviso }
+  function limpar() {
+    setErro('')
+    setIndisponivel(false)
+    setAviso('')
+  }
+
+  return { executar, limpar, carregando, erro, indisponivel, tentativa, aviso }
 }

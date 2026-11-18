@@ -39,9 +39,12 @@ export function useDescricaoIa() {
   const segundos = useCronometro(conferindo || chamada.carregando, conferindo ? 'yolo' : 'gemini')
 
   async function pedirAoGemini(tipo, local, texto) {
+    const numero = fotoAtual.current
     setSugestao('')
     setPopupAberto(false)
     const r = await chamada.executar(() => sugerirDescricao(tipo, local, texto))
+    // A pessoa trocou a foto ou o tipo enquanto o Gemini escrevia: a resposta não vale mais
+    if (numero !== fotoAtual.current) return
     if (r) setSugestao(r.descricao_sugerida)
     else setPopupAberto(true) // os 3 modelos falharam ou a API está fora: motivo + plano B
   }
@@ -73,6 +76,8 @@ export function useDescricaoIa() {
   // A foto ficou pronta. Ex.: aoEscolherFoto(arquivo, 'buraco', dados)
   function aoEscolherFoto(foto, tipo, dados) {
     arquivo.current = foto
+    chamada.limpar() // o erro da foto ou do tipo anterior não vale para esta
+    setPopupAberto(false)
     if (tipo === 'buraco') {
       conferirFoto(foto, dados)
     } else {
@@ -87,6 +92,7 @@ export function useDescricaoIa() {
   function aoMudarTipo(tipo, dados) {
     setSugestao('')
     setPopupAberto(false)
+    chamada.limpar()
     if (!arquivo.current) return
     aoEscolherFoto(arquivo.current, tipo, dados)
   }
