@@ -42,6 +42,11 @@ export async function modeloPronto() {
   }
 }
 
+/*
+  Manda a foto para o YOLO procurar buracos.
+  Devolve { resultado, caixas_buracos, largura, altura }. Se a API não responder,
+  responder com erro ou mandar algo que não é JSON, dispara VisaoIndisponivel (plano B).
+*/
 export async function analisarFoto(arquivo) {
   // App publicado e API em "localhost": nem tenta, vai direto para o plano B
   if (!apiAoAlcance(VISAO_URL)) {
@@ -68,5 +73,9 @@ export async function analisarFoto(arquivo) {
   if (!resposta.ok) {
     throw new VisaoIndisponivel()
   }
-  return resposta.json()
+  try {
+    return await resposta.json()
+  } catch {
+    throw new VisaoIndisponivel()
+  }
 }

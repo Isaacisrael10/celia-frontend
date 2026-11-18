@@ -4,6 +4,8 @@
   digitada. Por isso só buscamos quando a pessoa aperta "Buscar" ou salva um reporte.
 */
 
+import { lerJson } from './lerJson'
+
 const URL_BUSCA = 'https://nominatim.openstreetmap.org/search'
 
 /*
@@ -31,7 +33,8 @@ export async function buscarLugar(texto) {
     throw new Error('A busca não respondeu agora. Tente de novo.')
   }
 
-  const lista = await resposta.json()
+  const lista = await lerJson(resposta, 'A busca não respondeu agora. Tente de novo.')
+  if (!Array.isArray(lista)) return [] // resposta fora do formato: trata como "nada encontrado"
   return lista.map((r) => ({
     nome: r.display_name,
     lat: Number(r.lat),

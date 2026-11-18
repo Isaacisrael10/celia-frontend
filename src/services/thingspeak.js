@@ -6,6 +6,7 @@
   field4 distância livre (cm) · field5 status · field6 motivo
 */
 import { THINGSPEAK_CHANNEL_ID } from './config'
+import { lerJson } from './lerJson'
 
 // Converte o texto do ThingSpeak em número (ou null se vier vazio). Ex.: "26.0" → 26
 function numero(valor) {
@@ -42,7 +43,7 @@ export async function buscarLeituras(quantidade = 20) {
     throw new Error('Não deu para ler o poste agora.')
   }
 
-  const json = await resposta.json()
+  const json = await lerJson(resposta, 'Não deu para ler o poste agora.')
   return (json.feeds || []).map((f) => ({
     data: f.created_at,
     temperatura: medida(f.field1, -10, 60),

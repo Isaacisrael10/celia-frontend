@@ -8,6 +8,7 @@
   DELETE /reportes/:id  → excluir
 */
 import { REPORTES_URL } from './config'
+import { lerJson } from './lerJson'
 
 // Faz a chamada e devolve o JSON. Se der erro, lança uma mensagem simples.
 async function chamar(url, opcoes) {
@@ -25,13 +26,15 @@ async function chamar(url, opcoes) {
   if (!resposta.ok) {
     throw new Error('Não deu para falar com o servidor agora. Tente de novo.')
   }
-  return resposta.json()
+  return lerJson(resposta, 'Não deu para falar com o servidor agora. Tente de novo.')
 }
 
+// Lista todos os reportes. Devolve [{ id, rua, tipo, descricao, status, fotoUrl, lat, lng, criadoEm }]
 export function listarReportes() {
   return chamar(REPORTES_URL)
 }
 
+// Cria um reporte novo. Devolve o reporte salvo, já com o id que a MockAPI deu.
 export function criarReporte(reporte) {
   return chamar(REPORTES_URL, {
     method: 'POST',
@@ -40,6 +43,7 @@ export function criarReporte(reporte) {
   })
 }
 
+// Troca os dados do reporte "id" pelos novos. Devolve o reporte atualizado.
 export function editarReporte(id, reporte) {
   return chamar(REPORTES_URL + '/' + id, {
     method: 'PUT',
@@ -48,6 +52,7 @@ export function editarReporte(id, reporte) {
   })
 }
 
+// Apaga o reporte "id" na MockAPI.
 export function excluirReporte(id) {
   return chamar(REPORTES_URL + '/' + id, { method: 'DELETE' })
 }

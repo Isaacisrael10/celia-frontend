@@ -132,7 +132,7 @@ src/
   services/    acesso a dados, sem React
                reportesApi.js · thingspeak.js · apiEquipe.js · visaoApi.js · assistenteApi.js
                trilhaApi.js · posteApi.js · posteSimulado.js · geocodificacao.js
-               miniatura.js · armazenamento.js (localStorage) · config.js
+               miniatura.js · armazenamento.js (localStorage) · lerJson.js · config.js
   domain/      regras de negócio puras (sem React, sem fetch)
                faixas.js · reportes.js · poste.js · trechos.js · rotas.js · boletim.js · visao.js
                locais.js · mapa.js · navegacao.js · trilha.js · assistente.js · prefeitura.js
