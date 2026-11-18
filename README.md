@@ -1,3 +1,17 @@
+<p align="center">
+  <img src="assets/celia-logo.png" alt="Logo da C.E.L.I.A.: Caminhos em Liberdade, Inclusão e Acessibilidade" width="420">
+</p>
+
+<p align="center">
+  <img alt="React 19" src="https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black">
+  <img alt="Vite 8" src="https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white">
+  <img alt="React Router 7" src="https://img.shields.io/badge/React%20Router-7-CA4245?logo=reactrouter&logoColor=white">
+  <img alt="MapLibre GL" src="https://img.shields.io/badge/MapLibre%20GL-5-396CB2?logo=maplibre&logoColor=white">
+  <img alt="Vercel" src="https://img.shields.io/badge/Vercel-deploy-000000?logo=vercel&logoColor=white">
+  <img alt="Gemini via API da equipe" src="https://img.shields.io/badge/Gemini-via%20API%20da%20equipe-8E75B2?logo=googlegemini&logoColor=white">
+  <img alt="YOLOv8" src="https://img.shields.io/badge/YOLOv8-modelo%20pr%C3%B3prio-111F68">
+</p>
+
 # C.E.L.I.A. · Front-end
 
 **Caminhos em Liberdade, Inclusão e Acessibilidade**
@@ -240,7 +254,15 @@ src/
 
 ## Tecnologias
 
-React 19 · Vite · React Router · MapLibre GL (react-map-gl) · Tabler Icons · OpenFreeMap
+| Camada | Tecnologias |
+| --- | --- |
+| Interface | React 19, custom hooks, CSS com tokens de design (temas claro e escuro), Tabler Icons |
+| Build e qualidade | Vite 8 (com @vitejs/plugin-react), Oxlint |
+| Navegação | React Router 7 |
+| Mapa | MapLibre GL 5 com react-map-gl, tiles do OpenFreeMap, imagens de satélite Esri World Imagery |
+| Dados e CRUD | MockAPI (`/reportes`), ThingSpeak (leitura pública do poste), Nominatim/OpenStreetMap (busca de lugares), Geolocation API do navegador |
+| Inteligência artificial | API da equipe em Python (FastAPI): modelo YOLOv8 de buracos treinado pela equipe e assistente com o Google Gemini. O app nunca fala direto com o Gemini nem guarda chave |
+| Publicação | Vercel |
 
 ---
 
