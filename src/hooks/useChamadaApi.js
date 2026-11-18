@@ -13,13 +13,17 @@ import { ApiIndisponivel } from '../services/apiEquipe'
   Depois da 3ª, mostra o motivo e a tela oferece o botão "Tentar de novo".
   - tentativa: 0 na primeira chamada; 1, 2 ou 3 durante as novas tentativas
   - aviso: o motivo da última falha, para a tela explicar por que está demorando
+
+  - esperas (opcional): quanto esperar antes de cada nova tentativa. Sem passar nada, vale o
+    padrão (3 s, 6 s e 12 s). useChamadaApi([]) não tenta de novo sozinho: a descrição do
+    reporte usa assim, porque a API já tentou os 3 modelos do Gemini antes de responder erro.
 */
 const ESPERAS_MS = [3000, 6000, 12000]
 export const MAX_TENTATIVAS = ESPERAS_MS.length
 
 const esperar = (ms) => new Promise((resolve) => setTimeout(resolve, ms))
 
-export function useChamadaApi() {
+export function useChamadaApi(esperas = ESPERAS_MS) {
   const [carregando, setCarregando] = useState(false)
   const [erro, setErro] = useState('')
   const [indisponivel, setIndisponivel] = useState(false)
@@ -39,10 +43,10 @@ export function useChamadaApi() {
         } catch (e) {
           // Erro do servidor (5xx) e ainda temos tentativas: espera e tenta de novo
           const erroDoServidor = e.codigo >= 500
-          if (erroDoServidor && i < ESPERAS_MS.length) {
+          if (erroDoServidor && i < esperas.length) {
             setAviso(e.message)
             setTentativa(i + 1)
-            await esperar(ESPERAS_MS[i])
+            await esperar(esperas[i])
             continue
           }
           setErro(e.message)

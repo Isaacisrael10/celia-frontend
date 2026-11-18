@@ -319,3 +319,17 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **README:** ficha CitizenTech com link do app publicado, nomes das faixas atualizados (Acessível, Atenção, Evite), tabela de hooks e lista de serviços corrigidas e duas tabelas que ligam cada requisito das disciplinas ao arquivo onde ele está.
 - **Como foi testado:** Assistente no navegador (pergunta pronta vira balão; com a API desligada aparece o plano B amigável). `oxlint` e `npm run build` ok.
 - **Revisão da equipe:** (preencher)
+
+## 21. Reportar: YOLO antes do Gemini, cronômetro e pop-up de erro da IA (Claude Code · 18/11/2026 · pedido do João)
+
+- **Contexto:** testando o app, o João enviou a foto de um caderno e o Gemini escreveu um report de buraco. Motivo: o Gemini nunca recebe a foto, só o tipo escolhido (que já vem como "Buraco"), o local e o texto. Além disso, quando os 3 modelos do Gemini falhavam, o app tentava mais 3 vezes e a pessoa podia esperar minutos sem saber o que acontecia.
+- **Prompt (resumo):** "Quando os 3 modelos falharem, preciso de um aviso de erro ao usuário, com fallback e motivo, em estilo pop-up card. Também um contador de segundos enquanto a LLM processa o report. E linkar primeiro o YOLO: só se ele detectar buraco o Gemini gera o report."
+- **Decisões do João (18/11):** buraco sem confirmação do YOLO não gera texto, mas o cidadão ainda pode escrever e enviar (o modelo acha cerca de 7 em 10 buracos, recall 69,8%); obstáculo, que o YOLO não reconhece, só vai ao Gemini depois que o cidadão conta o que viu.
+- **Como a IA ajudou:**
+  - **hook** `useDescricaoIa`: no buraco chama `/analisar` (YOLO) e só com "buraco" pede a descrição ao Gemini; ignora a resposta de uma foto já trocada; no obstáculo espera o texto;
+  - **hook** `useCronometro(ativo, fase)`: conta os segundos da espera e recomeça ao passar do YOLO para o Gemini;
+  - **hook** `useChamadaApi(esperas)`: aceita `[]` para não tentar de novo sozinho (a API já tentou os 3 modelos). O Assistente e a câmera do poste continuam com as 3 tentativas;
+  - **regras** (`domain/descricaoIa.js`): `textoSuficiente` e `descricaoPadrao(tipo, local, texto)`, o plano B que funciona até sem internet e não apaga o que a pessoa escreveu;
+  - **tela:** `PopupErroIa` com `<dialog>` nativo (prende o foco e fecha com Esc), motivo do erro e os botões "Usar texto padrão", "Tentar de novo" e "Escrever eu mesmo"; `CardDescricaoIa` com os estados "Conferindo a foto", "A IA não viu buraco nesta foto" e "Gerar descrição com IA" (obstáculo); `CardCarregando` com o contador (fora da leitura do leitor de tela, para não falar a cada segundo); caixas do YOLO de volta sobre a foto do cidadão.
+- **Como foi testado:** Chrome sem janela controlado por script, com a API e o Gemini reais: foto com buraco (YOLO marcou "Buraco 93%", Gemini escreveu em 12 s), caderno desenhado (nenhuma caixa, aviso e nenhum report), obstáculo (botão desabilitado sem texto; Gemini escreveu em 31 s) e falha dos 3 modelos simulada com 503 (pop-up com o motivo; "Usar texto padrão" preencheu o campo). `oxlint` sem avisos em `src/` e `npm run build` ok.
+- **Revisão da equipe:** (preencher)

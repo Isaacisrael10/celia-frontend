@@ -1,46 +1,97 @@
 import { IconSparkles, IconCheck, IconRefresh, IconInfoSquare } from '@tabler/icons-react'
 import { CardCarregando, MensagemErro } from './Estados'
-import { MAX_TENTATIVAS } from '../hooks/useChamadaApi'
 import './CardDescricaoIa.css'
 
 /*
-  Card da descrição sugerida pela IA para a Prefeitura [HU-22, RF21, RN05, RN07].
-  Aparece sozinho depois que o cidadão escolhe a foto:
-  o Gemini escreve o texto a partir do tipo de problema escolhido e do local.
+  Card da descrição sugerida pela IA para a Prefeitura [HU-05, HU-22, RF09, RF21, RN05, RN07].
+  O que aparece depende da etapa (useDescricaoIa):
+  - buraco: "Conferindo a foto" (YOLO) → se achou buraco, "Gerando sua descrição" (Gemini) → texto
+            → se não achou, avisa e não gera (a pessoa pode escrever com as próprias palavras)
+  - obstáculo: pede para a pessoa contar o que viu e mostra o botão "Gerar descrição com IA"
+  Os cards de espera mostram os segundos passando.
   RN07: o texto só vai para o reporte se a pessoa tocar em "Usar esta descrição",
   e ela ainda pode corrigir no campo "O que você viu?" antes de enviar.
 
   - ia: o que o useFormReporte devolve em "descricaoIa"
-    { carregando, erro, indisponivel, tentativa, aviso, sugestao, usada, gerar, usar }
+    { etapa, carregando, erro, indisponivel, segundos, sugestao, usada, podeGerar, gerar, usar }
 */
 export default function CardDescricaoIa({ ia }) {
+  if (ia.etapa === 'conferindo') {
+    return (
+      <CardCarregando
+        titulo="Conferindo a foto com a IA de visão…"
+        texto="Procurando buraco na calçada. Só se ela achar, a IA escreve a descrição."
+        segundos={ia.segundos}
+      />
+    )
+  }
+
   if (ia.carregando) {
     return (
       <CardCarregando
         titulo="Gerando sua descrição para a Prefeitura…"
-        texto={
-          ia.tentativa > 0
-            ? `${ia.aviso} Tentando de novo sozinho (${ia.tentativa} de ${MAX_TENTATIVAS})…`
-            : 'A IA escreve a partir do tipo de problema e do local. Você revisa antes de enviar.'
-        }
+        texto="A IA escreve a partir do tipo de problema e do local. Você revisa antes de enviar."
+        segundos={ia.segundos}
         linhas
       />
     )
   }
 
   // Plano B: a API não está no ar (ex.: app publicado). Nunca mostra erro cru.
-  if (ia.erro && ia.indisponivel) {
+  if (ia.etapa === 'visaoFora' || (ia.erro && ia.indisponivel)) {
     return (
       <p className="descricao-ia__plano-b">
         <IconInfoSquare size={22} aria-hidden="true" />
-        A descrição por IA roda na demonstração local. Escreva com suas palavras.
+        A análise por IA roda na demonstração local. Escreva com suas palavras.
       </p>
     )
   }
 
-  // A API respondeu com erro (ex.: Gemini fora mesmo depois das 3 tentativas)
+  if (ia.etapa === 'semBuraco') {
+    return (
+      <div className="cartao descricao-ia descricao-ia--info" role="status">
+        <p className="descricao-ia__titulo">
+          <IconInfoSquare size={22} aria-hidden="true" />A IA não viu buraco nesta foto
+        </p>
+        <p className="descricao-ia__texto">
+          Por isso ela não escreveu a descrição. Se for mesmo um buraco, troque a foto ou escreva com
+          suas palavras em “O que você viu?”. A IA às vezes não vê buracos pequenos.
+        </p>
+      </div>
+    )
+  }
+
+  // A API respondeu com erro (o pop-up já mostrou o motivo; aqui fica o botão para tentar de novo)
   if (ia.erro) {
     return <MensagemErro mensagem={ia.erro} aoTentarDeNovo={ia.gerar} />
+  }
+
+  // Obstáculo, ainda sem texto da IA: a pessoa conta o que viu e pede a descrição
+  if (ia.etapa === 'obstaculo' && !ia.sugestao) {
+    return (
+      <div className="cartao descricao-ia descricao-ia--info">
+        <p className="descricao-ia__titulo">
+          <IconSparkles size={22} aria-hidden="true" />
+          Descrição com IA
+        </p>
+        <p className="descricao-ia__texto">
+          Conte em “O que você viu?” o que está bloqueando a calçada. Depois a IA organiza o seu texto
+          para a Prefeitura.
+        </p>
+        <div className="descricao-ia__acoes">
+          <button
+            type="button"
+            className="botao botao--secundario botao--pequeno"
+            onClick={ia.gerar}
+            disabled={!ia.podeGerar}
+          >
+            <IconSparkles size={20} aria-hidden="true" />
+            Gerar descrição com IA
+          </button>
+          {!ia.podeGerar && <span className="descricao-ia__aviso">Escreva pelo menos uma frase curta.</span>}
+        </div>
+      </div>
+    )
   }
 
   if (!ia.sugestao) return null

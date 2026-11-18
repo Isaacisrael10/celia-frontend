@@ -1,17 +1,18 @@
 import { useState } from 'react'
 import { useFotoReporte } from './useFotoReporte'
-import { useChamadaApi } from './useChamadaApi'
-import { sugerirDescricao } from '../services/assistenteApi'
+import { useDescricaoIa } from './useDescricaoIa'
 import { useLocalDoReporte } from './useLocalDoReporte'
 import { validarReporte, montarReporte, TIPOS_CIDADAO } from '../domain/reportes'
+import { descricaoPadrao, textoSuficiente } from '../domain/descricaoIa'
 
 /*
   Custom hook do formulário de reporte (novo e edição).
-  Junta três coisas para a tela só precisar desenhar:
+  Junta estas coisas para a tela só precisar desenhar:
   - os campos digitados (dados) e os erros da validação
-  - a foto (useFotoReporte), só no reporte novo. Sem YOLO: a IA de visão é dos postes (tela Prefeitura)
+  - a foto (useFotoReporte), só no reporte novo
   - o local escolhido no mapa (useLocalDoReporte)
-  - a descrição para a Prefeitura sugerida pela IA (Gemini) assim que a foto é escolhida [HU-22, RF21]
+  - a descrição para a Prefeitura (useDescricaoIa): no buraco, o YOLO confere a foto e só então
+    o Gemini escreve; no obstáculo, o Gemini organiza o que o cidadão contou [HU-05, HU-22, RF21]
     A pessoa revisa antes de enviar (RN07): é a diferença para o reporte do poste, que vai sozinho.
 
   - inicial: os dados que começam preenchidos
@@ -25,19 +26,11 @@ export function useFormReporte(inicial, editando, aoSalvar) {
   // Tipo do problema no reporte novo: o cidadão escolhe (buraco ou obstáculo)
   const [tipoNovo, setTipoNovo] = useState(TIPOS_CIDADAO[inicial.tipo] ? inicial.tipo : 'buraco')
 
-  // Descrição sugerida pela IA (Gemini). RN07: só entra no reporte quando a pessoa escolhe usar.
-  const chamadaDescricao = useChamadaApi()
-  const [sugestao, setSugestao] = useState('')
+  // Descrição pela IA. RN07: só entra no reporte quando a pessoa escolhe usar.
+  const ia = useDescricaoIa()
 
-  async function gerarDescricao(tipo) {
-    setSugestao('')
-    // A API nunca recebe a foto: só o tipo escolhido, o local e o que a pessoa escreveu
-    const r = await chamadaDescricao.executar(() => sugerirDescricao(tipo, dados.rua, dados.descricao))
-    if (r) setSugestao(r.descricao_sugerida)
-  }
-
-  // Foto do reporte. Quando ela fica pronta, já pede a descrição ao Gemini.
-  const foto = useFotoReporte(() => gerarDescricao(tipoNovo))
+  // Foto do reporte. Quando ela fica pronta, a IA confere (buraco) ou espera o texto (obstáculo).
+  const foto = useFotoReporte((arquivo) => ia.aoEscolherFoto(arquivo, tipoNovo, dados))
 
   // Local do problema: mapa com pino, GPS e busca de endereço
   const local = useLocalDoReporte({ lat: inicial.lat, lng: inicial.lng }, (texto) =>
@@ -49,15 +42,28 @@ export function useFormReporte(inicial, editando, aoSalvar) {
 
   // Tudo o que o card da descrição precisa para desenhar e para os botões
   const descricaoIa = {
-    carregando: chamadaDescricao.carregando,
-    erro: chamadaDescricao.erro,
-    indisponivel: chamadaDescricao.indisponivel,
-    tentativa: chamadaDescricao.tentativa,
-    aviso: chamadaDescricao.aviso,
-    sugestao,
-    usada: sugestao !== '' && dados.descricao === sugestao,
-    gerar: () => gerarDescricao(tipoAtual),
-    usar: () => mudar('descricao', sugestao),
+    etapa: ia.etapa,
+    carregando: ia.carregando,
+    erro: ia.erro,
+    indisponivel: ia.indisponivel,
+    segundos: ia.segundos,
+    sugestao: ia.sugestao,
+    usada: ia.sugestao !== '' && dados.descricao === ia.sugestao,
+    podeGerar: textoSuficiente(dados.descricao), // obstáculo: só depois que a pessoa contou
+    gerar: () => ia.gerar(tipoAtual, dados),
+    usar: () => mudar('descricao', ia.sugestao),
+  }
+
+  // Pop-up de quando o Gemini falha: motivo + plano B (texto padrão, que a pessoa revisa)
+  const popupIa = {
+    aberto: ia.popupAberto,
+    motivo: ia.erro,
+    usarPadrao: () => {
+      mudar('descricao', descricaoPadrao(tipoAtual, dados.rua, dados.descricao))
+      ia.fecharPopup()
+    },
+    tentarDeNovo: () => ia.gerar(tipoAtual, dados),
+    fechar: ia.fecharPopup,
   }
 
   // Atualiza um campo do formulário. Ex.: mudar('rua', 'Rua X, 10')
@@ -67,7 +73,10 @@ export function useFormReporte(inicial, editando, aoSalvar) {
 
   function mudarTipo(valor) {
     if (editando) mudar('tipo', valor)
-    else setTipoNovo(valor)
+    else {
+      setTipoNovo(valor)
+      ia.aoMudarTipo(valor, dados)
+    }
   }
 
   async function enviar(evento) {
@@ -86,5 +95,18 @@ export function useFormReporte(inicial, editando, aoSalvar) {
     if (!deuCerto) setEnviando(false)
   }
 
-  return { dados, erros, enviando, tipoAtual, foto, local, descricaoIa, mudar, mudarTipo, enviar }
+  return {
+    dados,
+    erros,
+    enviando,
+    tipoAtual,
+    foto,
+    caixasIa: ia.caixas,
+    local,
+    descricaoIa,
+    popupIa,
+    mudar,
+    mudarTipo,
+    enviar,
+  }
 }

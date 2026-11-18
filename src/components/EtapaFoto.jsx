@@ -5,12 +5,13 @@ import './EtapaFoto.css'
 
 /*
   Primeira etapa do novo reporte: a foto da calçada.
-  A foto vai junto com o reporte (miniatura). A IA de visão (YOLO) não roda aqui:
-  quem procura buracos sozinho são as câmeras dos postes da Prefeitura.
+  A foto vai junto com o reporte (miniatura). No tipo buraco, a IA de visão (YOLO) confere a
+  foto antes do Gemini escrever, e os buracos que ela achou aparecem marcados [HU-05, RF09].
   - foto: o que o useFotoReporte devolve
+  - caixas: buracos que o YOLO marcou (lista vazia se não achou ou ainda não conferiu)
   - erro: texto de erro da validação (ex.: falta a foto)
 */
-export default function EtapaFoto({ foto, erro }) {
+export default function EtapaFoto({ foto, caixas = [], erro }) {
   const { estado, previa, escolherFoto } = foto
 
   return (
@@ -20,7 +21,7 @@ export default function EtapaFoto({ foto, erro }) {
       </span>
       <span className="campo__dica">A foto vai junto com o seu reporte para a Prefeitura.</span>
 
-      {previa && <FotoComCaixas src={previa} />}
+      {previa && <FotoComCaixas src={previa} caixas={caixas} />}
 
       {/* O input de arquivo fica escondido; o label funciona como botão */}
       <label className="botao botao--secundario etapa-foto__botao">

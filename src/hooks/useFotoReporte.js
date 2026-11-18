@@ -7,12 +7,11 @@ import { gerarMiniatura } from '../services/miniatura'
   1. mostra a foto na tela
   2. gera a miniatura (para salvar na MockAPI junto com o reporte)
 
-  A IA de visão (YOLO) NÃO roda aqui: ela é dos postes da Prefeitura (tela Prefeitura).
-  No reporte do cidadão, a IA só ajuda a escrever a descrição, e ele revisa antes de enviar (RN07).
+  A IA (YOLO e depois Gemini) fica no useDescricaoIa: este hook só cuida da foto.
 
   estado: 'vazio' | 'pronta' | 'erro'
-  - aoEscolher(): (opcional) chamada quando a foto está pronta; o formulário usa para
-    pedir a descrição sugerida para a Prefeitura [HU-22, RF21]
+  - aoEscolher(arquivo): (opcional) chamada quando a foto está pronta; o formulário usa para
+    conferir a foto com o YOLO e pedir a descrição para a Prefeitura [HU-05, HU-22, RF09, RF21]
 */
 export function useFotoReporte(aoEscolher) {
   const [estado, setEstado] = useState('vazio')
@@ -47,7 +46,7 @@ export function useFotoReporte(aoEscolher) {
       if (numero !== ultimaFoto.current) return
       setMiniatura(pequena)
       setEstado('pronta')
-      if (aoEscolher) aoEscolher()
+      if (aoEscolher) aoEscolher(arquivo)
     } catch (e) {
       if (numero !== ultimaFoto.current) return
       setEstado('erro')

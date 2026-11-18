@@ -4,6 +4,7 @@ import { useFormReporte } from '../hooks/useFormReporte'
 import { useTema } from '../hooks/useTema'
 import EtapaFoto from './EtapaFoto'
 import CardDescricaoIa from './CardDescricaoIa'
+import PopupErroIa from './PopupErroIa'
 import SeletorLocal from './SeletorLocal'
 import ErroCampo from './ErroCampo'
 import './FormReporte.css'
@@ -23,11 +24,8 @@ function textoDoBotao(enviando, editando) {
   - aoCancelar: volta para a lista
 */
 export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar }) {
-  const { dados, erros, enviando, tipoAtual, foto, local, descricaoIa, mudar, mudarTipo, enviar } = useFormReporte(
-    inicial,
-    editando,
-    aoSalvar,
-  )
+  const { dados, erros, enviando, tipoAtual, foto, caixasIa, local, descricaoIa, popupIa, mudar, mudarTipo, enviar } =
+    useFormReporte(inicial, editando, aoSalvar)
   // No reporte novo o cidadão só escolhe buraco ou obstáculo; na edição aparecem todos (reportes antigos)
   const tiposDoCampo = editando ? TIPOS : TIPOS_CIDADAO
   const { escuro } = useTema()
@@ -48,7 +46,7 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
       <div className="form-reporte__colunas">
         <div className="form-reporte__coluna cartao">
           {/* O erro "falta a foto" some assim que a foto é escolhida */}
-          {!editando && <EtapaFoto foto={foto} erro={foto.miniatura ? '' : erros.foto} />}
+          {!editando && <EtapaFoto foto={foto} caixas={caixasIa} erro={foto.miniatura ? '' : erros.foto} />}
 
           <div className="campo">
             <label className="campo__rotulo" htmlFor="campo-rua">
@@ -108,9 +106,21 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
             </div>
           )}
 
+          {/* Os 3 modelos do Gemini falharam: motivo + plano B, sem travar o reporte */}
+          {!editando && (
+            <PopupErroIa
+              aberto={popupIa.aberto}
+              motivo={popupIa.motivo}
+              aoUsarPadrao={popupIa.usarPadrao}
+              aoTentarDeNovo={popupIa.tentarDeNovo}
+              aoFechar={popupIa.fechar}
+            />
+          )}
+
           <label className="campo">
             <span className="campo__rotulo">O que você viu?</span>
             <textarea
+              id="campo-descricao"
               className="campo__entrada"
               rows={3}
               value={dados.descricao}
