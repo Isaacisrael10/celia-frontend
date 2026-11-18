@@ -347,3 +347,14 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **comentários** nas funções que ainda não tinham (CRUD da MockAPI, `MensagemErro`, `Vazio`, tela Rotas, `VersaoReal`, `buscarTrilha`).
 - **Como foi testado:** as 11 telas abertas no navegador sem cair no `ErroDaTela`; serviços chamados com resposta HTML falsa (mensagem amigável nos quatro) e com as APIs reais (MockAPI, ThingSpeak e Nominatim responderam); erro forçado na tela Rotas (mensagem e link apareceram, trocar de tela voltou ao normal; o erro de teste foi removido); celular 375 px com texto Maior sem rolagem lateral e pop-up cabendo na tela. `oxlint` sem avisos e `npm run build` ok.
 - **Revisão da equipe:** (preencher)
+
+## 23. Controles do mapa menores no celular (Claude Code · 18/11/2026 · pedido do Isaac)
+
+- **Contexto:** no celular e no tablet, os botões Legenda e Lista, "Meu local", mapa/satélite e o bloco de créditos do mapa ocupavam três faixas em cima do mapa e tampavam boa parte dele.
+- **Prompt (resumo):** "No mobile esses elementos estão muito grandes, tampando o mapa. Dá para posicionar melhor e menor. O boletim do caminho de sempre fica do mesmo tamanho."
+- **Como a IA ajudou:**
+  - **layout:** tudo numa linha só no celular e no tablet: Legenda e Lista à esquerda; créditos, "Meu local" e mapa/satélite juntos à direita. Com texto Maior, se faltar largura, o grupo da direita desce inteiro para a linha de baixo;
+  - **tamanho:** os botões em cima do mapa passaram de 48 para 40 px de desenho, mas a área de toque continua com 48 px (um `::after` invisível em volta), para manter a regra de acessibilidade de toque mínimo;
+  - **componente** `CreditoMapa`: no celular e no tablet o crédito obrigatório (OpenFreeMap/OpenStreetMap e Esri no satélite) fica recolhido num botão "i" (`aria-expanded`), como o próprio MapLibre faz em telas pequenas; um toque abre o texto completo num balão. No computador o texto continua sempre visível e o botão some (só CSS).
+- **Como foi testado:** navegador em 375 px (texto Normal e Maior, mapa e satélite, crédito aberto e fechado), 768 px e 1440 px; sem rolagem lateral e sem erro no console. `oxlint` sem avisos e `npm run build` ok.
+- **Revisão da equipe:** (preencher)

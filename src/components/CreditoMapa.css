@@ -1,0 +1,50 @@
+/* Crédito do mapa: recolhido num botão "i" no celular e no tablet */
+.credito-mapa {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+}
+
+/* O texto abre num balão acima do botão, encostado à direita */
+.credito-mapa__texto {
+  display: none;
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 8px);
+  width: max-content;
+  max-width: min(17rem, calc(100vw - 32px));
+  margin: 0;
+  padding: 6px 10px;
+  text-align: right;
+  text-wrap: balance;
+  background: var(--vidro-forte);
+  -webkit-backdrop-filter: var(--desfoque);
+  backdrop-filter: var(--desfoque);
+  border: 1px solid var(--vidro-borda);
+  border-radius: 10px;
+  box-shadow: var(--sombra-flutuante);
+  color: var(--ink);
+  font-size: 0.8125rem;
+  line-height: 1.3;
+  transform-origin: bottom right;
+  animation: brotar var(--medio) var(--suave);
+}
+
+.credito-mapa--aberto .credito-mapa__texto {
+  display: block;
+}
+
+/* Computador: sobra espaço, então o crédito fica sempre visível e o botão some */
+@media (min-width: 960px) {
+  .credito-mapa__botao {
+    display: none;
+  }
+
+  .credito-mapa__texto {
+    display: block;
+    position: static;
+    max-width: 30rem;
+    box-shadow: none;
+    animation: none;
+  }
+}

@@ -9,6 +9,7 @@ import BoletimCaminho from '../components/BoletimCaminho'
 import BotaoMenu from '../components/BotaoMenu'
 import BotaoVisaoMapa from '../components/BotaoVisaoMapa'
 import Aviso from '../components/Aviso'
+import CreditoMapa from '../components/CreditoMapa'
 import { useRotas } from '../hooks/useRotas'
 import { useReportes } from '../hooks/useReportes'
 import { useLocalizacao } from '../hooks/useLocalizacao'
@@ -20,14 +21,13 @@ import { useConsultaDeTela } from '../hooks/useConsultaDeTela'
 import { useTituloDaPagina } from '../hooks/useTituloDaPagina'
 import { VOCE_PADRAO } from '../domain/mapa'
 import { areaDaRota } from '../domain/rotas'
-import { creditoDoMapa } from '../styles/mapa/estilos'
 import './Mapa.css'
 
 /*
   Tela do Mapa: o mapa ocupa a tela toda (de ponta a ponta) e as peças de vidro flutuam por cima.
   - Celular: busca em cima; botões e o boletim do caminho de sempre embaixo.
   - Computador: busca, boletim e lista numa coluna à esquerda; o mapa continua aparecendo ao lado.
-  No canto de baixo, à direita: "Meu local" e a troca entre mapa e satélite.
+  No canto de baixo, à direita: os créditos do mapa (botão "i"), "Meu local" e a troca entre mapa e satélite.
 */
 export default function PaginaMapa() {
   useTituloDaPagina('Mapa')
@@ -126,17 +126,22 @@ export default function PaginaMapa() {
             onClick={() => setVisao(naLista ? 'mapa' : 'lista')}
             aria-pressed={naLista}
           >
-            {naLista ? <IconX size={20} aria-hidden="true" /> : <IconList size={20} aria-hidden="true" />}
+            {naLista ? <IconX size={18} aria-hidden="true" /> : <IconList size={18} aria-hidden="true" />}
             {naLista ? 'Fechar lista' : 'Lista'}
           </button>
           {mostrarMapa && (
             <>
-              <p className="tela-mapa__credito">{creditoDoMapa(satelite)}</p>
-              <div className="tela-mapa__canto">
-                <button className="botao-icone" onClick={irParaMeuLocal} aria-label="Centralizar no meu local">
-                  <IconCurrentLocation size={24} aria-hidden="true" />
-                </button>
-                <BotaoVisaoMapa satelite={satelite} aoAlternar={alternarSatelite} />
+              {/* Os três botões da direita andam juntos: se faltar largura, descem juntos */}
+              <div className="tela-mapa__direita">
+                <div className="tela-mapa__credito">
+                  <CreditoMapa satelite={satelite} />
+                </div>
+                <div className="tela-mapa__canto">
+                  <button className="botao-icone" onClick={irParaMeuLocal} aria-label="Centralizar no meu local">
+                    <IconCurrentLocation size={22} aria-hidden="true" />
+                  </button>
+                  <BotaoVisaoMapa satelite={satelite} aoAlternar={alternarSatelite} />
+                </div>
               </div>
             </>
           )}

@@ -67,7 +67,7 @@
   display: flex;
   flex-wrap: wrap;
   align-items: flex-end;
-  gap: 8px;
+  gap: 8px 6px;
 }
 
 .tela-mapa__boletim {
@@ -93,45 +93,44 @@
 }
 
 /*
-  Canto de baixo, à direita: "Meu local" em cima e a troca mapa/satélite embaixo (bem no canto).
-  Os dois ficam empilhados para não tomar a largura dos outros botões no celular.
+  Botões que flutuam em cima do mapa: menores que os do resto do app para tampar menos o mapa.
+  O desenho tem 40 px, mas a área de toque continua com 48 px (o ::after invisível em volta).
 */
-.tela-mapa__canto {
-  order: 1;
+.tela-mapa__ferramentas .pilula {
+  position: relative;
+  min-height: 40px;
+  padding: 6px 12px;
+  gap: 6px;
+  font-size: 0.9375rem; /* 15 px */
+}
+
+.tela-mapa__ferramentas .botao-icone {
+  position: relative;
+  width: 40px;
+  height: 40px;
+}
+
+.tela-mapa__ferramentas .pilula::after,
+.tela-mapa__ferramentas .botao-icone::after {
+  content: '';
+  position: absolute;
+  inset: -4px;
+}
+
+/*
+  Tudo numa linha só: Legenda e Lista à esquerda; créditos ("i"), Meu local e mapa/satélite à direita.
+  Com texto grande, se faltar largura, o grupo da direita desce para a linha de baixo.
+*/
+.tela-mapa__direita {
   margin-left: auto;
   display: flex;
-  flex-direction: column;
-  gap: 8px;
+  align-items: flex-end;
+  gap: 6px;
 }
 
-/* Crédito obrigatório do mapa: no celular cai para a linha de baixo, encostado à direita */
-.tela-mapa__credito {
-  order: 2;
-  max-width: 15rem;
-  margin-left: auto;
-  padding: 2px 8px;
-  text-align: right;
-  text-wrap: balance;
-  background: var(--vidro-forte);
-  border-radius: 8px;
-  color: var(--ink);
-  font-size: 0.8125rem;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
-}
-
-/* A partir do tablet cabe tudo numa linha: Legenda e Lista à esquerda, crédito e os botões do canto à direita */
-@media (min-width: 600px) {
-  .tela-mapa__credito {
-    order: 1;
-    /* o crédito do satélite é mais comprido: quebra em duas linhas em vez de empurrar os botões */
-    max-width: 30rem;
-  }
-
-  .tela-mapa__canto {
-    order: 2;
-    margin-left: 0;
-  }
+.tela-mapa__canto {
+  display: flex;
+  gap: 6px;
 }
 
 /* ---------- Computador: coluna de vidro à esquerda, mapa livre ao lado ---------- */
@@ -166,13 +165,23 @@
     Os botões do canto (Meu local e satélite, empilhados) são mais altos:
     saem do fluxo para não aumentar a altura da faixa de baixo.
   */
+  /* no computador o bloco da direita se desfaz: o crédito em texto segue a linha e os botões vão para o canto */
+  .tela-mapa__direita {
+    display: contents;
+  }
+
+  .tela-mapa__credito {
+    margin-left: auto;
+  }
+
   .tela-mapa__canto {
     position: absolute;
     right: 0;
     bottom: 0;
+    flex-direction: column;
   }
 
   .tela-mapa__credito {
-    margin-right: calc(var(--tam-canto, 48px) + 8px); /* não fica embaixo dos botões do canto */
+    margin-right: 48px; /* não fica embaixo dos botões do canto (40 px + respiro) */
   }
 }

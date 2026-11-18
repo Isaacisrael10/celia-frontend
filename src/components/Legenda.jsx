@@ -55,7 +55,7 @@ export default function Legenda() {
         aria-expanded={aberta}
         aria-controls="painel-legenda"
       >
-        {aberta ? <IconChevronDown size={20} aria-hidden="true" /> : <IconListDetails size={20} aria-hidden="true" />}
+        {aberta ? <IconChevronDown size={18} aria-hidden="true" /> : <IconListDetails size={18} aria-hidden="true" />}
         Legenda
       </button>
     </div>

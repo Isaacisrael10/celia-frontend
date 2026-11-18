@@ -14,7 +14,7 @@ export default function BotaoVisaoMapa({ satelite, aoAlternar }) {
 
   return (
     <button className="botao-icone" onClick={aoAlternar} aria-label={texto} title={texto}>
-      <Icone size={24} aria-hidden="true" />
+      <Icone size={22} aria-hidden="true" />
     </button>
   )
 }
