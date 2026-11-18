@@ -160,3 +160,8 @@
   font-variant-numeric: tabular-nums;
   white-space: nowrap;
 }
+
+/* Tela que quebrou (ErroDaTela): o link para o Menu fica do tamanho do texto */
+.erro-da-tela > .botao {
+  align-self: flex-start;
+}

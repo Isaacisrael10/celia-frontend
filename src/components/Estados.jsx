@@ -55,6 +55,12 @@ export function CardCarregando({ titulo, texto, linhas = false, segundos }) {
   )
 }
 
+/*
+  Mensagem de erro amigável, com o botão "Tentar de novo" quando faz sentido.
+  role="alert": o leitor de tela lê a mensagem assim que ela aparece.
+  - mensagem: o texto já em português simples
+  - aoTentarDeNovo: (opcional) função do botão; sem ela, o botão não aparece
+*/
 export function MensagemErro({ mensagem, aoTentarDeNovo }) {
   return (
     <div className="estado cartao" role="alert">
@@ -72,6 +78,10 @@ export function MensagemErro({ mensagem, aoTentarDeNovo }) {
   )
 }
 
+/*
+  Aviso de lista vazia (ex.: nenhum reporte com esse filtro).
+  - Icone: (opcional) ícone do Tabler · titulo: a frase principal · texto: (opcional) explicação
+*/
 export function Vazio({ Icone, titulo, texto }) {
   return (
     <div className="estado">

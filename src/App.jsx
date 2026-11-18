@@ -1,6 +1,7 @@
 import { BrowserRouter, Routes, Route, Outlet, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import NavGrafo from './components/NavGrafo'
 import FundoGrafo from './components/FundoGrafo'
+import ErroDaTela from './components/ErroDaTela'
 import { useFocoNoTitulo } from './hooks/useFocoNoTitulo'
 import Mapa from './pages/Mapa'
 import Rotas from './pages/Rotas'
@@ -38,8 +39,11 @@ function Layout() {
       <FundoGrafo />
       <NavGrafo aoAbrirMenu={abrirMenu} />
       <div className="app__tela">
-        {/* context: as telas recebem a função de abrir o menu (usada pelo BotaoMenu) */}
-        <Outlet context={{ abrirMenu }} />
+        {/* Se a tela quebrar, só ela vira mensagem; a navegação continua (ErroDaTela) */}
+        <ErroDaTela key={pathname}>
+          {/* context: as telas recebem a função de abrir o menu (usada pelo BotaoMenu) */}
+          <Outlet context={{ abrirMenu }} />
+        </ErroDaTela>
       </div>
     </div>
   )
@@ -51,7 +55,14 @@ export default function App() {
     <BrowserRouter>
       <Routes>
         {/* Menu: página própria, fora da moldura (sem a barra de navegação). É também a entrada do app. */}
-        <Route path="/menu" element={<Menu />} />
+        <Route
+          path="/menu"
+          element={
+            <ErroDaTela>
+              <Menu />
+            </ErroDaTela>
+          }
+        />
         <Route path="/" element={<Navigate to="/menu" replace />} />
         <Route path="/home" element={<Navigate to="/menu" replace />} />
         <Route element={<Layout />}>
