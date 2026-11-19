@@ -13,9 +13,10 @@ export const THINGSPEAK_CHANNEL_ID = import.meta.env.VITE_THINGSPEAK_CHANNEL_ID 
 
 /*
   API da equipe em Python (FastAPI): analisa a foto (/analisar) e serve a mini trilha de IA (/trilha).
-  Por enquanto ela roda no computador da demonstração. Quando for para um servidor, só este endereço muda.
+  Ela roda no servidor da equipe (VPS, com HTTPS), então funciona também no app publicado.
+  Para testar com a API rodando no próprio computador, coloque VITE_URL_API=http://127.0.0.1:8000 no .env.
 */
-export const API_URL = import.meta.env.VITE_URL_API || 'http://127.0.0.1:8000'
+export const API_URL = import.meta.env.VITE_URL_API || 'https://2-29-156-251.sslip.io'
 
 // Rota da análise de foto [HU-05, RF08]
 export const VISAO_URL = import.meta.env.VITE_VISAO_URL || API_URL + '/analisar'

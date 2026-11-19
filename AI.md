@@ -358,3 +358,14 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **componente** `CreditoMapa`: no celular e no tablet o crédito obrigatório (OpenFreeMap/OpenStreetMap e Esri no satélite) fica recolhido num botão "i" (`aria-expanded`), como o próprio MapLibre faz em telas pequenas; um toque abre o texto completo num balão. No computador o texto continua sempre visível e o botão some (só CSS).
 - **Como foi testado:** navegador em 375 px (texto Normal e Maior, mapa e satélite, crédito aberto e fechado), 768 px e 1440 px; sem rolagem lateral e sem erro no console. `oxlint` sem avisos e `npm run build` ok.
 - **Revisão da equipe:** (preencher)
+
+## 24. App publicado usando a API da equipe na VPS (Claude Code · 18/11/2026 · pedido do Isaac)
+
+- **Contexto:** a API FastAPI da equipe (foto, Gemini e trilha) foi publicada numa VPS com HTTPS (`https://2-29-156-251.sslip.io`). Até aqui o app publicado ia direto para o plano B, porque o endereço padrão era `127.0.0.1:8000`.
+- **Prompt (resumo):** "A API já está na VPS com HTTPS. Coloca o endereço na Vercel (VITE_URL_API) e faz o redeploy."
+- **Como a IA ajudou:**
+  - **conferência antes de trocar:** `/docs` respondendo 200, `/trilha` devolvendo as lições e o CORS liberando `https://celia-frontend.vercel.app` e `http://localhost:5173` (pré-requisição `OPTIONS /analisar`);
+  - **endereço padrão:** em vez de variável no painel da Vercel, o endereço da VPS virou o padrão em `src/services/config.js`, no mesmo padrão da MockAPI e do ThingSpeak (não é senha, e quem clonar o repositório já usa a API real). `VITE_URL_API` continua servindo para testar com a API no próprio computador;
+  - **textos do plano B:** as mensagens diziam que a IA "roda na demonstração local", o que deixou de ser verdade. Agora dizem que a IA está fora do ar no momento (câmera do poste, descrição do reporte, assistente e trilha); README e `.env.example` atualizados.
+- **Como foi testado:** `oxlint` sem avisos, `npm run build` ok e o endereço da VPS conferido dentro do JavaScript gerado; depois do deploy, o mesmo conferido no site publicado.
+- **Revisão da equipe:** (preencher)

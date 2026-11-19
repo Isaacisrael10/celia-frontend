@@ -12,7 +12,7 @@ import { API_URL, apiAoAlcance } from './config'
 // (principal, reserva e Flash-Lite): por isso esperamos até 65 s
 const TEMPO_MAXIMO_MS = 65000
 
-export const TEXTO_API_LOCAL = 'A IA da equipe roda na demonstração local. Veja o vídeo no README.'
+export const TEXTO_API_LOCAL = 'A IA da equipe está fora do ar agora. Tente de novo daqui a pouco ou veja o vídeo no README.'
 
 export class ApiIndisponivel extends Error {
   constructor() {

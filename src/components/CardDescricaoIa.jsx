@@ -42,7 +42,7 @@ export default function CardDescricaoIa({ ia }) {
     return (
       <p className="descricao-ia__plano-b">
         <IconInfoSquare size={22} aria-hidden="true" />
-        A análise por IA roda na demonstração local. Escreva com suas palavras.
+        A análise por IA está fora do ar agora. Escreva com suas palavras.
       </p>
     )
   }

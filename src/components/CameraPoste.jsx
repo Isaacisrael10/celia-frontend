@@ -157,7 +157,7 @@ export default function CameraPoste({ camera, poste, real = false }) {
         {fase === 'indisponivel' && (
           <div className="camera__capa">
             <p className="camera__capa-texto">
-              A IA do poste roda na demonstração local (API da equipe ligada). Veja o vídeo no README.
+              A IA do poste está fora do ar agora. Tente de novo daqui a pouco ou veja o vídeo no README.
             </p>
             <button className="botao botao--secundario" onClick={camera.ligar}>
               <IconRefresh size={22} aria-hidden="true" />

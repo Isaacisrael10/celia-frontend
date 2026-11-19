@@ -14,7 +14,7 @@ const TEMPO_MAXIMO_MS = 6000
 // Busca as lições na API. Se falhar, dispara um erro e o useTrilha usa a cópia local (plano B).
 export async function buscarTrilha() {
   if (!apiAoAlcance(TRILHA_URL)) {
-    throw new Error('A API da trilha só roda na demonstração local.')
+    throw new Error('A API da trilha não está ao alcance deste app.')
   }
 
   // AbortController cancela a chamada se passar do tempo máximo

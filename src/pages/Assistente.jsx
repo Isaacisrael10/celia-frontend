@@ -102,7 +102,7 @@ export default function Assistente() {
         {erro && indisponivel && (
           <p className="assistente__erro" role="alert">
             <IconInfoSquare size={22} aria-hidden="true" />
-            O assistente roda na demonstração local. Veja o vídeo no README.
+            O assistente está fora do ar agora. Tente de novo daqui a pouco ou veja o vídeo no README.
           </p>
         )}
 

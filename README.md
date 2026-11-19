@@ -92,7 +92,7 @@ _(prints das telas em breve)_
 | Câmera do poste (Prefeitura) | **Simulada**: ainda não há ESP32-CAM, então fotos públicas de exemplo fazem o papel da câmera. A análise delas é **real** (modelo próprio de buracos na API FastAPI da equipe, `POST /analisar`), e o reporte é escrito de verdade pelo Gemini. Sem a API, a tela explica e mostra o plano B. |
 | Assistente e descrição do reporte | **Reais** com a API da equipe (Gemini Flash, chave só no servidor). Sem a API, o app mostra uma mensagem amigável e o reporte pode ser escrito à mão. |
 | Reportes recebidos e alertas de calor (Prefeitura) | **Simulados** (`src/data/prefeitura.json`), avisados na tela. Os reportes que a câmera envia na demonstração entram no topo da lista. |
-| Trilha de IA | **Real** na demonstração local (`GET /trilha`). Sem a API, o app usa a cópia em `src/data/trilha.json` (plano B). |
+| Trilha de IA | **Real** (`GET /trilha` na API da equipe, publicada na VPS). Sem a API, o app usa a cópia em `src/data/trilha.json` (plano B). |
 | Rotas | **Simuladas** (3 rotas pré-definidas em `src/data/rotas.json`); o status de cada trecho vem do poste e dos dados simulados. |
 | Locais | **Simulados** (`src/data/locais.json`), com a fonte real prevista indicada na tela. |
 | Mapa e ruas | **Reais** (OpenStreetMap). Modo satélite com imagens da Esri (World Imagery), escolhido pelo botão no canto de baixo do mapa. O mapa abre no **Grajaú**, bairro dos testes e das fotos usadas para treinar a IA, mas vai para qualquer lugar pela busca ou pelo GPS. Os trechos coloridos são 39 trechos de 11 ruas reais do Grajaú. |
@@ -121,7 +121,7 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 |---|---|
 | `VITE_REPORTES_URL` | URL do recurso `reportes` na MockAPI |
 | `VITE_THINGSPEAK_CHANNEL_ID` | Número do canal público do poste (padrão `3577155`) |
-| `VITE_URL_API` | API da equipe em Python (padrão `http://127.0.0.1:8000`): foto e trilha |
+| `VITE_URL_API` | API da equipe em Python (padrão `https://2-29-156-251.sslip.io`, a VPS da equipe; use `http://127.0.0.1:8000` para testar com a API no seu computador): foto, Gemini e trilha |
 
 ---
 
