@@ -6,4 +6,4 @@
 | João Thees Castro Santiago | 572829 | Python: programa de Lógica, API de visão computacional, modelo de buracos e assistente Gemini |
 | Caio Viana de Faria | 570634 | Edge (ESP32 no Wokwi e ThingSpeak), câmera do poste e Cálculo |
 
-Turma: _(preencher)_ · FIAP · Engenharia de Software, 1º ano
+FIAP · Engenharia de Software, 1º ano · Rio de Janeiro · Global Solution 2026.2
