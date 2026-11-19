@@ -7,3 +7,47 @@
   outline: 3px solid var(--focus);
   outline-offset: 3px;
 }
+
+/* Aviso de privacidade da foto (LGPD) */
+.etapa-foto__privacidade {
+  margin: 8px 0 12px;
+  padding: 12px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.etapa-foto__privacidade p {
+  margin: 0 0 6px;
+}
+
+.etapa-foto__privacidade-titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.etapa-foto__privacidade summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--link);
+}
+
+.etapa-foto__privacidade summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.etapa-foto__privacidade ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.etapa-foto__privacidade li + li {
+  margin-top: 6px;
+}

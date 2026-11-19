@@ -378,6 +378,7 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **`useReportes`:** a foto sai do que vai para a MockAPI (`fotoUrl: ''`) e fica num `Map` só na memória do navegador, ligado ao id do reporte. O hook devolve os reportes com a foto local de volta, então o card de quem enviou mostra a foto e o dos outros vem sem ela. Sem localStorage: ao atualizar a página, a foto some;
   - **edição:** se o reporte tem foto local, o PUT também vai com `fotoUrl: ''`, para a foto não subir pela edição;
   - **classificação mantida:** a foto continua indo para o `/analisar` da API, que analisa só em memória e não salva (RNF01); a validação da RN05 continua exigindo a foto no formulário;
+  - **aviso de privacidade (pedido do João):** a cada novo reporte, a etapa da foto mostra "Sua foto não fica guardada" em linguagem simples e um "Saiba mais" (`<details>`, abre pelo teclado) com o caminho técnico da foto: HTTPS até a API, leitura só em memória, só o rótulo no MQTT, Gemini só com texto, lista pública sem foto, miniatura só na memória da página;
   - **textos:** Sobre, Versão real, README e comentários dizem agora que a foto não vai para a lista de reportes. As fotos antigas que já estavam na MockAPI ficam, por decisão do João (sem dado sensível).
 - **Como foi testado:** o hook rodou no Node com React e `fetch` simulados (nada foi gravado na MockAPI): POST e PUT saíram com `fotoUrl` vazio, nenhuma chamada levou base64 e o card do autor continuou com a foto. `oxlint` sem avisos e `npm run build` ok.
 - **Revisão da equipe:** (preencher)
