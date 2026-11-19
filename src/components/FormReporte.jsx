@@ -7,6 +7,7 @@ import CardDescricaoIa from './CardDescricaoIa'
 import PopupErroIa from './PopupErroIa'
 import SeletorLocal from './SeletorLocal'
 import ErroCampo from './ErroCampo'
+import logoCelia from '../assets/celia-logo.png'
 import './FormReporte.css'
 
 // Texto do botão principal, conforme o momento
@@ -146,6 +147,12 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
               </label>
             ))}
           </fieldset>
+
+          {/* No computador as duas colunas têm a mesma altura: a logo ocupa o espaço que sobra
+              e deixa os botões alinhados com o fim da outra coluna. No celular ela não aparece. */}
+          <div className="form-reporte__logo" aria-hidden="true">
+            <img src={logoCelia} alt="" width="407" height="121" />
+          </div>
 
           <div className="form-reporte__acoes">
             <button type="submit" className="botao botao--primario" disabled={enviando}>
