@@ -24,7 +24,7 @@
   }
 }
 
-/* Logo no espaço que sobra da coluna da direita (só no computador) */
+/* Logo no rodapé da coluna da direita, depois dos botões (só no computador) */
 .form-reporte__logo {
   display: none;
 }
@@ -33,7 +33,7 @@
   .form-reporte__logo {
     display: flex;
     flex: 1 1 auto;
-    align-items: center;
+    align-items: flex-end; /* empurra a logo para o rodapé do card */
     justify-content: center;
   }
 

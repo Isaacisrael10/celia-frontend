@@ -148,12 +148,6 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
             ))}
           </fieldset>
 
-          {/* No computador as duas colunas têm a mesma altura: a logo ocupa o espaço que sobra
-              e deixa os botões alinhados com o fim da outra coluna. No celular ela não aparece. */}
-          <div className="form-reporte__logo" aria-hidden="true">
-            <img src={logoCelia} alt="" width="407" height="121" />
-          </div>
-
           <div className="form-reporte__acoes">
             <button type="submit" className="botao botao--primario" disabled={enviando}>
               {textoDoBotao(enviando, editando)}
@@ -161,6 +155,13 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
             <button type="button" className="acao-texto" onClick={aoCancelar}>
               Cancelar
             </button>
+          </div>
+
+          {/* Rodapé do card: no computador as duas colunas têm a mesma altura e a logo fica
+              no fim da coluna, centralizada. Os botões continuam logo abaixo da Situação.
+              No celular a logo não aparece. */}
+          <div className="form-reporte__logo" aria-hidden="true">
+            <img src={logoCelia} alt="" width="407" height="121" />
           </div>
         </div>
       </div>
