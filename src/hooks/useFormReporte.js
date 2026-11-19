@@ -82,7 +82,8 @@ export function useFormReporte(inicial, editando, aoSalvar) {
   async function enviar(evento) {
     evento.preventDefault() // não deixa o navegador recarregar a página
 
-    // No reporte novo entram também o tipo e a miniatura da foto (regra RN05)
+    // No reporte novo entram também o tipo e a miniatura da foto (regra RN05).
+    // A miniatura serve para validar e mostrar o card; o useReportes não a manda para a MockAPI.
     const daFoto = editando ? null : { tipo: tipoAtual, fotoUrl: foto.miniatura }
     const reporte = montarReporte(dados, local.coordenadas, daFoto)
 

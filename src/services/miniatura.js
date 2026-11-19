@@ -1,6 +1,6 @@
 /*
   Gera uma miniatura da foto (imagem pequena em texto "data:image/jpeg;base64,...").
-  A MockAPI não guarda arquivos, então salvamos a miniatura no campo fotoUrl.
+  Ela fica só na memória do navegador de quem enviou (useReportes): não vai para a MockAPI.
 */
 
 // lado: tamanho máximo do lado maior, em pixels

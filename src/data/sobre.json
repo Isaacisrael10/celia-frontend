@@ -100,7 +100,7 @@
   "impacto": "Quantas vezes o trajeto ficou inacessível no horário de ida ao trabalho, medido no histórico do poste. É o indicador proposto pela equipe.",
   "dados": [
     "O app não tem cadastro e não pede dados pessoais. O tema, o caminho de sempre e os ajustes ficam só no seu aparelho.",
-    "As fotos das câmeras dos postes (só da calçada) ficam guardadas no servidor para a Prefeitura consultar. A foto do cidadão não passa pela IA, e o reporte guarda só uma miniatura, para mostrar o problema.",
+    "As fotos das câmeras dos postes (só da calçada) ficam guardadas no servidor para a Prefeitura consultar. A foto do cidadão é analisada pela IA só na memória, sem ser salva, e não vai para a lista de reportes: aparece só para quem enviou e some ao atualizar a página.",
     "Só o poste do ponto de ônibus é lido ao vivo. O resto dos trechos, as rotas e os locais são exemplos simulados, e a tela avisa isso."
   ],
   "numeros_intro": "Dados públicos que mostram por que o caminho até o trabalho é o lugar certo para começar.",

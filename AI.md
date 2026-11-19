@@ -369,3 +369,17 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **textos do plano B:** as mensagens diziam que a IA "roda na demonstração local", o que deixou de ser verdade. Agora dizem que a IA está fora do ar no momento (câmera do poste, descrição do reporte, assistente e trilha); README e `.env.example` atualizados.
 - **Como foi testado:** `oxlint` sem avisos, `npm run build` ok e o endereço da VPS conferido dentro do JavaScript gerado; depois do deploy, o mesmo conferido no site publicado.
 - **Revisão da equipe:** (preencher)
+
+## 25. Foto do cidadão só no navegador de quem enviou (Claude Code · 19/11/2026 · pedido do João)
+
+- **Contexto:** a miniatura da foto do reporte ia em base64 no campo `fotoUrl` da MockAPI. A MockAPI é pública e o endereço dela está no JavaScript do app, então qualquer pessoa que chamasse `GET /reportes` via as fotos de todo mundo.
+- **Prompt (resumo):** "Qualquer usuário que upar uma foto deixa ela pública. Dá para manter a classificação e a foto aparecer no reporte só para quem enviou, sumindo ao atualizar a página?"
+- **Como a IA ajudou:**
+  - **`useReportes`:** a foto sai do que vai para a MockAPI (`fotoUrl: ''`) e fica num `Map` só na memória do navegador, ligado ao id do reporte. O hook devolve os reportes com a foto local de volta, então o card de quem enviou mostra a foto e o dos outros vem sem ela. Sem localStorage: ao atualizar a página, a foto some;
+  - **edição:** se o reporte tem foto local, o PUT também vai com `fotoUrl: ''`, para a foto não subir pela edição;
+  - **classificação mantida:** a foto continua indo para o `/analisar` da API, que analisa só em memória e não salva (RNF01); a validação da RN05 continua exigindo a foto no formulário;
+  - **aviso de privacidade (pedido do João):** a cada novo reporte, o componente `AvisoPrivacidadeFoto` (embaixo dos botões Enviar e Cancelar, para ocupar o espaço livre da coluna) mostra "Sua foto não fica guardada" em linguagem simples e um "Saiba mais" (`<details>`, abre pelo teclado) com o caminho técnico da foto: HTTPS até a API, leitura só em memória, só o rótulo no MQTT, Gemini só com texto, lista pública sem foto, miniatura só na memória da página;
+  - **layout do formulário (pedido do João):** no computador as duas colunas passam a ter a mesma altura (`align-items: stretch`); na coluna do tipo de problema, os botões ficam logo abaixo da Situação e a logo PNG da C.E.L.I.A. vai para o rodapé do card, centralizada e com a proporção mantida (até 280 px de largura). No celular a logo não aparece;
+  - **textos:** Sobre, Versão real, README e comentários dizem agora que a foto não vai para a lista de reportes. As fotos antigas que já estavam na MockAPI ficam, por decisão do João (sem dado sensível).
+- **Como foi testado:** o hook rodou no Node com React e `fetch` simulados (nada foi gravado na MockAPI): POST e PUT saíram com `fotoUrl` vazio, nenhuma chamada levou base64 e o card do autor continuou com a foto. `oxlint` sem avisos e `npm run build` ok.
+- **Revisão da equipe:** (preencher)

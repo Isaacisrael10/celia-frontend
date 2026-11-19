@@ -1,0 +1,43 @@
+/* Aviso de privacidade da foto (LGPD) */
+.aviso-privacidade {
+  margin: 0;
+  padding: 12px 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: 12px;
+  background: var(--card);
+  color: var(--ink);
+}
+
+.aviso-privacidade p {
+  margin: 0 0 6px;
+}
+
+.aviso-privacidade__titulo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-weight: 700;
+}
+
+.aviso-privacidade summary {
+  cursor: pointer;
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+  font-weight: 600;
+  color: var(--link);
+}
+
+.aviso-privacidade summary:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: 2px;
+}
+
+.aviso-privacidade ul {
+  margin: 4px 0 0;
+  padding-left: 20px;
+}
+
+.aviso-privacidade li + li {
+  margin-top: 6px;
+}

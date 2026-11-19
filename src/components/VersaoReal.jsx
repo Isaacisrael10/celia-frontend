@@ -69,7 +69,7 @@ const ETAPAS = [
     id: 'lgpd',
     Icone: IconShieldLock,
     titulo: 'Dados com cuidado (LGPD)',
-    texto: 'As fotos das câmeras dos postes ficam guardadas no banco do servidor, para a Prefeitura consultar o histórico. São fotos da calçada, sem cadastro de ninguém. A foto do cidadão vai só como miniatura no reporte e não passa pela IA.',
+    texto: 'As fotos das câmeras dos postes ficam guardadas no banco do servidor, para a Prefeitura consultar o histórico. São fotos da calçada, sem cadastro de ninguém. A foto do cidadão é analisada pela IA só na memória e não fica guardada em lugar nenhum: aparece só para quem enviou e some ao atualizar a página.',
     demo: 'A API guarda as capturas e os reportes num banco SQLite. O Gemini recebe só texto, nunca a foto.',
   },
 ]

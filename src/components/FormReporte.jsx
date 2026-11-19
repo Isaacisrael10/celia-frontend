@@ -3,10 +3,12 @@ import { TIPOS, TIPOS_CIDADAO, SITUACOES } from '../domain/reportes'
 import { useFormReporte } from '../hooks/useFormReporte'
 import { useTema } from '../hooks/useTema'
 import EtapaFoto from './EtapaFoto'
+import AvisoPrivacidadeFoto from './AvisoPrivacidadeFoto'
 import CardDescricaoIa from './CardDescricaoIa'
 import PopupErroIa from './PopupErroIa'
 import SeletorLocal from './SeletorLocal'
 import ErroCampo from './ErroCampo'
+import logoCelia from '../assets/celia-logo.png'
 import './FormReporte.css'
 
 // Texto do botão principal, conforme o momento
@@ -154,6 +156,16 @@ export default function FormReporte({ inicial, editando, aoSalvar, aoCancelar })
             <button type="button" className="acao-texto" onClick={aoCancelar}>
               Cancelar
             </button>
+          </div>
+
+          {/* Como a foto é tratada (LGPD): só no reporte novo, que é quando há foto */}
+          {!editando && <AvisoPrivacidadeFoto />}
+
+          {/* Rodapé do card: no computador as duas colunas têm a mesma altura e a logo fica
+              no fim da coluna, centralizada. Os botões continuam logo abaixo da Situação.
+              No celular a logo não aparece. */}
+          <div className="form-reporte__logo" aria-hidden="true">
+            <img src={logoCelia} alt="" width="407" height="121" />
           </div>
         </div>
       </div>
