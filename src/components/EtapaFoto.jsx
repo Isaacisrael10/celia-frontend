@@ -5,7 +5,7 @@ import './EtapaFoto.css'
 
 /*
   Primeira etapa do novo reporte: a foto da calçada.
-  A foto vai junto com o reporte (miniatura). No tipo buraco, a IA de visão (YOLO) confere a
+  A foto aparece no reporte só para quem enviou e some ao atualizar a página (não vai para a MockAPI). No tipo buraco, a IA de visão (YOLO) confere a
   foto antes do Gemini escrever, e os buracos que ela achou aparecem marcados [HU-05, RF09].
   - foto: o que o useFotoReporte devolve
   - caixas: buracos que o YOLO marcou (lista vazia se não achou ou ainda não conferiu)
