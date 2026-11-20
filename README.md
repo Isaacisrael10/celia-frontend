@@ -44,6 +44,16 @@ A C.E.L.I.A. mostra, **antes de sair de casa**, como estão os trechos do caminh
 
 O nome é uma homenagem à Célia, avó de uma integrante da equipe.
 
+### ODS (Objetivos de Desenvolvimento Sustentável da ONU)
+
+| ODS | Como a C.E.L.I.A. contribui |
+|---|---|
+| **10 · Redução das desigualdades** | A pessoa com deficiência passa a ter a informação de que precisa para escolher o caminho, como qualquer outra pessoa. |
+| **11 · Cidades e comunidades sustentáveis** | Mostra onde a calçada falha e ajuda a cidade a decidir o que consertar primeiro (reportes e postes na área da Prefeitura). |
+| **8 · Trabalho decente e crescimento econômico** | Tira uma barreira do caminho até o emprego e apoia a capacitação em IA (mini trilha) para seguir trabalhando. |
+
+Os mesmos textos aparecem no app, na tela **Sobre o projeto** (`src/data/sobre.json`).
+
 ### Faixas do semáforo
 
 Cada faixa usa **cor + ícone + nome escrito + tipo de linha no mapa**, para nunca depender só da cor.
