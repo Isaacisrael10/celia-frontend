@@ -390,6 +390,7 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
 - **Prompt (resumo):** "O README está desatualizado: não fala que a API está na VPS, e alguns dados que trouxemos estão sem fonte."
 - **Como a IA ajudou:**
   - **VPS:** link da API e da documentação (`/docs`) no topo, a seção Integrações explicando que a API está publicada numa VPS com HTTPS (por isso funciona no app publicado) e a linha de Publicação da tabela de tecnologias;
+  - **ODS:** seção que explica como o app contribui com os ODS 10, 11 e 8 (antes o README só listava os números), com os mesmos textos da tela Sobre;
   - **seção "Dados e fontes":** os números da tela Sobre (IBGE Censo 2022 e PNAD Contínua 2022, Mobilize Brasil 2019, Alerta Rio) com os mesmos links de `src/data/sobre.json`, e os outros dados do app: faixas de calor (NOAA/NWS), traçado das ruas (OpenStreetMap/Nominatim), mapa e satélite, créditos das fotos da câmera simulada e a fonte prevista dos locais.
 - **Como foi testado:** links conferidos (a documentação da API respondeu 200; as páginas do IBGE bloqueiam acesso automático, mas são as mesmas usadas no app).
 - **Revisão da equipe:** (preencher)
