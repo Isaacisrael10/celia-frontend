@@ -20,7 +20,7 @@ Global Solution 2026.2 (CitizenTech) · FIAP · Engenharia de Software, 1º ano 
 > **App publicado:** https://celia-frontend.vercel.app
 > **Repositório:** https://github.com/Isaacisrael10/celia-frontend
 > **API da equipe (VPS, HTTPS):** https://2-29-156-251.sslip.io · documentação em [/docs](https://2-29-156-251.sslip.io/docs)
-> Vídeo de demonstração: _(link em breve)_
+> **Vídeo do pitch (YouTube):** https://youtu.be/CwfGa6okfZQ
 
 ### Ficha CitizenTech
 
