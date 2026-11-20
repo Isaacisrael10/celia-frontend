@@ -46,13 +46,43 @@ O nome é uma homenagem à Célia, avó de uma integrante da equipe.
 
 ### ODS (Objetivos de Desenvolvimento Sustentável da ONU)
 
-| ODS | Como a C.E.L.I.A. contribui |
-|---|---|
-| **10 · Redução das desigualdades** | A pessoa com deficiência passa a ter a informação de que precisa para escolher o caminho, como qualquer outra pessoa. |
-| **11 · Cidades e comunidades sustentáveis** | Mostra onde a calçada falha e ajuda a cidade a decidir o que consertar primeiro (reportes e postes na área da Prefeitura). |
-| **8 · Trabalho decente e crescimento econômico** | Tira uma barreira do caminho até o emprego e apoia a capacitação em IA (mini trilha) para seguir trabalhando. |
+A C.E.L.I.A. trabalha com três ODS da [Agenda 2030 da ONU](https://brasil.un.org/pt-br/sdgs). O ponto de partida é um dado do IBGE: entre as pessoas com deficiência em idade de trabalhar, só 26,6% estão ocupadas (60,7% entre quem não tem deficiência). Uma parte dessa diferença começa antes do emprego, na calçada entre a casa e o ponto de ônibus.
 
-Os mesmos textos aparecem no app, na tela **Sobre o projeto** (`src/data/sobre.json`).
+#### ODS 10 · Redução das desigualdades
+
+**Meta 10.2:** promover a inclusão social, econômica e política de todos, independentemente de deficiência.
+
+Hoje a pessoa com deficiência só descobre que a calçada está bloqueada quando já está na rua. Com o app, ela confere antes de sair, como qualquer pessoa faz com a previsão do tempo ou o trânsito:
+
+- o **boletim do caminho de sempre** responde se dá para ir trabalhar hoje;
+- os **trechos coloridos** e as **rotas** mostram o caminho mais acessível;
+- o app foi feito para quem enfrenta essa barreira: fonte criada para facilitar a leitura, opção de letra maior, contraste AA e alternativa em lista para leitor de tela.
+
+#### ODS 11 · Cidades e comunidades sustentáveis
+
+**Meta 11.2:** transporte seguro e acessível, com atenção especial às pessoas com deficiência e aos idosos.
+**Meta 11.7:** acesso universal a espaços públicos seguros, inclusivos e acessíveis, em particular para pessoas com deficiência.
+
+O poste fica no **ponto de ônibus**, que é a ponta do transporte público mais esquecida, e mede a calçada livre e o calor ali. O cidadão também vira sensor da cidade:
+
+- **reportes com foto** analisada por IA mostram onde a calçada falha;
+- a **área da Prefeitura** junta os reportes, os alertas de calor e a câmera do poste, para a cidade decidir o que consertar primeiro com base em dado.
+
+#### ODS 8 · Trabalho decente e crescimento econômico
+
+**Meta 8.5:** emprego pleno e trabalho decente para todas as pessoas, inclusive as pessoas com deficiência.
+
+O foco do projeto é o **caminho até o trabalho**, porque é ali que a barreira atrapalha todo dia:
+
+- o **alerta de calor** escolhido no Perfil avisa quando o ponto de ônibus está quente demais para esperar;
+- a **mini trilha de IA** apoia a capacitação para seguir trabalhando;
+- os **locais acessíveis** (banheiros e pontos de descanso) ajudam a planejar o trajeto.
+
+#### Como medir o impacto
+
+**Indicador:** quantas vezes o trajeto ficou inacessível no horário de ida ao trabalho, medido no histórico do poste. Se esse número cai depois que a Prefeitura age sobre os reportes, a cidade ficou mais acessível de verdade.
+
+Os textos curtos de cada ODS também aparecem no app, na tela **Sobre o projeto** (`src/data/sobre.json`).
 
 ### Faixas do semáforo
 
@@ -157,6 +187,34 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 | `VITE_URL_API` | API da equipe em Python (padrão `https://2-29-156-251.sslip.io`, a VPS da equipe; use `http://127.0.0.1:8000` para testar com a API no seu computador): foto, Gemini e trilha |
 
 ---
+
+## Arquitetura e hospedagem
+
+```mermaid
+flowchart LR
+  P["Poste ESP32<br/>(sensores)"] -->|"a cada 20 s"| T["ThingSpeak<br/>canal público"]
+  A["App React<br/>Vercel (HTTPS)"] -->|"lê o status"| T
+  A -->|"CRUD de reportes"| M["MockAPI<br/>/reportes"]
+  A -->|"foto, assistente, trilha"| V["API da equipe (FastAPI)<br/>VPS com HTTPS"]
+  V -->|"modelo YOLOv8 de buracos"| V
+  V -->|"texto, sem foto"| G["Google Gemini"]
+  V -->|"rótulo da análise (MQTT)"| P
+```
+
+- **App (este repositório):** React estático publicado na **Vercel**. Cada push na `main` gera uma nova publicação.
+- **API da equipe:** FastAPI em Python, publicada numa **VPS** (servidor Linux próprio da equipe) em `https://2-29-156-251.sslip.io`. O **Caddy** recebe as requisições, cuida do HTTPS e repassa para o **uvicorn**, que roda a API.
+- **Dados do poste e reportes:** ThingSpeak e MockAPI, serviços externos lidos direto pelo app.
+
+### Por que a equipe colocou a API numa VPS
+
+Até 18/11 a API só rodava no computador da demonstração (`127.0.0.1:8000`), e o app publicado caía sempre no plano B. A equipe decidiu publicá-la numa VPS porque:
+
+- **A IA precisa de um servidor de verdade.** O modelo YOLOv8 de buracos é pesado e fica carregado na memória; a API também conversa com o Gemini e pode mandar o rótulo da análise ao poste por MQTT. Isso pede um processo Python sempre ligado, o que uma hospedagem de site estático como a Vercel não oferece.
+- **A chave do Gemini fica só no servidor.** O app nunca fala direto com o Gemini nem guarda chave; quem chama é a API.
+- **HTTPS é obrigatório.** O app publicado é HTTPS, e o navegador bloqueia chamadas dele para um endereço sem HTTPS. O endereço `sslip.io` transforma o IP da VPS num nome de domínio, e com ele o Caddy gera o certificado HTTPS sozinho, sem precisar comprar domínio.
+- **Só o app da equipe chama a API.** O CORS da API libera apenas `https://celia-frontend.vercel.app` e os endereços locais de desenvolvimento.
+
+Se a VPS sair do ar, o app não quebra: mostra uma mensagem amigável e segue no plano B (reporte "Não analisada" e trilha pela cópia local). Para testar com a API no próprio computador, basta usar `VITE_URL_API=http://127.0.0.1:8000`.
 
 ## Integrações
 

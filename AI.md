@@ -394,3 +394,14 @@ Registro de como a equipe usou IA para construir o front-end: o que foi pedido, 
   - **seção "Dados e fontes":** os números da tela Sobre (IBGE Censo 2022 e PNAD Contínua 2022, Mobilize Brasil 2019, Alerta Rio) com os mesmos links de `src/data/sobre.json`, e os outros dados do app: faixas de calor (NOAA/NWS), traçado das ruas (OpenStreetMap/Nominatim), mapa e satélite, créditos das fotos da câmera simulada e a fonte prevista dos locais.
 - **Como foi testado:** links conferidos (a documentação da API respondeu 200; as páginas do IBGE bloqueiam acesso automático, mas são as mesmas usadas no app).
 - **Revisão da equipe:** (preencher)
+
+## 27. README: ODS detalhados e arquitetura com a VPS (Claude Code · 19/11/2026 · pedido do Isaac)
+
+- **Contexto:** o README listava os ODS sem aprofundar e não explicava a arquitetura nem por que a equipe publicou a API numa VPS.
+- **Prompt (resumo):** "Fala no README sobre a VPS, com a decisão da equipe e a arquitetura. E deixa bem falado sobre os ODS."
+- **Como a IA ajudou:**
+  - **ODS:** cada ODS ligado à meta da ONU que o projeto atende (10.2, 11.2, 11.7 e 8.5), com as funções do app que respondem a cada uma, partindo do dado do IBGE de ocupação, e o indicador de impacto;
+  - **arquitetura:** diagrama em Mermaid (poste, ThingSpeak, app na Vercel, MockAPI, API na VPS, Gemini e MQTT) e o papel de cada parte;
+  - **decisão da VPS:** motivos (modelo YOLOv8 sempre carregado, chave do Gemini só no servidor, HTTPS obrigatório com sslip.io e Caddy, CORS só para o app) e o plano B se a VPS cair.
+- **Como foi testado:** servidor conferido pelos cabeçalhos (Caddy na frente do uvicorn); CORS conferido na hora: libera `https://celia-frontend.vercel.app` e recusa outra origem (400).
+- **Revisão da equipe:** (preencher)
