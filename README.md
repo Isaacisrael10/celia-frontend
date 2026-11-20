@@ -19,6 +19,7 @@ Global Solution 2026.2 (CitizenTech) · FIAP · Engenharia de Software, 1º ano 
 
 > **App publicado:** https://celia-frontend.vercel.app
 > **Repositório:** https://github.com/Isaacisrael10/celia-frontend
+> **API da equipe (VPS, HTTPS):** https://2-29-156-251.sslip.io · documentação em [/docs](https://2-29-156-251.sslip.io/docs)
 > Vídeo de demonstração: _(link em breve)_
 
 ### Ficha CitizenTech
@@ -100,6 +101,28 @@ _(prints das telas em breve)_
 
 Nenhum dado pessoal real é usado.
 
+## Dados e fontes
+
+Os números da tela **Sobre o projeto** (seção "O problema em números") vêm de fontes públicas, com o link também no app:
+
+| Dado | Fonte |
+|---|---|
+| 14,4 milhões de pessoas com deficiência no Brasil (7,3% da população com 2 anos ou mais) | IBGE, Censo 2022, divulgado em maio de 2025 ([notícia](https://agenciadenoticias.ibge.gov.br/agencia-noticias/2012-agencia-de-noticias/noticias/43463-censo-2022-brasil-tem-14-4-milhoes-de-pessoas-com-deficiencia)) |
+| 26,6% das pessoas com deficiência em idade de trabalhar estão ocupadas, contra 60,7% de quem não tem deficiência | IBGE, PNAD Contínua 2022 ([notícia](https://agenciadenoticias.ibge.gov.br/pt/agencia-noticias/37317-pessoas-com-deficiencia-tem-menor-acesso-a-educacao-ao-trabalho-e-a-renda.html)) |
+| Rendimento médio de R$ 1.860 de quem trabalha e tem deficiência, contra R$ 2.690 | IBGE, PNAD Contínua 2022 (mesma notícia) |
+| Nenhuma das 27 capitais chegou à nota mínima aceitável (8) de calçada; a melhor média ficou abaixo de 7 | Mobilize Brasil, Campanha Calçadas do Brasil 2019 ([relatório](https://www.mobilize.org.br/Midias/Campanhas/Calcadas-2019/relatorio-final.pdf)) |
+| 62,3 °C de sensação térmica em Guaratiba (Rio), em 17/03/2024, recorde da série | Sistema Alerta Rio, Prefeitura do Rio ([notícia](https://www.cnnbrasil.com.br/nacional/calor-sufocante-com-623oc-rio-renova-recorde-de-sensacao-termica/)) |
+
+Outros dados usados no app:
+
+| Dado | Fonte |
+|---|---|
+| Níveis de calor do poste (Atenção a partir de 32 °C, Perigo a partir de 41 °C de índice de calor) | Faixas do índice de calor do serviço meteorológico dos EUA, NOAA/NWS ([tabela](https://www.weather.gov/ama/heatindex)) |
+| Traçado das 39 ruas do Grajaú no mapa | OpenStreetMap, pela busca do Nominatim. A cor dos trechos sem poste é simulada |
+| Mapa e satélite | OpenFreeMap (© OpenMapTiles, dados do OpenStreetMap) e Esri World Imagery |
+| Fotos da câmera simulada do poste | Wikimedia Commons (domínio público) e Pothole Dataset (KugaN, Roboflow Universe, CC BY 4.0); o crédito de cada foto aparece na tela e está em `src/data/prefeitura.json` |
+| Banheiros, descanso e lazer | Simulados pela equipe. Fonte real prevista: Prefeitura do Rio (data.rio) e Guia de Rodas |
+
 ---
 
 ## Como rodar
@@ -129,7 +152,7 @@ Para testar com outro endereço sem mexer no código, copie `.env.example` para 
 
 - **ThingSpeak** (leitura pública): `GET https://api.thingspeak.com/channels/{ID}/feeds.json?results=20`. Campos: temperatura, umidade, índice de calor, distância livre, status (0 verde, 1 amarelo, 2 vermelho) e motivo.
 - **MockAPI** (CRUD): `GET`, `POST`, `PUT` e `DELETE` em `/reportes`.
-- **API da equipe** (FastAPI, endereço em `VITE_URL_API`): `POST /analisar` com a foto da câmera do poste (campo `foto`), que devolve `resultado` (`livre` ou `buraco`) e `caixas_buracos`, desenhadas sobre a foto; `POST /assistente/trajeto` e `POST /assistente/descricao` (Gemini); `GET /trilha` com as lições. O app nunca fala direto com o Gemini nem guarda chave.
+- **API da equipe** (FastAPI em Python, publicada numa **VPS com HTTPS** em `https://2-29-156-251.sslip.io`, por isso funciona também no app publicado; endereço trocável em `VITE_URL_API`). Rotas usadas: `POST /analisar` com a foto da câmera do poste (campo `foto`), que devolve `resultado` (`livre` ou `buraco`) e `caixas_buracos`, desenhadas sobre a foto; `POST /assistente/trajeto` e `POST /assistente/descricao` (Gemini); `GET /trilha` com as lições. O app nunca fala direto com o Gemini nem guarda chave. Se a API sair do ar, o app mostra uma mensagem amigável e segue no plano B.
 - **Satélite**: imagens Esri World Imagery (sem chave), com os nomes das ruas do OpenFreeMap por cima.
 - **Mapa**: MapLibre GL + tiles do OpenFreeMap (gratuito, sem chave), com estilos próprios claro e escuro.
 - **Busca de lugares** (Nominatim/OpenStreetMap, sem chave): leva o mapa a qualquer endereço e acha as coordenadas dos reportes. Só busca quando a pessoa confirma, como pede a regra de uso do serviço.
@@ -262,7 +285,7 @@ src/
 | Mapa | MapLibre GL 5 com react-map-gl, tiles do OpenFreeMap, imagens de satélite Esri World Imagery |
 | Dados e CRUD | MockAPI (`/reportes`), ThingSpeak (leitura pública do poste), Nominatim/OpenStreetMap (busca de lugares), Geolocation API do navegador |
 | Inteligência artificial | API da equipe em Python (FastAPI): modelo YOLOv8 de buracos treinado pela equipe e assistente com o Google Gemini. O app nunca fala direto com o Gemini nem guarda chave |
-| Publicação | Vercel |
+| Publicação | Vercel (app) e VPS da equipe com HTTPS (API em Python) |
 
 ---
 
